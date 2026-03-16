@@ -1,0 +1,162 @@
+.zzz-pill {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    padding: 0 5px;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.zzz-pill:hover {
+    background: rgba(20, 20, 25, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.zzz-pill-btn {
+    width: 28px;
+    height: 28px;
+    background: #00f0ff;
+    border-radius: 50%;
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 16px;
+    font-weight: 900;
+}
+
+.zzz-pill-content {
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+}
+
+.zzz-pill-label {
+    font-size: 7px;
+    color: #888;
+    font-weight: 900;
+    letter-spacing: 0.1em;
+    line-height: 1;
+}
+
+.zzz-pill-value {
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+.zzz-card-mini {
+    position: absolute;
+    width: 180px;
+    background: rgba(20, 20, 22, 0.9);
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 90;
+    transition: transform 0.3s ease;
+}
+
+.zzz-card-mini:hover {
+    transform: translateY(-5px);
+}
+
+.zzz-card-header {
+    height: 90px;
+    background-color: #1a1a1c;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.zzz-card-stats {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 3px 10px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.zzz-card-eye {
+    color: #888;
+    margin-right: 2px;
+}
+
+.zzz-card-body {
+    padding: 12px;
+}
+
+.zzz-card-tag {
+    font-size: 8px;
+    color: var(--accent-color);
+    font-weight: 900;
+    margin-bottom: 4px;
+    letter-spacing: 0.05em;
+}
+
+.zzz-card-title {
+    font-size: 13px;
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.zzz-card-meter-bg {
+    height: 4px;
+    background: #2a2a2c;
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.zzz-card-bar {
+    height: 100%;
+    background: var(--accent-color);
+    width: 0%;
+    transition: width 0.5s ease;
+}
+
+.zzz-resources {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    display: flex;
+    gap: 15px;
+    z-index: 100;
+}
+
+.zzz-res-item {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 12px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zzz-res-icon {
+    width: 16px;
+    height: 16px;
+}
+
+.zzz-res-val {
+    font-size: 12px;
+    font-weight: 900;
+    color: #fff;
+}

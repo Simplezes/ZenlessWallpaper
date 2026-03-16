@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="js/libs/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/apps.css">
+    <link rel="stylesheet" href="css/footer.css">
+    <link rel="stylesheet" href="css/widgets.css">
+    <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/ambient.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Inter:wght@400;700;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="paper-overlay"></div>
+    <div id="backdrop" class="bg-layer active"></div>
+    <div id="transition-backdrop" class="bg-layer"></div>
+    <div class="bg-decorations"></div>
+    <div id="faction-text" class="ambient-text faction"></div>
+    <div id="image-container">
+        <img id="main-image" class="char-image active" />
+        <img id="transition-image" class="char-image" />
+    </div>
+    <div id="nickname-text" class="ambient-text nickname"></div>
+    <div class="footer container-fluid p-0 m-0">
+        <div class="row w-100 h-100 m-0 align-items-center justify-content-between flex-nowrap">
+            <div class="col-auto d-flex align-items-center h-100 p-0 footer-left">
+                <div class="footer-slash"></div>
+                <div class="media-container" id="media-container">
+                    <div class="media-disc-wrap" id="media-disc-wrap">
+                        <img src="assets/imgs/Icon_Storage_Drive_Disc.png" class="media-disc" id="media-disc">
+                    </div>
+                    <div class="media-text">
+                        <div class="media-title-wrap">
+                            <div id="media-title" class="media-title">NO MEDIA</div>
+                        </div>
+                        <div id="media-artist" class="media-artist">IDLE</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col d-flex justify-content-center align-items-center h-100 px-3 overflow-hidden">
+                <div class="calendar-wrap d-flex flex-column w-100" id="dynamic-calendar">
+                </div>
+            </div>
+            <div class="col-auto d-flex align-items-center justify-content-end h-100 p-0 pe-5 footer-right">
+                <div class="brand-container">
+                    <div class="top-row">
+                        <h1 class="title-text">MONTH</h1>
+                        <div class="badge-container">
+                            <div class="circle-month" id="brand-month-num">03</div>
+                            <div class="z-tag">Z</div>
+                        </div>
+                    </div>
+                    <div class="bottom-row">
+                        <div class="left-block">
+                            KOBEBW BBABA BBZBE YEAUKE CBE X AOBA AAYBOZEX<br>
+                            PERSONA 3 AND 4 ARE THE BEST PERSONA
+                        </div>
+                        <div class="right-meta">
+                            <div class="pill-month" id="brand-month-name">MAR</div>
+                            <div class="year-display">[ <span id="brand-year">2026</span> ]</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="zzz-logo-final ms-5">
+                    <img src="assets/imgs/logo_white.png" alt="ZZZ">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/libs/bootstrap.bundle.min.js"></script>
+    <script src="js/libs/anime.min.js"></script>
+    <script src="js/calendar.js"></script>
+    <script src="js/ambient_fx.js"></script>
+    <script src="js/wallpaper.js"></script>
+    <script src="js/taskbar.js"></script>
+    <script src="js/media.js"></script>
+    <script src="js/brand.js"></script>
+    <script src="js/settings.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+{
+    "characters": {
+        "Cunning Hares": {
+            "Anby Demara": "#d6f45e",
+            "Billy Kid": "#ea3b26",
+            "Nekomiya Mana": "#f04b17",
+            "Nicole Demara": "#ec4ea8"
+        },
+        "Belobog Heavy Industries": {
+            "Anton Ivanov": "#ff5a1a",
+            "Ben Bigger": "#f99333",
+            "Grace Howard": "#df6a34",
+            "Koleda Belobog": "#f14515"
+        },
+        "Victoria Housekeeping Co.": {
+            "Alexandrina Sebastiane": "#d12e40",
+            "Corin Wickes": "#b455f1",
+            "Ellen Joe": "#ec3a7c",
+            "Von Lycaon": "#aebfcb"
+        },
+        "Sons of Calydon": {
+            "Burnice White": "#e19a33",
+            "Caesar King": "#fca146",
+            "Lighter": "#ec3e27",
+            "Luciana de Montefio": "#fdb23d",
+            "Piper Wheel": "#fdb43e",
+            "Pulchra Fellini": "#ff8c2e"
+        },
+        "Section 6": {
+            "Asaba Harumasa": "#f8d246",
+            "Hoshimi Miyabi": "#4fb9c3",
+            "Soukaku": "#2fc3c9",
+            "Tsukishiro Yanagi": "#f01e4b"
+        },
+        "Criminal Investigation Special Response Team": {
+            "Jane Doe": "#ff336e",
+            "Qingyi": "#3bd1a4",
+            "Seth Lowell": "#5e8df4",
+            "Zhu Yuan": "#0f7bd9"
+        },
+        "Obol Squad": {
+            "Orphie Magnusson & Magus": "#e53b59",
+            "Seed": "#ffb347",
+            "Soldier 11": "#ffd24d",
+            "Trigger": "#fce05a"
+        },
+        "Silver Squad": {
+            "Soldier 0 - Anby": "#fdb03d"
+        },
+        "Mockingbird": {
+            "Hugo Vlad": "#e21428",
+            "Vivian Banshee": "#a65cf0"
+        },
+        "Yunkui Summit": {
+            "Ju Fufu": "#f38c0d",
+            "Pan Yinhu": "#ffd14d",
+            "Ye Shunguang": "#d41612",
+            "Yixuan": "#c68c33"
+        },
+        "Spook Shack": {
+            "Alice Thymefield": "#fcd96e",
+            "Komano Manato": "#c63f20",
+            "Lucia Elowen": "#10c7e6",
+            "Ukinami Yuzuha": "#f43a3c",
+            "Yidhari Murphy": "#a85bf0"
+        },
+        "Stars of Lyra": {
+            "Astra Yao": "#d70f2e",
+            "Evelyn Chevalier": "#a567f3"
+        },
+        "Krampus Compliance Authority": {
+            "Banyue": "#d8a56a",
+            "Dialyn": "#6ffce5",
+            "Zhao": "#ff5c72"
+        },
+        "Angels of Delusion": {
+            "Sunna": "#d8f55f"
+        }
+    }
+}

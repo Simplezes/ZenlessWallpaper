@@ -1,0 +1,299 @@
+.footer {
+    position: fixed;
+    bottom: var(--taskbar-offset, 0px);
+    left: 0;
+    height: 13vh;
+    min-height: 60px;
+    background: #0f0f0f;
+    border-bottom: 0.8vh solid var(--accent-color);
+    padding: 0 1vw;
+    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 100;
+}
+
+.footer-left {
+    height: 100%;
+}
+
+.media-container {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    padding-left: 1vw;
+    min-width: 15vw;
+    max-width: 25vw;
+    flex-shrink: 1;
+    position: relative;
+    transition: all 0.5s ease;
+}
+
+.media-disc-wrap {
+    position: relative;
+    width: 4.5vh;
+    height: 4.5vh;
+    margin-right: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.media-disc {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px var(--accent-color));
+}
+
+@keyframes disc-rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.media-container.is-idle .media-disc-wrap {
+    opacity: 0;
+    transform: scale(0) rotate(-90deg);
+    margin-right: 0;
+}
+
+.media-container:not(.is-idle) .media-disc {
+    animation: disc-rotate 4s linear infinite;
+}
+
+.media-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 2px solid var(--accent-color);
+    padding-left: 15px;
+    overflow: hidden;
+    max-width: 100%;
+    transition: border-color 0.5s ease, padding-left 0.5s ease;
+}
+
+.media-container.is-idle .media-text {
+    border-left-color: transparent;
+    padding-left: 0;
+}
+
+.media-title-wrap {
+    width: 20vw;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+}
+
+.media-title {
+    display: inline-block;
+    font-size: clamp(12px, 1vw, 25px);
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1.1;
+    text-shadow: 2px 2px 0px rgba(255, 45, 107, 0.3);
+    padding-right: 30px;
+}
+
+.media-artist {
+    font-size: clamp(12px, 1vw, 20px);
+    font-weight: 700;
+    color: var(--accent-color);
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-top: 3px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.calendar-wrap {
+    gap: 0.5vh;
+}
+
+.calendar-bar {
+    display: flex;
+    gap: clamp(4px, 1vw, 5px);
+    justify-content: center;
+    width: 100%;
+}
+
+.day {
+    min-width: 1.8vw;
+    flex-shrink: 1;
+}
+
+.day-name {
+    font-size: clamp(6px, 0.6vw, 25px);
+    color: #fff;
+    letter-spacing: 0.05em;
+    margin-bottom: 1px;
+}
+
+.day-num {
+    font-size: clamp(10px, 1.1vw, 25px);
+    color: #fff;
+}
+
+.day-name.pink,
+.day-num.pink {
+    color: var(--accent-color);
+}
+
+.day.today .day-num {
+    background: var(--accent-color);
+    color: #000;
+    padding: 0 4px;
+    border-radius: 2px;
+}
+
+.footer-right {
+    height: 100%;
+}
+
+.brand-container {
+    color: var(--accent-color);
+    text-transform: uppercase;
+    display: inline-block;
+}
+
+.top-row {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    margin-bottom: 0.5vh;
+}
+
+.title-text {
+    font-size: 8vh;
+    line-height: 0.7;
+    letter-spacing: -0.4vh;
+    margin: 0;
+    font-weight: 950;
+    transform: translateX(-0.5vh);
+    font-family: "Zenless", monospace;
+    font-style: italic;
+}
+
+.badge-container {
+    position: relative;
+}
+
+.circle-month {
+    background-color: var(--accent-color);
+    color: #0f0f0f;
+    width: 6.5vh;
+    height: 6.5vh;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.3vh;
+    font-weight: 950;
+}
+
+.z-tag {
+    position: absolute;
+    top: 0vh;
+    right: -0.6vh;
+    font-size: 0.7vh;
+    border: 0.15vh solid var(--accent-color);
+    background-color: #0f0f0f;
+    border-radius: 50%;
+    width: 1.25vh;
+    height: 1.25vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 0.3vh;
+}
+
+.left-block {
+    font-family: "Zenless_Glyphs", monospace;
+    font-size: 0.5vh;
+    line-height: 1.1;
+    font-weight: 400;
+    margin-right: 0.3vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: right;
+    color: var(--accent-color);
+}
+
+.right-meta {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    flex-shrink: 0;
+}
+
+.pill-month {
+    background-color: var(--accent-color);
+    color: #0f0f0f;
+    padding: 0.25vh 1.35vh 0.3vh 1.35vh;
+    border-radius: 3vh;
+    font-size: 1.1vh;
+    font-weight: 950;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
+.year-display {
+    font-size: 1.6vh;
+    font-weight: 950;
+    letter-spacing: 0.1vh;
+    line-height: 1;
+    margin-right: -0.25vh;
+    display: flex;
+    align-items: center;
+    color: var(--accent-color);
+}
+
+.zzz-logo-final {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-end;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.zzz-logo-final:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 10px var(--accent-color));
+}
+
+.zzz-logo-final img {
+    height: 8vh;
+    width: auto;
+    margin-bottom: 2px;
+}
+
+.zzz-logo-sub {
+    font-size: 10px;
+    color: #fff;
+    letter-spacing: 0.4em;
+    font-weight: 950;
+    line-height: 1;
+    white-space: nowrap;
+}
