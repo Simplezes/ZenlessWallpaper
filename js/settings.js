@@ -226,13 +226,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const settingsTrigger = document.querySelector('.zzz-logo-final');
-    if (settingsTrigger) {
-        settingsTrigger.addEventListener('click', (e) => {
+    const settingsTriggers = document.querySelectorAll('.zzz-logo-final, .mobile-settings-trigger');
+    settingsTriggers.forEach(trigger => {
+        trigger.addEventListener('click', (e) => {
             e.stopPropagation();
             openMenu();
         });
-    }
+    });
 
     const setupScrollControls = () => {
         const scrollUp = menu.querySelector('#scroll-up');
