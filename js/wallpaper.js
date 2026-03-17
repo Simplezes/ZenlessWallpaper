@@ -135,7 +135,13 @@ function updateText(el, text, color, offset, targetOpacity, glow) {
         duration: 400,
         easing: 'easeInCubic',
         complete: () => {
-            el.textContent = text;
+            const isPortrait = window.innerHeight > window.innerWidth;
+            if (isPortrait && text.includes(' ') && el.id === 'nickname-text') {
+                el.innerHTML = text.replace(/ /g, '<br>');
+            } else {
+                el.textContent = text;
+            }
+            
             el.style.color = color;
             el.style.textShadow = glow;
 

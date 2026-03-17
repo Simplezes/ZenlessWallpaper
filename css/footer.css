@@ -297,3 +297,376 @@
     line-height: 1;
     white-space: nowrap;
 }
+
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 2vh;
+    left: 15vw;
+    right: 5vw;
+    height: auto;
+    background: transparent;
+    z-index: 101;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.calendar-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 3.5vh;
+    font-weight: 1000;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.1vh;
+    line-height: 0.8;
+}
+
+.header-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.5vh;
+    margin-top: 0.2vh;
+}
+
+.mini-logo {
+    height: 1.2vh;
+    width: auto;
+}
+
+.header-glyphs {
+    font-family: "Zenless_Glyphs", monospace;
+    font-size: 0.6vh;
+    color: #fff;
+    opacity: 0.7;
+    letter-spacing: 0.05vh;
+}
+
+.mobile-header .header-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.3vh;
+}
+
+.mobile-header .pill-month {
+    padding: 0.4vh 1.5vh;
+    font-size: 1.4vh;
+}
+
+.mobile-header .year-display {
+    font-size: 1.2vh;
+}
+
+@media (orientation: portrait) {
+    .mobile-header {
+        display: flex;
+    }
+
+    .footer {
+        width: 13vw;
+        min-width: 50px;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        flex-direction: column;
+        padding: 5vh 0 2vh 0;
+        border-bottom: none;
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
+        background: #0f0f0f;
+        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .footer-left,
+    .footer-right,
+    .media-container,
+    .brand-container {
+        display: none !important;
+    }
+
+    .footer .row {
+        flex-direction: column;
+        justify-content: center !important;
+        align-items: center !important;
+        height: 100% !important;
+    }
+
+    .footer .col {
+        padding: 0 !important;
+        flex: 1;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .calendar-bar {
+        flex-direction: column;
+        gap: 0.2vh;
+        width: auto !important;
+    }
+
+    .calendar-wrap {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .day {
+        min-width: unset;
+        width: 100%;
+        height: auto;
+        padding: 0;
+        flex-direction: row !important;
+        gap: 0.3vh;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .day-name {
+        display: block !important;
+        font-size: 0.5vh;
+        font-weight: 900;
+        opacity: 0;
+        letter-spacing: 0;
+        margin: 0;
+        width: 0;
+        overflow: hidden;
+        text-align: right;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        white-space: nowrap;
+    }
+
+    .calendar-wrap.show-names .day-name {
+        opacity: 0.8;
+        width: 1.8vh;
+        margin-right: 0.2vh;
+    }
+
+    .day-num {
+        font-family: 'Zenless', monospace;
+        font-size: 1vh;
+        font-weight: 1000;
+        color: #fff;
+        opacity: 0.9;
+        transition: all 0.3s ease;
+    }
+
+    .day.today .day-num {
+        background: var(--accent-color);
+        color: #000;
+        opacity: 1;
+        padding: 1px 4px;
+        border-radius: 1px;
+    }
+
+    .day.weekend .day-num {
+        color: var(--accent-color);
+        opacity: 1;
+    }
+
+    .mobile-settings-trigger {
+        cursor: pointer;
+        transition: transform 0.3s ease;
+    }
+
+    .mobile-settings-trigger:active {
+        transform: scale(0.9);
+    }
+
+    .vertical-brand {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        gap: 1vh;
+        margin-top: auto;
+        padding-bottom: 2vh;
+    }
+
+    .vertical-month-text {
+        writing-mode: sideways-rl;
+        text-orientation: mixed;
+        font-size: 4vh;
+        font-weight: 950;
+        color: var(--accent-color);
+        font-family: "Zenless", monospace;
+        font-style: italic;
+        letter-spacing: -0.1vh;
+    }
+
+    .vertical-brand .zzz-logo-final img {
+        height: 2.5vh;
+        width: auto;
+    }
+
+    #backdrop,
+    #transition-backdrop {
+        left: 12.5vw !important;
+        width: 88vw !important;
+        height: 100vh !important;
+        transform: scale(1.5) !important;
+        transform-origin: center center;
+    }
+
+    #image-container {
+        left: 12.5vw !important;
+        width: 88vw;
+        height: 100vh;
+        z-index: 1;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transform: none !important;
+    }
+
+    .bg-decorations {
+        left: 13vw;
+    }
+
+    .char-image {
+        position: absolute !important;
+        width: auto !important;
+        height: 100vw !important;
+        min-width: 105vh !important;
+        transform: translate(-50%, -50%) rotate(90deg) !important;
+        top: 50% !important;
+        left: 50% !important;
+        object-fit: contain !important;
+        opacity: 0;
+        transition: opacity 0.8s ease;
+    }
+
+    .char-image.active {
+        opacity: 1;
+    }
+
+    .settings-menu {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: none !important;
+        left: 0 !important;
+        right: 0 !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        border-left: none !important;
+        z-index: 100000 !important;
+    }
+
+    .menu-header {
+        padding: 40px 50px !important;
+        height: 15vh;
+    }
+
+    .header-title {
+        font-size: 48px !important;
+        letter-spacing: 4px !important;
+    }
+
+    .close-btn {
+        width: 70px !important;
+        height: 70px !important;
+    }
+
+    .section-label {
+        font-size: 28px !important;
+        margin-top: 40px !important;
+        margin-bottom: 35px !important;
+        letter-spacing: 5px !important;
+    }
+
+    .menu-label {
+        font-size: 20px !important;
+        margin-bottom: 20px !important;
+        letter-spacing: 2px !important;
+    }
+
+    .toggle-btn {
+        padding: 25px !important;
+        font-size: 24px !important;
+        border-width: 2px !important;
+    }
+
+    .menu-item {
+        padding: 30px 40px !important;
+        min-height: 80px !important;
+    }
+
+    .item-name {
+        font-size: 32px !important;
+    }
+
+    .faction-name {
+        font-size: 24px !important;
+        padding: 25px 0 !important;
+    }
+
+    .settings-slider {
+        height: 20px !important;
+    }
+
+    .settings-slider::-webkit-slider-thumb {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    .vertical-brand .circle-month {
+        width: 3.5vh;
+        height: 3.5vh;
+        min-width: unset;
+        min-height: unset;
+        font-size: 1.8vh;
+        margin: 0.5vh 0;
+    }
+
+    .slider-value {
+        font-size: 26px !important;
+        min-width: 60px !important;
+    }
+
+    .nav-btn {
+        width: 120px !important;
+        height: 70px !important;
+        font-size: 36px !important;
+    }
+
+    .ambient-text {
+        display: flex;
+        z-index: 10;
+        pointer-events: none;
+    }
+
+    .ambient-text.faction {
+        top: 15vh;
+        left: 18vw;
+        font-size: 6vh !important;
+        opacity: 0.5;
+    }
+
+    .ambient-text.nickname {
+        bottom: 8vh;
+        right: 5vw;
+        font-size: 10vh !important;
+        opacity: 0.8;
+        text-align: right;
+        line-height: 0.9;
+    }
+
+    .z-tag {
+        display: none;
+    }
+
+    #nickname-text {
+        font-size: 6vh !important;
+    }
+
+    .vscode-window,
+    .terminal,
+    .record-player,
+    .hdd-monitor,
+    .interknot {
+        display: none !important;
+    }
+}
