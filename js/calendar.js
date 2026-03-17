@@ -38,4 +38,5 @@ function generateCalendar() {
     container.appendChild(row2);
 }
 generateCalendar();
-setInterval(generateCalendar, 1000 * 60 * 60);
+scheduleMidnightUpdate(generateCalendar);
+
