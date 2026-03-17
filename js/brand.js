@@ -11,3 +11,15 @@ function updateBrandDate() {
     if (monthNameEl) monthNameEl.textContent = monthName;
     if (yearEl) yearEl.textContent = year;
 }
+updateBrandDate();
+
+function scheduleMidnightUpdate(fn) {
+    const now = new Date();
+    const midnight = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+    const msUntilMidnight = midnight - now;
+    setTimeout(() => {
+        fn();
+        setInterval(fn, 1000 * 60 * 60 * 24);
+    }, msUntilMidnight);
+}
+scheduleMidnightUpdate(updateBrandDate);
