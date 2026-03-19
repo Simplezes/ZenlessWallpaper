@@ -1,7 +1,6 @@
 let currentMediaTitle = 'NO MEDIA';
 let currentMediaArtist = 'IDLE';
 let currentPlaybackState = 0;
-let playbackStateReceived = false;
 let lastTitleText = '';
 
 function updateMediaUI() {
@@ -10,12 +9,12 @@ function updateMediaUI() {
     const artistEl = document.getElementById('media-artist');
     const recTitle = document.getElementById('record-title');
     const recArtist = document.getElementById('record-artist');
-    
+
     if (!container) return;
 
-    const isPaused = playbackStateReceived && (currentPlaybackState === 0 || currentPlaybackState === 2);
-    const hasMedia = (currentMediaTitle && currentMediaTitle !== 'NO MEDIA');
-    const shouldShow = hasMedia && !isPaused;
+    const isPlaying = currentPlaybackState === 1;
+    const hasMedia = currentMediaTitle && currentMediaTitle !== 'NO MEDIA' && currentMediaTitle.trim() !== '';
+    const shouldShow = hasMedia && isPlaying;
 
     if (shouldShow) {
         container.classList.remove('is-idle');
@@ -57,21 +56,19 @@ function updateScrolling(el) {
     }, 100);
 }
 
-function initMediaIntegration() {
-    if (window.wallpaperRegisterMediaPropertiesListener) {
-        window.wallpaperRegisterMediaPropertiesListener(function (props) {
-            currentMediaTitle = props.title || 'NO MEDIA';
-            currentMediaArtist = props.artist || 'IDLE';
-            updateMediaUI();
-        });
-    }
-
-    if (window.wallpaperRegisterMediaPlaybackStateListener) {
-        window.wallpaperRegisterMediaPlaybackStateListener(function (state) {
-            playbackStateReceived = true;
-            currentPlaybackState = state;
-            updateMediaUI();
-        });
-    }
+if (window.wallpaperRegisterMediaPlaybackListener) {
+    window.wallpaperRegisterMediaPlaybackListener(function (event) {
+        currentPlaybackState = event.state;
+        updateMediaUI();
+    });
 }
-initMediaIntegration();
+
+if (window.wallpaperRegisterMediaPropertiesListener) {
+    window.wallpaperRegisterMediaPropertiesListener(function (props) {
+        currentMediaTitle = props.title || 'NO MEDIA';
+        currentMediaArtist = props.artist || 'IDLE';
+        updateMediaUI();
+    });
+}
+
+updateMediaUI();

@@ -5,10 +5,10 @@
     top: 0;
     right: 0;
     bottom: var(--taskbar-offset, 0px);
-    width: 380px;
-    background: rgba(10, 10, 10, 0.95);
-    backdrop-filter: blur(20px) saturate(180%);
-    border-left: 2px solid var(--accent-color);
+    /*width: 300px;*/
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(25px) saturate(200%);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
     display: none;
     flex-direction: column;
     z-index: 10010;
@@ -20,7 +20,7 @@
 
 .menu-header {
     background: var(--accent-color);
-    padding: 25px 30px 15px 30px;
+    padding: 20px 20px 12px 20px;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -29,8 +29,8 @@
 
 .header-title {
     display: block;
-    font-size: 24px;
-    font-weight: 900;
+    font-size: 18px;
+    font-weight: 950;
     color: #000;
     line-height: 1;
     letter-spacing: -1px;
@@ -82,7 +82,7 @@
 }
 
 .menu-content-inner {
-    padding: 20px 30px;
+    padding: 15px 20px;
     flex-shrink: 0;
 }
 
@@ -149,8 +149,8 @@
 .section-separator {
     height: 1px;
     background: linear-gradient(90deg, var(--accent-color) 0%, transparent 100%);
-    opacity: 0.2;
-    margin: 10px 0 15px 0;
+    opacity: 0.1;
+    margin: 8px 0 12px 0;
 }
 
 .agent-scroll-list-wrapper {
@@ -166,7 +166,7 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 0 30px;
+    padding: 0 20px;
     display: flex;
     flex-direction: column;
     gap: 2px;
@@ -306,7 +306,7 @@
 }
 
 .bottom-settings {
-    padding: 12px 30px !important;
+    padding: 10px 20px !important;
     background: rgba(0, 0, 0, 0.2);
     border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
@@ -342,12 +342,21 @@
 
 .settings-slider::-webkit-slider-thumb {
     -webkit-appearance: none;
-    width: 10px;
-    height: 10px;
+    width: 20px;
+    height: 14px;
     background: var(--accent-color);
     cursor: pointer;
-    clip-path: polygon(25% 0, 100% 0, 75% 100%, 0 100%);
+    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
+    box-shadow: 0 0 10px rgba(252, 91, 144, 0.3);
+    border: none;
+    margin-top: -6px;
 }
+
+.settings-slider {
+    height: 4px !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+}
+
 
 .slider-value {
     font-size: 10px;

@@ -290,12 +290,25 @@
 }
 
 .zzz-logo-sub {
-    font-size: 10px;
-    color: #fff;
-    letter-spacing: 0.4em;
+    font-size: 8px;
+    background: var(--accent-color);
+    color: #000;
+    padding: 2px 10px;
     font-weight: 950;
     line-height: 1;
-    white-space: nowrap;
+    margin-top: 6px;
+    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.zzz-logo-final:hover .zzz-logo-sub {
+    background: #fff;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(252, 91, 144, 0.4);
 }
 
 .mobile-header {
@@ -670,3 +683,77 @@
         display: none !important;
     }
 }
+
+/* Footer Light Mode Overrides */
+.footer.footer-light {
+    background: #ffffff !important;
+    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.1);
+    border-bottom: 0.8vh solid var(--accent-color) !important;
+}
+
+.footer.footer-light .media-title,
+.footer.footer-light .day-name,
+.footer.footer-light .day-num,
+.footer.footer-light .title-text,
+.footer.footer-light .calendar-title,
+.footer.footer-light .header-glyphs {
+    color: #111 !important;
+    text-shadow: none !important;
+}
+
+.footer.footer-light .zzz-logo-sub {
+    background: #000 !important;
+    color: #fff !important;
+}
+
+.footer.footer-light .zzz-logo-final:hover .zzz-logo-sub {
+    background: var(--accent-color) !important;
+    color: #000 !important;
+}
+
+.footer.footer-light .media-artist,
+.footer.footer-light .day-name.pink,
+.footer.footer-light .day-num.pink,
+.footer.footer-light .year-display,
+.footer.footer-light .left-block {
+    color: var(--accent-color) !important;
+}
+
+.footer.footer-light .day.today .day-num {
+    background: var(--accent-color) !important;
+    color: #000 !important;
+}
+
+.footer.footer-light .circle-month,
+.footer.footer-light .pill-month {
+    background-color: var(--accent-color) !important;
+    color: #000 !important;
+}
+
+.footer.footer-light .media-text {
+    border-left-color: var(--accent-color) !important;
+}
+
+.footer.footer-light .media-disc {
+    filter: drop-shadow(0 0 5px var(--accent-color));
+}
+
+.footer.footer-light .calendar-bar .day-num {
+    color: #111 !important;
+}
+
+.footer.footer-light .calendar-bar .day-name {
+    color: #444 !important;
+}
+
+.footer.footer-light .day.weekend .day-num {
+    color: var(--accent-color) !important;
+}
+
+.footer.footer-light .z-tag {
+    background-color: #fff !important;
+    color: var(--accent-color) !important;
+}
+
+
+

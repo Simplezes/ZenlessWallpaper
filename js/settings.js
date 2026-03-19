@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentAgent = localStorage.getItem('selectedCharacter') || "Ellen Joe";
     let currentVariant = localStorage.getItem('selectedVariant') || "Default";
     let showAmbient = localStorage.getItem('showAmbient') !== 'false';
+    let footerTheme = localStorage.getItem('footerTheme') || 'dark';
 
     const settingsContainer = document.createElement('div');
     settingsContainer.id = 'settings-container';
@@ -39,6 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="toggle-group">
                         <button class="toggle-btn" data-ambient="true">ON</button>
                         <button class="toggle-btn" data-ambient="false">OFF</button>
+                    </div>
+                </div>
+                <div class="menu-row footer-toggle">
+                    <div class="menu-label">FOOTER_STYLE</div>
+                    <div class="toggle-group">
+                        <button class="toggle-btn" data-theme="dark">DRK</button>
+                        <button class="toggle-btn" data-theme="white">WHT</button>
                     </div>
                 </div>
                 <div class="section-separator"></div>
@@ -165,6 +173,32 @@ document.addEventListener('DOMContentLoaded', () => {
             applySettings(true);
         });
     });
+
+    menu.querySelectorAll('.footer-toggle .toggle-btn').forEach(btn => {
+        if (btn.dataset.theme === footerTheme) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+            menu.querySelectorAll('.footer-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            footerTheme = btn.dataset.theme;
+            localStorage.setItem('footerTheme', footerTheme);
+            applyFooterTheme();
+        });
+    });
+
+    function applyFooterTheme() {
+        const footer = document.querySelector('.footer');
+        const logos = document.querySelectorAll('.zzz-logo-final img, .mini-logo');
+
+        if (footerTheme === 'white') {
+            footer.classList.add('footer-light');
+            logos.forEach(logo => logo.src = 'assets/imgs/logo_dark.png');
+        } else {
+            footer.classList.remove('footer-light');
+            logos.forEach(logo => logo.src = 'assets/imgs/logo_white.png');
+        }
+    }
+
+    applyFooterTheme();
 
     const sliders = ['maxCubes', 'maxRings', 'maxPlanes', 'maxParticles'];
     const defaultValues = { maxCubes: 12, maxRings: 6, maxPlanes: 8, maxParticles: 60 };
