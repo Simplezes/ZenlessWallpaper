@@ -12,6 +12,11 @@
     src: url("../assets/fonts/Zenless_Glyphs.ttf");
 }
 
+@font-face {
+    font-family: "Rajdhani";
+    src: url("../assets/fonts/Rajdhani-Bold.ttf");
+}
+
 * {
     box-sizing: border-box;
     user-select: none;
