@@ -101,8 +101,7 @@
 
 .ambient-text {
     position: fixed;
-    font-family: "Zenless", monospace;
-    font-weight: 950;
+    font-family: "AbrilFatface", serif;
     text-transform: uppercase;
     white-space: nowrap;
     line-height: 0.8;
