@@ -174,32 +174,42 @@
 }
 
 .title-text {
-    font-size: 8vh;
-    line-height: 0.7;
-    letter-spacing: -0.4vh;
+    height: 6.5vh;
+    aspect-ratio: 505 / 119;
+    background-color: var(--accent-color);
+    -webkit-mask: url('../assets/imgs/month.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask: url('../assets/imgs/month.svg') no-repeat center;
+    mask-size: contain;
     margin: 0;
-    font-weight: 950;
-    transform: translateX(-0.5vh);
-    font-family: "Zenless", monospace;
-    font-style: italic;
 }
+
 
 .badge-container {
     position: relative;
 }
 
 .circle-month {
+    font-family: "Rajdhani", monospace;
     background-color: var(--accent-color);
     color: #0f0f0f;
-    width: 6.5vh;
-    height: 6.5vh;
+    width: 5.5vh;
+    height: 5.5vh;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 3.3vh;
-    font-weight: 950;
+    margin: 0;
 }
+
+.circle-month span {
+    font-size: 3.8vh;
+    font-weight: 950;
+    line-height: 1;
+    display: block;
+    transform: translateY(0.1vh);
+}
+
 
 .z-tag {
     position: absolute;
@@ -219,9 +229,8 @@
 .bottom-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     width: 100%;
-    box-sizing: border-box;
     margin-top: 0.3vh;
 }
 
@@ -238,12 +247,29 @@
     color: var(--accent-color);
 }
 
+.right-meta-group {
+    display: flex;
+    align-items: center;
+}
+
 .right-meta {
     display: flex;
     align-items: center;
-    gap: 1vh;
+    gap: 0.2vh;
     flex-shrink: 0;
 }
+
+.zzz-dashed-svg {
+    height: 2.2vh;
+    aspect-ratio: 66/25;
+    background-color: var(--accent-color);
+    -webkit-mask: url('../assets/imgs/zzz_dashed.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask: url('../assets/imgs/zzz_dashed.svg') no-repeat center;
+    mask-size: contain;
+    margin-right: -0.6vh;
+}
+
 
 .pill-month {
     background-color: var(--accent-color);
@@ -271,9 +297,10 @@
 
 .zzz-logo-final {
     display: flex;
+    padding-bottom: 0.5vh;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-end;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -296,8 +323,8 @@
     padding: 2px 10px;
     font-weight: 950;
     line-height: 1;
-    margin-top: 6px;
-    clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
+    margin-top: 4px;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
     text-transform: uppercase;
     letter-spacing: 1px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -368,6 +395,12 @@
 
 .mobile-header .year-display {
     font-size: 1.2vh;
+}
+
+.mobile-header .zzz-dashed-svg {
+    height: 1vh;
+    margin-top: 0.2vh;
+    opacity: 0.7;
 }
 
 @media (orientation: portrait) {
@@ -498,15 +531,26 @@
         padding-bottom: 2vh;
     }
 
-    .vertical-month-text {
-        writing-mode: sideways-rl;
-        text-orientation: mixed;
-        font-size: 4vh;
-        font-weight: 950;
-        color: var(--accent-color);
-        font-family: "Zenless", monospace;
-        font-style: italic;
-        letter-spacing: -0.1vh;
+    .vertical-month-svg {
+        height: 21vh;
+        width: 6vh;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .vertical-month-svg::before {
+        content: '';
+        position: absolute;
+        width: 21vh;
+        height: 6vh;
+        background-color: var(--accent-color);
+        -webkit-mask: url(../assets/imgs/month.svg) no-repeat center;
+        -webkit-mask-size: contain;
+        mask: url(../assets/imgs/month.svg) no-repeat center;
+        mask-size: contain;
+        transform: rotate(90deg);
     }
 
     .vertical-brand .zzz-logo-final img {
@@ -626,12 +670,20 @@
     }
 
     .vertical-brand .circle-month {
-        width: 3.5vh;
-        height: 3.5vh;
+        width: 5.5vh;
+        height: 5.5vh;
         min-width: unset;
         min-height: unset;
-        font-size: 1.8vh;
         margin: 0.5vh 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .vertical-brand .circle-month span {
+        font-size: 3vh;
+        line-height: 1;
+        transform: translateY(0.1vh);
     }
 
     .slider-value {
@@ -693,8 +745,19 @@
 
 .footer.footer-light .media-title,
 .footer.footer-light .day-name,
-.footer.footer-light .day-num,
+.footer.footer-light .day-num {
+    color: #111 !important;
+    background-color: transparent !important;
+    text-shadow: none !important;
+}
+
 .footer.footer-light .title-text,
+.footer.footer-light .vertical-month-svg::before {
+    background-color: var(--accent-color) !important;
+}
+
+
+
 .footer.footer-light .calendar-title,
 .footer.footer-light .header-glyphs {
     color: #111 !important;
@@ -754,6 +817,3 @@
     background-color: #fff !important;
     color: var(--accent-color) !important;
 }
-
-
-
