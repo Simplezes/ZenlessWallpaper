@@ -75,9 +75,9 @@
 
 .char-image {
     position: absolute;
-    height: 105vh;
+    height: 100vh;
     width: auto;
-    object-fit: contain;
+    object-fit: cover;
     opacity: 0;
     transition: opacity 0.8s ease;
     will-change: transform, opacity;
