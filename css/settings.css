@@ -7,7 +7,7 @@
     bottom: var(--taskbar-offset, 0px);
     /*width: 300px;*/
     background: rgba(10, 10, 10, 0.98);
-    backdrop-filter: blur(25px) saturate(200%);
+    /*backdrop-filter: blur(25px) saturate(200%);*/
     border-left: 1px solid rgba(255, 255, 255, 0.1);
     display: none;
     flex-direction: column;
