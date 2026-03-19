@@ -171,6 +171,12 @@
     flex-direction: column;
     gap: 2px;
     overscroll-behavior: contain;
+    cursor: grab;
+    user-select: none;
+}
+
+.agent-scroll-list.grabbing {
+    cursor: grabbing;
 }
 
 .scroll-controls {

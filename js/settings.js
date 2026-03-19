@@ -279,6 +279,52 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollDown.addEventListener('click', () => {
             scrollContainer.scrollBy({ top: 100, behavior: 'smooth' });
         });
+
+        let isDown = false;
+        let startY;
+        let scrollTop;
+        let moved = false;
+
+        scrollContainer.addEventListener('mousedown', (e) => {
+            isDown = true;
+            moved = false;
+            scrollContainer.classList.add('grabbing');
+            startY = e.pageY - scrollContainer.offsetTop;
+            scrollTop = scrollContainer.scrollTop;
+        });
+
+        scrollContainer.addEventListener('mouseleave', () => {
+            isDown = false;
+            scrollContainer.classList.remove('grabbing');
+        });
+
+        scrollContainer.addEventListener('mouseup', () => {
+            isDown = false;
+            scrollContainer.classList.remove('grabbing');
+        });
+
+        scrollContainer.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            const y = e.pageY - scrollContainer.offsetTop;
+            const walk = (y - startY) * 1.5;
+            if (Math.abs(walk) > 5) moved = true;
+            if (moved) {
+                e.preventDefault();
+                scrollContainer.scrollTop = scrollTop - walk;
+            }
+        });
+
+        scrollContainer.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            scrollContainer.scrollBy({ top: e.deltaY, behavior: 'auto' });
+        }, { passive: false });
+
+        scrollContainer.addEventListener('click', (e) => {
+            if (moved) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, true);
     };
 
     setupScrollControls();
