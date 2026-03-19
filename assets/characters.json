@@ -1,81 +1,81 @@
 {
     "characters": {
         "Cunning Hares": {
-            "Anby Demara": "#d6f45e",
-            "Billy Kid": "#ea3b26",
-            "Nekomiya Mana": "#f04b17",
-            "Nicole Demara": "#ec4ea8"
+            "Anby Demara": "#DCFB21",
+            "Billy Kid": "#FF3110",
+            "Nekomiya Mana": "#FF4D00",
+            "Nicole Demara": "#FF46BA"
         },
         "Belobog Heavy Industries": {
-            "Anton Ivanov": "#ff5a1a",
-            "Ben Bigger": "#f99333",
-            "Grace Howard": "#df6a34",
-            "Koleda Belobog": "#f14515"
+            "Anton Ivanov": "#FF5E00",
+            "Ben Bigger": "#FF9100",
+            "Grace Howard": "#FF7F27",
+            "Koleda Belobog": "#FF3C00"
         },
         "Victoria Housekeeping Co.": {
-            "Alexandrina Sebastiane": "#d12e40",
-            "Corin Wickes": "#b455f1",
-            "Ellen Joe": "#ec3a7c",
-            "Von Lycaon": "#aebfcb"
+            "Alexandrina Sebastiane": "#FF1E3F",
+            "Corin Wickes": "#B740FF",
+            "Ellen Joe": "#FF2D82",
+            "Von Lycaon": "#A0D2EB"
         },
         "Sons of Calydon": {
-            "Burnice White": "#e19a33",
-            "Caesar King": "#fca146",
-            "Lighter": "#ec3e27",
-            "Luciana de Montefio": "#fdb23d",
-            "Piper Wheel": "#fdb43e",
-            "Pulchra Fellini": "#ff8c2e"
+            "Burnice White": "#FFB114",
+            "Caesar King": "#FF9500",
+            "Lighter": "#FF2100",
+            "Luciana de Montefio": "#FFB800",
+            "Piper Wheel": "#FFA500",
+            "Pulchra Fellini": "#FF8C00"
         },
         "Section 6": {
-            "Asaba Harumasa": "#f8d246",
-            "Hoshimi Miyabi": "#4fb9c3",
-            "Soukaku": "#2fc3c9",
-            "Tsukishiro Yanagi": "#f01e4b"
+            "Asaba Harumasa": "#FFDC00",
+            "Hoshimi Miyabi": "#00E5FF",
+            "Soukaku": "#00FBFF",
+            "Tsukishiro Yanagi": "#FF0055"
         },
         "Criminal Investigation Special Response Team": {
-            "Jane Doe": "#ff336e",
-            "Qingyi": "#3bd1a4",
-            "Seth Lowell": "#5e8df4",
-            "Zhu Yuan": "#0f7bd9"
+            "Jane Doe": "#FF1F6D",
+            "Qingyi": "#14FFB2",
+            "Seth Lowell": "#55A2FF",
+            "Zhu Yuan": "#0084FF"
         },
         "Obol Squad": {
-            "Orphie Magnusson & Magus": "#e53b59",
-            "Seed": "#ffb347",
-            "Soldier 11": "#ffd24d",
-            "Trigger": "#fce05a"
+            "Orphie Magnusson & Magus": "#FF3B59",
+            "Seed": "#FFA500",
+            "Soldier 11": "#FFCC00",
+            "Trigger": "#FFEE00"
         },
         "Silver Squad": {
-            "Soldier 0 - Anby": "#fdb03d"
+            "Soldier 0 - Anby": "#DCFB21"
         },
         "Mockingbird": {
-            "Hugo Vlad": "#e21428",
-            "Vivian Banshee": "#a65cf0"
+            "Hugo Vlad": "#FF0000",
+            "Vivian Banshee": "#B740FF"
         },
         "Yunkui Summit": {
-            "Ju Fufu": "#f38c0d",
-            "Pan Yinhu": "#ffd14d",
-            "Ye Shunguang": "#d41612",
-            "Yixuan": "#c68c33"
+            "Ju Fufu": "#FF8C00",
+            "Pan Yinhu": "#FFCC00",
+            "Ye Shunguang": "#FF1612",
+            "Yixuan": "#D49D00"
         },
         "Spook Shack": {
-            "Alice Thymefield": "#fcd96e",
-            "Komano Manato": "#c63f20",
-            "Lucia Elowen": "#10c7e6",
-            "Ukinami Yuzuha": "#f43a3c",
-            "Yidhari Murphy": "#a85bf0"
+            "Alice Thymefield": "#FFD700",
+            "Komano Manato": "#FF4500",
+            "Lucia Elowen": "#00EEFF",
+            "Ukinami Yuzuha": "#FF0000",
+            "Yidhari Murphy": "#BD00FF"
         },
         "Stars of Lyra": {
-            "Astra Yao": "#d70f2e",
-            "Evelyn Chevalier": "#a567f3"
+            "Astra Yao": "#FF003C",
+            "Evelyn Chevalier": "#B740FF"
         },
         "Krampus Compliance Authority": {
-            "Banyue": "#d8a56a",
-            "Dialyn": "#6ffce5",
-            "Zhao": "#ff5c72"
+            "Banyue": "#FFA500",
+            "Dialyn": "#00FFCC",
+            "Zhao": "#FF4D6D"
         },
         "Angels of Delusion": {
-            "Sunna": "#d8f55f",
-            "Aria": "#D97E96"
+            "Sunna": "#DCFB21",
+            "Aria": "#FF8BA4"
         }
     }
 }
