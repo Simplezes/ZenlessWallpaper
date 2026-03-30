@@ -80,11 +80,6 @@
     transition: color 0.3s ease;
 }
 
-.media-title:hover {
-    animation: glitch 0.3s infinite;
-    color: var(--accent-color);
-}
-
 .media-artist {
     font-family: "Rajdhani", sans-serif;
     font-size: clamp(10px, 0.8vw, 18px);
