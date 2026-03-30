@@ -50,55 +50,57 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 
 
     const baseColor = charData.baseColor;
-    window.CMYKManager.updateVariables(baseColor);
+    const oldBgColor = document.body.style.backgroundColor || getComputedStyle(document.body).backgroundColor;
+    const oldAccent = document.documentElement.style.getPropertyValue('--accent-color') || getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
 
     const imgPath = `assets/wallpaper/Mindscape_${charData.idName}_${variant}.webp`;
 
-    if (!textOnly) {
+    const applyColorsAndText = () => {
+        window.CMYKManager.updateVariables(baseColor);
+        document.documentElement.style.setProperty('--accent-color', baseColor);
 
+        const textGlow = `0 0 30px ${baseColor}66`;
+        const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
+        const factionOpacity = isAmbientEnabled ? 0.4 : 0;
+        const nicknameOpacity = isAmbientEnabled ? 0.9 : 0;
+
+        updateText(factionText, charData.faction, baseColor, -30, factionOpacity, textGlow);
+        updateText(nicknameText, charData.name, baseColor, 30, nicknameOpacity, textGlow);
+        localStorage.setItem('selectedCharacter', charData.name);
+    };
+
+    if (!textOnly) {
         const tempImg = new Image();
         tempImg.src = imgPath;
         tempImg.onload = () => {
-            if (mainImg.src && mainImg.src.indexOf('webp') !== -1) {
-                transImg.src = mainImg.src;
-                transImg.style.opacity = 1;
-                transImg.style.translateX = '0px';
-                transImg.style.scale = '1';
+            const hasOld = mainImg.src && mainImg.src.indexOf('webp') !== -1;
 
-                anime({
-                    targets: transImg,
-                    opacity: 0,
-                    translateX: -100,
-                    scale: 1.05,
-                    duration: 800,
-                    easing: 'easeInCubic'
+            if (hasOld) {
+                applyColorsAndText();
+
+                window.MangaWipe.run(mainImg, tempImg, {
+                    accent: charData.baseColor || '#FC5B90',
+                    oldBgColor: oldBgColor,
+                    oldAccent: oldAccent,
+                    duration: 900,
+                    onDone: () => {
+                        mainImg.src = imgPath;
+                        mainImg.style.opacity = '1';
+                        mainImg.style.transform = 'none';
+                        transImg.style.opacity = '0';
+                    }
                 });
             } else {
-                transImg.style.opacity = 0;
+                applyColorsAndText();
+                mainImg.src = imgPath;
+                mainImg.style.opacity = '1';
+                mainImg.style.transform = 'none';
+                transImg.style.opacity = '0';
             }
-
-            mainImg.src = imgPath;
-
-            anime({
-                targets: mainImg,
-                opacity: [0, 1],
-                translateX: [100, 0],
-                scale: [0.98, 1],
-                duration: 1200,
-            });
         };
+    } else {
+        applyColorsAndText();
     }
-
-    const textGlow = `0 0 30px ${charData.baseColor}66`;
-    const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
-    const factionOpacity = isAmbientEnabled ? 0.4 : 0;
-    const nicknameOpacity = isAmbientEnabled ? 0.9 : 0;
-
-    updateText(factionText, charData.faction, charData.baseColor, -30, factionOpacity, textGlow);
-    updateText(nicknameText, charData.name, charData.baseColor, 30, nicknameOpacity, textGlow);
-
-    document.documentElement.style.setProperty('--accent-color', charData.baseColor);
-    localStorage.setItem('selectedCharacter', charData.name);
 };
 
 
@@ -168,21 +170,16 @@ function parseHsl(hex) {
 
 document.addEventListener('DOMContentLoaded', loadCharacters);
 
-// Fix for CEF rendering issue: Kick the layout when focused or resized
 function kickLayout() {
-    // A tiny change to trigger a redraw
     document.body.style.paddingRight = '0.01px';
     setTimeout(() => {
         document.body.style.paddingRight = '0px';
     }, 10);
 
-    // Refresh current wallpaper if needed
     if (window.characters && window.characters.characters) {
         const char = localStorage.getItem('selectedCharacter');
         const variant = localStorage.getItem('selectedVariant') || "Default";
         if (char) {
-            // Re-apply current state without full re-load if preferred, 
-            // but for now just kick opacity
             const mainImg = document.getElementById('main-image');
             if (mainImg) {
                 mainImg.style.opacity = '1';
@@ -194,7 +191,6 @@ function kickLayout() {
 window.addEventListener('focus', kickLayout);
 window.addEventListener('resize', kickLayout);
 
-// Wallpaper Engine specific: check for visibility
 if (window.wallpaperPropertyListener) {
     const originalSetPaused = window.wallpaperPropertyListener.setPaused;
     window.wallpaperPropertyListener.setPaused = function (paused) {
