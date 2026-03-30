@@ -59,18 +59,25 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         const tempImg = new Image();
         tempImg.src = imgPath;
         tempImg.onload = () => {
-            transImg.src = mainImg.src;
-            transImg.style.opacity = 1;
+            if (mainImg.src && mainImg.src.indexOf('webp') !== -1) {
+                transImg.src = mainImg.src;
+                transImg.style.opacity = 1;
+                transImg.style.translateX = '0px';
+                transImg.style.scale = '1';
+
+                anime({
+                    targets: transImg,
+                    opacity: 0,
+                    translateX: -100,
+                    scale: 1.05,
+                    duration: 800,
+                    easing: 'easeInCubic'
+                });
+            } else {
+                transImg.style.opacity = 0;
+            }
 
             mainImg.src = imgPath;
-
-            anime({
-                targets: transImg,
-                opacity: 0,
-                translateX: -100,
-                scale: 1.05,
-                duration: 800,
-            });
 
             anime({
                 targets: mainImg,
@@ -160,3 +167,40 @@ function parseHsl(hex) {
 }
 
 document.addEventListener('DOMContentLoaded', loadCharacters);
+
+// Fix for CEF rendering issue: Kick the layout when focused or resized
+function kickLayout() {
+    // A tiny change to trigger a redraw
+    document.body.style.paddingRight = '0.01px';
+    setTimeout(() => {
+        document.body.style.paddingRight = '0px';
+    }, 10);
+
+    // Refresh current wallpaper if needed
+    if (window.characters && window.characters.characters) {
+        const char = localStorage.getItem('selectedCharacter');
+        const variant = localStorage.getItem('selectedVariant') || "Default";
+        if (char) {
+            // Re-apply current state without full re-load if preferred, 
+            // but for now just kick opacity
+            const mainImg = document.getElementById('main-image');
+            if (mainImg) {
+                mainImg.style.opacity = '1';
+            }
+        }
+    }
+}
+
+window.addEventListener('focus', kickLayout);
+window.addEventListener('resize', kickLayout);
+
+// Wallpaper Engine specific: check for visibility
+if (window.wallpaperPropertyListener) {
+    const originalSetPaused = window.wallpaperPropertyListener.setPaused;
+    window.wallpaperPropertyListener.setPaused = function (paused) {
+        if (originalSetPaused) originalSetPaused(paused);
+        if (!paused) {
+            kickLayout();
+        }
+    };
+}
