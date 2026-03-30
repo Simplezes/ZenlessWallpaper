@@ -126,17 +126,41 @@
 }
 
 @keyframes bar-grow {
-    0%, 100% { height: 4px; }
-    50% { height: 16px; }
+
+    0%,
+    100% {
+        height: 4px;
+    }
+
+    50% {
+        height: 16px;
+    }
 }
 
 @keyframes glitch {
-    0% { transform: translate(0); }
-    20% { transform: translate(-2px, 2px); }
-    40% { transform: translate(-2px, -2px); }
-    60% { transform: translate(2px, 2px); }
-    80% { transform: translate(2px, -2px); }
-    100% { transform: translate(0); }
+    0% {
+        transform: translate(0);
+    }
+
+    20% {
+        transform: translate(-2px, 2px);
+    }
+
+    40% {
+        transform: translate(-2px, -2px);
+    }
+
+    60% {
+        transform: translate(2px, 2px);
+    }
+
+    80% {
+        transform: translate(2px, -2px);
+    }
+
+    100% {
+        transform: translate(0);
+    }
 }
 
 .calendar-wrap {
@@ -532,7 +556,6 @@
     }
 
     .day.weekend .day-num {
-        color: var(--accent-color);
         opacity: 1;
     }
 
@@ -693,8 +716,8 @@
     }
 
     .vertical-brand .circle-month {
-        width: 5.5vh;
-        height: 5.5vh;
+        width: 4.5vh;
+        height: 4.5vh;
         min-width: unset;
         min-height: unset;
         margin: 0.5vh 0;
@@ -824,7 +847,7 @@
 }
 
 .footer.footer-light .media-disc {
-    filter: grayscale(1) brightness(0) contrast(100) drop-shadow(0 0 5px rgba(0,0,0,0.2));
+    filter: grayscale(1) brightness(0) contrast(100) drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
 }
 
 .footer.footer-light .calendar-bar .day-num {
