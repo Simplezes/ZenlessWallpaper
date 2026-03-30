@@ -4,10 +4,12 @@ document.addEventListener('DOMContentLoaded', () => {
     let showAmbient = localStorage.getItem('showAmbient') !== 'false';
     let footerTheme = localStorage.getItem('footerTheme') || 'dark';
     let kineticSwayEnabled = localStorage.getItem('kineticSway') !== 'false';
+    let patternEnabled = localStorage.getItem('bgPattern') === 'true';
 
-    const settingsContainer = document.createElement('div');
-    settingsContainer.id = 'settings-container';
-    settingsContainer.className = 'settings-container';
+    const ICONS = {
+        close: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`,
+        plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`
+    };
 
     const overlay = document.createElement('div');
     overlay.className = 'settings-overlay';
@@ -15,161 +17,322 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const menu = document.createElement('div');
     menu.className = 'settings-menu';
+    menu.id = 'settings-container';
 
-    menu.innerHTML = `
-        <div class="menu-header">
-            <div class="header-main">
-                <span class="header-title">SYSTEM_SETTINGS</span>
+    const innerHTML = `
+        <div class="radial-menu-inner">
+            <div class="radial-menu-wrapper">
+                <div id="radialDynamicLabel" class="radial-dynamic-label">SELECT</div>
+                <div class="radial-ring">
+                    <div class="radial-segments-container" id="segments-container"></div>
+                    <div class="radial-items-overlay" id="items-overlay"></div>
+                    <div class="hub-selection-indicator" id="hub-selection-indicator"></div>
+                    <div class="radial-hub">
+                        <div class="hub-ring-bg"></div>
+                        <div class="hub-bulges">
+                            <div class="hub-bulge b-2"></div>
+                            <div class="hub-bulge b-6"></div>
+                            <div class="hub-bulge b-10"></div>
+                        </div>
+                        <div class="hub-notches">
+                            <div class="hub-notch n-2"></div>
+                            <div class="hub-notch n-6"></div>
+                            <div class="hub-notch n-10"></div>
+                        </div>
+                        <div class="hub-inner-texture"></div>
+                        <div class="hub-center-ui">
+                            <div class="hub-roulette-html" id="hub-roulette-text"></div>
+                        </div>
+                    </div>
+                    <div class="radial-close-instruction">ESC TO CLOSE</div>
+                </div>
             </div>
-            <button class="close-btn">
-                <div class="close-icon"></div>
-            </button>
         </div>
-        <div class="menu-content">
-            <div class="menu-content-inner">
-                <div class="section-label">CONFIGURATION</div>
-                <div class="menu-row variant-toggle">
-                    <div class="menu-label">VARIANT_TYPE</div>
-                    <div class="toggle-group">
-                        <button class="toggle-btn" data-variant="Default">STD</button>
-                        <button class="toggle-btn" data-variant="Partial">PRT</button>
-                        <button class="toggle-btn" data-variant="Full">MAX</button>
-                    </div>
-                </div>
-                <div class="menu-row ambient-toggle">
-                    <div class="menu-label">AMBIENT_TEXT</div>
-                    <div class="toggle-group">
-                        <button class="toggle-btn" data-ambient="true">ON</button>
-                        <button class="toggle-btn" data-ambient="false">OFF</button>
-                    </div>
-                </div>
-                <div class="menu-row movement-toggle">
-                    <div class="menu-label">KINETIC_SWAY</div>
-                    <div class="toggle-group">
-                        <button class="toggle-btn" data-kinetic="true">ON</button>
-                        <button class="toggle-btn" data-kinetic="false">OFF</button>
-                    </div>
-                </div>
-                <div class="menu-row footer-toggle">
-                    <div class="menu-label">FOOTER_STYLE</div>
-                    <div class="toggle-group">
-                        <button class="toggle-btn" data-theme="dark">DRK</button>
-                        <button class="toggle-btn" data-theme="white">WHT</button>
-                    </div>
-                </div>
-                <div class="section-separator"></div>
-                <div class="section-label">DATABASE_ENTRIES</div>
+        <div class="agent-list-radial" id="agent-list">
+            <div class="agent-header">
+                <span class="header-title">Edit Avatar</span>
+                <div class="header-close-btn" id="agent-list-close">${ICONS.close}</div>
             </div>
-            <div class="agent-scroll-list-wrapper">
-                <div class="agent-scroll-list" id="agent-list"></div>
-                <div class="scroll-controls">
-                    <button id="scroll-up" class="nav-btn">▲</button>
-                    <button id="scroll-down" class="nav-btn">▼</button>
-                </div>
+            <div class="agent-avatar-grid" id="agent-grid">
+                <!-- Avatars will be injected here -->
             </div>
+            <div class="agent-list-footer">
+                <button class="agent-use-btn" id="agent-use-btn">
+                    <span class="use-icon">${ICONS.close}</span>
+                    <span class="use-text">Use</span>
+                </button>
+                <div class="agent-return-hint">
+                    <span class="hint-circle"></span>
+                    Return
+                </div>
             </div>
         </div>
     `;
 
+    menu.innerHTML = innerHTML;
     document.body.appendChild(menu);
 
-    const scrollContainer = menu.querySelector('#agent-list');
-    const closeBtn = menu.querySelector('.close-btn');
+    const menuInner = menu.querySelector('.radial-menu-inner');
+    const segmentsContainer = menu.querySelector('#segments-container');
+    const itemsOverlay = menu.querySelector('#items-overlay');
+    const agentList = menu.querySelector('#agent-list');
+    const agentGrid = menu.querySelector('#agent-grid');
+    const agentUseBtn = menu.querySelector('#agent-use-btn');
+    const agentListClose = menu.querySelector('#agent-list-close');
+    const hubRouletteText = menu.querySelector('#hub-roulette-text');
+    const dynamicLabel = menu.querySelector('#radialDynamicLabel');
 
-    function populateCharacters() {
-        if (!window.characters || !window.characters.characters) {
-            setTimeout(populateCharacters, 100);
-            return;
-        }
+    const MENU_ITEMS = [
+        { id: 'agents', label: 'AGENTS', img: 'assets/imgs/icons/Icon_Agents.webp', angle: 0 },
+        { id: 'variant', label: 'VARIANT', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 45 },
+        { id: 'footer', label: 'STYLE', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 90 },
+        { id: 'kinetic', label: 'KINETIC', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 135 },
+        { id: 'close', label: 'CLOSE', icon: ICONS.close, angle: 180 },
+        { id: 'pattern', label: 'PATTERN', img: 'assets/imgs/icons/Icon_DMs.webp', angle: 225 },
+        { id: 'ambient', label: 'AMBIENT', img: 'assets/imgs/icons/Icon_More.webp', angle: 270 },
+        { id: 'plus', label: 'EMPTY', icon: ICONS.plus, angle: 315 },
+    ];
 
-        scrollContainer.innerHTML = '';
+    const radialRing = menu.querySelector('.radial-ring');
+    const hubSelectionIndicator = menu.querySelector('#hub-selection-indicator');
 
-        const factionData = window.characters.characters;
-        for (const factionName in factionData) {
-            const header = document.createElement('div');
-            header.className = 'faction-header';
-            header.innerHTML = `
-                <span class="faction-name">${factionName}</span>
-                <span class="faction-accent"></span>
-            `;
-            scrollContainer.appendChild(header);
+    function updateIndicator(e) {
+        if (!menu.style.display || menu.style.display === 'none') return;
+        const rect = radialRing.getBoundingClientRect();
+        const cx = rect.left + rect.width / 2;
+        const cy = rect.top + rect.height / 2;
+        const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
+        hubSelectionIndicator.style.transform = `translate(-50%, -50%) rotate(${angle + 90}deg)`;
+    }
 
-            const agents = factionData[factionName];
-            for (const agentName in agents) {
-                const color = agents[agentName];
-                const item = document.createElement('div');
-                item.className = 'menu-item';
-                if (agentName === currentAgent) item.classList.add('active');
+    window.addEventListener('mousemove', updateIndicator);
 
+    function initRadialMenu() {
+        segmentsContainer.innerHTML = '';
+        itemsOverlay.innerHTML = '';
+        hubRouletteText.innerHTML = '';
 
-                item.innerHTML = `
-                    <div class="item-active-bar"></div>
-                    <div class="item-main">
-                        <span class="item-name">${agentName}</span>
-                    </div>
-                `;
+        MENU_ITEMS.forEach((item, i) => {
+            const segment = document.createElement('div');
+            segment.className = 'segment-html';
+            segment.style.setProperty('--seg-angle', `${item.angle}deg`);
+            segment.setAttribute('data-id', item.id);
+            segmentsContainer.appendChild(segment);
 
-                item.addEventListener('click', () => {
-                    document.querySelectorAll('.menu-item').forEach(i => i.classList.remove('active'));
-                    item.classList.add('active');
-                    currentAgent = agentName;
-                    applySettings();
-                });
+            const overlayItem = document.createElement('div');
+            overlayItem.className = 'radial-item';
+            overlayItem.style.setProperty('--angle', `${item.angle}deg`);
+            overlayItem.setAttribute('data-id', item.id);
 
-                scrollContainer.appendChild(item);
-            }
+            // Handle either Image or SVG Icon
+            const iconContent = item.img ?
+                `<img src="${item.img}" class="radial-img-icon" alt="${item.label}">` :
+                `<div class="radial-svg-icon">${item.icon}</div>`;
+
+            overlayItem.innerHTML = iconContent;
+            itemsOverlay.appendChild(overlayItem);
+
+            segment.addEventListener('mouseenter', () => {
+                segment.classList.add('active');
+                overlayItem.classList.add('active');
+                if (dynamicLabel) {
+                    dynamicLabel.innerText = item.label;
+                    dynamicLabel.classList.add('visible');
+                }
+            });
+
+            segment.addEventListener('mouseleave', () => {
+                segment.classList.remove('active');
+                overlayItem.classList.remove('active');
+                if (dynamicLabel) {
+                    dynamicLabel.classList.remove('visible');
+                    dynamicLabel.innerText = 'SELECT';
+                }
+            });
+
+            segment.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleItemClick(item.id);
+            });
+        });
+
+        // Generate static Roulette text at specific clock positions
+        const textUnit = "• ROULETTE •";
+        const groupCenters = [0, 120, 240]; // Clock: 12, 4, 8
+        const charStep = 6; // Packing angle between chars
+
+        groupCenters.forEach(centerAngle => {
+            const chars = textUnit.split('');
+            const halfLen = (chars.length - 1) / 2;
+
+            chars.forEach((char, i) => {
+                const span = document.createElement('span');
+                span.className = 'roulette-text-char';
+                span.innerText = char;
+                // Calculate individual char rotation relative to group center
+                const charAngle = centerAngle + (i - halfLen) * charStep;
+                span.style.transform = `translate(-50%, -100%) rotate(${charAngle}deg)`;
+                hubRouletteText.appendChild(span);
+            });
+        });
+
+        setupDragScroll();
+    }
+
+    function setupDragScroll() {
+        let isDown = false;
+        let startY;
+        let scrollTop;
+
+        if (!agentGrid) return;
+
+        agentGrid.addEventListener('mousedown', (e) => {
+            isDown = true;
+            agentGrid.classList.add('grabbing');
+            startY = e.pageY - agentGrid.offsetTop;
+            scrollTop = agentGrid.scrollTop;
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDown = false;
+            if (agentGrid) agentGrid.classList.remove('grabbing');
+        });
+
+        agentGrid.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        agentGrid.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const y = e.pageY - agentGrid.offsetTop;
+            const walk = (y - startY) * 2.5;
+            agentGrid.scrollTop = scrollTop - walk;
+        });
+    }
+
+    function handleItemClick(id) {
+        switch (id) {
+            case 'agents':
+                toggleAgentList();
+                break;
+            case 'variant':
+                cycleVariant();
+                break;
+            case 'ambient':
+                toggleAmbient();
+                break;
+            case 'kinetic':
+                toggleKinetic();
+                break;
+            case 'footer':
+                toggleFooterTheme();
+                break;
+            case 'pattern':
+                togglePattern();
+                break;
+            case 'close':
+                closeMenu();
+                break;
         }
     }
 
-    menu.querySelectorAll('.variant-toggle .toggle-btn').forEach(btn => {
-        if (btn.dataset.variant === currentVariant) btn.classList.add('active');
-        btn.addEventListener('click', () => {
-            menu.querySelectorAll('.variant-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentVariant = btn.dataset.variant;
-            localStorage.setItem('selectedVariant', currentVariant);
-            applySettings();
+    function cycleVariant() {
+        const variants = ['Default', 'Partial', 'Full'];
+        let idx = variants.indexOf(currentVariant);
+        currentVariant = variants[(idx + 1) % variants.length];
+        localStorage.setItem('selectedVariant', currentVariant);
+        applySettings();
+    }
+
+    function toggleAmbient() {
+        showAmbient = !showAmbient;
+        localStorage.setItem('showAmbient', showAmbient);
+        applySettings(true);
+    }
+
+    function toggleKinetic() {
+        kineticSwayEnabled = !kineticSwayEnabled;
+        localStorage.setItem('kineticSway', kineticSwayEnabled);
+        if (window.kineticSway) window.kineticSway.setEnabled(kineticSwayEnabled);
+    }
+
+    function toggleFooterTheme() {
+        footerTheme = footerTheme === 'dark' ? 'white' : 'dark';
+        localStorage.setItem('footerTheme', footerTheme);
+        applyFooterTheme();
+    }
+
+    function togglePattern() {
+        patternEnabled = !patternEnabled;
+        localStorage.setItem('bgPattern', patternEnabled);
+        if (window.PatternRenderer) window.PatternRenderer.setVisible(patternEnabled);
+    }
+
+    function toggleAgentList() {
+        const isActive = agentList.classList.contains('active');
+        if (isActive) {
+            agentList.classList.remove('active');
+        } else {
+            populateAgents();
+            agentList.classList.add('active');
+        }
+    }
+
+    let selectedAvatarName = currentAgent;
+
+    function populateAgents() {
+        if (!window.characters || !window.characters.characters) {
+            setTimeout(populateAgents, 100);
+            return;
+        }
+
+        agentGrid.innerHTML = '';
+        const factions = window.characters.characters;
+
+        // Collect all names and map to filenames
+        const allAgents = [];
+        for (const faction in factions) {
+            for (const name in factions[faction]) {
+                const fileName = `Avatar_${name.replace(/\s+/g, '_')}.png`;
+                allAgents.push({ name, img: `assets/avatars/${fileName}` });
+            }
+        }
+
+        allAgents.forEach(agent => {
+            const item = document.createElement('div');
+            item.className = 'agent-avatar-item' + (agent.name === selectedAvatarName ? ' active' : '');
+
+            item.innerHTML = `
+                <div class="avatar-ring">
+                    <img src="${agent.img}" class="avatar-img" alt="${agent.name}">
+                </div>
+            `;
+
+            item.addEventListener('click', () => {
+                selectedAvatarName = agent.name;
+                menu.querySelectorAll('.agent-avatar-item').forEach(el => el.classList.remove('active'));
+                item.classList.add('active');
+            });
+
+            agentGrid.appendChild(item);
         });
+    }
+
+    agentUseBtn.addEventListener('click', () => {
+        currentAgent = selectedAvatarName;
+        localStorage.setItem('selectedCharacter', currentAgent);
+        applySettings();
+        toggleAgentList();
     });
+
+    agentListClose.addEventListener('click', toggleAgentList);
 
     function applySettings(textOnly = false) {
         if (window.setWallpaper) {
             window.setWallpaper(currentAgent, currentVariant, textOnly);
         }
     }
-
-    menu.querySelectorAll('.ambient-toggle .toggle-btn').forEach(btn => {
-        if (btn.dataset.ambient === String(showAmbient)) btn.classList.add('active');
-        btn.addEventListener('click', () => {
-            menu.querySelectorAll('.ambient-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            showAmbient = btn.dataset.ambient === 'true';
-            localStorage.setItem('showAmbient', showAmbient);
-            applySettings(true);
-        });
-    });
-
-    menu.querySelectorAll('.movement-toggle .toggle-btn').forEach(btn => {
-        if (btn.dataset.kinetic === String(kineticSwayEnabled)) btn.classList.add('active');
-        btn.addEventListener('click', () => {
-            menu.querySelectorAll('.movement-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            kineticSwayEnabled = btn.dataset.kinetic === 'true';
-            localStorage.setItem('kineticSway', kineticSwayEnabled);
-            if (window.kineticSway) window.kineticSway.setEnabled(kineticSwayEnabled);
-        });
-    });
-
-    menu.querySelectorAll('.footer-toggle .toggle-btn').forEach(btn => {
-        if (btn.dataset.theme === footerTheme) btn.classList.add('active');
-        btn.addEventListener('click', () => {
-            menu.querySelectorAll('.footer-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            footerTheme = btn.dataset.theme;
-            localStorage.setItem('footerTheme', footerTheme);
-            applyFooterTheme();
-        });
-    });
 
     function applyFooterTheme() {
         const footer = document.querySelector('.footer');
@@ -184,49 +347,39 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    applyFooterTheme();
-
     const openMenu = () => {
         overlay.classList.add('active');
         menu.style.display = 'flex';
-        populateCharacters();
 
         anime({
-            targets: menu,
-            translateX: ['100%', '0%'],
+            targets: menuInner,
+            scale: [0.8, 1],
             opacity: [0, 1],
-            duration: 500,
-            easing: 'easeOutQuart'
-        });
-
-        anime({
-            targets: overlay,
-            opacity: [0, 1],
-            duration: 400,
-            easing: 'linear'
+            rotate: [-10, 0],
+            duration: 600,
+            easing: 'easeOutElastic(1, .8)'
         });
     };
 
     const closeMenu = () => {
+        agentList.classList.remove('active');
         anime({
-            targets: menu,
-            translateX: '100%',
+            targets: menuInner,
+            scale: 0.8,
             opacity: 0,
-            duration: 400,
-            easing: 'easeInExpo',
+            rotate: 10,
+            duration: 300,
+            easing: 'easeInQuad',
             complete: () => {
                 menu.style.display = 'none';
                 overlay.classList.remove('active');
             }
         });
-
-        anime({
-            targets: overlay,
-            opacity: 0,
-            duration: 300,
-            easing: 'linear'
-        });
     };
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeMenu();
+    });
 
     const settingsTriggers = document.querySelectorAll('.zzz-logo-final, .mobile-settings-trigger');
     settingsTriggers.forEach(trigger => {
@@ -236,68 +389,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    const setupScrollControls = () => {
-        const scrollUp = menu.querySelector('#scroll-up');
-        const scrollDown = menu.querySelector('#scroll-down');
-
-        scrollUp.addEventListener('click', () => {
-            scrollContainer.scrollBy({ top: -100, behavior: 'smooth' });
-        });
-
-        scrollDown.addEventListener('click', () => {
-            scrollContainer.scrollBy({ top: 100, behavior: 'smooth' });
-        });
-
-        let isDown = false;
-        let startY;
-        let scrollTop;
-        let moved = false;
-
-        scrollContainer.addEventListener('mousedown', (e) => {
-            isDown = true;
-            moved = false;
-            scrollContainer.classList.add('grabbing');
-            startY = e.pageY - scrollContainer.offsetTop;
-            scrollTop = scrollContainer.scrollTop;
-        });
-
-        scrollContainer.addEventListener('mouseleave', () => {
-            isDown = false;
-            scrollContainer.classList.remove('grabbing');
-        });
-
-        scrollContainer.addEventListener('mouseup', () => {
-            isDown = false;
-            scrollContainer.classList.remove('grabbing');
-        });
-
-        scrollContainer.addEventListener('mousemove', (e) => {
-            if (!isDown) return;
-            const y = e.pageY - scrollContainer.offsetTop;
-            const walk = (y - startY) * 1.5;
-            if (Math.abs(walk) > 5) moved = true;
-            if (moved) {
-                e.preventDefault();
-                scrollContainer.scrollTop = scrollTop - walk;
-            }
-        });
-
-        scrollContainer.addEventListener('wheel', (e) => {
-            e.preventDefault();
-            scrollContainer.scrollBy({ top: e.deltaY, behavior: 'auto' });
-        }, { passive: false });
-
-        scrollContainer.addEventListener('click', (e) => {
-            if (moved) {
-                e.preventDefault();
-                e.stopPropagation();
-            }
-        }, true);
-    };
-
-    setupScrollControls();
-
-    closeBtn.addEventListener('click', closeMenu);
     overlay.addEventListener('click', closeMenu);
-});
 
+    initRadialMenu();
+    applyFooterTheme();
+    if (window.PatternRenderer) window.PatternRenderer.setVisible(patternEnabled);
+});

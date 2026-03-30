@@ -83,9 +83,16 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     onStart: applyColorsAndText,
                     onDone: () => {
                         mainImg.src = imgPath;
-                        mainImg.style.opacity = '1';
-                        mainImg.style.transform = 'none';
-                        transImg.style.opacity = '0';
+                        return mainImg.decode().then(() => {
+                            mainImg.style.opacity = '1';
+                            mainImg.style.transform = 'none';
+                            transImg.style.opacity = '0';
+                        }).catch(() => {
+                            // Fallback if decode fails
+                            mainImg.style.opacity = '1';
+                            mainImg.style.transform = 'none';
+                            transImg.style.opacity = '0';
+                        });
                     }
                 });
             } else {
