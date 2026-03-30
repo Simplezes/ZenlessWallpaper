@@ -286,7 +286,7 @@
 .settings-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.2);
     z-index: 10005;
     opacity: 0;
     pointer-events: none;
