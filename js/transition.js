@@ -273,17 +273,28 @@
     };
 
     function finish(newImg, onDone) {
-        canvas.style.display = 'none';
-        if (canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let p = null;
+        if (typeof onDone === 'function') p = onDone();
 
-        const footerOverlay = document.getElementById('manga-footer-wipe');
-        if (footerOverlay) footerOverlay.remove();
+        const cleanup = () => {
+            canvas.style.display = 'none';
+            if (canvas) ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        active = false;
+            const footerOverlay = document.getElementById('manga-footer-wipe');
+            if (footerOverlay) footerOverlay.remove();
 
-        newImg.style.opacity = '1';
+            active = false;
+            newImg.style.opacity = '1';
+        };
 
-        if (typeof onDone === 'function') onDone();
+        if (p && typeof p.then === 'function') {
+            p.then(() => requestAnimationFrame(() => requestAnimationFrame(cleanup)))
+                .catch(() => cleanup());
+        } else {
+            requestAnimationFrame(() => {
+                requestAnimationFrame(cleanup);
+            });
+        }
     }
 
 })();
