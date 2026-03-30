@@ -1,18 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap');
-
 .settings-menu {
     position: fixed;
     top: 0;
     right: 0;
     bottom: var(--taskbar-offset, 0px);
-    /*width: 300px;*/
     background: rgba(10, 10, 10, 0.98);
-    /*backdrop-filter: blur(25px) saturate(200%);*/
     border-left: 1px solid rgba(255, 255, 255, 0.1);
     display: none;
     flex-direction: column;
     z-index: 10010;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Rajdhani', sans-serif;
     color: #fff;
     box-shadow: -20px 0 50px rgba(0, 0, 0, 0.5);
     overflow: hidden;
@@ -291,7 +287,6 @@
     position: fixed;
     inset: 0;
     background: rgba(0, 0, 0, 0.7);
-    /*backdrop-filter: blur(5px);*/
     z-index: 10005;
     opacity: 0;
     pointer-events: none;
@@ -370,6 +365,6 @@
     color: var(--accent-color);
     min-width: 18px;
     text-align: right;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Rajdhani', sans-serif;
     opacity: 0.7;
 }
