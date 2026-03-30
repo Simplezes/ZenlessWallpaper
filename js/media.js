@@ -7,6 +7,7 @@ function updateMediaUI() {
     const container = document.getElementById('media-container');
     const titleEl = document.getElementById('media-title');
     const artistEl = document.getElementById('media-artist');
+    const statusEl = document.getElementById('terminal-status');
     const recTitle = document.getElementById('record-title');
     const recArtist = document.getElementById('record-artist');
 
@@ -18,6 +19,7 @@ function updateMediaUI() {
 
     if (shouldShow) {
         container.classList.remove('is-idle');
+        if (statusEl) statusEl.textContent = 'SIGNAL RECEIVED // PLAYING';
         if (titleEl) {
             if (lastTitleText !== currentMediaTitle) {
                 titleEl.textContent = currentMediaTitle;
@@ -30,6 +32,7 @@ function updateMediaUI() {
         if (recArtist) recArtist.textContent = currentMediaArtist;
     } else {
         container.classList.add('is-idle');
+        if (statusEl) statusEl.textContent = 'SIGNAL LOST // IDLE';
         if (titleEl) {
             titleEl.textContent = 'NO MEDIA';
             titleEl.classList.remove('scrolling');

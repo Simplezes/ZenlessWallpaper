@@ -17,104 +17,82 @@
 
 .media-container {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    justify-content: center;
     color: #fff;
-    padding-left: 1vw;
+    padding-left: 2vw;
     min-width: 15vw;
     max-width: 25vw;
     flex-shrink: 1;
     position: relative;
     transition: all 0.5s ease;
+    border-left: 2px solid #333;
+    height: 80%;
 }
 
-.media-disc-wrap {
-    position: relative;
-    width: 4.5vh;
-    height: 4.5vh;
-    margin-right: 15px;
+.terminal-status {
+    font-family: "Rajdhani", sans-serif;
+    font-size: clamp(8px, 0.7vw, 14px);
+    color: var(--accent-color);
+    letter-spacing: 2px;
+    margin-bottom: 2px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    opacity: 1;
-    transform: scale(1) rotate(0deg);
+    gap: 8px;
+    text-transform: uppercase;
+    font-weight: 700;
 }
 
-.media-disc {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: drop-shadow(0 0 5px var(--accent-color));
-    transition: filter 0.5s ease;
+.terminal-status::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-color);
 }
 
-@keyframes disc-rotate {
-    from {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
+.media-container.is-idle .terminal-status {
+    color: #555;
 }
 
-.media-container.is-idle .media-disc-wrap {
-    opacity: 0;
-    transform: scale(0) rotate(-90deg);
-    margin-right: 0;
-}
-
-.media-container:not(.is-idle) .media-disc {
-    animation: disc-rotate 4s linear infinite;
-}
-
-.media-text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-left: 20px;
-    overflow: hidden;
-    max-width: 100%;
-    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.media-container.is-idle .media-text {
-    padding-left: 0;
-    opacity: 0.6;
+.media-container.is-idle .terminal-status::before {
+    background: #444;
+    box-shadow: none;
 }
 
 .media-title-wrap {
-    width: 20vw;
+    width: 100%;
     overflow: hidden;
     white-space: nowrap;
     position: relative;
-    background: rgba(255, 255, 255, 0.04);
-    padding: 0.5vh 12px;
-    clip-path: polygon(0 0, 100% 0, 98% 100%, 0 100%);
-    border-left: 4px solid var(--accent-color);
     margin-bottom: 2px;
 }
 
 .media-title {
     display: inline-block;
-    font-family: "Outfit", sans-serif;
-    font-size: clamp(14px, 1.1vw, 28px);
-    font-weight: 1000;
+    font-family: "Inter", sans-serif;
+    font-size: clamp(18px, 1.4vw, 32px);
+    font-weight: 900;
     color: #fff;
     text-transform: uppercase;
     letter-spacing: -0.01em;
-    line-height:1.2;
-    padding-right: 50px;
+    line-height: 1.1;
+    transition: color 0.3s ease;
+}
+
+.media-title:hover {
+    animation: glitch 0.3s infinite;
+    color: var(--accent-color);
 }
 
 .media-artist {
     font-family: "Rajdhani", sans-serif;
     font-size: clamp(10px, 0.8vw, 18px);
-    font-weight: 750;
-    color: var(--accent-color);
+    font-weight: 500;
+    color: #888;
     text-transform: uppercase;
-    letter-spacing: 0.35em;
-    margin-top: 4px;
+    letter-spacing: 0.1em;
     display: flex;
     align-items: center;
     white-space: nowrap;
@@ -123,22 +101,42 @@
     max-width: 100%;
 }
 
-.media-artist::before {
-    content: ">>";
-    font-family: "Inter", sans-serif;
-    font-weight: 900;
-    font-size: 0.7em;
-    margin-right: 10px;
-    opacity: 0.7;
+.terminal-visualizer {
+    display: flex;
+    gap: 4px;
+    align-items: flex-end;
+    height: 16px;
+    margin-top: 8px;
+    opacity: 0.8;
 }
 
-.media-artist::after {
-    content: "KOBEBW";
-    font-family: "Zenless_Glyphs", monospace;
-    font-size: 0.6em;
-    margin-left: 15px;
-    opacity: 0.4;
-    letter-spacing: 2px;
+.v3-bar {
+    width: 4px;
+    background: var(--accent-color);
+    animation: bar-grow 1s infinite ease-in-out;
+}
+
+.media-container.is-idle .terminal-visualizer {
+    opacity: 0.2;
+}
+
+.media-container.is-idle .v3-bar {
+    animation: none;
+    height: 2px !important;
+}
+
+@keyframes bar-grow {
+    0%, 100% { height: 4px; }
+    50% { height: 16px; }
+}
+
+@keyframes glitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(-2px, -2px); }
+    60% { transform: translate(2px, 2px); }
+    80% { transform: translate(2px, -2px); }
+    100% { transform: translate(0); }
 }
 
 .calendar-wrap {
