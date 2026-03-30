@@ -101,7 +101,7 @@
         if (!bgOverlay) {
             bgOverlay = document.createElement('div');
             bgOverlay.id = 'manga-bg-wipe';
-            bgOverlay.style.cssText = 'position:fixed;inset:0;z-index:-15;pointer-events:none;';
+            bgOverlay.style.cssText = 'position:fixed;inset:0;z-index:1;pointer-events:none;';
             document.body.appendChild(bgOverlay);
         }
 
@@ -114,10 +114,6 @@
         bgOverlay.style.display = 'block';
         if (oldBgColor) bgOverlay.style.backgroundColor = oldBgColor;
 
-        if (footerOverlay) {
-            footerOverlay.style.visibility = 'visible';
-        }
-
         const [tL, bL] = linePair(cx, 0, H);
         const rect = canvas.getBoundingClientRect();
 
@@ -127,7 +123,11 @@
         const clip = `polygon(${globalTopX}px 0, 100vw 0, 100vw 100vh, ${globalBottomX}px 100vh)`;
 
         bgOverlay.style.clipPath = clip;
-        if (footerOverlay) footerOverlay.style.clipPath = clip;
+
+        if (footerOverlay) {
+            footerOverlay.style.clipPath = clip;
+            footerOverlay.style.visibility = 'visible';
+        }
     }
 
     function drawFrame(oldImg, newImg, progress, accent, oldBgColor) {
@@ -211,6 +211,7 @@
             const accent = options.accent || CFG.accentColor;
             const duration = options.duration || CFG.duration;
             const onDone = options.onDone || null;
+            const onStart = options.onStart || null;
             const oldBgColor = options.oldBgColor || null;
             const oldAccent = options.oldAccent || null;
 
@@ -223,6 +224,7 @@
                 footerOverlay.id = 'manga-footer-wipe';
                 footerOverlay.style.zIndex = '515';
                 footerOverlay.style.pointerEvents = 'none';
+                footerOverlay.style.visibility = 'hidden';
                 footerOverlay.style.setProperty('--accent-color', oldAccent);
                 document.body.appendChild(footerOverlay);
             }
@@ -234,6 +236,10 @@
             active = true;
 
             drawFrame(oldImg, newImg, 0, accent, oldBgColor);
+
+            if (typeof onStart === 'function') {
+                onStart();
+            }
 
             const startTime = performance.now();
 
