@@ -80,7 +80,6 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     accent: charData.baseColor || '#FC5B90',
                     oldBgColor: oldBgColor,
                     oldAccent: oldAccent,
-                    duration: 900,
                     onStart: applyColorsAndText,
                     onDone: () => {
                         mainImg.src = imgPath;
