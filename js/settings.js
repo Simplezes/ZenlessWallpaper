@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentVariant = localStorage.getItem('selectedVariant') || "Default";
     let showAmbient = localStorage.getItem('showAmbient') !== 'false';
     let footerTheme = localStorage.getItem('footerTheme') || 'dark';
+    let kineticSwayEnabled = localStorage.getItem('kineticSway') !== 'false';
 
     const settingsContainer = document.createElement('div');
     settingsContainer.id = 'settings-container';
@@ -42,6 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         <button class="toggle-btn" data-ambient="false">OFF</button>
                     </div>
                 </div>
+                <div class="menu-row movement-toggle">
+                    <div class="menu-label">KINETIC_SWAY</div>
+                    <div class="toggle-group">
+                        <button class="toggle-btn" data-kinetic="true">ON</button>
+                        <button class="toggle-btn" data-kinetic="false">OFF</button>
+                    </div>
+                </div>
                 <div class="menu-row footer-toggle">
                     <div class="menu-label">FOOTER_STYLE</div>
                     <div class="toggle-group">
@@ -59,39 +67,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     <button id="scroll-down" class="nav-btn">▼</button>
                 </div>
             </div>
-            <div class="menu-content-inner bottom-settings">
-                <div class="section-separator"></div>
-                <div class="section-label">AMBIENT_DENSITY</div>
-                <div class="sliders-grid">
-                    <div class="slider-card">
-                        <div class="menu-label">CUBES</div>
-                        <div class="slider-group">
-                            <input type="range" class="settings-slider" id="maxCubes" min="0" max="40" step="1">
-                            <span class="slider-value">0</span>
-                        </div>
-                    </div>
-                    <div class="slider-card">
-                        <div class="menu-label">RINGS</div>
-                        <div class="slider-group">
-                            <input type="range" class="settings-slider" id="maxRings" min="0" max="20" step="1">
-                            <span class="slider-value">0</span>
-                        </div>
-                    </div>
-                    <div class="slider-card">
-                        <div class="menu-label">PLANES</div>
-                        <div class="slider-group">
-                            <input type="range" class="settings-slider" id="maxPlanes" min="0" max="30" step="1">
-                            <span class="slider-value">0</span>
-                        </div>
-                    </div>
-                    <div class="slider-card">
-                        <div class="menu-label">PARTICLES</div>
-                        <div class="slider-group">
-                            <input type="range" class="settings-slider" id="maxParticles" min="0" max="200" step="5">
-                            <span class="slider-value">0</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     `;
@@ -174,6 +149,17 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    menu.querySelectorAll('.movement-toggle .toggle-btn').forEach(btn => {
+        if (btn.dataset.kinetic === String(kineticSwayEnabled)) btn.classList.add('active');
+        btn.addEventListener('click', () => {
+            menu.querySelectorAll('.movement-toggle .toggle-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            kineticSwayEnabled = btn.dataset.kinetic === 'true';
+            localStorage.setItem('kineticSway', kineticSwayEnabled);
+            if (window.kineticSway) window.kineticSway.setEnabled(kineticSwayEnabled);
+        });
+    });
+
     menu.querySelectorAll('.footer-toggle .toggle-btn').forEach(btn => {
         if (btn.dataset.theme === footerTheme) btn.classList.add('active');
         btn.addEventListener('click', () => {
@@ -199,24 +185,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     applyFooterTheme();
-
-    const sliders = ['maxCubes', 'maxRings', 'maxPlanes', 'maxParticles'];
-    const defaultValues = { maxCubes: 12, maxRings: 6, maxPlanes: 8, maxParticles: 60 };
-
-    sliders.forEach(id => {
-        const slider = menu.querySelector(`#${id}`);
-        const valueDisplay = slider.nextElementSibling;
-        const savedValue = localStorage.getItem(id) || defaultValues[id];
-
-        slider.value = savedValue;
-        valueDisplay.textContent = savedValue;
-
-        slider.addEventListener('input', () => {
-            valueDisplay.textContent = slider.value;
-            localStorage.setItem(id, slider.value);
-            if (window.refreshAmbientFx) window.refreshAmbientFx();
-        });
-    });
 
     const openMenu = () => {
         overlay.classList.add('active');

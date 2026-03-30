@@ -8,7 +8,7 @@
     border-bottom: 0.8vh solid var(--accent-color);
     padding: 0 1vw;
     box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
-    z-index: 100;
+    z-index: 510;
 }
 
 .footer-left {
@@ -71,7 +71,7 @@
 
 .media-title {
     display: inline-block;
-    font-family: "Inter", sans-serif;
+    font-family: "Rajdhani", sans-serif;
     font-size: clamp(18px, 1.4vw, 32px);
     font-weight: 900;
     color: #fff;
@@ -261,7 +261,7 @@
 .z-tag {
     position: absolute;
     top: 0vh;
-    right: -0.6vh;
+    right: -0.9vh;
     font-size: 0.7vh;
     border: 0.15vh solid var(--accent-color);
     background-color: #0f0f0f;
@@ -329,6 +329,7 @@
     align-items: center;
     justify-content: center;
     line-height: 1;
+    -webkit-mask-clip: unset !important;
 }
 
 .year-display {
@@ -399,7 +400,7 @@
 }
 
 .calendar-title {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Zenless', sans-serif;
     font-size: 3.5vh;
     font-weight: 1000;
     color: #fff;
@@ -465,7 +466,6 @@
         flex-direction: column;
         padding: 5vh 0 2vh 0;
         border-bottom: none;
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
         background: #0f0f0f;
         box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
     }
