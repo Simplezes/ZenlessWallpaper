@@ -76,13 +76,12 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             const hasOld = mainImg.src && mainImg.src.indexOf('webp') !== -1;
 
             if (hasOld) {
-                applyColorsAndText();
-
                 window.MangaWipe.run(mainImg, tempImg, {
                     accent: charData.baseColor || '#FC5B90',
                     oldBgColor: oldBgColor,
                     oldAccent: oldAccent,
                     duration: 900,
+                    onStart: applyColorsAndText,
                     onDone: () => {
                         mainImg.src = imgPath;
                         mainImg.style.opacity = '1';
