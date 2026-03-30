@@ -19,6 +19,7 @@ function updateMediaUI() {
 
     if (shouldShow) {
         container.classList.remove('is-idle');
+        container.classList.add('is-playing');
         if (statusEl) statusEl.textContent = 'SIGNAL RECEIVED // PLAYING';
         if (titleEl) {
             if (lastTitleText !== currentMediaTitle) {
@@ -32,6 +33,7 @@ function updateMediaUI() {
         if (recArtist) recArtist.textContent = currentMediaArtist;
     } else {
         container.classList.add('is-idle');
+        container.classList.remove('is-playing');
         if (statusEl) statusEl.textContent = 'SIGNAL LOST // IDLE';
         if (titleEl) {
             titleEl.textContent = 'NO MEDIA';
@@ -73,5 +75,37 @@ if (window.wallpaperRegisterMediaPropertiesListener) {
         updateMediaUI();
     });
 }
+
+let visualizerPeak = 0.1;
+const peakdecay = 0.98;
+const peakgrowth = 0.02;
+
+window.wallpaperRegisterAudioListener(function (audioData) {
+    const bars = document.querySelectorAll('.v3-bar');
+    if (!bars || bars.length === 0) return;
+
+    let frameMax = 0;
+    for (let i = 0; i < audioData.length; i++) {
+        if (audioData[i] > frameMax) frameMax = audioData[i];
+    }
+
+    visualizerPeak = (visualizerPeak * peakdecay) + (frameMax * (1 - peakdecay));
+    if (visualizerPeak < 0.1) visualizerPeak = 0.1;
+
+    for (let i = 0; i < bars.length; i++) {
+        let index = i * 4;
+        let leftVal = audioData[index];
+        let rightVal = audioData[index + 64];
+        let val = (leftVal + rightVal) / 2;
+
+        let sensitivity = 5;
+        let normalized = (val * sensitivity) / visualizerPeak;
+
+        normalized = Math.min(Math.max(normalized, 0), 1);
+
+        let height = 2 + (normalized * 28);
+        bars[i].style.height = `${height}px`;
+    }
+});
 
 updateMediaUI();

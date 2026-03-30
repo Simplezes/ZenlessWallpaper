@@ -52,3 +52,26 @@ function generateCalendar() {
 generateCalendar();
 scheduleMidnightUpdate(generateCalendar);
 
+function updateWatch() {
+    const now = new Date();
+    const seconds = now.getSeconds();
+    const minutes = now.getMinutes();
+    const hours = now.getHours();
+
+    const secondDegrees = (seconds / 60) * 360;
+    const minuteDegrees = ((minutes + seconds / 60) / 60) * 360;
+    const hourDegrees = ((hours % 12 + minutes / 60) / 12) * 360;
+
+    document.querySelectorAll('.watch-second').forEach(el => {
+        el.style.transform = `rotate(${secondDegrees}deg)`;
+    });
+    document.querySelectorAll('.watch-minute').forEach(el => {
+        el.style.transform = `rotate(${minuteDegrees}deg)`;
+    });
+    document.querySelectorAll('.watch-hour').forEach(el => {
+        el.style.transform = `rotate(${hourDegrees}deg)`;
+    });
+}
+
+updateWatch();
+setInterval(updateWatch, 1000);
