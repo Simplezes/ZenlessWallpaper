@@ -94,3 +94,22 @@
     opacity: 0.05;
     mix-blend-mode: screen;
 }
+
+/* ── ZZZ Repeating Pattern Overlay ────────────────────────── */
+#bg-pattern-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -9;
+    pointer-events: none;
+
+    mix-blend-mode: multiply;
+
+    opacity: 0;
+    transition: opacity 1.2s ease;
+
+    filter: contrast(1.1) brightness(0.9);
+}
+
+#bg-pattern-canvas.visible {
+    opacity: 0.35;
+}
