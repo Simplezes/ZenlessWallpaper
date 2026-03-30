@@ -968,10 +968,6 @@
     color: #000 !important;
 }
 
-.footer.footer-light .media-title-wrap {
-    background: rgba(0, 0, 0, 0.05) !important;
-}
-
 .footer.footer-light .media-artist::after {
     opacity: 0.2;
 }
