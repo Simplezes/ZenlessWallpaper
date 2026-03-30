@@ -98,7 +98,7 @@ window.wallpaperRegisterAudioListener(function (audioData) {
         let rightVal = audioData[index + 64];
         let val = (leftVal + rightVal) / 2;
 
-        let sensitivity = 5;
+        let sensitivity = 3.5;
         let normalized = (val * sensitivity) / visualizerPeak;
 
         normalized = Math.min(Math.max(normalized, 0), 1);
