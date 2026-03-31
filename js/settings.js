@@ -315,7 +315,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function populateAgents() {
         if (agentsPopulated) {
-            // Just update selection
             agentGrid.querySelectorAll('.agent-avatar-item').forEach(item => {
                 const name = item.getAttribute('data-name');
                 item.classList.toggle('active', name === currentAgent);
@@ -357,7 +356,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         agentGrid.appendChild(fragment);
 
-        // Click delegation for agent grid
         agentGrid.addEventListener('click', (e) => {
             const item = e.target.closest('.agent-avatar-item');
             if (item) {
