@@ -102,7 +102,12 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             const hasOld = outgoingImg.src && outgoingImg.src.indexOf('webp') !== -1;
 
             if (hasOld) {
+                const previousLastTarget = lastTargetImg;
                 lastTargetImg = tempImg;
+
+                mainImg.src = imgPath;
+                mainImg.style.opacity = '0';
+
                 window.MangaWipe.run(outgoingImg, tempImg, {
                     accent: charData.baseColor || '#FC5B90',
                     oldBgColor: oldBgColor,
@@ -113,11 +118,11 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                         return mainImg.decode().then(() => {
                             mainImg.style.opacity = '1';
                             mainImg.style.transform = 'none';
-                            transImg.style.opacity = '0';
+                            if (transImg) transImg.style.opacity = '0';
                         }).catch(() => {
                             mainImg.style.opacity = '1';
                             mainImg.style.transform = 'none';
-                            transImg.style.opacity = '0';
+                            if (transImg) transImg.style.opacity = '0';
                         });
                     }
                 });
@@ -127,7 +132,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                 mainImg.src = imgPath;
                 mainImg.style.opacity = '1';
                 mainImg.style.transform = 'none';
-                transImg.style.opacity = '0';
+                if (transImg) transImg.style.opacity = '0';
             }
         };
     } else {
