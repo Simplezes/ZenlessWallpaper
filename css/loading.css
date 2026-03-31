@@ -1,0 +1,149 @@
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    background: #000;
+    z-index: 100000;
+    display: flex;
+    font-family: 'Zenless', sans-serif;
+    color: #fff;
+    overflow: hidden;
+    transition: opacity 0.8s cubic-bezier(1, 0, 0, 1), visibility 0.8s;
+}
+
+#loading-screen.fade-out {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loader-layout {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.4s ease-out;
+}
+
+.loader-layout.ready {
+    opacity: 1;
+}
+
+.loader-left {
+    width: 32%;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+    padding: 6rem 3rem 4rem 4rem;
+    box-sizing: border-box;
+    z-index: 2;
+}
+
+.loader-mode-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4rem;
+}
+
+.loader-icons,
+.loader-icons img {
+    display: none;
+}
+
+.loader-tips-wrap {
+    flex: 1;
+    max-width: 100%;
+}
+
+#loader-tip-text {
+    font-size: 1.6rem;
+    line-height: 1.3;
+    font-weight: bolder;
+    color: rgb(155 155 155 / 85%);
+    margin: 0;
+    word-break: break-word;
+}
+
+.loader-footer-left {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.loader-icons {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.loader-icons img {
+    width: 1.8rem;
+    height: 1.8rem;
+    opacity: 0.35;
+    filter: grayscale(1);
+    transition: all 0.3s;
+}
+
+.loader-icons img.active {
+    opacity: 1;
+    filter: none;
+}
+
+.loader-metadata-block {
+    gap: 1rem;
+    align-items: flex-start;
+    font-family: monospace;
+    font-weight: bold;
+    color: rgb(255 255 255 / 40%);
+    font-size: 1rem;
+
+}
+
+.loader-no {
+    color: rgba(255, 255, 255, 0.6);
+    font-family: 'Zenless';
+}
+
+.loader-mode-name {
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    font-family: 'Zenless';
+}
+
+/* Right panel with wallpaper */
+.loader-right {
+    flex: 1;
+    position: relative;
+    background: #111;
+    overflow: hidden;
+}
+
+#loader-wallpaper {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.loader-footer-right {
+    position: absolute;
+    bottom: 3.5rem;
+    right: 4rem;
+    z-index: 3;
+}
+
+.loader-bangboo-indicator {
+    width: 25rem;
+    height: auto;
+    filter: invert(1) brightness(2) drop-shadow(0 0 1rem rgba(0, 0, 0, 0.5));
+    display: block;
+}
+
+.loader-left::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+    z-index: -1;
+    opacity: 0.5;
+}

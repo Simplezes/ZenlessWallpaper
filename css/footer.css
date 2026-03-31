@@ -227,9 +227,9 @@
     height: 6.5vh;
     aspect-ratio: 505 / 119;
     background-color: var(--accent-color);
-    -webkit-mask: url('../assets/imgs/month.svg') no-repeat center;
+    -webkit-mask: url('../assets/imgs/svg/month.svg') no-repeat center;
     -webkit-mask-size: contain;
-    mask: url('../assets/imgs/month.svg') no-repeat center;
+    mask: url('../assets/imgs/svg/month.svg') no-repeat center;
     mask-size: contain;
     margin: 0;
 }

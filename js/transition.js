@@ -77,9 +77,7 @@
         if (!img || !img.naturalWidth || !img.naturalHeight) return;
 
         const aspect = img.naturalWidth / img.naturalHeight;
-        
-        // In portrait mode (rotated), 100vh (height: 100vh) corresponds to the LONG edge (W in logical space)
-        // In landscape, 100vh corresponds to the short edge (H).
+
         const drawH = isPortrait ? W : H;
         const drawW = drawH * aspect;
         const drawX = (W - drawW) / 2;
