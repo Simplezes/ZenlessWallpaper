@@ -3,7 +3,7 @@
 
     const CFG = {
         slashAngle: -40,
-        duration: 750,
+        duration: 2000,
         easing: easeInOutQuart,
         edgeWidth: 250,
         trailWidth: 420,
@@ -84,9 +84,18 @@
     }
 
     function actionLineX(p, W, H) {
+        const s = getScale();
         const tan = Math.tan(CFG.slashAngle * Math.PI / 180);
         const slashHalf = Math.abs(tan * H / 2);
-        return -slashHalf + p * (W + slashHalf * 2);
+
+        const startPadding = (CFG.edgeWidth / 2) * s;
+        const endPadding = (CFG.trailOffset + CFG.trailWidth / 2) * s;
+        const buffer = 50 * s;
+
+        const start = -slashHalf - startPadding - buffer;
+        const end = W + slashHalf + endPadding + buffer;
+
+        return start + p * (end - start);
     }
 
     function linePair(cx, ox, H) {
