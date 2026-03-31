@@ -182,35 +182,50 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function setupDragScroll() {
+        const panel = menu.querySelector('.agent-inner-panel');
         let isDown = false;
         let startY;
-        let scrollTop;
+        let scrollStart;
+        let moved = false;
 
-        if (!agentGrid) return;
+        if (!panel) return;
 
-        agentGrid.addEventListener('mousedown', (e) => {
+        panel.addEventListener('mousedown', (e) => {
+            // Only allow left mouse button
+            if (e.button !== 0) return;
             isDown = true;
-            agentGrid.classList.add('grabbing');
-            startY = e.pageY - agentGrid.offsetTop;
-            scrollTop = agentGrid.scrollTop;
+            moved = false;
+            panel.classList.add('grabbing');
+            startY = e.pageY - panel.offsetTop;
+            scrollStart = panel.scrollTop;
         });
 
         window.addEventListener('mouseup', () => {
             isDown = false;
-            if (agentGrid) agentGrid.classList.remove('grabbing');
+            panel.classList.remove('grabbing');
         });
 
-        agentGrid.addEventListener('mouseleave', () => {
+        panel.addEventListener('mouseleave', () => {
             isDown = false;
+            panel.classList.remove('grabbing');
         });
 
-        agentGrid.addEventListener('mousemove', (e) => {
+        panel.addEventListener('mousemove', (e) => {
             if (!isDown) return;
             e.preventDefault();
-            const y = e.pageY - agentGrid.offsetTop;
-            const walk = (y - startY) * 2.5;
-            agentGrid.scrollTop = scrollTop - walk;
+            const y = e.pageY - panel.offsetTop;
+            const walk = (y - startY) * 2;
+            if (Math.abs(walk) > 3) moved = true;
+            panel.scrollTop = scrollStart - walk;
         });
+
+        // Prevent click if we moved (scrolled)
+        panel.addEventListener('click', (e) => {
+            if (moved) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        }, true);
     }
 
     function handleItemClick(id) {
