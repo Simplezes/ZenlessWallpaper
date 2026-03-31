@@ -1,8 +1,8 @@
 const PatternRenderer = (() => {
     const ANGLE_DEG = -25;
     const ANGLE_RAD = ANGLE_DEG * (Math.PI / 180);
-    const SCANLINE_SIZE = 4; // Size of the repeating tile (4x4px)
-    const SCANLINE_COLOR = 'rgba(0, 0, 0, 0.8)'; // Dark lines
+    const SCANLINE_SIZE = 4;
+    const SCANLINE_COLOR = 'rgba(0, 0, 0, 0.8)';
 
     const TILE_VH = 0.3;
 

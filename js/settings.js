@@ -126,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
             overlayItem.style.setProperty('--angle', `${item.angle}deg`);
             overlayItem.setAttribute('data-id', item.id);
 
-            // Handle either Image or SVG Icon
             const iconContent = item.img ?
                 `<img src="${item.img}" class="radial-img-icon" alt="${item.label}">` :
                 `<div class="radial-svg-icon">${item.icon}</div>`;
@@ -158,10 +157,9 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Generate static Roulette text at specific clock positions
         const textUnit = "• ROULETTE •";
-        const groupCenters = [0, 120, 240]; // Clock: 12, 4, 8
-        const charStep = 6; // Packing angle between chars
+        const groupCenters = [0, 120, 240];
+        const charStep = 6;
 
         groupCenters.forEach(centerAngle => {
             const chars = textUnit.split('');
@@ -171,7 +169,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const span = document.createElement('span');
                 span.className = 'roulette-text-char';
                 span.innerText = char;
-                // Calculate individual char rotation relative to group center
                 const charAngle = centerAngle + (i - halfLen) * charStep;
                 span.style.transform = `translate(-50%, -100%) rotate(${charAngle}deg)`;
                 hubRouletteText.appendChild(span);
@@ -191,7 +188,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!panel) return;
 
         panel.addEventListener('mousedown', (e) => {
-            // Only allow left mouse button
             if (e.button !== 0) return;
             isDown = true;
             moved = false;
@@ -219,7 +215,6 @@ document.addEventListener('DOMContentLoaded', () => {
             panel.scrollTop = scrollStart - walk;
         });
 
-        // Prevent click if we moved (scrolled)
         panel.addEventListener('click', (e) => {
             if (moved) {
                 e.preventDefault();
@@ -307,7 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
         agentGrid.innerHTML = '';
         const factions = window.characters.characters;
 
-        // Collect all names and map to filenames
         const allAgents = [];
         for (const faction in factions) {
             for (const name in factions[faction]) {
@@ -318,8 +312,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         allAgents.forEach(agent => {
             const item = document.createElement('div');
-            // 'active' is the one currently set as wallpaper (checkmark)
-            // 'selected' is the one highlighted in the grid (yellow ring)
             item.className = 'agent-avatar-item';
             if (agent.name === currentAgent) item.classList.add('active');
             if (agent.name === selectedAvatarName) item.classList.add('selected');
