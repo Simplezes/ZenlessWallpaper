@@ -509,6 +509,12 @@
     overflow-y: auto;
     overflow-x: hidden;
     box-sizing: border-box;
+    cursor: grab;
+    user-select: none;
+}
+
+.agent-inner-panel.grabbing {
+    cursor: grabbing;
 }
 
 /* CUSTOM SCROLLBAR WITH BUTTONS */
