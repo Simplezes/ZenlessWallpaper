@@ -1,13 +1,13 @@
 .footer {
     position: fixed;
-    bottom: var(--taskbar-offset, 0px);
+    bottom: var(--taskbar-offset, 0rem);
     left: 0;
     height: 13vh;
-    min-height: 60px;
+    min-height: 6rem;
     background: #0f0f0f;
     border-bottom: 0.8vh solid var(--accent-color);
     padding: 0 1vw;
-    box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 -1rem 3rem rgba(0, 0, 0, 0.5);
     z-index: 510;
 }
 
@@ -31,24 +31,24 @@
 
 .terminal-status {
     font-family: "Rajdhani", sans-serif;
-    font-size: clamp(8px, 0.7vw, 14px);
+    font-size: clamp(0.8rem, 0.7vw, 1.4rem);
     color: var(--accent-color);
-    letter-spacing: 2px;
-    margin-bottom: 2px;
+    letter-spacing: 0.2rem;
+    margin-bottom: 0.2rem;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.8rem;
     text-transform: uppercase;
     font-weight: 700;
 }
 
 .terminal-status::before {
     content: "";
-    width: 6px;
-    height: 6px;
+    width: 0.6rem;
+    height: 0.6rem;
     background: var(--accent-color);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-color);
+    box-shadow: 0 0 1rem var(--accent-color);
 }
 
 .media-container.is-idle .terminal-status {
@@ -65,13 +65,13 @@
     overflow: hidden;
     white-space: nowrap;
     position: relative;
-    margin-bottom: 2px;
+    margin-bottom: 0.2rem;
 }
 
 .media-title {
     display: inline-block;
     font-family: "Rajdhani", sans-serif;
-    font-size: clamp(18px, 1.4vw, 32px);
+    font-size: clamp(1.8rem, 1.4vw, 3.2rem);
     font-weight: 900;
     color: #fff;
     text-transform: uppercase;
@@ -82,7 +82,7 @@
 
 .media-artist {
     font-family: "Rajdhani", sans-serif;
-    font-size: clamp(10px, 0.8vw, 18px);
+    font-size: clamp(1rem, 0.8vw, 1.8rem);
     font-weight: 500;
     color: #888;
     text-transform: uppercase;
@@ -97,19 +97,19 @@
 
 .terminal-visualizer {
     display: flex;
-    gap: 4px;
+    gap: 0.4rem;
     align-items: flex-end;
-    height: 16px;
-    min-height: 16px;
-    max-height: 16px;
-    margin-top: 8px;
+    height: 1.6rem;
+    min-height: 1.6rem;
+    max-height: 1.6rem;
+    margin-top: 0.8rem;
     opacity: 0.8;
     overflow: hidden;
     flex-shrink: 0;
 }
 
 .v3-bar {
-    width: 4px;
+    width: 0.4rem;
     background: var(--accent-color);
     animation: bar-grow 1s infinite ease-in-out;
 }
@@ -120,7 +120,7 @@
 
 .media-container.is-idle .v3-bar {
     animation: none;
-    height: 2px;
+    height: 0.2rem;
 }
 
 .media-container.is-playing .v3-bar {
@@ -132,11 +132,11 @@
 
     0%,
     100% {
-        height: 4px;
+        height: 0.4rem;
     }
 
     50% {
-        height: 16px;
+        height: 1.6rem;
     }
 }
 
@@ -146,19 +146,19 @@
     }
 
     20% {
-        transform: translate(-2px, 2px);
+        transform: translate(-0.2rem, 0.2rem);
     }
 
     40% {
-        transform: translate(-2px, -2px);
+        transform: translate(-0.2rem, -0.2rem);
     }
 
     60% {
-        transform: translate(2px, 2px);
+        transform: translate(0.2rem, 0.2rem);
     }
 
     80% {
-        transform: translate(2px, -2px);
+        transform: translate(0.2rem, -0.2rem);
     }
 
     100% {
@@ -172,7 +172,7 @@
 
 .calendar-bar {
     display: flex;
-    gap: clamp(4px, 1vw, 5px);
+    gap: clamp(0.4rem, 1vw, 0.5rem);
     justify-content: center;
     width: 100%;
 }
@@ -183,14 +183,14 @@
 }
 
 .day-name {
-    font-size: clamp(6px, 0.6vw, 25px);
+    font-size: clamp(0.6rem, 0.6vw, 2.5rem);
     color: #fff;
     letter-spacing: 0.05em;
-    margin-bottom: 1px;
+    margin-bottom: 0.1rem;
 }
 
 .day-num {
-    font-size: clamp(10px, 1.1vw, 25px);
+    font-size: clamp(1rem, 1.1vw, 2.5rem);
     color: #fff;
 }
 
@@ -202,8 +202,8 @@
 .day.today .day-num {
     background: var(--accent-color);
     color: #000;
-    padding: 0 4px;
-    border-radius: 2px;
+    padding: 0 0.4rem;
+    border-radius: 0.2rem;
 }
 
 .footer-right {
@@ -282,7 +282,7 @@
     transform-origin: center center;
     background-color: #0f0f0f;
     opacity: 0.7;
-    border-radius: 1px;
+    border-radius: 0.1rem;
 }
 
 .notch-main {
@@ -484,35 +484,35 @@
 
 .zzz-logo-final:hover {
     transform: scale(1.1);
-    filter: drop-shadow(0 0 10px var(--accent-color));
+    filter: drop-shadow(0 0 1rem var(--accent-color));
 }
 
 .zzz-logo-final img {
     height: 8vh;
     width: auto;
-    margin-bottom: 2px;
+    margin-bottom: 0.2rem;
 }
 
 .zzz-logo-sub {
-    font-size: 8px;
+    font-size: 0.8rem;
     background: var(--accent-color);
     color: #000;
-    padding: 2px 10px;
+    padding: 0.2rem 1rem;
     font-weight: 950;
     line-height: 1;
-    margin-top: 4px;
+    margin-top: 0.4rem;
     clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
     text-transform: uppercase;
-    letter-spacing: 1px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    letter-spacing: 0.1rem;
+    box-shadow: 0 0.2rem 1rem rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
 
 .zzz-logo-final:hover .zzz-logo-sub {
     background: #fff;
     color: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(252, 91, 144, 0.4);
+    transform: translateY(-0.2rem);
+    box-shadow: 0 0.4rem 1.5rem rgba(252, 91, 144, 0.4);
 }
 
 .mobile-header {
@@ -587,7 +587,7 @@
 
     .footer {
         width: 13vw;
-        min-width: 50px;
+        min-width: 5rem;
         height: 100vh;
         top: 0;
         left: 0;
@@ -596,7 +596,7 @@
         padding: 5vh 0 2vh 0;
         border-bottom: none;
         background: #0f0f0f;
-        box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+        box-shadow: 1rem 0 3rem rgba(0, 0, 0, 0.5);
     }
 
     .footer-left,
@@ -680,8 +680,8 @@
         background: var(--accent-color);
         color: #000;
         opacity: 1;
-        padding: 1px 4px;
-        border-radius: 1px;
+        padding: 0.1rem 0.4rem;
+        border-radius: 0.1rem;
     }
 
     .day.weekend .day-num {
@@ -788,60 +788,60 @@
     }
 
     .menu-header {
-        padding: 40px 50px !important;
+        padding: 4rem 5rem !important;
         height: 15vh;
     }
 
     .header-title {
-        font-size: 48px !important;
-        letter-spacing: 4px !important;
+        font-size: 4.8rem !important;
+        letter-spacing: 0.4rem !important;
     }
 
     .close-btn {
-        width: 70px !important;
-        height: 70px !important;
+        width: 7rem !important;
+        height: 7rem !important;
     }
 
     .section-label {
-        font-size: 28px !important;
-        margin-top: 40px !important;
-        margin-bottom: 35px !important;
-        letter-spacing: 5px !important;
+        font-size: 2.8rem !important;
+        margin-top: 4rem !important;
+        margin-bottom: 3.5rem !important;
+        letter-spacing: 0.5rem !important;
     }
 
     .menu-label {
-        font-size: 20px !important;
-        margin-bottom: 20px !important;
-        letter-spacing: 2px !important;
+        font-size: 2rem !important;
+        margin-bottom: 2rem !important;
+        letter-spacing: 0.2rem !important;
     }
 
     .toggle-btn {
-        padding: 25px !important;
-        font-size: 24px !important;
-        border-width: 2px !important;
+        padding: 2.5rem !important;
+        font-size: 2.4rem !important;
+        border-width: 0.2rem !important;
     }
 
     .menu-item {
-        padding: 30px 40px !important;
-        min-height: 80px !important;
+        padding: 3rem 4rem !important;
+        min-height: 8rem !important;
     }
 
     .item-name {
-        font-size: 32px !important;
+        font-size: 3.2rem !important;
     }
 
     .faction-name {
-        font-size: 24px !important;
-        padding: 25px 0 !important;
+        font-size: 2.4rem !important;
+        padding: 2.5rem 0 !important;
     }
 
     .settings-slider {
-        height: 20px !important;
+        height: 2rem !important;
     }
 
     .settings-slider::-webkit-slider-thumb {
-        width: 45px !important;
-        height: 45px !important;
+        width: 4.5rem !important;
+        height: 4.5rem !important;
     }
 
     .vertical-brand .circle-month {
@@ -862,14 +862,14 @@
     }
 
     .slider-value {
-        font-size: 26px !important;
-        min-width: 60px !important;
+        font-size: 2.6rem !important;
+        min-width: 6rem !important;
     }
 
     .nav-btn {
-        width: 120px !important;
-        height: 70px !important;
-        font-size: 36px !important;
+        width: 12rem !important;
+        height: 7rem !important;
+        font-size: 3.6rem !important;
     }
 
     .ambient-text {
@@ -913,7 +913,7 @@
 
 .footer.footer-light {
     background: #ffffff !important;
-    box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 -0.5rem 2.5rem rgba(0, 0, 0, 0.1);
     border-bottom: 0.8vh solid var(--accent-color) !important;
 }
 
@@ -972,7 +972,7 @@
 }
 
 .footer.footer-light .media-disc {
-    filter: grayscale(1) brightness(0) contrast(100) drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+    filter: grayscale(1) brightness(0) contrast(100) drop-shadow(0 0 0.5rem rgba(0, 0, 0, 0.2));
 }
 
 .footer.footer-light .calendar-bar .day-num {

@@ -15,9 +15,9 @@
     inset: 0;
     background-image: repeating-linear-gradient(-45deg,
             rgba(0, 0, 0, 0.1),
-            rgba(0, 0, 0, 0.1) 2px,
-            transparent 2px,
-            transparent 15px);
+            rgba(0, 0, 0, 0.1) 0.2rem,
+            transparent 0.2rem,
+            transparent 1.5rem);
     opacity: 0.6;
     z-index: 1;
 }
@@ -27,9 +27,9 @@
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 100px 100px;
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 0.1rem, transparent 0.1rem),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 0.1rem, transparent 0.1rem);
+    background-size: 10rem 10rem;
     mask-image: radial-gradient(circle at center, black, transparent 80%);
     animation: patternDrift 40s linear infinite;
 }
@@ -40,7 +40,7 @@
     }
 
     to {
-        background-position: 500px 500px;
+        background-position: 50rem 50rem;
     }
 }
 
@@ -102,8 +102,8 @@
     opacity: 0.35;
     z-index: 2;
 
-    letter-spacing: -1px;
-    filter: blur(1px);
+    letter-spacing: -0.1rem;
+    filter: blur(0.1rem);
 }
 
 .ambient-text.nickname {
@@ -113,8 +113,8 @@
     opacity: 0.75;
     z-index: 505;
 
-    letter-spacing: -6px;
-    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+    letter-spacing: -0.6rem;
+    text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85);
 }
 
 

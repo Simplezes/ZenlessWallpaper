@@ -1,5 +1,17 @@
 window.characters = [];
 
+// Utility for resolution independence
+window.pxToRem = function (px) {
+    const rootFS = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    return px / rootFS;
+};
+window.rem = function (px) {
+    return (px / 10) + 'rem';
+};
+window.pxToCurrentRem = function (px) {
+    return (px / parseFloat(getComputedStyle(document.documentElement).fontSize)) + 'rem';
+};
+
 async function loadCharacters() {
     try {
         const response = await fetch('assets/characters.json');
@@ -59,7 +71,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         window.CMYKManager.updateVariables(baseColor);
         document.documentElement.style.setProperty('--accent-color', baseColor);
 
-        const textGlow = `0 0 30px ${baseColor}66`;
+        const textGlow = `0 0 ${window.rem(30)} ${baseColor}66`;
         const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
         const factionOpacity = isAmbientEnabled ? 0.4 : 0;
         const nicknameOpacity = isAmbientEnabled ? 0.9 : 0;
@@ -114,7 +126,7 @@ function updateText(el, text, color, offset, targetOpacity, glow) {
     anime({
         targets: el,
         opacity: 0,
-        translateX: offset,
+        translateX: window.rem(offset),
         duration: 400,
         easing: 'easeInCubic',
         complete: () => {
@@ -136,7 +148,7 @@ function updateText(el, text, color, offset, targetOpacity, glow) {
             anime({
                 targets: el,
                 opacity: targetOpacity,
-                translateX: [offset * -1, 0],
+                translateX: [window.rem(offset * -1), 0],
                 duration: 800,
                 easing: 'easeOutExpo'
             });
