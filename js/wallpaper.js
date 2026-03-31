@@ -1,21 +1,33 @@
 window.characters = [];
 
-// Utility for resolution independence
+let cachedRootFS = null;
+function getRootFS() {
+    if (cachedRootFS) return cachedRootFS;
+    cachedRootFS = parseFloat(getComputedStyle(document.documentElement).fontSize);
+    return cachedRootFS;
+}
+
+window.addEventListener('resize', () => {
+    cachedRootFS = null;
+});
+
 window.pxToRem = function (px) {
-    const rootFS = parseFloat(getComputedStyle(document.documentElement).fontSize);
-    return px / rootFS;
+    return px / getRootFS();
 };
 window.rem = function (px) {
     return (px / 10) + 'rem';
 };
 window.pxToCurrentRem = function (px) {
-    return (px / parseFloat(getComputedStyle(document.documentElement).fontSize)) + 'rem';
+    return (px / getRootFS()) + 'rem';
 };
 
 async function loadCharacters() {
     try {
-        const response = await fetch('assets/characters.json');
-        window.characters = await response.json();
+        if (!window.charactersFetch) {
+            window.charactersFetch = fetch('assets/characters.json').then(r => r.json());
+        }
+
+        window.characters = await window.charactersFetch;
 
         const savedChar = localStorage.getItem('selectedCharacter') || "Ellen Joe";
         const savedVariant = localStorage.getItem('selectedVariant') || "Full";
@@ -123,37 +135,45 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 function updateText(el, text, color, offset, targetOpacity, glow) {
     if (!el) return;
 
-    anime({
-        targets: el,
-        opacity: 0,
-        translateX: window.rem(offset),
-        duration: 400,
-        easing: 'easeInCubic',
-        complete: () => {
-            const isPortrait = window.innerHeight > window.innerWidth;
-            let content = text;
-            if (isPortrait && text.includes(' ') && el.id === 'nickname-text') {
-                content = text.replace(/ /g, '<br>');
-            }
+    const isEmpty = el.innerHTML.trim() === '';
 
-            const halftone = el.querySelector('.halftone-local');
-            el.innerHTML = content;
-            if (halftone) el.appendChild(halftone);
-
-            window.CMYKManager.apply(el);
-
-            el.style.color = color;
-            el.style.textShadow = glow;
-
-            anime({
-                targets: el,
-                opacity: targetOpacity,
-                translateX: [window.rem(offset * -1), 0],
-                duration: 800,
-                easing: 'easeOutExpo'
-            });
+    const applyContent = () => {
+        const isPortrait = window.innerHeight > window.innerWidth;
+        let content = text;
+        if (isPortrait && text.includes(' ') && (el.id === 'nickname-text' || el.classList.contains('nickname'))) {
+            content = text.replace(/ /g, '<br>');
         }
-    });
+
+        const halftone = el.querySelector('.halftone-local');
+        el.innerHTML = content;
+        if (halftone) el.appendChild(halftone);
+
+        window.CMYKManager.apply(el);
+
+        el.style.color = color;
+        el.style.textShadow = glow;
+
+        anime({
+            targets: el,
+            opacity: targetOpacity,
+            translateX: [window.rem(offset * -1), 0],
+            duration: 800,
+            easing: 'easeOutExpo'
+        });
+    };
+
+    if (isEmpty) {
+        applyContent();
+    } else {
+        anime({
+            targets: el,
+            opacity: 0,
+            translateX: window.rem(offset),
+            duration: 400,
+            easing: 'easeInCubic',
+            complete: applyContent
+        });
+    }
 }
 
 function parseHsl(hex) {

@@ -98,6 +98,8 @@
         ];
     }
 
+    let cachedCanvasRect = null;
+
     function syncWipes(progress, W, H, cx, oldBgColor) {
         let bgOverlay = document.getElementById('manga-bg-wipe');
         let footerOverlay = document.getElementById('manga-footer-wipe');
@@ -119,7 +121,10 @@
         if (oldBgColor) bgOverlay.style.backgroundColor = oldBgColor;
 
         const [tL, bL] = linePair(cx, 0, H);
-        const rect = canvas.getBoundingClientRect();
+        if (!cachedCanvasRect && canvas) {
+            cachedCanvasRect = canvas.getBoundingClientRect();
+        }
+        const rect = cachedCanvasRect || { left: 0, top: 0 };
 
         const globalTopX = rect.left + tL.x;
         const globalBottomX = rect.left + bL.x;
@@ -206,6 +211,7 @@
         run(oldImg, newImg, options = {}) {
             ensureCanvas();
             syncToContainer();
+            cachedCanvasRect = null;
 
             if (active) {
                 cancelAnimationFrame(raf);
