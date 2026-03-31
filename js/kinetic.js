@@ -83,11 +83,25 @@ class KineticSway {
     }
 
     resetElements() {
+        const orient = window.innerHeight > window.innerWidth ? 'portrait' : 'landscape';
+        const manualRot = parseInt(localStorage.getItem(`charRotate_${orient}`) || '0');
+        const manualFlip = localStorage.getItem(`charFlip_${orient}`) === 'true' ? -1 : 1;
+
         for (let item of this.elements) {
             if (!item.el) continue;
             item.el.style.translate = `0px 0px`;
-            item.el.style.rotate = `0deg`;
-            item.el.style.scale = `${item.baseScale}`;
+            
+            let baseR = 0;
+            let baseScaleX = item.baseScale;
+
+            if (item.el.id === 'image-container') {
+                baseR = manualRot;
+                baseScaleX = item.baseScale * manualFlip;
+            }
+
+            item.el.style.rotate = `${baseR}deg`;
+            item.el.style.scale = `${baseScaleX} ${item.baseScale}`;
+            
             if (item.el.id === 'image-container') {
                 item.el.style.filter = `drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) brightness(1)`;
             }
@@ -105,6 +119,10 @@ class KineticSway {
         }
 
         this.time += Math.min(dt, 50);
+
+        const orient = window.innerHeight > window.innerWidth ? 'portrait' : 'landscape';
+        const manualRot = parseInt(localStorage.getItem(`charRotate_${orient}`) || '0');
+        const manualFlip = localStorage.getItem(`charFlip_${orient}`) === 'true' ? -1 : 1;
 
         for (let item of this.elements) {
             if (!item.el) {
@@ -124,9 +142,17 @@ class KineticSway {
             }
 
             const finalScale = item.baseScale + scaleOffset;
+            let finalRotate = r;
+            let finalScaleX = finalScale;
+
+            if (item.el.id === 'image-container') {
+                finalRotate += manualRot;
+                finalScaleX = finalScale * manualFlip;
+            }
+
             item.el.style.translate = `${x}px ${y}px`;
-            item.el.style.rotate = `${r}deg`;
-            item.el.style.scale = `${finalScale}`;
+            item.el.style.rotate = `${finalRotate}deg`;
+            item.el.style.scale = `${finalScaleX} ${finalScale}`;
 
             if (item.el.id === 'image-container') {
                 const progress = (Math.sin(t + item.phaseY) * Math.sin(t * item.speedRatio3) + 1) / 2;

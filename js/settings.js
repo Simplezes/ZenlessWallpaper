@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const getOrientKey = () => (window.innerHeight > window.innerWidth ? 'portrait' : 'landscape');
+
     let currentAgent = localStorage.getItem('selectedCharacter') || "Burnice White";
     let currentVariant = localStorage.getItem('selectedVariant') || "Default";
     let showAmbient = localStorage.getItem('showAmbient') !== 'false';
@@ -6,9 +8,18 @@ document.addEventListener('DOMContentLoaded', () => {
     let kineticSwayEnabled = localStorage.getItem('kineticSway') !== 'false';
     let patternEnabled = localStorage.getItem('bgPattern') === 'true';
 
+    const getCharRotate = () => parseInt(localStorage.getItem(`charRotate_${getOrientKey()}`) || '0');
+    const getCharFlip = () => localStorage.getItem(`charFlip_${getOrientKey()}`) === 'true';
+
     const ICONS = {
         close: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>`,
-        plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`
+        plus: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>`,
+        rotate: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/></svg>`,
+        flip: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="square">
+            <path d="M3 12L8 7L8 17L3 12Z" fill="currentColor" />
+            <path d="M21 12L16 7L16 17L21 12Z" />
+            <path d="M12 2V22" stroke-width="2" stroke-dasharray="4 4" opacity="0.6" />
+        </svg>`
     };
 
     const overlay = document.createElement('div');
@@ -100,13 +111,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const MENU_ITEMS = [
         { id: 'agents', label: 'AGENTS', img: 'assets/imgs/icons/Icon_Agents.webp', angle: 0 },
-        { id: 'variant', label: 'MODE', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 45 },
-        { id: 'footer', label: 'THEME', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 90 },
-        { id: 'kinetic', label: 'MOTION', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 135 },
-        { id: 'close', label: 'CLOSE', icon: ICONS.close, angle: 180 },
-        { id: 'pattern', label: 'PATTERN', img: 'assets/imgs/icons/Icon_DMs.webp', angle: 225 },
-        { id: 'ambient', label: 'EFFECTS', img: 'assets/imgs/icons/Icon_More.webp', angle: 270 },
-        { id: 'plus', label: 'EMPTY', icon: ICONS.plus, angle: 315 },
+        { id: 'variant', label: 'MODE', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 40 },
+        { id: 'footer', label: 'THEME', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 80 },
+        { id: 'kinetic', label: 'MOTION', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 120 },
+        { id: 'close', label: 'CLOSE', icon: ICONS.close, angle: 160 },
+        { id: 'pattern', label: 'PATTERN', img: 'assets/imgs/icons/Icon_DMs.webp', angle: 200 },
+        { id: 'ambient', label: 'EFFECTS', img: 'assets/imgs/icons/Icon_More.webp', angle: 240 },
+        { id: 'rotate', label: 'ROTATE', icon: ICONS.rotate, angle: 280 },
+        { id: 'flip', label: 'FLIP', icon: ICONS.flip, angle: 320 },
     ];
 
     const radialRing = menu.querySelector('.radial-ring');
@@ -358,6 +370,15 @@ document.addEventListener('DOMContentLoaded', () => {
             case 'pattern':
                 togglePattern();
                 break;
+            case 'ambient':
+                toggleAmbient();
+                break;
+            case 'rotate':
+                cycleRotate();
+                break;
+            case 'flip':
+                toggleFlip();
+                break;
             case 'close':
                 closeMenu();
                 break;
@@ -394,6 +415,20 @@ document.addEventListener('DOMContentLoaded', () => {
         patternEnabled = !patternEnabled;
         localStorage.setItem('bgPattern', patternEnabled);
         if (window.PatternRenderer) window.PatternRenderer.setVisible(patternEnabled);
+    }
+
+    function cycleRotate() {
+        const key = `charRotate_${getOrientKey()}`;
+        const current = parseInt(localStorage.getItem(key) || '0');
+        localStorage.setItem(key, (current + 90) % 360);
+        applySettings();
+    }
+
+    function toggleFlip() {
+        const key = `charFlip_${getOrientKey()}`;
+        const current = localStorage.getItem(key) === 'true';
+        localStorage.setItem(key, !current);
+        applySettings();
     }
 
     function toggleAgentList() {
