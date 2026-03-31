@@ -1,4 +1,83 @@
 window.characters = [];
+let loadingComplete = false;
+let loaderTips = null;
+async function initLoader() {
+    try {
+        const response = await fetch('assets/loading/tips.json');
+        loaderTips = await response.json();
+
+        const categoryTitles = {
+            hollow: "Hollow Investigation",
+            city: "City Life",
+            wiki: "New Eridu Wiki",
+            combat: "Combat"
+        };
+
+        const categories = Object.keys(categoryTitles);
+        const randomCat = categories[Math.floor(Math.random() * categories.length)];
+        const tips = loaderTips[randomCat];
+        if (!tips) throw new Error("No tips found for category: " + randomCat);
+
+        const randomTipIndex = Math.floor(Math.random() * tips.length);
+        const randomTip = tips[randomTipIndex];
+
+        const randomWallpaperId = Math.floor(Math.random() * 5) + 1;
+        const wallpaperImg = `assets/loading/wallpaper_${randomWallpaperId}.webp`;
+
+        const tipText = document.getElementById('loader-tip-text');
+        const wallpaperEl = document.getElementById('loader-wallpaper');
+        const iconEl = document.getElementById('loader-mode-icon');
+        const loaderNoEl = document.querySelector('.loader-no');
+        const metaNameEl = document.querySelector('.loader-mode-name');
+
+        if (tipText) tipText.innerText = randomTip;
+        if (wallpaperEl) wallpaperEl.src = wallpaperImg;
+        if (iconEl) iconEl.src = `assets/imgs/svg/icon_${randomCat}.svg`;
+        
+        if (loaderNoEl) {
+            const tipNo = (randomTipIndex + 1).toString().padStart(2, '0');
+            loaderNoEl.innerText = `No.${tipNo}`;
+        }
+        
+        if (metaNameEl) {
+            metaNameEl.innerText = categoryTitles[randomCat].toUpperCase();
+        }
+
+        // Wait for key images to load before showing anything
+        const bangbooEl = document.querySelector('.loader-bangboo-indicator');
+        const promises = [];
+        
+        if (wallpaperEl) promises.push(new Promise(res => { if (wallpaperEl.complete) res(); else wallpaperEl.onload = res; wallpaperEl.onerror = res; }));
+        if (iconEl) promises.push(new Promise(res => { if (iconEl.complete) res(); else iconEl.onload = res; iconEl.onerror = res; }));
+        if (bangbooEl) promises.push(new Promise(res => { if (bangbooEl.complete) res(); else bangbooEl.onload = res; bangbooEl.onerror = res; }));
+
+        await Promise.all(promises);
+        const layout = document.querySelector('.loader-layout');
+        if (layout) layout.classList.add('ready');
+
+    } catch (e) {
+        console.error("Failed to init loader tips", e);
+        // Fallback: show anyway
+        const layout = document.querySelector('.loader-layout');
+        if (layout) layout.classList.add('ready');
+    }
+}
+
+initLoader();
+
+function updateLoading(percent, status) {
+    if (percent >= 100) {
+        setTimeout(() => {
+            const screen = document.getElementById('loading-screen');
+            if (screen) screen.classList.add('fade-out');
+            loadingComplete = true;
+            if (window.loaderInterval) clearInterval(window.loaderInterval);
+        }, 2200);
+    }
+
+}
+
+
 
 let cachedRootFS = null;
 function getRootFS() {
@@ -27,13 +106,19 @@ async function loadCharacters() {
             window.charactersFetch = fetch('assets/characters.json').then(r => r.json());
         }
 
+        updateLoading(30, 'DECRYPTING ARCHIVES...');
         window.characters = await window.charactersFetch;
+        updateLoading(50, 'CALIBRATING SIGNAL...');
 
         const savedChar = localStorage.getItem('selectedCharacter') || "Burnice White";
         const savedVariant = localStorage.getItem('selectedVariant') || "Full";
-        setWallpaper(savedChar, savedVariant);
+
+        setWallpaper(savedChar, savedVariant, false, () => {
+            updateLoading(100, 'SIGNAL ESTABLISHED');
+        });
 
         window.cmykApply('.viewport-bg, .bg-layer, .footer, .ambient-text, .calendar-title, .header-glyphs, .zzz-dashed-svg, .pill-month, #header-year');
+
     } catch (e) {
         console.error("Failed to load characters.json", e);
     }
@@ -58,7 +143,7 @@ window.getCharacterData = function (name) {
 
 let lastTargetImg = null;
 
-window.setWallpaper = function (characterName, variant = 'Default', textOnly = false) {
+window.setWallpaper = function (characterName, variant = 'Default', textOnly = false, onComplete = null) {
     const charData = window.getCharacterData(characterName);
     if (!charData) {
         console.warn("Character data not found for:", characterName);
@@ -119,10 +204,12 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                             mainImg.style.opacity = '1';
                             mainImg.style.transform = '';
                             if (transImg) transImg.style.opacity = '0';
+                            if (onComplete) onComplete();
                         }).catch(() => {
                             mainImg.style.opacity = '1';
                             mainImg.style.transform = '';
                             if (transImg) transImg.style.opacity = '0';
+                            if (onComplete) onComplete();
                         });
                     }
                 });
@@ -133,10 +220,15 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                 mainImg.style.opacity = '1';
                 mainImg.style.transform = '';
                 if (transImg) transImg.style.opacity = '0';
+                if (onComplete) onComplete();
             }
+        };
+        tempImg.onerror = () => {
+            if (onComplete) onComplete();
         };
     } else {
         applyColorsAndText();
+        if (onComplete) onComplete();
     }
 };
 

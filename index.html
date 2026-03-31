@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="css/settings.css">
     <link rel="stylesheet" href="css/ambient.css">
     <link rel="stylesheet" href="css/cmyk_background.css">
+    <link rel="stylesheet" href="css/loading.css">
     <link rel="preload" href="assets/characters.json" as="fetch" crossorigin="anonymous">
     <script>
         window.charactersFetch = fetch('assets/characters.json')
@@ -21,6 +22,30 @@
 </head>
 
 <body>
+    <div id="loading-screen">
+        <div class="loader-layout">
+            <div class="loader-left">
+                <div class="loader-mode-header">
+                    <img id="loader-mode-icon" src="assets/imgs/icons/icon_hollow.webp" alt="">
+                </div>
+                <div class="loader-tips-wrap">
+                    <p id="loader-tip-text"></p>
+                </div>
+                <div class="loader-footer-left">
+                    <div class="loader-metadata-block">
+                        <div class="loader-no">No.01</div>
+                        <div class="loader-mode-name">HOLLOW INVESTIGATION</div>
+                    </div>
+                </div>
+            </div>
+            <div class="loader-right">
+                <img id="loader-wallpaper" src="assets/loading/wallpaper_1.webp" alt="">
+                <div class="loader-footer-right">
+                    <img src="assets/imgs/Bangboo_Net_Loading.webp" class="loader-bangboo-indicator">
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="mobile-header">
         <div class="header-left">
             <h1 class="calendar-title">CALENDAR</h1>

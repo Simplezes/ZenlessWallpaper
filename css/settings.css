@@ -476,7 +476,7 @@
 .header-close-btn {
     width: 9rem;
     height: 6rem;
-    background-image: url("../assets/imgs/close_button.svg");
+    background-image: url("../assets/imgs/svg/close_button.svg");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;

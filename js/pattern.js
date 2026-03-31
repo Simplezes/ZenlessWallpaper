@@ -3,12 +3,14 @@ const PatternRenderer = (() => {
     const ANGLE_RAD = ANGLE_DEG * (Math.PI / 180);
 
     const TILE_VH = 0.3;
+    const TILE_VH_2 = 0.12;
     const GAP_FRAC = 0.08;
     const H_GAP = 0.8;
 
     let canvas = null;
     let ctx = null;
-    let image = null;
+    let image1 = null;
+    let image2 = null;
 
     function init() {
         canvas = document.getElementById('bg-pattern-canvas');
@@ -18,15 +20,25 @@ const PatternRenderer = (() => {
         resize();
         window.addEventListener('resize', () => {
             resize();
-            if (image) draw();
+            if (image1 && image2) draw();
         });
 
-        const img = new Image();
-        img.src = 'assets/imgs/zenless_bangboo.webp';
-        img.onload = () => {
-            image = img;
-            draw();
+        const loadImg = (src) => {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = src;
+                img.onload = () => resolve(img);
+            });
         };
+
+        Promise.all([
+            loadImg('assets/imgs/zenless_bangboo.webp'),
+            loadImg('assets/imgs/zenless_bangboo_middle.webp')
+        ]).then(([img1, img2]) => {
+            image1 = img1;
+            image2 = img2;
+            draw();
+        });
     }
 
     function resize() {
@@ -40,28 +52,42 @@ const PatternRenderer = (() => {
     }
 
     function draw() {
-        if (!ctx || !image) return;
+        if (!ctx || !image1 || !image2) return;
 
         const W = window.innerWidth;
         const H = window.innerHeight;
         ctx.clearRect(0, 0, W, H);
 
-        const tileH = Math.round(H * TILE_VH);
-        const tileW = Math.round(tileH * image.naturalWidth / image.naturalHeight);
-        const colPitch = tileW * (1 + H_GAP);
-        const rowPitch = tileH * (1 + GAP_FRAC);
+        const tileH1 = Math.round(H * TILE_VH);
+        const tileH2 = Math.round(H * TILE_VH_2);
+
+        const tileW1 = Math.round(tileH1 * image1.naturalWidth / image1.naturalHeight);
+        const tileW2 = Math.round(tileH2 * image2.naturalWidth / image2.naturalHeight);
+
+        const colPitch = tileW1 * (1 + H_GAP);
+        const rowPitch = tileH1 * (1 + GAP_FRAC);
         const rowOff = colPitch / 2;
         const extra = Math.max(W, H) * 1.5;
 
+        const drawImage = (img, x, y, tw, th) => {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(ANGLE_RAD);
+            ctx.drawImage(img, -tw / 2, -th / 2, tw, th);
+            ctx.restore();
+        };
+
         let row = 0;
         for (let y = -extra; y < H + extra; y += rowPitch) {
-            const xShift = (row % 2 === 0) ? 0 : rowOff;
-            for (let x = -extra + xShift; x < W + extra; x += colPitch) {
-                ctx.save();
-                ctx.translate(x, y);
-                ctx.rotate(ANGLE_RAD);
-                ctx.drawImage(image, -tileW / 2, -tileH / 2, tileW, tileH);
-                ctx.restore();
+            const isRowEven = (row % 2 === 0);
+            const shift1 = isRowEven ? 0 : rowOff;
+            const shift2 = isRowEven ? rowOff : 0;
+
+            for (let x = -extra + shift1; x < W + extra; x += colPitch) {
+                drawImage(image1, x, y, tileW1, tileH1);
+            }
+            for (let x = -extra + shift2; x < W + extra; x += colPitch) {
+                drawImage(image2, x, y, tileW2, tileH2);
             }
             row++;
         }
