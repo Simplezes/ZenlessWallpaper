@@ -251,16 +251,14 @@ document.addEventListener('DOMContentLoaded', () => {
             track.style.height = heightPercentage + '%';
 
             const scrollPercentage = (wrap.scrollTop / (scrollHeight - containerHeight)) * (100 - heightPercentage);
-            track.style.transform = `translateY(${scrollPercentage}%)`;
+            track.style.top = scrollPercentage + '%';
         }
 
-        // Arrow clicking
         if (icons.length >= 2) {
             icons[0].addEventListener('click', () => wrap.scrollBy({ top: -100, behavior: 'smooth' }));
             icons[1].addEventListener('click', () => wrap.scrollBy({ top: 100, behavior: 'smooth' }));
         }
 
-        // Dragging
         let isDragging = false;
         let startY, startScrollTop;
 
