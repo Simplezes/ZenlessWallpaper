@@ -2,7 +2,8 @@
     position: fixed;
     inset: -5%;
     z-index: -2;
-    background-size: cover;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
     background-position: center;
     opacity: 0;
     transition: opacity 0.8s ease;
@@ -58,8 +59,8 @@
     align-items: center;
     pointer-events: none;
 
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent calc(100% - 13vh));
-    mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent calc(100% - 13vh));
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%);
 
     will-change: transform, filter;
 }

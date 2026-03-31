@@ -112,3 +112,18 @@
 #bg-pattern-canvas.visible {
     opacity: 0.35;
 }
+
+@media screen and (min-aspect-ratio: 2/1) {
+
+    .paper-surface,
+    .halftone-local,
+    .paper-scuffs,
+    .dot-screen {
+        display: none !important;
+        filter: none !important;
+    }
+
+    .viewport-bg {
+        opacity: 0.1 !important;
+    }
+}
