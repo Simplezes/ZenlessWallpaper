@@ -181,16 +181,17 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         tempImg.src = imgPath;
         tempImg.onload = () => {
             const isPortrait = window.innerHeight > window.innerWidth;
+            const isUltrawide = (window.innerWidth / window.innerHeight) > 2.3;
             const outgoingImg = lastTargetImg || mainImg;
             const hasOld = outgoingImg.src && outgoingImg.src.indexOf('webp') !== -1;
 
-            if (isPortrait) {
+            if (isPortrait || isUltrawide) {
                 if (hasOld) {
                     lastTargetImg = tempImg;
                     if (transImg) {
                         transImg.src = imgPath;
                         transImg.style.opacity = '0';
-                        transImg.style.transform = 'translate(-50%, -50%) rotate(90deg) scale(0.95)';
+                        transImg.style.transform = isPortrait ? 'rotate(90deg) scale(0.95)' : 'scale(0.95)';
 
                         transImg.decode().then(() => {
                             const flashEl = document.getElementById('transition-backdrop');

@@ -1,7 +1,6 @@
 :root {
     --accent-color: #FC5B90;
-    /* 1rem = 1rem at 192rem width */
-    font-size: clamp(0.8rem, calc(100vw / 192), 2rem);
+    font-size: clamp(0.6rem, calc(100vh / 108), 2.5rem);
 }
 
 @font-face {
