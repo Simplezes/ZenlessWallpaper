@@ -305,7 +305,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const allAgents = [];
         for (const faction in factions) {
             for (const name in factions[faction]) {
-                const fileName = `Avatar_${name.replace(/\s+/g, '_')}.png`;
+                const fileName = `Avatar_${name.replace(/\s+/g, '_')}.webp`;
                 allAgents.push({ name, img: `assets/avatars/${fileName}` });
             }
         }
@@ -333,8 +333,12 @@ document.addEventListener('DOMContentLoaded', () => {
     agentUseBtn.addEventListener('click', () => {
         currentAgent = selectedAvatarName;
         localStorage.setItem('selectedCharacter', currentAgent);
-        applySettings();
-        toggleAgentList();
+
+        closeMenu(() => {
+            setTimeout(() => {
+                applySettings();
+            }, 1000);
+        });
     });
 
     agentListClose.addEventListener('click', toggleAgentList);
@@ -372,18 +376,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    const closeMenu = () => {
+    const closeMenu = (onComplete) => {
         agentList.classList.remove('active');
         anime({
             targets: menuInner,
             scale: 0.8,
             opacity: 0,
             rotate: 10,
-            duration: 300,
+            duration: 350,
             easing: 'easeInQuad',
             complete: () => {
                 menu.style.display = 'none';
                 overlay.classList.remove('active');
+                if (typeof onComplete === 'function') {
+                    onComplete();
+                }
             }
         });
     };
