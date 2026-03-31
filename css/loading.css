@@ -1,18 +1,33 @@
 #loading-screen {
     position: fixed;
     inset: 0;
-    background: #000;
+    background: transparent;
     z-index: 100000;
     display: flex;
     font-family: 'Zenless', sans-serif;
     color: #fff;
     overflow: hidden;
-    transition: opacity 0.8s cubic-bezier(1, 0, 0, 1), visibility 0.8s;
+    pointer-events: none;
 }
 
 #loading-screen.fade-out {
-    opacity: 0;
+    pointer-events: none;
     visibility: hidden;
+    transition: visibility 0s 0.8s;
+}
+
+#loading-screen .loader-left,
+#loading-screen .loader-right {
+    transition: transform 0.8s cubic-bezier(1, 0, 0, 1);
+    will-change: transform;
+}
+
+#loading-screen.fade-out .loader-left {
+    transform: translateX(-100%);
+}
+
+#loading-screen.fade-out .loader-right {
+    transform: translateX(100%);
 }
 
 .loader-layout {
@@ -38,6 +53,7 @@
     z-index: 5;
     position: relative;
     flex-shrink: 0;
+    transform: translateX(0);
 }
 
 .loader-mode-header {
