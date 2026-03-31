@@ -424,6 +424,14 @@
     --scroll-track: #000;
     --scroll-thumb: #444;
     --scroll-border: #222;
+
+    --z-scrollbar-margin: 0.6rem;
+    --z-scrollbar-size: 0.6rem;
+    --z-scrollbar-icon-size: 1.8rem;
+    --z-scrollbar-color: rgba(255, 255, 255, 0.5);
+    --z-scrollbar-border: 0.3rem solid rgba(255, 255, 255, 0.2);
+    --z-scrollbar-background: rgba(0, 0, 0, 0.5);
+    --z-round-border-radius: 999.9rem;
 }
 
 /* Agent List (Refined Edit Avatar Window) */
@@ -466,7 +474,7 @@
 }
 
 .header-title {
-    font-family: 'Rajdhani';
+    font-family: 'Zenless';
     font-size: 3rem;
     font-weight: 950;
     letter-spacing: -0.1rem;
@@ -507,55 +515,24 @@
 
 .agent-inner-panel {
     background-color: var(--inner-wall);
-    margin: 0 2.5rem;
-    padding: 2.5rem 1.2rem 7rem 2.5rem;
-    border-radius: 3.5rem;
-    height: 38rem;
-    overflow-y: auto;
+    padding: 2.5rem 2.5rem 7rem 2.5rem;
+    border-radius: 1.5rem;
+    height: 100%;
+    overflow-y: scroll;
     overflow-x: hidden;
     box-sizing: border-box;
     cursor: grab;
     user-select: none;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.agent-inner-panel::-webkit-scrollbar {
+    display: none;
 }
 
 .agent-inner-panel.grabbing {
     cursor: grabbing;
-}
-
-.agent-inner-panel::-webkit-scrollbar {
-    width: 1.4rem;
-}
-
-.agent-inner-panel::-webkit-scrollbar-track {
-    background: var(--scroll-track);
-    border: 0.1rem solid var(--scroll-border);
-    border-radius: 1rem;
-    margin: 0.5rem 0;
-}
-
-.agent-inner-panel::-webkit-scrollbar-thumb {
-    background: var(--scroll-thumb);
-    border: 0.3rem solid var(--scroll-track);
-    border-radius: 1rem;
-}
-
-.agent-inner-panel::-webkit-scrollbar-button:single-button {
-    background-color: var(--scroll-track);
-    display: block;
-    height: 1.5rem;
-    width: 1.4rem;
-}
-
-.agent-inner-panel::-webkit-scrollbar-button:single-button:vertical:decrement {
-    border-width: 0 0.4rem 0.5rem 0.4rem;
-    border-style: solid;
-    border-color: transparent transparent #666 transparent;
-}
-
-.agent-inner-panel::-webkit-scrollbar-button:single-button:vertical:increment {
-    border-width: 0.5rem 0.4rem 0 0.4rem;
-    border-style: solid;
-    border-color: #666 transparent transparent transparent;
 }
 
 .agent-avatar-grid {
@@ -722,4 +699,83 @@
     font-size: 1.2rem;
     letter-spacing: 0.2rem;
     text-transform: uppercase;
+}
+
+/* Z-SCROLLBAR CORE STYLES */
+.z-scrollbar {
+    position: relative;
+    display: flex;
+    box-sizing: border-box;
+    margin: 0 2.5rem;
+    height: 38rem;
+}
+
+.z-scrollbar__wrap {
+    flex: 1;
+    overflow: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.z-scrollbar__wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.z-scrollbar__view {
+    width: 100%;
+    min-height: 100%;
+    padding-right: 3.5rem;
+    box-sizing: border-box;
+}
+
+.z-scrollbar__bar {
+    position: absolute;
+    z-index: 10;
+    right: var(--z-scrollbar-margin);
+    top: var(--z-scrollbar-margin);
+    bottom: var(--z-scrollbar-margin);
+    border-radius: var(--z-round-border-radius);
+    background: var(--z-scrollbar-background);
+    border: var(--z-scrollbar-border);
+    color: var(--z-scrollbar-color);
+    display: flex;
+    align-items: center;
+    font-size: var(--z-scrollbar-icon-size);
+}
+
+.z-scrollbar__vertical {
+    flex-direction: column;
+    width: auto;
+}
+
+.z-scrollbar__thumb {
+    flex: 1;
+    position: relative;
+    width: var(--z-scrollbar-size);
+    min-height: 3rem;
+    margin: 0.4rem 0;
+}
+
+.z-scrollbar__track {
+    width: var(--z-scrollbar-size);
+    background: currentColor;
+    border-radius: var(--z-scrollbar-size);
+    position: absolute;
+    left: 0;
+    right: 0;
+    transition: transform 0.1s linear;
+}
+
+.z-icon {
+    width: 1em;
+    height: 1em;
+    fill: currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.z-icon svg {
+    width: 100%;
+    height: 100%;
 }

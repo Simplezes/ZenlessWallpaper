@@ -1,25 +1,23 @@
 window.characters = [];
 let loadingComplete = false;
 let loaderTips = null;
+
 async function initLoader() {
     try {
         const response = await fetch('assets/loading/tips.json');
         loaderTips = await response.json();
 
-        const categoryTitles = {
-            hollow: "Hollow Investigation",
-            city: "City Life",
-            wiki: "New Eridu Wiki",
-            combat: "Combat"
-        };
+        const categories = Object.keys(loaderTips).filter(cat => {
+            return loaderTips[cat].lines && Object.keys(loaderTips[cat].lines).length > 0;
+        });
 
-        const categories = Object.keys(categoryTitles);
+        if (categories.length === 0) throw new Error("No categories with tips found");
+
         const randomCat = categories[Math.floor(Math.random() * categories.length)];
-        const tips = loaderTips[randomCat];
-        if (!tips) throw new Error("No tips found for category: " + randomCat);
-
-        const randomTipIndex = Math.floor(Math.random() * tips.length);
-        const randomTip = tips[randomTipIndex];
+        const categoryData = loaderTips[randomCat];
+        const tipKeys = Object.keys(categoryData.lines);
+        const randomTipKey = tipKeys[Math.floor(Math.random() * tipKeys.length)];
+        const randomTip = categoryData.lines[randomTipKey];
 
         const randomWallpaperId = Math.floor(Math.random() * 5) + 1;
         const wallpaperImg = `assets/loading/wallpaper_${randomWallpaperId}.webp`;
@@ -32,21 +30,21 @@ async function initLoader() {
 
         if (tipText) tipText.innerText = randomTip;
         if (wallpaperEl) wallpaperEl.src = wallpaperImg;
-        if (iconEl) iconEl.src = `assets/imgs/svg/icon_${randomCat}.svg`;
-        
+
+        const iconName = randomCat.split('_')[0];
+        if (iconEl) iconEl.src = `assets/imgs/svg/icon_${iconName}.svg`;
+
         if (loaderNoEl) {
-            const tipNo = (randomTipIndex + 1).toString().padStart(2, '0');
-            loaderNoEl.innerText = `No.${tipNo}`;
-        }
-        
-        if (metaNameEl) {
-            metaNameEl.innerText = categoryTitles[randomCat].toUpperCase();
+            loaderNoEl.innerText = `No.${randomTipKey}`;
         }
 
-        // Wait for key images to load before showing anything
+        if (metaNameEl) {
+            metaNameEl.innerText = categoryData.title.toUpperCase();
+        }
+
         const bangbooEl = document.querySelector('.loader-bangboo-indicator');
         const promises = [];
-        
+
         if (wallpaperEl) promises.push(new Promise(res => { if (wallpaperEl.complete) res(); else wallpaperEl.onload = res; wallpaperEl.onerror = res; }));
         if (iconEl) promises.push(new Promise(res => { if (iconEl.complete) res(); else iconEl.onload = res; iconEl.onerror = res; }));
         if (bangbooEl) promises.push(new Promise(res => { if (bangbooEl.complete) res(); else bangbooEl.onload = res; bangbooEl.onerror = res; }));
@@ -57,7 +55,6 @@ async function initLoader() {
 
     } catch (e) {
         console.error("Failed to init loader tips", e);
-        // Fallback: show anyway
         const layout = document.querySelector('.loader-layout');
         if (layout) layout.classList.add('ready');
     }
@@ -72,7 +69,7 @@ function updateLoading(percent, status) {
             if (screen) screen.classList.add('fade-out');
             loadingComplete = true;
             if (window.loaderInterval) clearInterval(window.loaderInterval);
-        }, 2200);
+        }, 2500);
     }
 
 }

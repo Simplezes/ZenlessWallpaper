@@ -55,9 +55,24 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
 
             <div class="agent-main-container">
-                <div class="agent-inner-panel">
-                    <div class="agent-avatar-grid" id="agent-grid">
-                        <!-- Avatars -->
+                <div class="z-scrollbar" id="agent-scrollbar">
+                    <div class="z-scrollbar__wrap agent-inner-panel">
+                        <div class="z-scrollbar__view">
+                            <div class="agent-avatar-grid" id="agent-grid">
+                                <!-- Avatars -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="z-scrollbar__bar z-scrollbar__vertical">
+                        <div class="z-icon">
+                            <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5z" fill="currentColor"/></svg>
+                        </div>
+                        <div class="z-scrollbar__thumb">
+                            <div class="z-scrollbar__track"></div>
+                        </div>
+                        <div class="z-icon">
+                            <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z" fill="currentColor"/></svg>
+                        </div>
                     </div>
                 </div>
 
@@ -213,6 +228,73 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         setupDragScroll();
+        initZScrollbar(document.getElementById('agent-scrollbar'));
+    }
+
+    function initZScrollbar(el) {
+        if (!el) return;
+        const wrap = el.querySelector('.z-scrollbar__wrap');
+        const track = el.querySelector('.z-scrollbar__track');
+        const thumbContainer = el.querySelector('.z-scrollbar__thumb');
+        const icons = el.querySelectorAll('.z-icon');
+
+        function update() {
+            if (!wrap || !track) return;
+            const containerHeight = wrap.clientHeight;
+            const scrollHeight = wrap.scrollHeight;
+            if (scrollHeight <= containerHeight) {
+                track.style.display = 'none';
+                return;
+            }
+            track.style.display = 'block';
+
+            const heightPercentage = Math.max(10, (containerHeight / scrollHeight) * 100);
+            track.style.height = heightPercentage + '%';
+
+            const scrollPercentage = (wrap.scrollTop / (scrollHeight - containerHeight)) * (100 - heightPercentage);
+            track.style.transform = `translateY(${scrollPercentage}%)`;
+        }
+
+        // Arrow clicking
+        if (icons.length >= 2) {
+            icons[0].addEventListener('click', () => wrap.scrollBy({ top: -100, behavior: 'smooth' }));
+            icons[1].addEventListener('click', () => wrap.scrollBy({ top: 100, behavior: 'smooth' }));
+        }
+
+        // Dragging
+        let isDragging = false;
+        let startY, startScrollTop;
+
+        track.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startY = e.pageY;
+            startScrollTop = wrap.scrollTop;
+            document.body.classList.add('grabbing');
+            e.preventDefault();
+        });
+
+        window.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+            const deltaY = e.pageY - startY;
+            const scrollHeight = wrap.scrollHeight;
+            const containerHeight = wrap.clientHeight;
+            const ratio = scrollHeight / containerHeight;
+            wrap.scrollTop = startScrollTop + deltaY * ratio;
+        });
+
+        window.addEventListener('mouseup', () => {
+            isDragging = false;
+            document.body.classList.remove('grabbing');
+        });
+
+        wrap.addEventListener('scroll', update);
+        window.addEventListener('resize', update);
+        el.addEventListener('mouseenter', update);
+
+        const observer = new MutationObserver(update);
+        observer.observe(wrap, { childList: true, subtree: true });
+
+        setTimeout(update, 100);
     }
 
     function setupDragScroll() {
