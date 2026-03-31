@@ -286,17 +286,17 @@
 }
 
 .notch-main {
-    width: 0.2vh;
-    height: 0.5vh;
-    margin-top: -0.25vh;
-    margin-left: -0.1vh;
+    width: 0.15vh;
+    height: 0.4vh;
+    margin-top: -0.2vh;
+    margin-left: -0.075vh;
 }
 
 .notch-hour {
-    width: 0.1vh;
-    height: 0.3vh;
-    margin-top: -0.15vh;
-    margin-left: -0.05vh;
+    width: 0.08vh;
+    height: 0.2vh;
+    margin-top: -0.1vh;
+    margin-left: -0.04vh;
 }
 
 .n12 {
