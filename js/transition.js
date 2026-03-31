@@ -3,7 +3,7 @@
 
     const CFG = {
         slashAngle: -40,
-        duration: 2000,
+        duration: 830,
         easing: easeInOutQuart,
         edgeWidth: 250,
         trailWidth: 420,
@@ -68,19 +68,24 @@
 
         canvas._simW = w;
         canvas._simH = h;
+        canvas._isPortrait = h > w;
 
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function drawImgFit(img, W, H) {
+    function drawImgFit(img, W, H, isPortrait = false) {
         if (!img || !img.naturalWidth || !img.naturalHeight) return;
 
         const aspect = img.naturalWidth / img.naturalHeight;
-        const drawH = H;
+        
+        // In portrait mode (rotated), 100vh (height: 100vh) corresponds to the LONG edge (W in logical space)
+        // In landscape, 100vh corresponds to the short edge (H).
+        const drawH = isPortrait ? W : H;
         const drawW = drawH * aspect;
         const drawX = (W - drawW) / 2;
+        const drawY = (H - drawH) / 2;
 
-        ctx.drawImage(img, drawX, 0, drawW, drawH);
+        ctx.drawImage(img, drawX, drawY, drawW, drawH);
     }
 
     function actionLineX(p, W, H) {
@@ -138,7 +143,11 @@
         const globalTopX = rect.left + tL.x;
         const globalBottomX = rect.left + bL.x;
 
-        const clip = `polygon(${globalTopX}px 0, 100vw 0, 100vw 100vh, ${globalBottomX}px 100vh)`;
+        let clip = `polygon(${globalTopX}px 0, 100vw 0, 100vw 100vh, ${globalBottomX}px 100vh)`;
+
+        if (canvas && canvas._isPortrait) {
+            clip = `polygon(0 ${globalTopX}px, 100vw ${globalBottomX}px, 100vw 100vh, 0 100vh)`;
+        }
 
         bgOverlay.style.clipPath = clip;
 
@@ -149,48 +158,64 @@
     }
 
     function drawFrame(oldImg, newImg, progress, accent, oldBgColor) {
-        const W = canvas.width / (window.devicePixelRatio || 1);
-        const H = canvas.height / (window.devicePixelRatio || 1);
+        const dpr = (window.devicePixelRatio || 1);
+        const W = canvas.width / dpr;
+        const H = canvas.height / dpr;
 
         ctx.clearRect(0, 0, W, H);
+        ctx.save();
 
-        const cx = actionLineX(progress, W, H);
+        let useW = W;
+        let useH = H;
+        const portrait = canvas._isPortrait;
+
+        if (portrait) {
+            ctx.translate(W / 2, H / 2);
+            ctx.rotate(Math.PI / 2);
+            ctx.translate(-H / 2, -W / 2);
+            useW = H;
+            useH = W;
+        }
+
+        const cx = actionLineX(progress, useW, useH);
 
         if (progress > 0) {
-            const [tL, bL] = linePair(cx, 0, H);
+            const [tL, bL] = linePair(cx, 0, useH);
 
             ctx.save();
             ctx.beginPath();
             ctx.moveTo(0, 0);
             ctx.lineTo(tL.x, tL.y);
             ctx.lineTo(bL.x, bL.y);
-            ctx.lineTo(0, H);
+            ctx.lineTo(0, useH);
             ctx.closePath();
             ctx.clip();
-            drawImgFit(newImg, W, H);
+            drawImgFit(newImg, useW, useH, portrait);
             ctx.restore();
         }
 
         if (progress < 1) {
-            const [tR, bR] = linePair(cx, 0, H);
+            const [tR, bR] = linePair(cx, 0, useH);
 
             ctx.save();
             ctx.beginPath();
             ctx.moveTo(tR.x, tR.y);
-            ctx.lineTo(W, 0);
-            ctx.lineTo(W, H);
+            ctx.lineTo(useW, 0);
+            ctx.lineTo(useW, useH);
             ctx.lineTo(bR.x, bR.y);
             ctx.closePath();
             ctx.clip();
-            drawImgFit(oldImg, W, H);
+            drawImgFit(oldImg, useW, useH, portrait);
             ctx.restore();
         }
 
-        syncWipes(progress, W, H, cx, oldBgColor);
-
         if (progress > 0 && progress < 1) {
-            drawSlashFX(cx, H, accent);
+            drawSlashFX(cx, useH, accent);
         }
+
+        ctx.restore();
+
+        syncWipes(progress, useW, useH, cx, oldBgColor);
     }
 
     function drawSlashFX(cx, H, accent) {

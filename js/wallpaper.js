@@ -29,7 +29,7 @@ async function loadCharacters() {
 
         window.characters = await window.charactersFetch;
 
-        const savedChar = localStorage.getItem('selectedCharacter') || "Ellen Joe";
+        const savedChar = localStorage.getItem('selectedCharacter') || "Burnice White";
         const savedVariant = localStorage.getItem('selectedVariant') || "Full";
         setWallpaper(savedChar, savedVariant);
 
@@ -117,11 +117,11 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                         mainImg.src = imgPath;
                         return mainImg.decode().then(() => {
                             mainImg.style.opacity = '1';
-                            mainImg.style.transform = 'none';
+                            mainImg.style.transform = '';
                             if (transImg) transImg.style.opacity = '0';
                         }).catch(() => {
                             mainImg.style.opacity = '1';
-                            mainImg.style.transform = 'none';
+                            mainImg.style.transform = '';
                             if (transImg) transImg.style.opacity = '0';
                         });
                     }
@@ -131,7 +131,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                 applyColorsAndText();
                 mainImg.src = imgPath;
                 mainImg.style.opacity = '1';
-                mainImg.style.transform = 'none';
+                mainImg.style.transform = '';
                 if (transImg) transImg.style.opacity = '0';
             }
         };
