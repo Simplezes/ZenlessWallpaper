@@ -86,12 +86,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const MENU_ITEMS = [
         { id: 'agents', label: 'AGENTS', img: 'assets/imgs/icons/Icon_Agents.webp', angle: 0 },
-        { id: 'variant', label: 'VARIANT', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 45 },
-        { id: 'footer', label: 'STYLE', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 90 },
-        { id: 'kinetic', label: 'KINETIC', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 135 },
+        { id: 'variant', label: 'MODE', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 45 },
+        { id: 'footer', label: 'THEME', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 90 },
+        { id: 'kinetic', label: 'MOTION', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 135 },
         { id: 'close', label: 'CLOSE', icon: ICONS.close, angle: 180 },
         { id: 'pattern', label: 'PATTERN', img: 'assets/imgs/icons/Icon_DMs.webp', angle: 225 },
-        { id: 'ambient', label: 'AMBIENT', img: 'assets/imgs/icons/Icon_More.webp', angle: 270 },
+        { id: 'ambient', label: 'EFFECTS', img: 'assets/imgs/icons/Icon_More.webp', angle: 270 },
         { id: 'plus', label: 'EMPTY', icon: ICONS.plus, angle: 315 },
     ];
 
@@ -116,12 +116,29 @@ document.addEventListener('DOMContentLoaded', () => {
         itemsOverlay.innerHTML = '';
         hubRouletteText.innerHTML = '';
 
+        // Add shared SVG filter for feathered edges
+        const filterDef = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        filterDef.style.position = "absolute";
+        filterDef.style.width = "0";
+        filterDef.style.height = "0";
+        filterDef.innerHTML = `
+            <defs>
+                <filter id="feather-filter" x="-20%" y="-20%" width="140%" height="140%">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" />
+                </filter>
+            </defs>
+        `;
+        segmentsContainer.appendChild(filterDef);
+
         MENU_ITEMS.forEach((item, i) => {
-            const segment = document.createElement('div');
-            segment.className = 'segment-html';
+            const segment = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            segment.setAttribute("viewBox", "0 0 480 480");
+            segment.classList.add('segment-svg');
             segment.style.setProperty('--seg-angle', `${item.angle}deg`);
             segment.setAttribute('data-id', item.id);
             segment.setAttribute('data-index', i);
+
+            segment.innerHTML = `<path class="segment-path" d="M 165.3 26.2 A 226.5 226.5 0 0 1 314.7 26.2 L 273.9 142.8 A 103 103 0 0 0 206.1 142.8 Z" />`;
             segmentsContainer.appendChild(segment);
 
             const overlayItem = document.createElement('div');
@@ -139,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         segmentsContainer.addEventListener('mouseover', (e) => {
-            const segment = e.target.closest('.segment-html');
+            const segment = e.target.closest('.segment-svg');
             if (!segment) return;
 
             const id = segment.getAttribute('data-id');
@@ -156,7 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         segmentsContainer.addEventListener('mouseout', (e) => {
-            const segment = e.target.closest('.segment-html');
+            const segment = e.target.closest('.segment-svg');
             if (!segment) return;
 
             const id = segment.getAttribute('data-id');
@@ -171,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         segmentsContainer.addEventListener('click', (e) => {
-            const segment = e.target.closest('.segment-html');
+            const segment = e.target.closest('.segment-svg');
             if (!segment) return;
             e.stopPropagation();
             handleItemClick(segment.getAttribute('data-id'));
