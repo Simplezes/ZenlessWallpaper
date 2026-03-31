@@ -1,5 +1,5 @@
 :root {
-    --sz: 3px;
+    --sz: 0.3rem;
     --r-c: 0%;
     --r-m: 0%;
     --r-y: 0%;
@@ -62,25 +62,25 @@
 }
 
 .screen-c {
-    transform: rotate(15deg) translate(0.5px, 0.5px);
+    transform: rotate(15deg) translate(0.05rem, 0.05rem);
     background-image: radial-gradient(circle, #00aeef var(--r-c), transparent calc(var(--r-c) + 15%));
     background-size: var(--sz) var(--sz);
 }
 
 .screen-m {
-    transform: rotate(75deg) translate(-0.8px, 0.3px);
+    transform: rotate(75deg) translate(-0.08rem, 0.03rem);
     background-image: radial-gradient(circle, #e6007e var(--r-m), transparent calc(var(--r-m) + 15%));
     background-size: var(--sz) var(--sz);
 }
 
 .screen-y {
-    transform: rotate(0deg) translate(0.2px, -0.6px);
+    transform: rotate(0deg) translate(0.02rem, -0.06rem);
     background-image: radial-gradient(circle, #fff100 var(--r-y), transparent calc(var(--r-y) + 15%));
     background-size: var(--sz) var(--sz);
 }
 
 .screen-k {
-    transform: rotate(45deg) translate(1px, -1px);
+    transform: rotate(45deg) translate(0.1rem, -0.1rem);
     background-image: radial-gradient(circle, #231815 var(--r-k), transparent calc(var(--r-k) + 15%));
     background-size: var(--sz) var(--sz);
 }

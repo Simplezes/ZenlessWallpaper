@@ -1,15 +1,15 @@
 .zzz-pill {
     position: absolute;
     background: rgba(0, 0, 0, 0.75);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50px;
-    height: 38px;
+    backdrop-filter: blur(1rem);
+    border: 0.1rem solid rgba(255, 255, 255, 0.1);
+    border-radius: 5rem;
+    height: 3.8rem;
     display: flex;
     align-items: center;
-    padding: 0 5px;
+    padding: 0 0.5rem;
     color: #fff;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 0.4rem 1.5rem rgba(0, 0, 0, 0.3);
     z-index: 100;
     transition: all 0.3s ease;
 }
@@ -20,27 +20,27 @@
 }
 
 .zzz-pill-btn {
-    width: 28px;
-    height: 28px;
+    width: 2.8rem;
+    height: 2.8rem;
     background: #00f0ff;
     border-radius: 50%;
-    margin-right: 12px;
+    margin-right: 1.2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #000;
-    font-size: 16px;
+    font-size: 1.6rem;
     font-weight: 900;
 }
 
 .zzz-pill-content {
     display: flex;
     flex-direction: column;
-    margin-right: 20px;
+    margin-right: 2rem;
 }
 
 .zzz-pill-label {
-    font-size: 7px;
+    font-size: 0.7rem;
     color: #888;
     font-weight: 900;
     letter-spacing: 0.1em;
@@ -48,7 +48,7 @@
 }
 
 .zzz-pill-value {
-    font-size: 12px;
+    font-size: 1.2rem;
     font-weight: 800;
     text-transform: uppercase;
     color: #fff;
@@ -56,22 +56,22 @@
 
 .zzz-card-mini {
     position: absolute;
-    width: 180px;
+    width: 18rem;
     background: rgba(20, 20, 22, 0.9);
-    border-radius: 12px;
+    border-radius: 1.2rem;
     overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 0.1rem solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.5);
     z-index: 90;
     transition: transform 0.3s ease;
 }
 
 .zzz-card-mini:hover {
-    transform: translateY(-5px);
+    transform: translateY(-0.5rem);
 }
 
 .zzz-card-header {
-    height: 90px;
+    height: 9rem;
     background-color: #1a1a1c;
     background-size: cover;
     background-position: center;
@@ -80,47 +80,47 @@
 
 .zzz-card-stats {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 1rem;
+    left: 1rem;
     background: rgba(0, 0, 0, 0.6);
-    padding: 3px 10px;
-    border-radius: 10px;
-    font-size: 10px;
+    padding: 0.3rem 1rem;
+    border-radius: 1rem;
+    font-size: 1rem;
     font-weight: 900;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 0.6rem;
 }
 
 .zzz-card-eye {
     color: #888;
-    margin-right: 2px;
+    margin-right: 0.2rem;
 }
 
 .zzz-card-body {
-    padding: 12px;
+    padding: 1.2rem;
 }
 
 .zzz-card-tag {
-    font-size: 8px;
+    font-size: 0.8rem;
     color: var(--accent-color);
     font-weight: 900;
-    margin-bottom: 4px;
+    margin-bottom: 0.4rem;
     letter-spacing: 0.05em;
 }
 
 .zzz-card-title {
-    font-size: 13px;
+    font-size: 1.3rem;
     font-weight: 900;
     color: #fff;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     line-height: 1.2;
 }
 
 .zzz-card-meter-bg {
-    height: 4px;
+    height: 0.4rem;
     background: #2a2a2c;
-    border-radius: 2px;
+    border-radius: 0.2rem;
     overflow: hidden;
 }
 
@@ -133,30 +133,30 @@
 
 .zzz-resources {
     position: absolute;
-    top: 30px;
-    right: 30px;
+    top: 3rem;
+    right: 3rem;
     display: flex;
-    gap: 15px;
+    gap: 1.5rem;
     z-index: 100;
 }
 
 .zzz-res-item {
     background: rgba(0, 0, 0, 0.7);
-    padding: 4px 12px;
-    border-radius: 20px;
+    padding: 0.4rem 1.2rem;
+    border-radius: 2rem;
     display: flex;
     align-items: center;
-    gap: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    gap: 0.8rem;
+    border: 0.1rem solid rgba(255, 255, 255, 0.1);
 }
 
 .zzz-res-icon {
-    width: 16px;
-    height: 16px;
+    width: 1.6rem;
+    height: 1.6rem;
 }
 
 .zzz-res-val {
-    font-size: 12px;
+    font-size: 1.2rem;
     font-weight: 900;
     color: #fff;
 }

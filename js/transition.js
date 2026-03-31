@@ -23,6 +23,11 @@
     let raf = null;
     let active = false;
 
+    function getScale() {
+        // Design was for 1920w (where root font size is 10px)
+        return parseFloat(getComputedStyle(document.documentElement).fontSize) / 10;
+    }
+
     function ensureCanvas() {
         if (canvas) return;
 
@@ -176,8 +181,9 @@
     }
 
     function drawSlashFX(cx, H, accent) {
-        drawDiagonalBand(cx, 0, CFG.edgeWidth, H, accent);
-        drawDiagonalBand(cx - CFG.trailOffset, 0, CFG.trailWidth, H, CFG.trailColor);
+        const s = getScale();
+        drawDiagonalBand(cx, 0, CFG.edgeWidth * s, H, accent);
+        drawDiagonalBand(cx - (CFG.trailOffset * s), 0, CFG.trailWidth * s, H, CFG.trailColor);
     }
 
     function drawDiagonalBand(cx, ox, w, H, color) {

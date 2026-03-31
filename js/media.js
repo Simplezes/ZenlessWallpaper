@@ -53,7 +53,7 @@ function updateScrolling(el) {
         const wrap = el.parentElement;
         if (wrap && el.scrollWidth > wrap.offsetWidth) {
             const dist = el.scrollWidth - wrap.offsetWidth;
-            el.style.setProperty('--scroll-dist', `-${dist}px`);
+            el.style.setProperty('--scroll-dist', `-${window.pxToCurrentRem(dist)}`);
             el.classList.add('scrolling');
             const duration = Math.max(5, dist / 30 + 4);
             el.style.animationDuration = `${duration}s`;
@@ -98,13 +98,13 @@ window.wallpaperRegisterAudioListener(function (audioData) {
         let rightVal = audioData[index + 64];
         let val = (leftVal + rightVal) / 2;
 
-        let sensitivity = 3.5;
+        let sensitivity = 4.3;
         let normalized = (val * sensitivity) / visualizerPeak;
 
         normalized = Math.min(Math.max(normalized, 0), 1);
 
         let height = 2 + (normalized * 28);
-        bars[i].style.height = `${height}px`;
+        bars[i].style.height = window.rem(height);
     }
 });
 
