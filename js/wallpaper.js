@@ -56,6 +56,8 @@ window.getCharacterData = function (name) {
     return null;
 }
 
+let lastTargetImg = null;
+
 window.setWallpaper = function (characterName, variant = 'Default', textOnly = false) {
     const charData = window.getCharacterData(characterName);
     if (!charData) {
@@ -64,14 +66,12 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
     }
 
     const backdrop = document.getElementById('backdrop');
-    const transBackdrop = document.getElementById('transition-backdrop');
     const mainImg = document.getElementById('main-image');
     const transImg = document.getElementById('transition-image');
     const factionText = document.getElementById('faction-text');
     const nicknameText = document.getElementById('nickname-text');
 
     if (!backdrop || !mainImg) return;
-
 
     const baseColor = charData.baseColor;
     const oldBgColor = document.body.style.backgroundColor || getComputedStyle(document.body).backgroundColor;
@@ -91,16 +91,19 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         updateText(factionText, charData.faction, baseColor, -30, factionOpacity, textGlow);
         updateText(nicknameText, charData.name, baseColor, 30, nicknameOpacity, textGlow);
         localStorage.setItem('selectedCharacter', charData.name);
+        localStorage.setItem('selectedVariant', variant);
     };
 
     if (!textOnly) {
         const tempImg = new Image();
         tempImg.src = imgPath;
         tempImg.onload = () => {
-            const hasOld = mainImg.src && mainImg.src.indexOf('webp') !== -1;
+            const outgoingImg = lastTargetImg || mainImg;
+            const hasOld = outgoingImg.src && outgoingImg.src.indexOf('webp') !== -1;
 
             if (hasOld) {
-                window.MangaWipe.run(mainImg, tempImg, {
+                lastTargetImg = tempImg;
+                window.MangaWipe.run(outgoingImg, tempImg, {
                     accent: charData.baseColor || '#FC5B90',
                     oldBgColor: oldBgColor,
                     oldAccent: oldAccent,
@@ -119,6 +122,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     }
                 });
             } else {
+                lastTargetImg = tempImg;
                 applyColorsAndText();
                 mainImg.src = imgPath;
                 mainImg.style.opacity = '1';
