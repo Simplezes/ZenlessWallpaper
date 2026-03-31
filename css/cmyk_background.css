@@ -98,7 +98,7 @@
 #bg-pattern-canvas {
     position: fixed;
     inset: 0;
-    z-index: -9;
+    z-index: 2;
     pointer-events: none;
 
     mix-blend-mode: multiply;
