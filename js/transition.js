@@ -24,7 +24,6 @@
     let active = false;
 
     function getScale() {
-        // Design was for 1920w (where root font size is 10px)
         return parseFloat(getComputedStyle(document.documentElement).fontSize) / 10;
     }
 
