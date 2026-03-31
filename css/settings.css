@@ -65,9 +65,7 @@
     background: rgba(15, 15, 15, 0.85);
     clip-path: polygon(50% 50%, 30.3% 0, 69.7% 0);
     -webkit-mask:
-        /* Radial softness (Inner: 94-100, Outer: 232-238) */
         radial-gradient(circle, transparent 92px, black 105px, black 225px, transparent 238px),
-        /* Angular softness (Fading at side cuts) */
         conic-gradient(from 337.5deg, transparent 0deg, black 2deg, black 43deg, transparent 45deg);
     -webkit-mask-composite: source-in;
     mask-composite: intersect;
@@ -135,7 +133,6 @@
 .radial-dynamic-label {
     position: absolute;
     top: -10px;
-    /* Positioned above the 480px ring */
     left: 50%;
     transform: translateX(-50%) scale(0.9);
     color: #fff;
@@ -191,11 +188,9 @@
     content: '';
     position: absolute;
     inset: -8px;
-    /* Fits exactly in the 8px expanded shadow track */
     background: #F7FF00;
     border-radius: 50%;
     box-shadow: 0 0 25px rgba(247, 255, 0, 0.9);
-    /* Advanced CSS Mask for Curved Pill with Rounded Ends */
     -webkit-mask:
         conic-gradient(from 335deg, black 50deg, transparent 50deg),
         radial-gradient(circle at 50% 50%, transparent 80px, black 80.5px, black 88px, transparent 88.5px),
@@ -206,7 +201,6 @@
     mask-composite: intersect, add, add;
 }
 
-/* The tactical pointer on top of the curved bar */
 .hub-selection-indicator::before {
     content: '';
     position: absolute;
@@ -469,13 +463,11 @@
 .header-close-btn {
     width: 90px;
     height: 60px;
-    /* Remove background-color and mask properties */
     background-image: url("../assets/imgs/close_button.svg");
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
 
-    /* Keep layout and interaction properties */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -517,7 +509,6 @@
     cursor: grabbing;
 }
 
-/* CUSTOM SCROLLBAR WITH BUTTONS */
 .agent-inner-panel::-webkit-scrollbar {
     width: 14px;
 }
@@ -581,7 +572,6 @@
     border: 5px solid var(--select-yellow);
 }
 
-/* THE PRECISE ACTIVE STATE */
 .agent-avatar-item.active {
     background: #000;
 }
@@ -593,7 +583,6 @@
     left: 0;
     width: 100%;
     height: 25px;
-    /* Height of the black floor */
     background: #000;
     z-index: 5;
 }

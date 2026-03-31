@@ -95,7 +95,6 @@
     mix-blend-mode: screen;
 }
 
-/* ── ZZZ Repeating Pattern Overlay ────────────────────────── */
 #bg-pattern-canvas {
     position: fixed;
     inset: 0;
