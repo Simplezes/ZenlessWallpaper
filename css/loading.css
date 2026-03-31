@@ -4,7 +4,7 @@
     background: transparent;
     z-index: 100000;
     display: flex;
-    font-family: 'Zenless', sans-serif;
+    font-family: 'Zenless';
     color: #fff;
     overflow: hidden;
     pointer-events: none;
