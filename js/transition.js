@@ -73,12 +73,12 @@
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function drawImgFit(img, W, H, isPortrait = false) {
+    function drawImgFit(img, W, H) {
         if (!img || !img.naturalWidth || !img.naturalHeight) return;
 
         const aspect = img.naturalWidth / img.naturalHeight;
 
-        const drawH = isPortrait ? W : H;
+        const drawH = H;
         const drawW = drawH * aspect;
         const drawX = (W - drawW) / 2;
         const drawY = (H - drawH) / 2;
@@ -141,11 +141,7 @@
         const globalTopX = rect.left + tL.x;
         const globalBottomX = rect.left + bL.x;
 
-        let clip = `polygon(${globalTopX}px 0, 100vw 0, 100vw 100vh, ${globalBottomX}px 100vh)`;
-
-        if (canvas && canvas._isPortrait) {
-            clip = `polygon(0 ${globalTopX}px, 100vw ${globalBottomX}px, 100vw 100vh, 0 100vh)`;
-        }
+        const clip = `polygon(${globalTopX}px 0, 100vw 0, 100vw 100vh, ${globalBottomX}px 100vh)`;
 
         bgOverlay.style.clipPath = clip;
 
@@ -167,14 +163,6 @@
         let useH = H;
         const portrait = canvas._isPortrait;
 
-        if (portrait) {
-            ctx.translate(W / 2, H / 2);
-            ctx.rotate(Math.PI / 2);
-            ctx.translate(-H / 2, -W / 2);
-            useW = H;
-            useH = W;
-        }
-
         const cx = actionLineX(progress, useW, useH);
 
         if (progress > 0) {
@@ -188,7 +176,7 @@
             ctx.lineTo(0, useH);
             ctx.closePath();
             ctx.clip();
-            drawImgFit(newImg, useW, useH, portrait);
+            drawImgFit(newImg, useW, useH);
             ctx.restore();
         }
 
@@ -203,7 +191,7 @@
             ctx.lineTo(bR.x, bR.y);
             ctx.closePath();
             ctx.clip();
-            drawImgFit(oldImg, useW, useH, portrait);
+            drawImgFit(oldImg, useW, useH);
             ctx.restore();
         }
 

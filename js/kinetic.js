@@ -86,8 +86,7 @@ class KineticSway {
         for (let item of this.elements) {
             if (!item.el) continue;
             item.el.style.translate = `0px 0px`;
-            const baseR = (item.el && item.el.id === 'image-container' && window.innerHeight > window.innerWidth) ? 90 : 0;
-            item.el.style.rotate = `${baseR}deg`;
+            item.el.style.rotate = `0deg`;
             item.el.style.scale = `${item.baseScale}`;
             if (item.el.id === 'image-container') {
                 item.el.style.filter = `drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) brightness(1)`;
@@ -125,10 +124,8 @@ class KineticSway {
             }
 
             const finalScale = item.baseScale + scaleOffset;
-            const baseR = (item.el.id === 'image-container' && window.innerHeight > window.innerWidth) ? 90 : 0;
-
             item.el.style.translate = `${x}px ${y}px`;
-            item.el.style.rotate = `${baseR + r}deg`;
+            item.el.style.rotate = `${r}deg`;
             item.el.style.scale = `${finalScale}`;
 
             if (item.el.id === 'image-container') {

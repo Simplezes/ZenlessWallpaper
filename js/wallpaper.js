@@ -180,8 +180,96 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         const tempImg = new Image();
         tempImg.src = imgPath;
         tempImg.onload = () => {
+            const isPortrait = window.innerHeight > window.innerWidth;
             const outgoingImg = lastTargetImg || mainImg;
             const hasOld = outgoingImg.src && outgoingImg.src.indexOf('webp') !== -1;
+
+            if (isPortrait) {
+                if (hasOld) {
+                    lastTargetImg = tempImg;
+                    if (transImg) {
+                        transImg.src = imgPath;
+                        transImg.style.opacity = '0';
+                        transImg.style.transform = 'translate(-50%, -50%) rotate(90deg) scale(0.95)';
+
+                        transImg.decode().then(() => {
+                            const flashEl = document.getElementById('transition-backdrop');
+                            if (flashEl) {
+                                flashEl.style.backgroundColor = charData.baseColor;
+                                flashEl.style.zIndex = '95';
+                                flashEl.style.opacity = '0';
+                            }
+
+                            applyColorsAndText();
+
+                            mainImg.style.transition = 'none';
+                            transImg.style.transition = 'none';
+
+                            anime.remove(mainImg);
+                            anime.remove(transImg);
+                            if (flashEl) anime.remove(flashEl);
+
+                            const tl = anime.timeline({
+                                easing: 'easeOutCubic'
+                            });
+
+                            if (flashEl) {
+                                tl.add({
+                                    targets: flashEl,
+                                    opacity: [0, 0.4, 0],
+                                    duration: 350,
+                                    easing: 'easeInOutQuad'
+                                }, 0);
+                            }
+
+                            tl.add({
+                                targets: mainImg,
+                                opacity: 0,
+                                scale: 1.05,
+                                duration: 400,
+                            }, 0);
+
+                            tl.add({
+                                targets: transImg,
+                                opacity: [0, 1],
+                                scale: [0.95, 1],
+                                duration: 550,
+                                complete: () => {
+                                    mainImg.src = imgPath;
+                                    mainImg.decode().then(() => {
+                                        mainImg.style.opacity = '1';
+                                        mainImg.style.transform = '';
+                                        mainImg.style.transition = '';
+                                        transImg.style.opacity = '0';
+                                        transImg.style.transform = '';
+                                        transImg.style.transition = '';
+                                        if (flashEl) flashEl.style.zIndex = '';
+                                        if (onComplete) onComplete();
+                                    }).catch(() => {
+                                        mainImg.style.opacity = '1';
+                                        mainImg.style.transform = '';
+                                        mainImg.style.transition = '';
+                                        transImg.style.opacity = '0';
+                                        if (onComplete) onComplete();
+                                    });
+                                }
+                            }, 100);
+                        });
+                    } else {
+                        applyColorsAndText();
+                        mainImg.src = imgPath;
+                        mainImg.style.opacity = '1';
+                        if (onComplete) onComplete();
+                    }
+                } else {
+                    lastTargetImg = tempImg;
+                    applyColorsAndText();
+                    mainImg.src = imgPath;
+                    mainImg.style.opacity = '1';
+                    if (onComplete) onComplete();
+                }
+                return;
+            }
 
             if (hasOld) {
                 const previousLastTarget = lastTargetImg;

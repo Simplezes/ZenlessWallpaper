@@ -768,7 +768,6 @@
         left: 50% !important;
         object-fit: contain !important;
         opacity: 0;
-        transition: opacity 0.8s ease;
     }
 
     .char-image.active {
