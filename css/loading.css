@@ -28,87 +28,102 @@
 }
 
 .loader-left {
-    width: 32%;
+    width: 25%;
+    max-width: 80rem;
     background: #000;
     display: flex;
     flex-direction: column;
     padding: 6rem 3rem 4rem 4rem;
     box-sizing: border-box;
-    z-index: 2;
+    z-index: 5;
+    position: relative;
+    flex-shrink: 0;
 }
 
 .loader-mode-header {
     display: flex;
     align-items: center;
-    margin-bottom: 4rem;
+    margin-bottom: 1rem;
+    width: 100%;
+    height: 7.5rem;
 }
 
-.loader-icons,
-.loader-icons img {
-    display: none;
+.loader-mode-header img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
 }
 
 .loader-tips-wrap {
     flex: 1;
     max-width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 #loader-tip-text {
-    font-size: 1.6rem;
-    line-height: 1.3;
-    font-weight: bolder;
-    color: rgb(155 155 155 / 85%);
+    font-size: 2rem;
+    line-height: 1.25;
+    font-weight: 900;
+    color: rgba(255, 255, 255, 0.7);
     margin: 0;
     word-break: break-word;
+    letter-spacing: -0.02rem;
 }
 
 .loader-footer-left {
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.loader-icons {
-    display: flex;
-    gap: 1rem;
+    flex-direction: row;
     align-items: center;
+    gap: 1.2rem;
+    margin-top: auto;
+    width: 100%;
+    overflow: hidden;
 }
 
-.loader-icons img {
-    width: 1.8rem;
-    height: 1.8rem;
-    opacity: 0.35;
-    filter: grayscale(1);
-    transition: all 0.3s;
+.loader-icons-bottom {
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
 }
 
-.loader-icons img.active {
-    opacity: 1;
-    filter: none;
+.loader-bottom-icons {
+    height: 80%;
+    width: auto;
+    filter: invert(24%);
+    opacity: 0.9;
 }
 
 .loader-metadata-block {
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
     align-items: flex-start;
-    font-family: monospace;
-    font-weight: bold;
-    color: rgb(255 255 255 / 40%);
-    font-size: 1rem;
-
+    overflow: hidden;
 }
 
 .loader-no {
-    color: rgba(255, 255, 255, 0.6);
-    font-family: 'Zenless';
+    color: #444;
+    font-size: 1.8rem;
+    font-weight: 900;
+    line-height: 1;
 }
 
 .loader-mode-name {
-    letter-spacing: 0.1rem;
+    color: #222;
+    font-size: 1.1rem;
+    font-weight: 900;
+    letter-spacing: 0.05rem;
     text-transform: uppercase;
-    font-family: 'Zenless';
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
 }
 
-/* Right panel with wallpaper */
 .loader-right {
     flex: 1;
     position: relative;
@@ -146,4 +161,58 @@
     background-size: 3rem 3rem;
     z-index: -1;
     opacity: 0.5;
+}
+
+@media (orientation: portrait),
+(max-width: 60rem) {
+    .loader-layout {
+        flex-direction: column-reverse;
+    }
+
+    .loader-left {
+        width: 100%;
+        height: auto;
+        padding: 4rem 3rem 5rem 4rem;
+        flex: 0 0 auto;
+    }
+
+    .loader-mode-header {
+        height: 6rem;
+        margin-bottom: 2.5rem;
+        width: auto;
+    }
+
+    #loader-tip-text {
+        font-size: 2.1rem;
+        line-height: 1.3;
+    }
+
+    .loader-footer-right {
+        bottom: 2rem;
+        right: 2.5rem;
+    }
+
+    .loader-bangboo-indicator {
+        width: 18rem;
+    }
+
+    .loader-footer-left {
+        margin-top: 4rem;
+        gap: 2rem;
+    }
+
+    .loader-icons-bottom {
+        height: 3rem;
+    }
+
+    .loader-no {
+        font-size: 2.4rem;
+    }
+
+    .loader-mode-name {
+        font-size: 1.5rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
 }
