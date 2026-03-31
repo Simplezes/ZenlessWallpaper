@@ -98,16 +98,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const radialRing = menu.querySelector('.radial-ring');
     const hubSelectionIndicator = menu.querySelector('#hub-selection-indicator');
 
+    let ringRect = null;
+
     function updateIndicator(e) {
         if (!menu.style.display || menu.style.display === 'none') return;
-        const rect = radialRing.getBoundingClientRect();
-        const cx = rect.left + rect.width / 2;
-        const cy = rect.top + rect.height / 2;
+        if (!ringRect) {
+            ringRect = radialRing.getBoundingClientRect();
+        }
+        const cx = ringRect.left + ringRect.width / 2;
+        const cy = ringRect.top + ringRect.height / 2;
         const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
         hubSelectionIndicator.style.transform = `translate(-50%, -50%) rotate(${angle + 90}deg)`;
     }
-
-    window.addEventListener('mousemove', updateIndicator);
 
     function initRadialMenu() {
         segmentsContainer.innerHTML = '';
@@ -119,10 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
             segment.className = 'segment-html';
             segment.style.setProperty('--seg-angle', `${item.angle}deg`);
             segment.setAttribute('data-id', item.id);
+            segment.setAttribute('data-index', i);
             segmentsContainer.appendChild(segment);
 
             const overlayItem = document.createElement('div');
             overlayItem.className = 'radial-item';
+            overlayItem.id = `radial-item-${item.id}`;
             overlayItem.style.setProperty('--angle', `${item.angle}deg`);
             overlayItem.setAttribute('data-id', item.id);
 
@@ -132,29 +136,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
             overlayItem.innerHTML = iconContent;
             itemsOverlay.appendChild(overlayItem);
+        });
 
-            segment.addEventListener('mouseenter', () => {
-                segment.classList.add('active');
-                overlayItem.classList.add('active');
-                if (dynamicLabel) {
-                    dynamicLabel.innerText = item.label;
-                    dynamicLabel.classList.add('visible');
-                }
-            });
+        segmentsContainer.addEventListener('mouseover', (e) => {
+            const segment = e.target.closest('.segment-html');
+            if (!segment) return;
 
-            segment.addEventListener('mouseleave', () => {
-                segment.classList.remove('active');
-                overlayItem.classList.remove('active');
-                if (dynamicLabel) {
-                    dynamicLabel.classList.remove('visible');
-                    dynamicLabel.innerText = 'SELECT';
-                }
-            });
+            const id = segment.getAttribute('data-id');
+            const index = parseInt(segment.getAttribute('data-index'));
+            const item = MENU_ITEMS[index];
+            const overlayItem = document.getElementById(`radial-item-${id}`);
 
-            segment.addEventListener('click', (e) => {
-                e.stopPropagation();
-                handleItemClick(item.id);
-            });
+            segment.classList.add('active');
+            if (overlayItem) overlayItem.classList.add('active');
+            if (dynamicLabel) {
+                dynamicLabel.innerText = item.label;
+                dynamicLabel.classList.add('visible');
+            }
+        });
+
+        segmentsContainer.addEventListener('mouseout', (e) => {
+            const segment = e.target.closest('.segment-html');
+            if (!segment) return;
+
+            const id = segment.getAttribute('data-id');
+            const overlayItem = document.getElementById(`radial-item-${id}`);
+
+            segment.classList.remove('active');
+            if (overlayItem) overlayItem.classList.remove('active');
+            if (dynamicLabel) {
+                dynamicLabel.classList.remove('visible');
+                dynamicLabel.innerText = 'SELECT';
+            }
+        });
+
+        segmentsContainer.addEventListener('click', (e) => {
+            const segment = e.target.closest('.segment-html');
+            if (!segment) return;
+            e.stopPropagation();
+            handleItemClick(segment.getAttribute('data-id'));
         });
 
         const textUnit = "• ROULETTE •";
@@ -194,7 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
             panel.classList.add('grabbing');
             startY = e.pageY - panel.offsetTop;
             scrollStart = panel.scrollTop;
-        });
+        }, { passive: false });
 
         window.addEventListener('mouseup', () => {
             isDown = false;
@@ -208,12 +228,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         panel.addEventListener('mousemove', (e) => {
             if (!isDown) return;
-            e.preventDefault();
             const y = e.pageY - panel.offsetTop;
             const walk = (y - startY) * 2;
             if (Math.abs(walk) > 3) moved = true;
             panel.scrollTop = scrollStart - walk;
-        });
+        }, { passive: true });
 
         panel.addEventListener('click', (e) => {
             if (moved) {
@@ -292,8 +311,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let selectedAvatarName = currentAgent;
+    let agentsPopulated = false;
 
     function populateAgents() {
+        if (agentsPopulated) {
+            // Just update selection
+            agentGrid.querySelectorAll('.agent-avatar-item').forEach(item => {
+                const name = item.getAttribute('data-name');
+                item.classList.toggle('active', name === currentAgent);
+                item.classList.toggle('selected', name === selectedAvatarName);
+            });
+            return;
+        }
+
         if (!window.characters || !window.characters.characters) {
             setTimeout(populateAgents, 100);
             return;
@@ -302,6 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
         agentGrid.innerHTML = '';
         const factions = window.characters.characters;
 
+        const fragment = document.createDocumentFragment();
         const allAgents = [];
         for (const faction in factions) {
             for (const name in factions[faction]) {
@@ -313,21 +344,30 @@ document.addEventListener('DOMContentLoaded', () => {
         allAgents.forEach(agent => {
             const item = document.createElement('div');
             item.className = 'agent-avatar-item';
+            item.setAttribute('data-name', agent.name);
             if (agent.name === currentAgent) item.classList.add('active');
             if (agent.name === selectedAvatarName) item.classList.add('selected');
 
             item.innerHTML = `
-                <img src="${agent.img}" class="avatar-img" alt="${agent.name}">
+                <img src="${agent.img}" class="avatar-img" alt="${agent.name}" loading="lazy">
             `;
 
-            item.addEventListener('click', () => {
-                selectedAvatarName = agent.name;
-                menu.querySelectorAll('.agent-avatar-item').forEach(el => el.classList.remove('selected'));
-                item.classList.add('selected');
-            });
-
-            agentGrid.appendChild(item);
+            fragment.appendChild(item);
         });
+
+        agentGrid.appendChild(fragment);
+
+        // Click delegation for agent grid
+        agentGrid.addEventListener('click', (e) => {
+            const item = e.target.closest('.agent-avatar-item');
+            if (item) {
+                selectedAvatarName = item.getAttribute('data-name');
+                agentGrid.querySelectorAll('.agent-avatar-item').forEach(el => el.classList.remove('selected'));
+                item.classList.add('selected');
+            }
+        });
+
+        agentsPopulated = true;
     }
 
     agentUseBtn.addEventListener('click', () => {
@@ -366,6 +406,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const openMenu = () => {
         overlay.classList.add('active');
         menu.style.display = 'flex';
+        ringRect = null; // Forces recalculation on opening
+        window.addEventListener('mousemove', updateIndicator, { passive: true });
 
         anime({
             targets: menuInner,
@@ -379,6 +421,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const closeMenu = (onComplete) => {
         agentList.classList.remove('active');
+        window.removeEventListener('mousemove', updateIndicator);
+
         anime({
             targets: menuInner,
             scale: 0.8,
