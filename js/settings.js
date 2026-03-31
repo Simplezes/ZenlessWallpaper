@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let currentAgent = localStorage.getItem('selectedCharacter') || "Ellen Joe";
+    let currentAgent = localStorage.getItem('selectedCharacter') || "Burnice White";
     let currentVariant = localStorage.getItem('selectedVariant') || "Default";
     let showAmbient = localStorage.getItem('showAmbient') !== 'false';
     let footerTheme = localStorage.getItem('footerTheme') || 'dark';
