@@ -333,12 +333,13 @@ document.addEventListener('DOMContentLoaded', () => {
     agentUseBtn.addEventListener('click', () => {
         currentAgent = selectedAvatarName;
         localStorage.setItem('selectedCharacter', currentAgent);
-
-        closeMenu(() => {
-            setTimeout(() => {
-                applySettings();
-            }, 1000);
-        });
+        closeMenu();
+        applySettings();
+        //closeMenu(() => {
+        //    setTimeout(() => {
+        //        applySettings();
+        //    }, 0);
+        //});
     });
 
     agentListClose.addEventListener('click', toggleAgentList);
