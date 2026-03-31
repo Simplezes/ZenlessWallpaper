@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             <div class="hub-roulette-html" id="hub-roulette-text"></div>
                         </div>
                     </div>
-                    <div class="radial-close-instruction">ESC TO CLOSE</div>
                 </div>
             </div>
         </div>
