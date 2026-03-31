@@ -548,7 +548,7 @@
 
 .agent-avatar-item {
     aspect-ratio: 1 / 1;
-    border-radius: 3rem;
+    border-radius: 4rem;
     background-color: #222;
     border: 0.3rem solid #2a2a2a;
     position: relative;
@@ -556,10 +556,6 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.2s ease;
-}
-
-.agent-avatar-item:hover {
-    transform: scale(1.05);
 }
 
 .agent-avatar-item.selected {
