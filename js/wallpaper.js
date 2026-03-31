@@ -321,17 +321,26 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 function updateText(el, text, color, offset, targetOpacity, glow) {
     if (!el) return;
 
-    const isEmpty = el.innerHTML.trim() === '';
+    const isPortrait = window.innerHeight > window.innerWidth;
+    let targetContent = text;
+    if (isPortrait && text.includes(' ') && (el.id === 'nickname-text' || el.classList.contains('nickname'))) {
+        targetContent = text.replace(/ /g, '<br>');
+    }
+
+    const currentContent = el.innerHTML.replace(/<div class="halftone-local">.*?<\/div>/i, '');
+    if (currentContent === targetContent && el.style.color === color) {
+        anime({
+            targets: el,
+            opacity: targetOpacity,
+            duration: 400,
+            easing: 'easeOutExpo'
+        });
+        return;
+    }
 
     const applyContent = () => {
-        const isPortrait = window.innerHeight > window.innerWidth;
-        let content = text;
-        if (isPortrait && text.includes(' ') && (el.id === 'nickname-text' || el.classList.contains('nickname'))) {
-            content = text.replace(/ /g, '<br>');
-        }
-
         const halftone = el.querySelector('.halftone-local');
-        el.innerHTML = content;
+        el.innerHTML = targetContent;
         if (halftone) el.appendChild(halftone);
 
         window.CMYKManager.apply(el);
@@ -348,7 +357,7 @@ function updateText(el, text, color, offset, targetOpacity, glow) {
         });
     };
 
-    if (isEmpty) {
+    if (el.innerHTML === '') {
         applyContent();
     } else {
         anime({
@@ -398,15 +407,11 @@ function kickLayout() {
         document.body.style.paddingRight = '0px';
     }, 10);
 
-    if (window.characters && window.characters.characters) {
-        const char = localStorage.getItem('selectedCharacter');
-        const variant = localStorage.getItem('selectedVariant') || "Default";
-        if (char) {
-            const mainImg = document.getElementById('main-image');
-            if (mainImg) {
-                mainImg.style.opacity = '1';
-            }
-        }
+    const char = localStorage.getItem('selectedCharacter');
+    const variant = localStorage.getItem('selectedVariant') || "Default";
+    if (char && window.setWallpaper) {
+        // Refresh text layout only to handle <br> swaps on rotate
+        window.setWallpaper(char, variant, true);
     }
 }
 
