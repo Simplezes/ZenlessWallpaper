@@ -50,20 +50,22 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
         <div class="agent-list-radial" id="agent-list">
             <div class="agent-header">
-                <span class="header-title">Edit Avatar</span>
-                <div class="header-close-btn" id="agent-list-close">${ICONS.close}</div>
+                <h1 class="header-title">Edit Avatar</h1>
+                <div class="header-close-btn" id="agent-list-close"></div>
             </div>
-            <div class="agent-avatar-grid" id="agent-grid">
-                <!-- Avatars will be injected here -->
-            </div>
-            <div class="agent-list-footer">
-                <button class="agent-use-btn" id="agent-use-btn">
-                    <span class="use-icon">${ICONS.close}</span>
-                    <span class="use-text">Use</span>
-                </button>
-                <div class="agent-return-hint">
-                    <span class="hint-circle"></span>
-                    Return
+
+            <div class="agent-main-container">
+                <div class="agent-inner-panel">
+                    <div class="agent-avatar-grid" id="agent-grid">
+                        <!-- Avatars -->
+                    </div>
+                </div>
+
+                <div class="agent-use-btn-wrapper">
+                    <button class="agent-use-btn" id="agent-use-btn">
+                        <span class="btn-close-icon">✕</span>
+                        <span class="use-text">Use</span>
+                    </button>
                 </div>
             </div>
         </div>
@@ -301,18 +303,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
         allAgents.forEach(agent => {
             const item = document.createElement('div');
-            item.className = 'agent-avatar-item' + (agent.name === selectedAvatarName ? ' active' : '');
+            // 'active' is the one currently set as wallpaper (checkmark)
+            // 'selected' is the one highlighted in the grid (yellow ring)
+            item.className = 'agent-avatar-item';
+            if (agent.name === currentAgent) item.classList.add('active');
+            if (agent.name === selectedAvatarName) item.classList.add('selected');
 
             item.innerHTML = `
-                <div class="avatar-ring">
-                    <img src="${agent.img}" class="avatar-img" alt="${agent.name}">
-                </div>
+                <img src="${agent.img}" class="avatar-img" alt="${agent.name}">
             `;
 
             item.addEventListener('click', () => {
                 selectedAvatarName = agent.name;
-                menu.querySelectorAll('.agent-avatar-item').forEach(el => el.classList.remove('active'));
-                item.classList.add('active');
+                menu.querySelectorAll('.agent-avatar-item').forEach(el => el.classList.remove('selected'));
+                item.classList.add('selected');
             });
 
             agentGrid.appendChild(item);
