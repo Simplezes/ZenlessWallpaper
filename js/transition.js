@@ -3,7 +3,7 @@
 
     const CFG = {
         slashAngle: -40,
-        duration: 830,
+        duration: 1150,
         easing: easeInOutQuart,
         edgeWidth: 250,
         trailWidth: 420,

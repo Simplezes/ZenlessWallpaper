@@ -438,9 +438,9 @@
     height: 2.2vh;
     aspect-ratio: 66/25;
     background-color: var(--accent-color);
-    -webkit-mask: url('../assets/imgs/zzz_dashed.svg') no-repeat center;
+    -webkit-mask: url('../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
     -webkit-mask-size: contain;
-    mask: url('../assets/imgs/zzz_dashed.svg') no-repeat center;
+    mask: url('../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
     mask-size: contain;
     margin-right: -0.6vh;
 }
@@ -721,9 +721,9 @@
         width: 21vh;
         height: 6vh;
         background-color: var(--accent-color);
-        -webkit-mask: url(../assets/imgs/month.svg) no-repeat center;
+        -webkit-mask: url(../assets/imgs/svg/month.svg) no-repeat center;
         -webkit-mask-size: contain;
-        mask: url(../assets/imgs/month.svg) no-repeat center;
+        mask: url(../assets/imgs/svg/month.svg) no-repeat center;
         mask-size: contain;
         transform: rotate(90deg);
     }
