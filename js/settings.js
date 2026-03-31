@@ -421,14 +421,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const key = `charRotate_${getOrientKey()}`;
         const current = parseInt(localStorage.getItem(key) || '0');
         localStorage.setItem(key, (current + 90) % 360);
-        applySettings();
     }
 
     function toggleFlip() {
         const key = `charFlip_${getOrientKey()}`;
         const current = localStorage.getItem(key) === 'true';
         localStorage.setItem(key, !current);
-        applySettings();
     }
 
     function toggleAgentList() {
