@@ -60,9 +60,9 @@ const PatternRenderer = (() => {
         const H = window.innerHeight;
         ctx.clearRect(0, 0, W, H);
 
-        const tileW1 = Math.round(image1.naturalWidth  * SCALE_1);
+        const tileW1 = Math.round(image1.naturalWidth * SCALE_1);
         const tileH1 = Math.round(image1.naturalHeight * SCALE_1);
-        const tileW2 = Math.round(image2.naturalWidth  * SCALE_2);
+        const tileW2 = Math.round(image2.naturalWidth * SCALE_2);
         const tileH2 = Math.round(image2.naturalHeight * SCALE_2);
 
         const colPitch1 = tileW1 + H_GAP;
@@ -77,7 +77,7 @@ const PatternRenderer = (() => {
         ctx.translate(-W / 2, -H / 2);
 
         for (let y = -extra; y < H + extra; y += rowBlock) {
-            
+
             const rowAShift = Math.sin(y * WANDER_FREQ) * WANDER_AMOUNT;
 
             for (let x = -extra - WANDER_AMOUNT; x < W + extra + WANDER_AMOUNT; x += colPitch1) {
@@ -85,7 +85,7 @@ const PatternRenderer = (() => {
             }
 
             const yMid = y + tileH1 + V_GAP;
-            
+
             const rowBShift = Math.sin(yMid * WANDER_FREQ) * WANDER_AMOUNT;
             const xOffset = colPitch1 / 2;
 
@@ -100,11 +100,13 @@ const PatternRenderer = (() => {
         const pCtx = pCanvas.getContext('2d');
         pCanvas.width = 4;
         pCanvas.height = 4;
-        pCtx.lineWidth = 1;
-        pCtx.beginPath();
-        pCtx.moveTo(0, 4);
-        pCtx.lineTo(4, 0);
-        pCtx.stroke();
+        pCtx.fillStyle = 'gray';
+        pCtx.fillRect(0, 0, 4, 4);
+        pCtx.fillStyle = '#333333';
+        pCtx.fillRect(0, 0, 1, 1);
+        pCtx.fillRect(1, 1, 1, 1);
+        pCtx.fillRect(2, 2, 1, 1);
+        pCtx.fillRect(3, 3, 1, 1);
 
         ctx.save();
         ctx.globalCompositeOperation = 'source-atop';
