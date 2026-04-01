@@ -1,7 +1,7 @@
 const CMYKManager = {
     scale: 0.4,
     selectors: new Set(),
-    currentColor: '#000000',
+    currentColor: 'rgb(0, 0, 0)',
 
     _lastC: -1, _lastM: -1, _lastY: -1, _lastK: -1,
     _lastBgColor: '',
@@ -11,20 +11,10 @@ const CMYKManager = {
     anyToCmyk(color) {
         let r, g, b;
 
-        if (color.startsWith('rgb')) {
-            const matches = color.match(/\d+/g);
-            r = parseInt(matches[0]) / 255;
-            g = parseInt(matches[1]) / 255;
-            b = parseInt(matches[2]) / 255;
-        } else {
-            let hex = color.replace('#', '');
-            if (hex.length === 3) {
-                hex = hex.split('').map(char => char + char).join('');
-            }
-            r = parseInt(hex.substring(0, 2), 16) / 255;
-            g = parseInt(hex.substring(2, 4), 16) / 255;
-            b = parseInt(hex.substring(4, 6), 16) / 255;
-        }
+        const matches = color.match(/\d+/g);
+        r = parseInt(matches[0]) / 255;
+        g = parseInt(matches[1]) / 255;
+        b = parseInt(matches[2]) / 255;
 
         const k = 1 - Math.max(r, g, b);
         const c = (1 - r - k) / (1 - k) || 0;

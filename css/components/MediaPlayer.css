@@ -2,7 +2,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    color: #fff;
+    color: rgb(255, 255, 255);
     padding-left: 2vh;
     width: 26vh;
     min-width: 18rem;
@@ -35,8 +35,8 @@
     box-shadow: 0 0 1rem var(--accent-color);
 }
 
-.media-container.is-idle .terminal-status { color: #555; }
-.media-container.is-idle .terminal-status::before { background: #444; box-shadow: none; }
+.media-container.is-idle .terminal-status { color: rgb(85, 85, 85); }
+.media-container.is-idle .terminal-status::before { background: rgb(68, 68, 68); box-shadow: none; }
 
 .media-title-wrap {
     width: 100%;
@@ -52,7 +52,7 @@
     font-family: "Rajdhani", sans-serif;
     font-size: clamp(1.8rem, 3.2vh, 5rem);
     font-weight: 900;
-    color: #fff;
+    color: rgb(255, 255, 255);
     text-transform: uppercase;
     letter-spacing: -0.01em;
     line-height: 1.1;
@@ -63,7 +63,7 @@
     font-family: "Rajdhani", sans-serif;
     font-size: clamp(1rem, 1.6vh, 2.4rem);
     font-weight: 500;
-    color: #888;
+    color: rgb(136, 136, 136);
     text-transform: uppercase;
     letter-spacing: 0.1em;
     display: flex;

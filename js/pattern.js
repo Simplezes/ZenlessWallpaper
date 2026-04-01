@@ -102,7 +102,7 @@ const PatternRenderer = (() => {
         pCanvas.height = 4;
         pCtx.fillStyle = 'gray';
         pCtx.fillRect(0, 0, 4, 4);
-        pCtx.fillStyle = '#333333';
+        pCtx.fillStyle = 'rgb(51, 51, 51)';
         pCtx.fillRect(0, 0, 1, 1);
         pCtx.fillRect(1, 1, 1, 1);
         pCtx.fillRect(2, 2, 1, 1);

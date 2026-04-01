@@ -19,7 +19,7 @@
 
 .day-name {
     font-size: clamp(0.6rem, 1.1vh, 2.5rem);
-    color: #fff;
+    color: rgb(255, 255, 255);
     letter-spacing: 0.05em;
     margin-bottom: 0.1rem;
     transition: none;
@@ -27,7 +27,7 @@
 
 .day-num {
     font-size: clamp(1rem, 2vh, 2.5rem);
-    color: #fff;
+    color: rgb(255, 255, 255);
     transition: none;
 }
 
@@ -38,7 +38,7 @@
 
 .day.today .day-num {
     background: var(--accent-color);
-    color: #000;
+    color: rgb(0, 0, 0);
     padding: 0 0.4rem;
     border-radius: 0.2rem;
     transition: none;
@@ -90,7 +90,7 @@
         font-family: 'Zenless', monospace;
         font-size: 1vh;
         font-weight: 1000;
-        color: #fff;
+        color: rgb(255, 255, 255);
         opacity: 0.9;
         transition: opacity 0.3s ease;
     }

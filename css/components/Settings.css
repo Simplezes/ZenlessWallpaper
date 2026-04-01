@@ -9,7 +9,7 @@
     width: 100vw;
     height: 100vh;
     font-family: 'Rajdhani', sans-serif;
-    color: #fff;
+    color: rgb(255, 255, 255);
     pointer-events: none;
 }
 
@@ -71,8 +71,8 @@
 }
 
 .segment-path {
-    fill: #0f0f0f;
-    stroke: #0f0f0f;
+    fill: rgb(15, 15, 15);
+    stroke: rgb(15, 15, 15);
     stroke-width: 14;
     stroke-linejoin: round;
     paint-order: stroke fill;
@@ -85,8 +85,8 @@
 
 .segment-path:hover,
 .segment-svg.active .segment-path {
-    fill: #ebcc21;
-    stroke:#ebcc21;
+    fill: rgb(235, 204, 33);
+    stroke:rgb(235, 204, 33);
     opacity: 1;
     transition: fill 0.2s ease, stroke 0.2s ease, opacity 0.2s ease;
 }
@@ -127,12 +127,12 @@
 .radial-svg-icon {
     width: 100%;
     height: 100%;
-    color: #fff;
+    color: rgb(255, 255, 255);
     transition: all 0.25s ease;
 }
 
 .radial-item.active .radial-svg-icon {
-    color: #000000;
+    color: rgb(0, 0, 0);
 }
 
 .radial-dynamic-label {
@@ -140,7 +140,7 @@
     top: -1rem;
     left: 50%;
     transform: translateX(-50%) scale(0.9);
-    color: #fff;
+    color: rgb(255, 255, 255);
     font-size: 2.4rem;
     font-weight: 950;
     letter-spacing: 0.5rem;
@@ -167,12 +167,12 @@
     transform: translate(-50%, -50%);
     width: 16rem;
     height: 16rem;
-    background: #111;
+    background: rgb(17, 17, 17);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 0 0.8rem #000, 0 0 5rem rgba(0, 0, 0, 0.9);
+    box-shadow: 0 0 0 0.8rem rgb(0, 0, 0), 0 0 5rem rgba(0, 0, 0, 0.9);
     z-index: 10;
     overflow: hidden;
 }
@@ -193,9 +193,9 @@
     content: '';
     position: absolute;
     inset: -0.8rem;
-    background: #ebcc21;
+    background: rgb(235, 204, 33);
     border-radius: 50%;
-    box-shadow: 0 0 2.5rem #ebcc21;
+    box-shadow: 0 0 2.5rem rgb(235, 204, 33);
     transition: background-color 0.8s ease, box-shadow 0.8s ease;
     -webkit-mask:
         conic-gradient(from 335deg, black 50deg, transparent 50deg),
@@ -218,7 +218,7 @@
     transform: translateX(-50%);
     width: 1.2rem;
     height: 1rem;
-    background: #ebcc21;
+    background: rgb(235, 204, 33);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     z-index: 13;
     transition: background-color 0.8s ease;
@@ -227,7 +227,7 @@
 .hub-ring-bg {
     position: absolute;
     inset: 0;
-    border: 2.4rem solid #414342;
+    border: 2.4rem solid rgb(65, 67, 66);
     border-radius: 50%;
     z-index: 2;
 }
@@ -242,7 +242,7 @@
     position: absolute;
     width: 3.4rem;
     height: 3.4rem;
-    background: #414342;
+    background: rgb(65, 67, 66);
     border-radius: 50%;
 }
 
@@ -272,11 +272,11 @@
 
 .hub-notch {
     position: absolute;
-    background: #333;
+    background: rgb(51, 51, 51);
     border-radius: 0.4rem;
     width: 0.6rem;
     height: 1.4rem;
-    background: linear-gradient(to top, #161616, #2F2F2F);
+    background: linear-gradient(to top, rgb(22, 22, 22), rgb(47, 47, 47));
 }
 
 .n-2 {
@@ -300,8 +300,8 @@
 .hub-inner-texture {
     position: absolute;
     inset: 2.4rem;
-    background-color: #0c0c0c;
-    background-image: radial-gradient(#1a1a1a 0.12rem, transparent 0.12rem);
+    background-color: rgb(12, 12, 12);
+    background-image: radial-gradient(rgb(26, 26, 26) 0.12rem, transparent 0.12rem);
     background-size: 0.6rem 0.6rem;
     border-radius: 50%;
     box-shadow: inset 0 0 1.5rem rgba(0, 0, 0, 0.9);
@@ -324,7 +324,7 @@
     font-size: 0.78vw;
     font-weight: 950;
     text-transform: uppercase;
-    background: linear-gradient(to bottom, #161616, #2F2F2F);
+    background: linear-gradient(to bottom, rgb(22, 22, 22), rgb(47, 47, 47));
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -337,9 +337,9 @@
     left: 50%;
     transform: translate(-50%, -50%) scale(0.9);
     width: min(76rem, 94vw);
-    background-color: #080808;
+    background-color: rgb(8, 8, 8);
     border-radius: 4.5rem;
-    border: 0.3rem solid #000;
+    border: 0.3rem solid rgb(0, 0, 0);
     box-shadow: 0 0 10rem rgba(0, 0, 0, 1);
     display: none;
     flex-direction: column;
@@ -357,8 +357,8 @@
 
 .agent-header {
     padding: 1.8rem 2.5rem;
-    background-color: #161616;
-    background-image: radial-gradient(#090907 0.12rem, transparent 0.12rem);
+    background-color: rgb(22, 22, 22);
+    background-image: radial-gradient(rgb(9, 9, 7) 0.12rem, transparent 0.12rem);
     background-size: 0.4rem 0.4rem;
     display: flex;
     justify-content: space-between;
@@ -370,7 +370,7 @@
     font-family: 'Zenless';
     font-size: 3rem;
     font-weight: 950;
-    color: #BEBEC0;
+    color: rgb(190, 190, 192);
 }
 
 .header-close-btn {
@@ -385,14 +385,14 @@
 }
 
 .agent-main-container {
-    background-color: #0E0E0E;
+    background-color: rgb(14, 14, 14);
     padding: 2rem 0;
     position: relative;
     border-radius: 0rem 0rem 2rem 2rem;
 }
 
 .agent-inner-panel {
-    background-color: #000;
+    background-color: rgb(0, 0, 0);
     padding: 2.5rem 2.5rem 7rem 2.5rem;
     border-radius: 1.5rem;
     height: 100%;
@@ -411,8 +411,8 @@
 .agent-avatar-item {
     aspect-ratio: 1 / 1;
     border-radius: 4rem;
-    background-color: #222;
-    border: 0.3rem solid #2a2a2a;
+    background-color: rgb(34, 34, 34);
+    border: 0.3rem solid rgb(42, 42, 42);
     position: relative;
     overflow: hidden;
     cursor: pointer;
@@ -420,7 +420,7 @@
 }
 
 .agent-avatar-item.selected {
-    border: 0.5rem solid #ebcc21;
+    border: 0.5rem solid rgb(235, 204, 33);
     transition: border-color 0.8s ease;
 }
 
@@ -431,13 +431,13 @@
     left: 0;
     width: 100%;
     height: 2.5rem;
-    background: #000;
+    background: rgb(0, 0, 0);
     z-index: 5;
 }
 
 .agent-avatar-item.active::after {
     content: "✔";
-    color: #a4ff33;
+    color: rgb(164, 255, 51);
     font-size: 1.4rem;
     font-weight: 950;
     position: absolute;
@@ -464,7 +464,7 @@
 
 .agent-use-btn {
     color: white;
-    border: 0.5rem solid #333;
+    border: 0.5rem solid rgb(51, 51, 51);
     width: 30rem;
     height: 5.6rem;
     border-radius: 4rem;
@@ -472,16 +472,16 @@
     box-shadow: 0 1rem 2.5rem rgba(0, 0, 0, 1);
     display: flex;
     align-items: center;
-    background-color: #161616;
-    background-image: radial-gradient(#090907 0.12rem, transparent 0.12rem);
+    background-color: rgb(22, 22, 22);
+    background-image: radial-gradient(rgb(9, 9, 7) 0.12rem, transparent 0.12rem);
     background-size: 0.4rem 0.4rem;
     transition: all 0.2s ease;
 }
 
 .btn-close-icon {
-    background-color: #000;
-    color: #fff;
-    border: 0.2rem solid #555;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    border: 0.2rem solid rgb(85, 85, 85);
     width: 3.4rem;
     height: 3.4rem;
     border-radius: 50%;
@@ -497,7 +497,7 @@
     font-size: 2.6rem;
     font-weight: 950;
     font-style: italic;
-    color: #fff;
+    color: rgb(255, 255, 255);
 }
 
 .settings-overlay {

@@ -1,6 +1,6 @@
 :root {
-    --accent-color: #FC5B90;
-    --bg-color: #111;
+    --accent-color: rgb(252, 91, 144);
+    --bg-color: rgb(17, 17, 17);
     font-size: clamp(0.6rem, calc(100vh / 108), 2.5rem);
 }
 

@@ -3,7 +3,7 @@ class Store {
         this.state = {
             currentAgent: localStorage.getItem('selectedCharacter') || "Burnice White",
             currentVariant: localStorage.getItem('selectedVariant') || "Default",
-            accentColor: localStorage.getItem('--accent-color') || '#FC5B90',
+            accentColor: localStorage.getItem('--accent-color') || 'rgb(252, 91, 144)',
             isPortrait: window.innerHeight > window.innerWidth,
             showAmbient: localStorage.getItem('showAmbient') !== 'false',
             footerTheme: localStorage.getItem('footerTheme') || 'dark',
