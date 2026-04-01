@@ -2,7 +2,7 @@
 
 A **Zenless Zone Zero** themed web wallpaper for **Wallpaper Engine**.
 
-![preview](assets/preview.png)
+![preview](assets/preview.jpg)
 
 *The design and concept are based on the [Zenless Zone Zero promotional art/UI](https://x.com/ZZZ_EN/status/2027964547999371359).*
 

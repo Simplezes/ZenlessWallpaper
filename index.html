@@ -5,13 +5,16 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="js/libs/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/apps.css">
-    <link rel="stylesheet" href="css/footer.css">
-    <link rel="stylesheet" href="css/widgets.css">
-    <link rel="stylesheet" href="css/settings.css">
-    <link rel="stylesheet" href="css/ambient.css">
-    <link rel="stylesheet" href="css/cmyk_background.css">
-    <link rel="stylesheet" href="css/loading.css">
+    <!-- Component-based Styles -->
+    <link rel="stylesheet" href="css/components/LoadingScreen.css">
+    <link rel="stylesheet" href="css/components/Header.css">
+    <link rel="stylesheet" href="css/components/Background.css">
+    <link rel="stylesheet" href="css/components/Footer.css">
+    <link rel="stylesheet" href="css/components/MediaPlayer.css">
+    <link rel="stylesheet" href="css/components/Calendar.css">
+    <link rel="stylesheet" href="css/components/Watch.css">
+    <link rel="stylesheet" href="css/components/Settings.css">
+
     <link rel="preload" href="assets/characters.json" as="fetch" crossorigin="anonymous">
     <script>
         window.charactersFetch = fetch('assets/characters.json')
@@ -22,220 +25,25 @@
 </head>
 
 <body>
-    <div id="loading-screen">
-        <div class="loader-layout">
-            <div class="loader-left">
-                <div class="loader-mode-header">
-                    <img id="loader-mode-icon" src="assets/imgs/svg/icon_hollow.svg" alt="">
-                </div>
-                <div class="loader-tips-wrap">
-                    <p id="loader-tip-text"></p>
-                </div>
-                <div class="loader-footer-left">
-                    <div class="loader-icons-bottom">
-                        <img src="assets/imgs/svg/icon_loading_bottom.svg" alt="" class="loader-bottom-icons">
-                    </div>
-                    <div class="loader-metadata-block">
-                        <div class="loader-no">No.01</div>
-                        <div class="loader-mode-name">HOLLOW INVESTIGATION</div>
-                    </div>
-                </div>
-            </div>
-            <div class="loader-right">
-                <img id="loader-wallpaper" src="assets/loading/wallpaper_1.webp" alt="">
-                <div class="loader-footer-right">
-                    <img src="assets/imgs/Bangboo_Net_Loading.webp" class="loader-bangboo-indicator">
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="mobile-header">
-        <div class="header-left">
-            <h1 class="calendar-title">CALENDAR</h1>
-            <div class="header-sub">
-                <img src="assets/imgs/logo_white.png" alt="ZZZ" class="mini-logo">
-                <div class="header-glyphs">KOBEBW BBABA BBZBE YEAUKE</div>
-            </div>
-        </div>
-        <div class="header-right">
-            <div class="pill-month" id="header-month-name">MAR</div>
-            <div class="year-display">[ <span id="header-year">2026</span> ]</div>
-            <div class="zzz-dashed-svg"></div>
-        </div>
-    </div>
+    <div id="loader-container"></div>
+    <div id="header-container"></div>
+    <div id="background-container"></div>
+    <div id="footer-container"></div>
+    <div id="settings-root"></div>
 
-    <div class="viewport-bg">
-        <div class="paper-surface"></div>
-    </div>
-    <canvas id="bg-pattern-canvas"></canvas>
-    <div class="paper-scuffs"></div>
-
-    <svg width="0" height="0" style="position: absolute;">
-        <defs>
-            <filter id="rough-paper">
-                <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="3" result="noise" />
-                <feDiffuseLighting in="noise" lighting-color="#fff" surfaceScale="0.8" result="light">
-                    <feDistantLight azimuth="45" elevation="65" />
-                </feDiffuseLighting>
-                <feBlend in="light" in2="SourceGraphic" mode="multiply" />
-            </filter>
-
-            <filter id="ink-print">
-                <feGaussianBlur stdDeviation="0.25" result="blur" />
-                <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 15 -6"
-                    result="bleed" />
-                <feComposite in="bleed" in2="SourceGraphic" operator="atop" />
-            </filter>
-
-            <filter id="paper-scuffs-filter">
-                <feTurbulence type="fractalNoise" baseFrequency="0.002 0.5" numOctaves="2" seed="123"
-                    result="long-lines" />
-                <feColorMatrix in="long-lines" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 1 1 0 -2.5"
-                    result="raw-scratches" />
-                <feMorphology in="raw-scratches" operator="dilate" radius="0.3" result="thick-scratches" />
-
-                <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="4" seed="456" result="scuffs" />
-                <feColorMatrix in="scuffs" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 1 1 0 -1.9"
-                    result="raw-blotches" />
-
-                <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" seed="789" result="dust" />
-                <feColorMatrix in="dust" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 1 1 0 -1.98"
-                    result="raw-dust" />
-
-                <feMerge>
-                    <feMergeNode in="thick-scratches" />
-                    <feMergeNode in="raw-blotches" />
-                    <feMergeNode in="raw-dust" />
-                </feMerge>
-            </filter>
-        </defs>
-    </svg>
-
-    <div class="paper-overlay"></div>
-    <div id="backdrop" class="bg-layer active" style="opacity: 0;"></div>
-    <div id="transition-backdrop" class="bg-layer" style="opacity: 0;"></div>
-    <div id="faction-text" class="ambient-text faction"></div>
-    <div id="image-container">
-        <img id="main-image" class="char-image active" />
-        <img id="transition-image" class="char-image" />
-    </div>
-    <div id="nickname-text" class="ambient-text nickname"></div>
-    <div class="footer container-fluid p-0 m-0">
-        <div class="row w-100 h-100 m-0 align-items-center justify-content-between flex-nowrap">
-            <div class="col-auto d-flex align-items-center h-100 p-0 footer-left">
-                <div class="footer-slash"></div>
-                <div class="media-container" id="media-container">
-                    <div class="terminal-status" id="terminal-status">SIGNAL RECEIVED // PLAYING</div>
-                    <div class="media-title-wrap">
-                        <div id="media-title" class="media-title">NO MEDIA</div>
-                    </div>
-                    <div id="media-artist" class="media-artist">IDLE</div>
-                    <div class="terminal-visualizer">
-                        <div class="v3-bar" style="animation-delay: 0.1s"></div>
-                        <div class="v3-bar" style="animation-delay: 0.3s"></div>
-                        <div class="v3-bar" style="animation-delay: 0.2s"></div>
-                        <div class="v3-bar" style="animation-delay: 0.5s"></div>
-                        <div class="v3-bar" style="animation-delay: 0.4s"></div>
-                        <div class="v3-bar" style="animation-delay: 0.7s"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="col d-flex justify-content-center align-items-center h-100 px-3 overflow-hidden">
-                <div class="calendar-wrap d-flex flex-column w-100" id="dynamic-calendar">
-                </div>
-            </div>
-            <div class="col-auto d-flex align-items-center justify-content-end h-100 p-0 pe-5 footer-right">
-                <div class="brand-container">
-                    <div class="top-row">
-                        <div class="title-text title-svg"></div>
-                        <div class="badge-container">
-                            <div class="circle-month watch-face">
-                                <div class="watch-hands">
-                                    <div class="watch-notch notch-main n12"></div>
-                                    <div class="watch-notch notch-hour n1"></div>
-                                    <div class="watch-notch notch-hour n2"></div>
-                                    <div class="watch-notch notch-main n3"></div>
-                                    <div class="watch-notch notch-hour n4"></div>
-                                    <div class="watch-notch notch-hour n5"></div>
-                                    <div class="watch-notch notch-main n6"></div>
-                                    <div class="watch-notch notch-hour n7"></div>
-                                    <div class="watch-notch notch-hour n8"></div>
-                                    <div class="watch-notch notch-main n9"></div>
-                                    <div class="watch-notch notch-hour n10"></div>
-                                    <div class="watch-notch notch-hour n11"></div>
-                                    <div class="watch-hand watch-hour"></div>
-                                    <div class="watch-hand watch-minute"></div>
-                                    <div class="watch-hand watch-second"></div>
-                                    <div class="watch-center"></div>
-                                </div>
-                                <span id="brand-month-num">03</span>
-                            </div>
-                            <div class="z-tag">Z</div>
-                        </div>
-                    </div>
-                    <div class="bottom-row">
-                        <div class="left-block">
-                            KOBEBW BBABA SWEGVW<br>
-                            PERSONA 3&4 ARE THE BEST PERSONA
-                        </div>
-                        <div class="right-meta-group">
-                            <div class="right-meta">
-                                <div class="pill-month" id="brand-month-name">MAR</div>
-                                <div class="year-display">[ <span id="brand-year">2026</span> ]</div>
-                            </div>
-                            <div class="zzz-dashed-svg"></div>
-                        </div>
-
-                    </div>
-                </div>
-                <div class="zzz-logo-final ms-5">
-                    <img src="assets/imgs/logo_white.png" alt="ZZZ">
-                    <div class="zzz-logo-sub">>> Settings</div>
-                </div>
-            </div>
-
-            <div class="vertical-brand d-none mobile-settings-trigger">
-                <div class="vertical-month-text vertical-month-svg"></div>
-                <div class="circle-month watch-face">
-                    <div class="watch-hands">
-                        <div class="watch-notch notch-main n12"></div>
-                        <div class="watch-notch notch-hour n1"></div>
-                        <div class="watch-notch notch-hour n2"></div>
-                        <div class="watch-notch notch-main n3"></div>
-                        <div class="watch-notch notch-hour n4"></div>
-                        <div class="watch-notch notch-hour n5"></div>
-                        <div class="watch-notch notch-main n6"></div>
-                        <div class="watch-notch notch-hour n7"></div>
-                        <div class="watch-notch notch-hour n8"></div>
-                        <div class="watch-notch notch-main n9"></div>
-                        <div class="watch-notch notch-hour n10"></div>
-                        <div class="watch-notch notch-hour n11"></div>
-                        <div class="watch-hand watch-hour"></div>
-                        <div class="watch-hand watch-minute"></div>
-                        <div class="watch-hand watch-second"></div>
-                        <div class="watch-center"></div>
-                    </div>
-                    <span id="brand-month-num-mobile">03</span>
-                </div>
-                <div class="zzz-logo-final">
-                    <img src="assets/imgs/logo_white.png" alt="ZZZ">
-                    <div class="zzz-logo-sub">>> CONFIG</div>
-                </div>
-            </div>
-        </div>
-    </div>
     <script src="js/libs/bootstrap.bundle.min.js"></script>
     <script src="js/libs/anime.min.js"></script>
-    <script src="js/brand.js"></script>
-    <script src="js/calendar.js"></script>
+
+    <!-- Component-based Entry Point -->
+    <script type="module" src="js/index.js"></script>
+
+    <!-- Legacy / Re-organized scripts -->
     <script src="js/cmyk.js"></script>
     <script src="js/kinetic.js"></script>
     <script src="js/transition.js"></script>
     <script src="js/wallpaper.js"></script>
     <script src="js/taskbar.js"></script>
-    <script src="js/media.js"></script>
     <script src="js/pattern.js"></script>
-    <script src="js/settings.js"></script>
 </body>
 
 </html>

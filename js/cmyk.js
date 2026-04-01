@@ -3,21 +3,33 @@ const CMYKManager = {
     selectors: new Set(),
     currentColor: '#000000',
 
-    hexToCmyk(hex) {
-        hex = hex.replace('#', '');
+    _lastC: -1, _lastM: -1, _lastY: -1, _lastK: -1,
+    _lastBgColor: '',
+    _bgColorTs: 0,
+    _BG_THROTTLE_MS: 80,
 
-        if (hex.length === 3) {
-            hex = hex.split('').map(char => char + char).join('');
+    anyToCmyk(color) {
+        let r, g, b;
+
+        if (color.startsWith('rgb')) {
+            const matches = color.match(/\d+/g);
+            r = parseInt(matches[0]) / 255;
+            g = parseInt(matches[1]) / 255;
+            b = parseInt(matches[2]) / 255;
+        } else {
+            let hex = color.replace('#', '');
+            if (hex.length === 3) {
+                hex = hex.split('').map(char => char + char).join('');
+            }
+            r = parseInt(hex.substring(0, 2), 16) / 255;
+            g = parseInt(hex.substring(2, 4), 16) / 255;
+            b = parseInt(hex.substring(4, 6), 16) / 255;
         }
 
-        let r = parseInt(hex.substring(0, 2), 16) / 255;
-        let g = parseInt(hex.substring(2, 4), 16) / 255;
-        let b = parseInt(hex.substring(4, 6), 16) / 255;
-
-        let k = 1 - Math.max(r, g, b);
-        let c = (1 - r - k) / (1 - k) || 0;
-        let m = (1 - g - k) / (1 - k) || 0;
-        let y = (1 - b - k) / (1 - k) || 0;
+        const k = 1 - Math.max(r, g, b);
+        const c = (1 - r - k) / (1 - k) || 0;
+        const m = (1 - g - k) / (1 - k) || 0;
+        const y = (1 - b - k) / (1 - k) || 0;
 
         return {
             c: Math.round(c * 100),
@@ -27,76 +39,40 @@ const CMYKManager = {
         };
     },
 
-    updateVariables(hex) {
-        if (!hex) return;
-        this.currentColor = hex;
+    updateVariables(color) {
+        if (!color) return;
+        this.currentColor = color;
 
-        const cmyk = this.hexToCmyk(hex);
+        const cmyk = this.anyToCmyk(color);
         const root = document.documentElement;
 
-        root.style.setProperty('--r-c', (cmyk.c * this.scale) + '%');
-        root.style.setProperty('--r-m', (cmyk.m * this.scale) + '%');
-        root.style.setProperty('--r-y', (cmyk.y * this.scale) + '%');
-        root.style.setProperty('--r-k', (cmyk.k * this.scale) + '%');
+        const sc = cmyk.c * this.scale;
+        const sm = cmyk.m * this.scale;
+        const sy = cmyk.y * this.scale;
+        const sk = cmyk.k * this.scale;
 
-        document.body.style.backgroundColor = `color-mix(in srgb, ${hex}, black 40%)`;
+        if (sc !== this._lastC) { root.style.setProperty('--r-c', sc + '%'); this._lastC = sc; }
+        if (sm !== this._lastM) { root.style.setProperty('--r-m', sm + '%'); this._lastM = sm; }
+        if (sy !== this._lastY) { root.style.setProperty('--r-y', sy + '%'); this._lastY = sy; }
+        if (sk !== this._lastK) { root.style.setProperty('--r-k', sk + '%'); this._lastK = sk; }
+
+        const now = performance.now();
+        if (color !== this._lastBgColor && (now - this._bgColorTs) > this._BG_THROTTLE_MS) {
+            root.style.setProperty('--bg-color', `color-mix(in srgb, ${color}, black 25%)`);
+            this._lastBgColor = color;
+            this._bgColorTs = now;
+        }
     },
 
     setScale(newScale) {
         this.scale = newScale;
+        this._lastC = this._lastM = this._lastY = this._lastK = -1;
         this.updateVariables(this.currentColor);
     },
 
-    createHalftoneStack() {
-        const stack = document.createElement('div');
-        stack.className = 'halftone-local';
-
-        ['screen-y', 'screen-c', 'screen-m', 'screen-k'].forEach(cls => {
-            const dot = document.createElement('div');
-            dot.className = `dot-screen ${cls}`;
-            stack.appendChild(dot);
-        });
-
-        return stack;
-    },
-
-    apply(selector) {
-        const els = typeof selector === 'string' ? document.querySelectorAll(selector) : [selector];
-
-        els.forEach(el => {
-            if (el.querySelector('.halftone-local')) return;
-
-            const nonHalftoneChildren = Array.from(el.children).filter(c => !c.classList.contains('halftone-local'));
-            if (el.textContent.trim() !== '' && nonHalftoneChildren.length === 0) {
-                el.classList.add('halftone-text-masked');
-            } else if (el.classList.contains('ambient-text')) {
-                el.classList.add('halftone-text-masked');
-            }
-
-            const pos = getComputedStyle(el).position;
-            if (pos === 'static') el.style.position = 'relative';
-
-            el.appendChild(this.createHalftoneStack());
-        });
-
-        if (typeof selector === 'string') this.selectors.add(selector);
-    },
-
-    remove(selector) {
-        const els = typeof selector === 'string' ? document.querySelectorAll(selector) : [selector];
-
-        els.forEach(el => {
-            const existing = el.querySelector('.halftone-local');
-            if (existing) existing.remove();
-            el.classList.remove('halftone-text-masked');
-        });
-
-        if (typeof selector === 'string') this.selectors.delete(selector);
-    },
-
-    refresh() {
-        this.selectors.forEach(selector => this.apply(selector));
-    }
+    apply() {},
+    remove() {},
+    refresh() {}
 };
 
 window.CMYKManager = CMYKManager;

@@ -1,77 +1,20 @@
 window.characters = [];
 let loadingComplete = false;
-let loaderTips = null;
-
-async function initLoader() {
-    try {
-        const response = await fetch('assets/loading/tips.json');
-        loaderTips = await response.json();
-
-        const categories = Object.keys(loaderTips).filter(cat => {
-            return loaderTips[cat].lines && Object.keys(loaderTips[cat].lines).length > 0;
-        });
-
-        if (categories.length === 0) throw new Error("No categories with tips found");
-
-        const randomCat = categories[Math.floor(Math.random() * categories.length)];
-        const categoryData = loaderTips[randomCat];
-        const tipKeys = Object.keys(categoryData.lines);
-        const randomTipKey = tipKeys[Math.floor(Math.random() * tipKeys.length)];
-        const randomTip = categoryData.lines[randomTipKey];
-
-        const randomWallpaperId = Math.floor(Math.random() * 5) + 1;
-        const wallpaperImg = `assets/loading/wallpaper_${randomWallpaperId}.webp`;
-
-        const tipText = document.getElementById('loader-tip-text');
-        const wallpaperEl = document.getElementById('loader-wallpaper');
-        const iconEl = document.getElementById('loader-mode-icon');
-        const loaderNoEl = document.querySelector('.loader-no');
-        const metaNameEl = document.querySelector('.loader-mode-name');
-
-        if (tipText) tipText.innerText = randomTip;
-        if (wallpaperEl) wallpaperEl.src = wallpaperImg;
-
-        const iconName = randomCat.split('_')[0];
-        if (iconEl) iconEl.src = `assets/imgs/svg/icon_${iconName}.svg`;
-
-        if (loaderNoEl) {
-            loaderNoEl.innerText = `No.${randomTipKey}`;
-        }
-
-        if (metaNameEl) {
-            metaNameEl.innerText = categoryData.title.toUpperCase();
-        }
-
-        const bangbooEl = document.querySelector('.loader-bangboo-indicator');
-        const promises = [];
-
-        if (wallpaperEl) promises.push(new Promise(res => { if (wallpaperEl.complete) res(); else wallpaperEl.onload = res; wallpaperEl.onerror = res; }));
-        if (iconEl) promises.push(new Promise(res => { if (iconEl.complete) res(); else iconEl.onload = res; iconEl.onerror = res; }));
-        if (bangbooEl) promises.push(new Promise(res => { if (bangbooEl.complete) res(); else bangbooEl.onload = res; bangbooEl.onerror = res; }));
-
-        await Promise.all(promises);
-        const layout = document.querySelector('.loader-layout');
-        if (layout) layout.classList.add('ready');
-
-    } catch (e) {
-        console.error("Failed to init loader tips", e);
-        const layout = document.querySelector('.loader-layout');
-        if (layout) layout.classList.add('ready');
-    }
-}
-
-initLoader();
 
 function updateLoading(percent, status) {
     if (percent >= 100) {
         setTimeout(() => {
-            const screen = document.getElementById('loading-screen');
-            if (screen) screen.classList.add('fade-out');
+            if (window.app && window.app.loadingScreen) {
+                const screen = document.getElementById('loading-screen');
+                if (screen) screen.classList.add('fade-out');
+            } else {
+                const screen = document.getElementById('loading-screen');
+                if (screen) screen.classList.add('fade-out');
+            }
             loadingComplete = true;
             if (window.loaderInterval) clearInterval(window.loaderInterval);
         }, 2500);
     }
-
 }
 
 
@@ -110,6 +53,15 @@ async function loadCharacters() {
         const savedChar = localStorage.getItem('selectedCharacter') || "Burnice White";
         const savedVariant = localStorage.getItem('selectedVariant') || "Full";
 
+        const savedCharData = window.getCharacterData(savedChar);
+        if (savedCharData && savedCharData.baseColor) {
+            document.documentElement.style.setProperty('--accent-color', savedCharData.baseColor);
+            localStorage.setItem('--accent-color', savedCharData.baseColor);
+            if (window.CMYKManager) {
+                window.CMYKManager.updateVariables(savedCharData.baseColor);
+            }
+        }
+
         setWallpaper(savedChar, savedVariant, false, () => {
             updateLoading(100, 'SIGNAL ESTABLISHED');
         });
@@ -139,188 +91,177 @@ window.getCharacterData = function (name) {
 }
 
 let lastTargetImg = null;
+let isCharacterChanging = false;
 
-window.setWallpaper = function (characterName, variant = 'Default', textOnly = false, onComplete = null) {
+window.setWallpaper = function (characterName, variant = 'Default', textOnly = false, onComplete = null, transitionType = null) {
     const charData = window.getCharacterData(characterName);
     if (!charData) {
         console.warn("Character data not found for:", characterName);
         return;
     }
 
-    const backdrop = document.getElementById('backdrop');
     const mainImg = document.getElementById('main-image');
     const transImg = document.getElementById('transition-image');
-    const factionText = document.getElementById('faction-text');
-    const nicknameText = document.getElementById('nickname-text');
-
-    if (!backdrop || !mainImg) return;
+    if (!mainImg) return;
 
     const baseColor = charData.baseColor;
     const oldBgColor = document.body.style.backgroundColor || getComputedStyle(document.body).backgroundColor;
     const oldAccent = document.documentElement.style.getPropertyValue('--accent-color') || getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
-
     const imgPath = `assets/wallpaper/Mindscape_${charData.idName}_${variant}.webp`;
 
     const applyColorsAndText = () => {
-        window.CMYKManager.updateVariables(baseColor);
-        document.documentElement.style.setProperty('--accent-color', baseColor);
+        const duration = (window.CharacterTransition && window.CharacterTransition.COLOR_DURATION) || 800;
+        const colorObj = {
+            accent: oldAccent || '#FC5B90'
+        };
 
-        const textGlow = `0 0 ${window.rem(30)} ${baseColor}66`;
+        anime({
+            targets: colorObj,
+            accent: baseColor,
+            duration: duration,
+            easing: 'linear',
+            update: () => {
+                document.documentElement.style.setProperty('--accent-color', colorObj.accent);
+                localStorage.setItem('--accent-color', colorObj.accent);
+                if (window.CMYKManager) {
+                    window.CMYKManager.updateVariables(colorObj.accent);
+                }
+            }
+        });
+
         const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
         const factionOpacity = isAmbientEnabled ? 0.4 : 0;
         const nicknameOpacity = isAmbientEnabled ? 0.9 : 0;
 
-        updateText(factionText, charData.faction, baseColor, -30, factionOpacity, textGlow);
-        updateText(nicknameText, charData.name, baseColor, 30, nicknameOpacity, textGlow);
+        const factionText = document.getElementById('faction-text');
+        const nicknameText = document.getElementById('nickname-text');
+        updateText(factionText, charData.faction, -30, factionOpacity);
+        updateText(nicknameText, charData.name, 30, nicknameOpacity);
+
         localStorage.setItem('selectedCharacter', charData.name);
         localStorage.setItem('selectedVariant', variant);
     };
 
-    if (!textOnly) {
-        const tempImg = new Image();
-        tempImg.src = imgPath;
-        tempImg.onload = () => {
-            const isPortrait = window.innerHeight > window.innerWidth;
-            const isUltrawide = (window.innerWidth / window.innerHeight) > 2.3;
-            const outgoingImg = lastTargetImg || mainImg;
-            const hasOld = outgoingImg.src && outgoingImg.src.indexOf('webp') !== -1;
-
-            if (isPortrait || isUltrawide) {
-                if (hasOld) {
-                    lastTargetImg = tempImg;
-                    if (transImg) {
-                        transImg.src = imgPath;
-                        transImg.style.opacity = '0';
-                        transImg.style.transform = isPortrait ? 'rotate(90deg) scale(0.95)' : 'scale(0.95)';
-
-                        transImg.decode().then(() => {
-                            const flashEl = document.getElementById('transition-backdrop');
-                            if (flashEl) {
-                                flashEl.style.backgroundColor = charData.baseColor;
-                                flashEl.style.zIndex = '95';
-                                flashEl.style.opacity = '0';
-                            }
-
-                            applyColorsAndText();
-
-                            mainImg.style.transition = 'none';
-                            transImg.style.transition = 'none';
-
-                            anime.remove(mainImg);
-                            anime.remove(transImg);
-                            if (flashEl) anime.remove(flashEl);
-
-                            const tl = anime.timeline({
-                                easing: 'easeOutCubic'
-                            });
-
-                            if (flashEl) {
-                                tl.add({
-                                    targets: flashEl,
-                                    opacity: [0, 0.4, 0],
-                                    duration: 350,
-                                    easing: 'easeInOutQuad'
-                                }, 0);
-                            }
-
-                            tl.add({
-                                targets: mainImg,
-                                opacity: 0,
-                                scale: 1.05,
-                                duration: 400,
-                            }, 0);
-
-                            tl.add({
-                                targets: transImg,
-                                opacity: [0, 1],
-                                scale: [0.95, 1],
-                                duration: 550,
-                                complete: () => {
-                                    mainImg.src = imgPath;
-                                    mainImg.decode().then(() => {
-                                        mainImg.style.opacity = '1';
-                                        mainImg.style.transform = '';
-                                        mainImg.style.transition = '';
-                                        transImg.style.opacity = '0';
-                                        transImg.style.transform = '';
-                                        transImg.style.transition = '';
-                                        if (flashEl) flashEl.style.zIndex = '';
-                                        if (onComplete) onComplete();
-                                    }).catch(() => {
-                                        mainImg.style.opacity = '1';
-                                        mainImg.style.transform = '';
-                                        mainImg.style.transition = '';
-                                        transImg.style.opacity = '0';
-                                        if (onComplete) onComplete();
-                                    });
-                                }
-                            }, 100);
-                        });
-                    } else {
-                        applyColorsAndText();
-                        mainImg.src = imgPath;
-                        mainImg.style.opacity = '1';
-                        if (onComplete) onComplete();
-                    }
-                } else {
-                    lastTargetImg = tempImg;
-                    applyColorsAndText();
-                    mainImg.src = imgPath;
-                    mainImg.style.opacity = '1';
-                    if (onComplete) onComplete();
-                }
-                return;
-            }
-
-            if (hasOld) {
-                const previousLastTarget = lastTargetImg;
-                lastTargetImg = tempImg;
-
-                mainImg.src = imgPath;
-                mainImg.style.opacity = '0';
-
-                window.MangaWipe.run(outgoingImg, tempImg, {
-                    accent: charData.baseColor || '#FC5B90',
-                    oldBgColor: oldBgColor,
-                    oldAccent: oldAccent,
-                    onStart: applyColorsAndText,
-                    onDone: () => {
-                        mainImg.src = imgPath;
-                        return mainImg.decode().then(() => {
-                            mainImg.style.opacity = '1';
-                            mainImg.style.transform = '';
-                            if (transImg) transImg.style.opacity = '0';
-                            if (onComplete) onComplete();
-                        }).catch(() => {
-                            mainImg.style.opacity = '1';
-                            mainImg.style.transform = '';
-                            if (transImg) transImg.style.opacity = '0';
-                            if (onComplete) onComplete();
-                        });
-                    }
-                });
-            } else {
-                lastTargetImg = tempImg;
-                applyColorsAndText();
-                mainImg.src = imgPath;
-                mainImg.style.opacity = '1';
-                mainImg.style.transform = '';
-                if (transImg) transImg.style.opacity = '0';
-                if (onComplete) onComplete();
-            }
-        };
-        tempImg.onerror = () => {
-            if (onComplete) onComplete();
-        };
-    } else {
+    if (textOnly) {
         applyColorsAndText();
         if (onComplete) onComplete();
+        return;
     }
+
+    const tempImg = new Image();
+    tempImg.src = imgPath;
+
+    tempImg.onload = () => {
+        const outgoingImg = lastTargetImg || mainImg;
+        const hasOld = outgoingImg.src && outgoingImg.src.includes('webp');
+
+        lastTargetImg = tempImg;
+
+        if (hasOld && window.CharacterTransition) {
+            if (window.anime) window.anime.remove([mainImg, transImg]);
+            mainImg.style.opacity = '0';
+            mainImg.style.visibility = 'hidden';
+            if (transImg) {
+                transImg.style.opacity = '0';
+                transImg.style.visibility = 'hidden';
+            }
+
+            isCharacterChanging = true;
+            window.CharacterTransition.run(outgoingImg, tempImg, {
+                type: transitionType,
+                accent: charData.baseColor || '#FC5B90',
+                oldAccent: oldAccent,
+                onStart: () => {
+                    const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
+                    const factionOpacity = isAmbientEnabled ? 0.4 : 0;
+                    const nicknameOpacity = isAmbientEnabled ? 0.9 : 0;
+
+                    const factionText = document.getElementById('faction-text');
+                    const nicknameText = document.getElementById('nickname-text');
+                    updateText(factionText, charData.faction, -30, factionOpacity);
+                    updateText(nicknameText, charData.name, 30, nicknameOpacity);
+
+                    const currentAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || oldAccent || '#FC5B90';
+                    const colorObj = { accent: currentAccent };
+                    const colorDuration = (window.CharacterTransition && window.CharacterTransition.COLOR_DURATION) || 320;
+
+                    if (window._uiColorAnim) window._uiColorAnim.pause();
+                    window._uiColorAnim = anime({
+                        targets: colorObj,
+                        accent: baseColor,
+                        duration: colorDuration,
+                        easing: 'easeInOutQuad',
+                        update: () => {
+                            document.documentElement.style.setProperty('--accent-color', colorObj.accent);
+                            localStorage.setItem('--accent-color', colorObj.accent);
+                            if (window.CMYKManager) {
+                                window.CMYKManager.updateVariables(colorObj.accent);
+                            }
+                        }
+                    });
+                },
+                onDone: () => {
+                    localStorage.setItem('selectedCharacter', charData.name);
+                    localStorage.setItem('selectedVariant', variant);
+
+                    mainImg.src = imgPath;
+                    return mainImg.decode().then(() => {
+                        isCharacterChanging = false;
+                        mainImg.style.visibility = '';
+                        mainImg.style.opacity = '1';
+
+                        document.documentElement.style.setProperty('--accent-color', baseColor);
+                        localStorage.setItem('--accent-color', baseColor);
+                        if (window.CMYKManager) window.CMYKManager.updateVariables(baseColor);
+
+                        if (transImg) {
+                            transImg.style.visibility = 'hidden';
+                            transImg.style.opacity = '0';
+                        }
+                        if (onComplete) onComplete();
+                    }).catch(() => {
+                        isCharacterChanging = false;
+                        mainImg.style.visibility = '';
+                        mainImg.style.opacity = '1';
+                        if (onComplete) onComplete();
+                    });
+                }
+            });
+        } else {
+            applyColorsAndText();
+            mainImg.src = imgPath;
+            mainImg.style.opacity = '1';
+            mainImg.style.transform = '';
+            if (onComplete) onComplete();
+        }
+    };
+
+    tempImg.onerror = () => {
+        console.error("Failed to load wallpaper image:", imgPath);
+        if (onComplete) onComplete();
+    };
+};
+
+window.triggerRandomCharacter = function () {
+    if (!window.characters || !window.characters.characters) return;
+
+    const factions = Object.keys(window.characters.characters);
+    const randomFaction = factions[Math.floor(Math.random() * factions.length)];
+    const charactersInFaction = Object.keys(window.characters.characters[randomFaction]);
+    const randomChar = charactersInFaction[Math.floor(Math.random() * charactersInFaction.length)];
+
+    const variants = ['Default', 'Partial', 'Full'];
+    const randomVariant = variants[Math.floor(Math.random() * variants.length)];
+
+
+    window.setWallpaper(randomChar, randomVariant);
 };
 
 
-function updateText(el, text, color, offset, targetOpacity, glow) {
+
+function updateText(el, text, offset, targetOpacity) {
     if (!el) return;
+    const motionEnabled = localStorage.getItem('kineticSway') !== 'false';
 
     const isPortrait = window.innerHeight > window.innerWidth;
     let targetContent = text;
@@ -328,12 +269,18 @@ function updateText(el, text, color, offset, targetOpacity, glow) {
         targetContent = text.replace(/ /g, '<br>');
     }
 
-    const currentContent = el.innerHTML.replace(/<div class="halftone-local">.*?<\/div>/i, '');
-    if (currentContent === targetContent && el.style.color === color) {
+    const regex = /<div class="halftone-local">.*?<\/div>/i;
+    const currentContent = el.innerHTML.replace(regex, '');
+    anime.remove(el);
+
+    if (currentContent === targetContent) {
+        if (window.CMYKManager) window.CMYKManager.apply(el);
         anime({
             targets: el,
             opacity: targetOpacity,
-            duration: 400,
+            ...(motionEnabled ? {} : { translateY: 0, scale: 1 }),
+            filter: 'blur(0rem)',
+            duration: 450,
             easing: 'easeOutExpo'
         });
         return;
@@ -342,32 +289,47 @@ function updateText(el, text, color, offset, targetOpacity, glow) {
     const applyContent = () => {
         const halftone = el.querySelector('.halftone-local');
         el.innerHTML = targetContent;
+        el.setAttribute('data-text', text);
+
         if (halftone) el.appendChild(halftone);
 
-        window.CMYKManager.apply(el);
+        if (window.CMYKManager) window.CMYKManager.apply(el);
 
-        el.style.color = color;
-        el.style.textShadow = glow;
+        const enterOffset = offset * 0.65;
+        if (!motionEnabled) {
+            el.style.transform = `translateY(${enterOffset}px) scale(0.985)`;
+        }
+        el.style.filter = 'blur(0.35rem)';
+        el.style.opacity = '0';
 
-        anime({
+        anime.timeline({
             targets: el,
+            easing: 'easeOutCubic'
+        }).add({
             opacity: targetOpacity,
-            translateX: [window.rem(offset * -1), 0],
-            duration: 800,
-            easing: 'easeOutExpo'
+            ...(motionEnabled ? {} : { translateY: 0, scale: 1 }),
+            filter: 'blur(0rem)',
+            duration: 760
+        }).add({
+            ...(motionEnabled ? {} : { translateY: 0 }),
+            duration: 120,
+            easing: 'easeOutQuad'
         });
     };
 
     if (el.innerHTML === '') {
         applyContent();
     } else {
-        anime({
+        const exitOffset = offset * -0.35;
+        anime.timeline({
             targets: el,
-            opacity: 0,
-            translateX: window.rem(offset),
-            duration: 400,
             easing: 'easeInCubic',
             complete: applyContent
+        }).add({
+            opacity: 0,
+            ...(motionEnabled ? {} : { translateY: exitOffset, scale: 1.02 }),
+            filter: 'blur(0.3rem)',
+            duration: 280
         });
     }
 }
@@ -400,7 +362,13 @@ function parseHsl(hex) {
     return { h: h * 360, s: s * 100, l: l * 100 };
 }
 
-document.addEventListener('DOMContentLoaded', loadCharacters);
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.app) {
+        window.addEventListener('app-ready', loadCharacters);
+    } else {
+        loadCharacters();
+    }
+});
 
 function kickLayout() {
     document.body.style.paddingRight = '0.01px';
@@ -411,7 +379,6 @@ function kickLayout() {
     const char = localStorage.getItem('selectedCharacter');
     const variant = localStorage.getItem('selectedVariant') || "Default";
     if (char && window.setWallpaper) {
-        // Refresh text layout only to handle <br> swaps on rotate
         window.setWallpaper(char, variant, true);
     }
 }
@@ -427,4 +394,6 @@ if (window.wallpaperPropertyListener) {
             kickLayout();
         }
     };
+
+
 }

@@ -21,6 +21,7 @@ function updateBrandDate() {
     if (headerYearEl) headerYearEl.textContent = year;
 }
 updateBrandDate();
+window.addEventListener('footer-ready', updateBrandDate);
 
 function scheduleMidnightUpdate(fn) {
     const now = new Date();

@@ -1,0 +1,163 @@
+.circle-month {
+    font-family: "Rajdhani", monospace;
+    background-color: var(--accent-color);
+    color: #0f0f0f;
+    width: 5.5vh;
+    height: 5.5vh;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    position: relative;
+    overflow: hidden;
+    transition: background-color 0.8s ease;
+}
+
+.circle-month span {
+    font-size: 3.8vh;
+    font-weight: 950;
+    line-height: 1;
+    display: block;
+    transform: translateY(0.1vh);
+    position: relative;
+    z-index: 0;
+    opacity: 0.3;
+}
+
+.watch-hands {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    opacity: 1;
+    z-index: 1;
+}
+
+.watch-notch {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform-origin: center center;
+    background-color: #0f0f0f;
+    opacity: 0.7;
+    border-radius: 0.1rem;
+}
+
+.notch-main {
+    width: 0.15vh;
+    height: 0.4vh;
+    margin-top: -0.2vh;
+    margin-left: -0.075vh;
+}
+
+.notch-hour {
+    width: 0.08vh;
+    height: 0.2vh;
+    margin-top: -0.1vh;
+    margin-left: -0.04vh;
+}
+
+.n12 {
+    transform: rotate(0deg) translateY(-2.3vh);
+}
+
+.n3 {
+    transform: rotate(90deg) translateY(-2.3vh);
+}
+
+.n6 {
+    transform: rotate(180deg) translateY(-2.3vh);
+}
+
+.n9 {
+    transform: rotate(270deg) translateY(-2.3vh);
+}
+
+.n1 {
+    transform: rotate(30deg) translateY(-2.3vh);
+}
+
+.n2 {
+    transform: rotate(60deg) translateY(-2.3vh);
+}
+
+.n4 {
+    transform: rotate(120deg) translateY(-2.3vh);
+}
+
+.n5 {
+    transform: rotate(150deg) translateY(-2.3vh);
+}
+
+.n7 {
+    transform: rotate(210deg) translateY(-2.3vh);
+}
+
+.n8 {
+    transform: rotate(240deg) translateY(-2.3vh);
+}
+
+.n10 {
+    transform: rotate(300deg) translateY(-2.3vh);
+}
+
+.n11 {
+    transform: rotate(330deg) translateY(-2.3vh);
+}
+
+.watch-hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    background-color: #0f0f0f;
+    border-radius: 1vh;
+}
+
+.watch-hour {
+    width: 0.4vh;
+    height: 1.4vh;
+    margin-left: -0.2vh;
+}
+
+.watch-minute {
+    width: 0.25vh;
+    height: 2.1vh;
+    margin-left: -0.125vh;
+}
+
+.watch-second {
+    width: 0.15vh;
+    height: 2.4vh;
+    margin-left: -0.075vh;
+}
+
+.watch-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0.8vh;
+    height: 0.8vh;
+    background-color: #0f0f0f;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.z-tag {
+    position: absolute;
+    top: 1vh;
+    right: 13vh;
+    font-size: 0.7vh;
+    border: 0.15vh solid var(--accent-color);
+    background-color: #0f0f0f;
+    border-radius: 50%;
+    width: 1.25vh;
+    height: 1.25vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    transition: border-color 0.8s ease;
+}
