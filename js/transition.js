@@ -6,7 +6,7 @@
     const COLOR_DURATION = 750;
     const TRANSITION_OUTLINE_THICKNESS = 8;
     const WAVY_CIRCLE_STEPS = 30;
-    const TRANSITION_TYPES = ['shutter', 'cornerWaves', 'triangle', 'wavyCircle', 'lineCutIn', 'highContrastCutIn'];
+    const TRANSITION_TYPES = ['shutter', 'cornerWaves', 'triangle', 'wavyCircle', 'lineCutIn', 'highContrastCutIn', 'shatterBurst'];
 
     class CharacterTransition {
         constructor() {
@@ -68,7 +68,7 @@
             this.scanlinePattern = this.ctx.createPattern(patCanvas, 'repeat');
         }
 
-                rgbBlend(color, factor) {
+        rgbBlend(color, factor) {
             let str = String(color || 'rgb(252, 91, 144)').trim();
             let r = 252, g = 91, b = 144;
 
@@ -242,6 +242,11 @@
                 return;
             }
 
+            if (this.currentType === 'shatterBurst') {
+                this.renderShatter(W, H, p, accent);
+                return;
+            }
+
             bgCtx.save();
             bgCtx.fillStyle = this.rgbBlend(oldAccent, 24);
             bgCtx.fillRect(0, 0, W, H);
@@ -278,10 +283,191 @@
             ctx.restore();
         }
 
+        renderShatter(W, H, p, accent) {
+            const ctx = this.ctx;
+            const bgCtx = this.bgCtx;
+            const P3_WHITE = 'rgb(255, 255, 255)';
+
+            const jDuration = 0.20;
+            const jP = Math.min(1, p / jDuration);
+            const shatterP = p > jDuration ? (p - jDuration) / (1 - jDuration) : 0;
+
+            bgCtx.save();
+            const bgOld = this.rgbBlend(this.colors.old || accent, 24);
+            const bgNew = this.rgbBlend(accent, 24);
+
+            bgCtx.fillStyle = bgOld;
+            bgCtx.fillRect(0, 0, W, H);
+
+            if (shatterP > 0) {
+                bgCtx.fillStyle = bgNew;
+                bgCtx.fillRect(0, 0, W, H);
+                bgCtx.globalAlpha = Math.min(1, shatterP * 1.8);
+                this.drawImgFit(this.images.new, W, H);
+            }
+            bgCtx.restore();
+
+            const initialFlashDur = 0.18;
+            if (p < initialFlashDur) {
+                const fA = (1 - p / initialFlashDur) * 1.0;
+                ctx.save();
+                ctx.globalAlpha = fA;
+                ctx.fillStyle = P3_WHITE;
+                ctx.fillRect(0, 0, W, H);
+
+                ctx.beginPath();
+                ctx.strokeStyle = P3_WHITE;
+                ctx.lineWidth = 15;
+                ctx.arc(W / 2, H * 0.45, p * 4000, 0, Math.PI * 2);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            ctx.save();
+            let currentScale = 1.0;
+            if (p < jDuration) {
+                const shake = (1 - jP) * 35;
+                ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
+                currentScale = 1.0 + (1 - jP) * 0.12;
+            } else {
+                const explodeShake = (1 - shatterP) * 20;
+                ctx.translate((Math.random() - 0.5) * explodeShake, (Math.random() - 0.5) * explodeShake);
+            }
+
+            ctx.translate(W / 2, H / 2);
+            ctx.scale(currentScale, currentScale);
+            ctx.translate(-W / 2, -H / 2);
+
+            this.shards.forEach(shard => {
+                ctx.save();
+
+                if (shatterP <= 0) {
+                    const vS = (1 - jP) * 1.5;
+                    const vX = (Math.random() - 0.5) * vS;
+                    const vY = (Math.random() - 0.5) * vS;
+
+                    ctx.translate(vX, vY);
+
+                    ctx.beginPath();
+                    ctx.moveTo(shard.points[0].x, shard.points[0].y);
+                    for (let i = 1; i < shard.points.length; i++) ctx.lineTo(shard.points[i].x, shard.points[i].y);
+                    ctx.closePath();
+
+                    ctx.save();
+                    ctx.clip();
+
+                    const refractX = (shard.cX - W / 2) * 0.005;
+                    const refractY = (shard.cY - H * 0.45) * 0.005;
+                    ctx.translate(refractX, refractY);
+                    this.drawImgFit(this.images.old, W, H);
+                    ctx.restore();
+
+                    ctx.strokeStyle = (p > 0.1) ? accent : 'rgb(0,0,0)';
+                    ctx.lineWidth = 1 + jP * 2;
+                    ctx.globalAlpha = 0.5 + jP * 0.5;
+                    ctx.stroke();
+                } else {
+                    const sP = shatterP;
+                    const speedVar = 1.0 + (shard.angle % 0.4);
+                    const easeOut = 1 - Math.pow(1 - sP, 5.0);
+                    const dist = shard.v * 170 * easeOut * speedVar;
+                    const rot = shard.rv * 15 * easeOut;
+                    const scale = (1 + sP * 1.5) * (shard.isMicro ? 0.35 : 1);
+                    const opacity = 1 - Math.pow(sP, shard.isMicro ? 2.5 : 5);
+
+                    ctx.globalAlpha = opacity;
+
+                    const moveX = Math.cos(shard.angle) * dist;
+                    const moveY = Math.sin(shard.angle) * dist;
+
+                    ctx.translate(moveX, moveY);
+                    ctx.translate(shard.cX, shard.cY);
+                    ctx.rotate(rot);
+                    ctx.scale(scale, scale);
+                    ctx.translate(-shard.cX, -shard.cY);
+
+                    ctx.beginPath();
+                    ctx.moveTo(shard.points[0].x, shard.points[0].y);
+                    for (let i = 1; i < shard.points.length; i++) ctx.lineTo(shard.points[i].x, shard.points[i].y);
+                    ctx.closePath();
+
+                    ctx.save();
+                    ctx.clip();
+                    if (shard.isMicro) {
+                        ctx.fillStyle = (shard.rv > 0) ? accent : P3_WHITE;
+                        ctx.fill();
+                    } else {
+                        const refractX = (shard.cX - W / 2) * 0.008;
+                        const refractY = (shard.cY - H * 0.45) * 0.008;
+                        ctx.translate(refractX, refractY);
+                        this.drawImgFit(this.images.old, W, H);
+                    }
+                    ctx.restore();
+
+                    if (!shard.isMicro) {
+                        const sweepX = (sP * W * 1.5) - W * 0.5;
+                        const dx = (shard.cX + moveX) - sweepX;
+                        if (Math.abs(dx) < 150) {
+                            ctx.save();
+                            ctx.globalCompositeOperation = 'screen';
+                            ctx.fillStyle = `rgba(255, 255, 255, ${0.4 * (1 - Math.abs(dx) / 150)})`;
+                            ctx.fill();
+                            ctx.restore();
+                        }
+
+                        if (sP < 0.25) {
+                            const shift = (1 - sP * 4) * 4;
+                            ctx.save();
+                            ctx.globalCompositeOperation = 'screen';
+                            ctx.strokeStyle = 'rgba(0, 255, 255, 0.4)';
+                            ctx.setTransform(currentScale, 0, 0, currentScale, moveX - shift, moveY);
+                            ctx.stroke();
+                            ctx.strokeStyle = 'rgba(255, 0, 255, 0.4)';
+                            ctx.setTransform(currentScale, 0, 0, currentScale, moveX + shift, moveY);
+                            ctx.stroke();
+                            ctx.restore();
+                        }
+
+                        ctx.strokeStyle = accent;
+                        ctx.lineWidth = 2.0 / scale;
+                        ctx.shadowBlur = 10 * (1 - sP);
+                        ctx.shadowColor = accent;
+                        ctx.stroke();
+                    }
+                }
+                ctx.restore();
+            });
+            ctx.restore();
+
+            if (p < 0.25) {
+                const sA = (1 - p / 0.25) * 1.0;
+                if (sA > 0) {
+                    const cx = W / 2, cy = H * 0.45;
+                    ctx.save();
+                    ctx.globalAlpha = sA;
+                    ctx.fillStyle = P3_WHITE;
+                    ctx.beginPath();
+                    for (let i = 0; i < 12; i++) {
+                        const a1 = (i / 12) * Math.PI * 2;
+                        const a2 = a1 + (Math.PI / 12);
+                        ctx.lineTo(cx + Math.cos(a1) * 350 * sA, cy + Math.sin(a1) * 350 * sA);
+                        ctx.lineTo(cx + Math.cos(a2) * 15 * sA, cy + Math.sin(a2) * 15 * sA);
+                    }
+                    ctx.fill();
+                    ctx.restore();
+                }
+            }
+
+            ctx.save();
+            ctx.globalAlpha = 0.45;
+            ctx.fillStyle = this.scanlinePattern;
+            ctx.fillRect(0, 0, W, H);
+            ctx.restore();
+        }
+
         renderCutIn(W, H, p, accent) {
             const ctx = this.ctx;
             const bgCtx = this.bgCtx;
-
             const oldAccent = this.colors.old || 'rgb(17, 17, 17)';
             const BG_OLD = this.rgbBlend(oldAccent, 24);
             const BG_NEW = this.rgbBlend(accent, 24);
@@ -788,7 +974,7 @@
             this.images.old.style.opacity = '0';
             this.images.new.style.opacity = '0';
 
-            const { w: W } = this.syncCanvas();
+            const { w: W, h: H } = this.syncCanvas();
 
             this.progress.value = 0;
             this.cells = [];
@@ -804,6 +990,76 @@
                         w: stripWidth + 5,
                         p: 0,
                         dir: (i % 2 === 0 ? 1 : -1)
+                    });
+                }
+            } else if (this.currentType === 'shatterBurst') {
+                this.shards = [];
+                const cx = W / 2, cy = H * 0.45;
+
+                const addShard = (pts) => {
+                    let scX = 0, scY = 0;
+                    pts.forEach(p => { scX += p.x; scY += p.y; });
+                    scX /= pts.length; scY /= pts.length;
+
+                    this.shards.push({
+                        points: pts,
+                        cX: scX, cY: scY,
+                        angle: Math.atan2(scY - cy, scX - cx),
+                        v: 6 + Math.random() * 14,
+                        rv: (Math.random() - 0.5) * 0.18,
+                        delay: Math.random() * 0.15
+                    });
+                };
+
+                const rays = 10;
+                const rings = 3;
+                const webPoints = [];
+
+                for (let r = 0; r <= rings; r++) {
+                    const ring = [];
+                    const radius = (r / rings) * Math.max(W, H) * 1.2;
+                    for (let i = 0; i < rays; i++) {
+                        if (r === 0) {
+                            ring.push({ x: cx, y: cy });
+                        } else {
+                            const angle = (i / rays) * Math.PI * 2 + (Math.random() * 0.2);
+                            const j = 0.85 + Math.random() * 0.3;
+                            ring.push({ x: cx + Math.cos(angle) * radius * j, y: cy + Math.sin(angle) * radius * j });
+                        }
+                    }
+                    webPoints.push(ring);
+                }
+
+                for (let r = 0; r < rings; r++) {
+                    for (let i = 0; i < rays; i++) {
+                        const nextI = (i + 1) % rays;
+                        if (r === 0) {
+                            addShard([webPoints[0][0], webPoints[1][i], webPoints[1][nextI]]);
+                        } else {
+                            const p1 = webPoints[r][i], p2 = webPoints[r][nextI];
+                            const p3 = webPoints[r + 1][nextI], p4 = webPoints[r + 1][i];
+                            addShard([p1, p2, p3]);
+                            addShard([p1, p3, p4]);
+                        }
+                    }
+                }
+
+                const debrisCount = 30;
+                for (let i = 0; i < debrisCount; i++) {
+                    const a = Math.random() * Math.PI * 2;
+                    const r = 15;
+                    const p1 = { x: cx + Math.cos(a) * r, y: cy + Math.sin(a) * r };
+                    const p2 = { x: p1.x + 8 + Math.random() * 14, y: p1.y + Math.random() * 8 };
+                    const p3 = { x: p1.x + Math.random() * 8, y: p1.y + 12 + Math.random() * 8 };
+
+                    this.shards.push({
+                        points: [p1, p2, p3],
+                        cX: p1.x, cY: p1.y,
+                        angle: a,
+                        v: 15 + Math.random() * 35,
+                        rv: (Math.random() - 0.5) * 0.4,
+                        delay: Math.random() * 0.1,
+                        isMicro: true
                     });
                 }
             }
@@ -835,6 +1091,9 @@
                     animeConfig.easing = 'linear';
                 } else if (this.currentType === 'wavyCircle') {
                     animeConfig.duration = CHARACTER_DURATION * 1.1;
+                } else if (this.currentType === 'shatterBurst') {
+                    animeConfig.duration = CHARACTER_DURATION * 0.60;
+                    animeConfig.easing = 'linear';
                 }
             }
 
