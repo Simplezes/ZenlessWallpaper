@@ -1,6 +1,6 @@
 .footer {
     position: fixed;
-    bottom: var(--taskbar-offset, 0rem);
+    bottom: var(--taskbar-bottom, 0rem);
     left: 0;
     right: 0;
     width: 100%;
@@ -174,9 +174,9 @@
     .footer {
         width: 13vw;
         min-width: 5rem;
-        height: 100vh;
+        height: auto;
         top: 0;
-        left: 0;
+        left: var(--taskbar-left, 0rem);
         bottom: 0;
         flex-direction: column;
         padding: 5vh 0 2vh 0;
