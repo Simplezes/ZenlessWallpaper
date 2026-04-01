@@ -13,45 +13,7 @@ export default class Background extends Component {
 
     render() {
         return `
-            <div class="viewport-bg">
-                <div class="paper-surface"></div>
-            </div>
             <canvas id="bg-pattern-canvas"></canvas>
-            <div class="paper-scuffs"></div>
-            
-            <!-- Shared SVG Filters for CMYK/Paper effects -->
-            <svg width="0" height="0" style="position: absolute;">
-                <defs>
-                    <filter id="rough-paper">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="3" result="noise" />
-                        <feDiffuseLighting in="noise" lighting-color='rgb(255, 255, 255)' surfaceScale="0.8" result="light">
-                            <feDistantLight azimuth="45" elevation="65" />
-                        </feDiffuseLighting>
-                        <feBlend in="light" in2="SourceGraphic" mode="multiply" />
-                    </filter>
-                    <filter id="ink-print">
-                        <feGaussianBlur stdDeviation="0.25" result="blur" />
-                        <feColorMatrix in="blur" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 15 -6" result="bleed" />
-                        <feComposite in="bleed" in2="SourceGraphic" operator="atop" />
-                    </filter>
-                    <filter id="paper-scuffs-filter">
-                        <feTurbulence type="fractalNoise" baseFrequency="0.002 0.5" numOctaves="2" seed="123" result="long-lines" />
-                        <feColorMatrix in="long-lines" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 1 1 0 -2.5" result="raw-scratches" />
-                        <feMorphology in="raw-scratches" operator="dilate" radius="0.3" result="thick-scratches" />
-                        <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="4" seed="456" result="scuffs" />
-                        <feColorMatrix in="scuffs" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 1 1 0 -1.9" result="raw-blotches" />
-                        <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="1" seed="789" result="dust" />
-                        <feColorMatrix in="dust" type="matrix" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  1 1 1 0 -1.98" result="raw-dust" />
-                        <feMerge>
-                            <feMergeNode in="thick-scratches" />
-                            <feMergeNode in="raw-blotches" />
-                            <feMergeNode in="raw-dust" />
-                        </feMerge>
-                    </filter>
-                </defs>
-            </svg>
-
-            <div class="paper-overlay"></div>
             <div id="backdrop" class="bg-layer active" style="opacity: 0;"></div>
             <div id="transition-backdrop" class="bg-layer" style="opacity: 0;"></div>
             <div id="faction-text" class="ambient-text faction"></div>
