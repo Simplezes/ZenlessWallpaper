@@ -174,7 +174,7 @@
     .footer {
         width: 13vw;
         min-width: 5rem;
-        height: auto;
+        height: 100vh;
         top: calc(var(--taskbar-top, 0rem) + env(safe-area-inset-top, 0rem));
         left: calc(var(--taskbar-left, 0rem) + env(safe-area-inset-left, 0rem));
         bottom: calc(var(--taskbar-bottom, 0rem) + env(safe-area-inset-bottom, 0rem));
