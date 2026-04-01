@@ -96,8 +96,8 @@
 }
 
 .ambient-text.faction {
-    top: 12vh;
-    left: 4vw;
+    top: calc(var(--taskbar-top, 0rem) + 12vh + env(safe-area-inset-top, 0rem));
+    left: calc(var(--taskbar-left, 0rem) + 4vw + env(safe-area-inset-left, 0rem));
     font-size: 7vh;
     opacity: 0.35;
     z-index: 2;
@@ -107,8 +107,8 @@
 }
 
 .ambient-text.nickname {
-    bottom: 22vh;
-    right: 3vw;
+    bottom: calc(var(--taskbar-bottom, 0rem) + 22vh + env(safe-area-inset-bottom, 0rem));
+    right: calc(var(--taskbar-right, 0rem) + 3vw + env(safe-area-inset-right, 0rem));
     font-size: 10vh;
     opacity: 0.75;
     z-index: 600;
@@ -214,6 +214,11 @@
 
     .ambient-text.nickname {
         font-size: 6.4vh;
+        bottom: calc(var(--taskbar-bottom, 0rem) + 25vh + env(safe-area-inset-bottom, 0rem));
+    }
+
+    .ambient-text.faction {
+        left: calc(var(--taskbar-left, 0rem) + 15vw + env(safe-area-inset-left, 0rem));
     }
 }
 

@@ -1,9 +1,9 @@
 .mobile-header {
     display: none;
     position: fixed;
-    top: 2vh;
-    left: 15vw;
-    right: 5vw;
+    top: calc(var(--taskbar-top, 0rem) + 2vh + env(safe-area-inset-top, 0rem));
+    left: calc(var(--taskbar-left, 0rem) + 15vw + env(safe-area-inset-left, 0rem));
+    right: calc(var(--taskbar-right, 0rem) + 5vw + env(safe-area-inset-right, 0rem));
     height: auto;
     background: transparent;
     z-index: 900;
