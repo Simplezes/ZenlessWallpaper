@@ -133,6 +133,7 @@ const PatternRenderer = (() => {
         if (tileH1 === 0 || tileH2 === 0) return;
 
         const colPitch1 = tileW1 + H_GAP;
+        const colPitch2 = tileW2 + H_GAP;
         const rowBlock = tileH1 + V_GAP + tileH2 + V_GAP;
         const extra = (Math.max(W, H)) * 1.5;
         const timeOffset = elapsed * MOTION_SPEED;
@@ -148,8 +149,13 @@ const PatternRenderer = (() => {
             const dirA = (rowIndex * 2 % 2 === 0) ? 1 : -1;
             const dirB = ((rowIndex * 2 + 1) % 2 === 0) ? 1 : -1;
 
-            const motionA = timeOffset * dirA;
-            const motionB = timeOffset * dirB;
+            const speedM_A = 0.85 + ((rowIndex * 3) % 7) * 0.1;
+            const speedM_B = 0.85 + ((rowIndex * 11) % 7) * 0.1;
+            const phaseA = rowIndex * 123.456;
+            const phaseB = rowIndex * 789.012;
+
+            const motionA = ((elapsed * MOTION_SPEED * speedM_A + phaseA) * dirA) % colPitch1;
+            const motionB = ((elapsed * MOTION_SPEED * speedM_B + phaseB) * dirB) % colPitch2;
 
             const rowAShift = (isEven ? -SHIFT_DISTANCE : SHIFT_DISTANCE) + motionA;
             const rowBShift = (isEven ? SHIFT_DISTANCE : -SHIFT_DISTANCE) + motionB;
@@ -160,7 +166,7 @@ const PatternRenderer = (() => {
 
             const yMid = y + tileH1 + V_GAP;
             const xOffset = colPitch1 / 2;
-            for (let x = -extra - SHIFT_DISTANCE * 2; x < W + extra + SHIFT_DISTANCE * 2; x += colPitch1) {
+            for (let x = -extra - SHIFT_DISTANCE * 2; x < W + extra + SHIFT_DISTANCE * 2; x += colPitch2) {
                 ctx.drawImage(image2, x + xOffset + rowBShift, yMid, tileW2, tileH2);
             }
             rowIndex++;
