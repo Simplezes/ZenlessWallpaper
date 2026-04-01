@@ -2,14 +2,13 @@ const PatternRenderer = (() => {
     const ANGLE_DEG = -25;
     const ANGLE_RAD = ANGLE_DEG * (Math.PI / 180);
 
-    const SCALE_1 = 0.4;
-    const SCALE_2 = 0.4;
+    const SCALE_1 = 0.3;
+    const SCALE_2 = 0.3;
 
-    const V_GAP = 15;
+    const V_GAP = 40;
     const H_GAP = 10;
 
-    const WANDER_AMOUNT = 1;
-    const WANDER_FREQ = 1;
+    const SHIFT_DISTANCE = 400;
 
     let canvas = null;
     let ctx = null;
@@ -76,22 +75,27 @@ const PatternRenderer = (() => {
         ctx.rotate(ANGLE_RAD);
         ctx.translate(-W / 2, -H / 2);
 
+        let rowIndex = 0;
+
         for (let y = -extra; y < H + extra; y += rowBlock) {
 
-            const rowAShift = Math.sin(y * WANDER_FREQ) * WANDER_AMOUNT;
+            const isEven = rowIndex % 2 === 0;
+            const rowAShift = isEven ? -SHIFT_DISTANCE : SHIFT_DISTANCE;
 
-            for (let x = -extra - WANDER_AMOUNT; x < W + extra + WANDER_AMOUNT; x += colPitch1) {
+            for (let x = -extra - SHIFT_DISTANCE; x < W + extra + SHIFT_DISTANCE; x += colPitch1) {
                 ctx.drawImage(image1, x + rowAShift, y, tileW1, tileH1);
             }
 
             const yMid = y + tileH1 + V_GAP;
 
-            const rowBShift = Math.sin(yMid * WANDER_FREQ) * WANDER_AMOUNT;
+            const rowBShift = isEven ? SHIFT_DISTANCE : -SHIFT_DISTANCE;
             const xOffset = colPitch1 / 2;
 
-            for (let x = -extra - WANDER_AMOUNT; x < W + extra + WANDER_AMOUNT; x += colPitch2) {
+            for (let x = -extra - SHIFT_DISTANCE; x < W + extra + SHIFT_DISTANCE; x += colPitch2) {
                 ctx.drawImage(image2, x + xOffset + rowBShift, yMid, tileW2, tileH2);
             }
+
+            rowIndex++;
         }
 
         ctx.restore();
