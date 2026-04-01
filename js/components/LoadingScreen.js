@@ -7,8 +7,8 @@ export default class LoadingScreen extends Component {
             tip: '',
             wallpaper: '',
             icon: '',
-            no: '01',
-            modeName: 'HOLLOW INVESTIGATION',
+            no: '',
+            modeName: '',
             ready: false
         };
     }
@@ -19,23 +19,32 @@ export default class LoadingScreen extends Component {
             <div class="loader-layout ${this.state.ready ? 'ready' : ''}">
                 <div class="loader-left">
                     <div class="loader-mode-header">
-                        <img id="loader-mode-icon" src="${this.state.icon}" alt="">
+                        ${this.state.ready ? `<img id="loader-mode-icon" src="${this.state.icon}" alt="">` : '<div class="skeleton skeleton-icon"></div>'}
                     </div>
                     <div class="loader-tips-wrap">
-                        <p id="loader-tip-text">${this.state.tip}</p>
+                        ${this.state.ready ? `<p id="loader-tip-text">${this.state.tip}</p>` : `
+                        <div class="skeleton skeleton-text"></div>
+                        <div class="skeleton skeleton-text" style="width: 80%"></div>
+                        <div class="skeleton skeleton-text" style="width: 60%"></div>
+                        `}
                     </div>
                     <div class="loader-footer-left">
                         <div class="loader-icons-bottom">
                             <img src="assets/imgs/svg/icon_loading_bottom.svg" alt="" class="loader-bottom-icons">
                         </div>
                         <div class="loader-metadata-block">
+                            ${this.state.ready ? `
                             <div class="loader-no">No.${this.state.no}</div>
                             <div class="loader-mode-name">${this.state.modeName}</div>
+                            ` : `
+                            <div class="skeleton skeleton-no"></div>
+                            <div class="skeleton skeleton-mode-name"></div>
+                            `}
                         </div>
                     </div>
                 </div>
                 <div class="loader-right">
-                    <img id="loader-wallpaper" src="${this.state.wallpaper}" alt="">
+                    ${this.state.ready ? `<img id="loader-wallpaper" src="${this.state.wallpaper}" alt="">` : '<div class="skeleton skeleton-wallpaper"></div>'}
                     <div class="loader-footer-right">
                         <img src="assets/imgs/Bangboo_Net_Loading.webp" class="loader-bangboo-indicator">
                     </div>
