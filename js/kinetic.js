@@ -154,6 +154,15 @@ class KineticSway {
             } else {
                 item.el.style.transform = `translate(0px, 0px) rotate(${baseR}deg) scale(${baseScaleX}, ${item.baseScale})`;
             }
+
+            item.currentSway = {
+                x: 0,
+                y: 0,
+                rotate: baseR,
+                scaleX: baseScaleX,
+                scaleY: item.baseScale,
+                filter: item.el.style.filter || ''
+            };
         }
     }
 
@@ -247,9 +256,8 @@ class KineticSway {
     }
 
     getSway(id) {
-        if (!this.enabled) return null;
         const item = this.elements.find(e => e.id === id);
-        return item ? item.currentSway : null;
+        return item && item.currentSway ? item.currentSway : null;
     }
 }
 
