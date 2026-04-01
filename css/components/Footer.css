@@ -1,6 +1,6 @@
 .footer {
     position: fixed;
-    bottom: var(--taskbar-bottom, 0rem);
+    bottom: calc(var(--taskbar-bottom, 0rem) + env(safe-area-inset-bottom, 0rem));
     left: 0;
     right: 0;
     width: 100%;
@@ -175,9 +175,9 @@
         width: 13vw;
         min-width: 5rem;
         height: auto;
-        top: 0;
-        left: var(--taskbar-left, 0rem);
-        bottom: 0;
+        top: calc(var(--taskbar-top, 0rem) + env(safe-area-inset-top, 0rem));
+        left: calc(var(--taskbar-left, 0rem) + env(safe-area-inset-left, 0rem));
+        bottom: calc(var(--taskbar-bottom, 0rem) + env(safe-area-inset-bottom, 0rem));
         flex-direction: column;
         padding: 5vh 0 2vh 0;
         border-bottom: none;
