@@ -9,11 +9,16 @@ const PatternRenderer = (() => {
     const H_GAP = 10;
 
     const SHIFT_DISTANCE = 400;
+    const MOTION_SPEED = 20;
 
     let canvas = null;
     let ctx = null;
     let image1 = null;
     let image2 = null;
+    let pixelPattern = null;
+    let animationId = null;
+    let startTime = Date.now();
+    let isVisible = false;
 
     function init() {
         if (!canvas) canvas = document.getElementById('bg-pattern-canvas');
@@ -25,6 +30,7 @@ const PatternRenderer = (() => {
         window.addEventListener('resize', onResize);
 
         resize();
+        createPixelPattern();
 
         const loadImg = (src) => new Promise((resolve) => {
             const img = new Image();
@@ -38,8 +44,24 @@ const PatternRenderer = (() => {
         ]).then(([img1, img2]) => {
             image1 = img1;
             image2 = img2;
-            draw();
+            startAnimation();
         });
+    }
+
+    function createPixelPattern() {
+        if (pixelPattern) return;
+        const pCanvas = document.createElement('canvas');
+        const pCtx = pCanvas.getContext('2d');
+        pCanvas.width = 4;
+        pCanvas.height = 4;
+        pCtx.fillStyle = 'gray';
+        pCtx.fillRect(0, 0, 4, 4);
+        pCtx.fillStyle = 'rgb(51, 51, 51)';
+        pCtx.fillRect(0, 0, 1, 1);
+        pCtx.fillRect(1, 1, 1, 1);
+        pCtx.fillRect(2, 2, 1, 1);
+        pCtx.fillRect(3, 3, 1, 1);
+        pixelPattern = pCtx.createPattern(pCanvas, 'repeat');
     }
 
     function resize() {
@@ -52,8 +74,22 @@ const PatternRenderer = (() => {
         if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
 
-    function draw() {
-        if (!ctx || !image1 || !image2) return;
+    function startAnimation() {
+        if (animationId) cancelAnimationFrame(animationId);
+        startTime = Date.now();
+        animate();
+    }
+
+    function animate() {
+        const motionEnabled = localStorage.getItem('kineticSway') !== 'false';
+        const elapsed = motionEnabled ? (Date.now() - startTime) / 1000 : 0;
+
+        draw(elapsed);
+        animationId = requestAnimationFrame(animate);
+    }
+
+    function draw(elapsed = 0) {
+        if (!ctx || !image1 || !image2 || !isVisible) return;
 
         const W = window.innerWidth;
         const H = window.innerHeight;
@@ -70,6 +106,8 @@ const PatternRenderer = (() => {
         const rowBlock = tileH1 + V_GAP + tileH2 + V_GAP;
         const extra = (Math.max(W, H)) * 1.5;
 
+        const timeOffset = elapsed * MOTION_SPEED;
+
         ctx.save();
         ctx.translate(W / 2, H / 2);
         ctx.rotate(ANGLE_RAD);
@@ -78,20 +116,31 @@ const PatternRenderer = (() => {
         let rowIndex = 0;
 
         for (let y = -extra; y < H + extra; y += rowBlock) {
-
             const isEven = rowIndex % 2 === 0;
-            const rowAShift = isEven ? -SHIFT_DISTANCE : SHIFT_DISTANCE;
 
-            for (let x = -extra - SHIFT_DISTANCE; x < W + extra + SHIFT_DISTANCE; x += colPitch1) {
+            const rowADir = 1;
+            const rowBDir = -1;
+
+            const currentAIndex = rowIndex * 2;
+            const currentBIndex = rowIndex * 2 + 1;
+
+            const dirA = (currentAIndex % 2 === 0) ? 1 : -1;
+            const dirB = (currentBIndex % 2 === 0) ? 1 : -1;
+
+            const motionA = timeOffset * dirA;
+            const motionB = timeOffset * dirB;
+
+            const rowAShift = (isEven ? -SHIFT_DISTANCE : SHIFT_DISTANCE) + motionA;
+
+            for (let x = -extra - SHIFT_DISTANCE * 2; x < W + extra + SHIFT_DISTANCE * 2; x += colPitch1) {
                 ctx.drawImage(image1, x + rowAShift, y, tileW1, tileH1);
             }
 
             const yMid = y + tileH1 + V_GAP;
-
-            const rowBShift = isEven ? SHIFT_DISTANCE : -SHIFT_DISTANCE;
+            const rowBShift = (isEven ? SHIFT_DISTANCE : -SHIFT_DISTANCE) + motionB;
             const xOffset = colPitch1 / 2;
 
-            for (let x = -extra - SHIFT_DISTANCE; x < W + extra + SHIFT_DISTANCE; x += colPitch2) {
+            for (let x = -extra - SHIFT_DISTANCE * 2; x < W + extra + SHIFT_DISTANCE * 2; x += colPitch2) {
                 ctx.drawImage(image2, x + xOffset + rowBShift, yMid, tileW2, tileH2);
             }
 
@@ -100,37 +149,28 @@ const PatternRenderer = (() => {
 
         ctx.restore();
 
-        const pCanvas = document.createElement('canvas');
-        const pCtx = pCanvas.getContext('2d');
-        pCanvas.width = 4;
-        pCanvas.height = 4;
-        pCtx.fillStyle = 'gray';
-        pCtx.fillRect(0, 0, 4, 4);
-        pCtx.fillStyle = 'rgb(51, 51, 51)';
-        pCtx.fillRect(0, 0, 1, 1);
-        pCtx.fillRect(1, 1, 1, 1);
-        pCtx.fillRect(2, 2, 1, 1);
-        pCtx.fillRect(3, 3, 1, 1);
-
-        ctx.save();
-        ctx.globalCompositeOperation = 'source-atop';
-        ctx.fillStyle = ctx.createPattern(pCanvas, 'repeat');
-        ctx.fillRect(0, 0, W, H);
-        ctx.restore();
+        if (pixelPattern) {
+            ctx.save();
+            ctx.globalCompositeOperation = 'source-atop';
+            ctx.fillStyle = pixelPattern;
+            ctx.fillRect(0, 0, W, H);
+            ctx.restore();
+        }
     }
 
     function onResize() {
         resize();
-        if (image1 && image2) draw();
     }
 
     function setVisible(visible) {
+        isVisible = visible;
         if (!canvas) canvas = document.getElementById('bg-pattern-canvas');
         if (!canvas) return;
         canvas.classList.toggle('visible', visible);
     }
 
     document.addEventListener('DOMContentLoaded', init);
+
     return { setVisible, init };
 })();
 
