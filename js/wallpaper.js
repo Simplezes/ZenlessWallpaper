@@ -66,8 +66,6 @@ async function loadCharacters() {
             updateLoading(100, 'SIGNAL ESTABLISHED');
         });
 
-        window.cmykApply('.viewport-bg, .bg-layer, .footer, .ambient-text, .calendar-title, .header-glyphs, .zzz-dashed-svg, .pill-month, #header-year');
-
     } catch (e) {
         console.error("Failed to load characters.json", e);
     }
@@ -394,6 +392,4 @@ if (window.wallpaperPropertyListener) {
             kickLayout();
         }
     };
-
-
 }

@@ -79,7 +79,7 @@ export default class Background extends Component {
                 window.PatternRenderer.setVisible(true);
             }
         }
-        
+
         if (window.kineticSway) {
             window.kineticSway.init();
             window.kineticSway.setEnabled(localStorage.getItem('kineticSway') !== 'false');
@@ -89,7 +89,7 @@ export default class Background extends Component {
         this.applyCMYK();
     }
 
-    onUpdated() {}
+    onUpdated() { }
 
-    applyCMYK() {}
+    applyCMYK() { }
 }
