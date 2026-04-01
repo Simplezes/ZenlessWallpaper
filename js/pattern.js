@@ -13,16 +13,18 @@ const PatternRenderer = (() => {
     let image2 = null;
 
     function init() {
-        canvas = document.getElementById('bg-pattern-canvas');
+        if (!canvas) {
+            canvas = document.getElementById('bg-pattern-canvas');
+        }
         if (!canvas) return;
+        
         ctx = canvas.getContext('2d');
 
-        resize();
-        window.addEventListener('resize', () => {
-            resize();
-            if (image1 && image2) draw();
-        });
+        window.removeEventListener('resize', onResize);
+        window.addEventListener('resize', onResize);
 
+        resize();
+        
         const loadImg = (src) => {
             return new Promise((resolve) => {
                 const img = new Image();
@@ -114,13 +116,19 @@ const PatternRenderer = (() => {
         ctx.restore();
     }
 
+    function onResize() {
+        resize();
+        if (image1 && image2) draw();
+    }
+
     function setVisible(visible) {
+        if (!canvas) canvas = document.getElementById('bg-pattern-canvas');
         if (!canvas) return;
         canvas.classList.toggle('visible', visible);
     }
 
     document.addEventListener('DOMContentLoaded', init);
-    return { setVisible };
+    return { setVisible, init };
 })();
 
 window.PatternRenderer = PatternRenderer;

@@ -1,0 +1,108 @@
+.media-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    padding-left: 2vh;
+    width: 26vh;
+    min-width: 18rem;
+    max-width: 26vh;
+    flex-shrink: 0;
+    position: relative;
+    transition: opacity 0.5s ease;
+    height: 80%;
+}
+
+.terminal-status {
+    font-family: "Rajdhani", sans-serif;
+    font-size: clamp(0.8rem, 0.9vh, 1.6rem);
+    color: var(--accent-color);
+    letter-spacing: 0.2rem;
+    margin-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.terminal-status::before {
+    content: "";
+    width: 0.6vh;
+    height: 0.6vh;
+    background: var(--accent-color);
+    border-radius: 50%;
+    box-shadow: 0 0 1rem var(--accent-color);
+}
+
+.media-container.is-idle .terminal-status { color: #555; }
+.media-container.is-idle .terminal-status::before { background: #444; box-shadow: none; }
+
+.media-title-wrap {
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    margin-bottom: 0.2vh;
+}
+
+.media-title {
+    display: inline-block;
+    font-family: "Rajdhani", sans-serif;
+    font-size: clamp(1.8rem, 3.2vh, 5rem);
+    font-weight: 900;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    transition: none;
+}
+
+.media-artist {
+    font-family: "Rajdhani", sans-serif;
+    font-size: clamp(1rem, 1.6vh, 2.4rem);
+    font-weight: 500;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+/* Visualization */
+.terminal-visualizer {
+    display: flex;
+    gap: 0.4rem;
+    align-items: flex-end;
+    height: 1.6rem;
+    min-height: 1.6rem;
+    max-height: 1.6rem;
+    margin-top: 0.8rem;
+    opacity: 0.8;
+    flex-shrink: 0;
+}
+
+.v3-bar {
+    width: 0.4rem;
+    background: var(--accent-color);
+}
+
+.media-container.is-idle .terminal-visualizer { opacity: 0.2; }
+.media-container.is-idle .v3-bar { height: 0.2rem; }
+.media-container.is-playing .v3-bar { transition: transform 0.05s ease; }
+
+@keyframes marquee {
+    0% { transform: translateX(0); }
+    10% { transform: translateX(0); }
+    90% { transform: translateX(var(--scroll-dist)); }
+    100% { transform: translateX(var(--scroll-dist)); }
+}
+
+.media-title.scrolling {
+    animation: marquee 8s linear infinite alternate;
+}

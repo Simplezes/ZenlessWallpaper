@@ -1,0 +1,252 @@
+:root {
+    --sz: 0.3rem;
+    --r-c: 0%;
+    --r-m: 0%;
+    --r-y: 0%;
+    --r-k: 0%;
+    --filter-opacity: 0.22;
+}
+
+.bg-layer {
+    position: fixed;
+    inset: -5%;
+    z-index: -2;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    contain: layout style;
+}
+
+.bg-layer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(-45deg,
+            rgba(0, 0, 0, 0.1),
+            rgba(0, 0, 0, 0.1) 0.2rem,
+            transparent 0.2rem,
+            transparent 1.5rem);
+    opacity: 0.6;
+    z-index: 1;
+}
+
+.bg-layer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(to right, rgba(255, 255, 255, 0.03) 0.1rem, transparent 0.1rem),
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 0.1rem, transparent 0.1rem);
+    background-size: 10rem 10rem;
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+    animation: patternDrift 40s linear infinite;
+}
+
+@keyframes patternDrift {
+    from {
+        background-position: 0 0;
+    }
+
+    to {
+        background-position: 50rem 50rem;
+    }
+}
+
+.bg-layer.active {
+    opacity: 1;
+}
+
+#image-container {
+    position: fixed;
+    inset: 0;
+    z-index: 90;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%);
+    mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%);
+    will-change: transform;
+}
+
+.char-image {
+    position: absolute;
+    height: 100vh;
+    width: auto;
+    object-fit: cover;
+    opacity: 0;
+}
+
+.char-image.active {
+    opacity: 1;
+}
+
+.ambient-text {
+    position: fixed;
+    font-family: "AbrilFatface", serif;
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 0.8;
+    pointer-events: none;
+    user-select: none;
+    isolation: isolate;
+    color: var(--accent-color);
+}
+
+.ambient-text.faction {
+    top: 12vh;
+    left: 4vw;
+    font-size: 7vh;
+    opacity: 0.35;
+    z-index: 2;
+    letter-spacing: -0.1rem;
+    filter: blur(0.1rem);
+    text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85), 0 0 3vh color-mix(in srgb, var(--accent-color), transparent 60%);
+}
+
+.ambient-text.nickname {
+    bottom: 22vh;
+    right: 3vw;
+    font-size: 10vh;
+    opacity: 0.75;
+    z-index: 600;
+    letter-spacing: -0.6rem;
+    text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85), 0 0 3vh color-mix(in srgb, var(--accent-color), transparent 60%);
+}
+
+.viewport-bg {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    opacity: 0.22;
+    z-index: -10;
+}
+
+.paper-surface {
+    position: absolute;
+    inset: 0;
+    filter: url(#rough-paper);
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.08;
+    mix-blend-mode: multiply;
+}
+
+.halftone-global {
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: var(--filter-opacity);
+}
+
+.halftone-local {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    mix-blend-mode: multiply;
+    opacity: var(--filter-opacity);
+    pointer-events: none;
+    overflow: hidden;
+    filter: url(#ink-print);
+    -webkit-mask-size: cover;
+    mask-size: cover;
+}
+
+.halftone-text-masked {
+    -webkit-mask-image: linear-gradient(black, black);
+    -webkit-mask-clip: text;
+    mask-image: linear-gradient(black, black);
+    mask-clip: text;
+}
+
+.halftone-text-masked .halftone-local {
+    mix-blend-mode: multiply;
+}
+
+.dot-screen {
+    position: absolute;
+    width: 160vw;
+    height: 160vh;
+    top: -30vh;
+    left: -30vw;
+    background-repeat: repeat;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    backface-visibility: hidden;
+}
+
+.screen-c {
+    transform: rotate(15deg) translate(0.05rem, 0.05rem);
+    background-image: radial-gradient(circle, #00aeef var(--r-c), transparent calc(var(--r-c) + 15%));
+    background-size: var(--sz) var(--sz);
+}
+
+.screen-m {
+    transform: rotate(75deg) translate(-0.08rem, 0.03rem);
+    background-image: radial-gradient(circle, #e6007e var(--r-m), transparent calc(var(--r-m) + 15%));
+    background-size: var(--sz) var(--sz);
+}
+
+.screen-y {
+    transform: rotate(0deg) translate(0.02rem, -0.06rem);
+    background-image: radial-gradient(circle, #fff100 var(--r-y), transparent calc(var(--r-y) + 15%));
+    background-size: var(--sz) var(--sz);
+}
+
+.screen-k {
+    transform: rotate(45deg) translate(0.1rem, -0.1rem);
+    background-image: radial-gradient(circle, #231815 var(--r-k), transparent calc(var(--r-k) + 15%));
+    background-size: var(--sz) var(--sz);
+}
+
+#bg-pattern-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    mix-blend-mode: multiply;
+    opacity: 0;
+}
+
+#bg-pattern-canvas.visible {
+    opacity: 0.45;
+}
+
+@media (orientation: portrait) {
+    #image-container {
+        -webkit-mask-image: none !important;
+        mask-image: none !important;
+    }
+
+    .char-image {
+        width: 100vh !important;
+        height: 100vw !important;
+        max-width: none !important;
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    .ambient-text.nickname {
+        font-size: 6.4vh;
+    }
+}
+
+@media screen and (min-aspect-ratio: 2/1) {
+
+    .paper-surface,
+    .halftone-local,
+    .dot-screen {
+        display: none !important;
+    }
+
+    .viewport-bg {
+        opacity: 0.1 !important;
+    }
+}

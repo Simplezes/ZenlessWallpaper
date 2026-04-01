@@ -1,0 +1,101 @@
+.calendar-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh;
+    width: 100%;
+}
+
+.calendar-bar {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    width: 100%;
+}
+
+.day {
+    min-width: 3.2vh;
+    flex-shrink: 1;
+}
+
+.day-name {
+    font-size: clamp(0.6rem, 1.1vh, 2.5rem);
+    color: #fff;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.1rem;
+    transition: none;
+}
+
+.day-num {
+    font-size: clamp(1rem, 2vh, 2.5rem);
+    color: #fff;
+    transition: none;
+}
+
+.day-name.pink,
+.day-num.pink {
+    color: var(--accent-color);
+}
+
+.day.today .day-num {
+    background: var(--accent-color);
+    color: #000;
+    padding: 0 0.4rem;
+    border-radius: 0.2rem;
+    transition: none;
+}
+
+@media (orientation: portrait) {
+    .calendar-bar {
+        flex-direction: column;
+        gap: 0.2vh;
+        width: auto !important;
+    }
+
+    .calendar-wrap {
+        height: 100%;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    .day {
+        min-width: unset;
+        width: 100%;
+        flex-direction: row !important;
+        gap: 0.3vh;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .day-name {
+        display: block !important;
+        font-size: 0.5vh;
+        font-weight: 900;
+        opacity: 0;
+        letter-spacing: 0;
+        margin: 0;
+        width: 0;
+        overflow: hidden;
+        text-align: right;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        white-space: nowrap;
+    }
+
+    .calendar-wrap.show-names .day-name {
+        opacity: 0.8;
+        width: 1.8vh;
+        margin-right: 0.2vh;
+    }
+
+    .day-num {
+        font-family: 'Zenless', monospace;
+        font-size: 1vh;
+        font-weight: 1000;
+        color: #fff;
+        opacity: 0.9;
+        transition: opacity 0.3s ease;
+    }
+
+    .day.today .day-num {
+        padding: 0.1rem 0.4rem;
+    }
+}

@@ -1,0 +1,53 @@
+.mobile-header {
+    display: none;
+    position: fixed;
+    top: 2vh;
+    left: 15vw;
+    right: 5vw;
+    height: auto;
+    background: transparent;
+    z-index: 101;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.calendar-title {
+    font-family: 'Zenless', sans-serif;
+    font-size: 3.5vh;
+    font-weight: 1000;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.1vh;
+    line-height: 0.8;
+}
+
+.header-left { display: flex; flex-direction: column; }
+.header-right { display: flex; flex-direction: column; align-items: center; gap: 0.3vh; }
+
+.header-sub {
+    display: flex;
+    align-items: center;
+    gap: 0.5vh;
+    margin-top: 0.2vh;
+}
+
+.mini-logo {
+    height: 1.2vh;
+    width: auto;
+}
+
+.header-glyphs {
+    font-family: "Zenless_Glyphs", monospace;
+    font-size: 0.6vh;
+    color: #fff;
+    opacity: 0.7;
+    letter-spacing: 0.05vh;
+}
+
+.mobile-header .pill-month { padding: 0.4vh 1.5vh; font-size: 1.4vh; }
+.mobile-header .year-display { font-size: 1.2vh; }
+.mobile-header .zzz-dashed-svg { height: 1vh; margin-top: 0.2vh; opacity: 0.7; }
+
+@media (orientation: portrait) {
+    .mobile-header { display: flex; }
+}

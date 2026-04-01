@@ -1,0 +1,235 @@
+.footer {
+    position: fixed;
+    bottom: var(--taskbar-offset, 0rem);
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 13vh;
+    min-height: 6rem;
+    background: #0f0f0f;
+    border-bottom: 0.8vh solid var(--accent-color);
+    padding: 0 1vw;
+    box-shadow: 0 -1rem 3rem rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    transition: filter 0.2s ease, opacity 0.4s ease;
+
+    color: inherit;
+    border-color: var(--accent-color);
+    background-color: #0f0f0f;
+
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    contain: paint;
+}
+
+.footer.footer-light {
+    background: #f0f0f0;
+}
+
+.footer-light .day-name,
+.footer-light .day-num,
+.footer-light .media-title,
+.footer-light .media-artist,
+.footer-light .header-glyphs {
+    color: #444;
+}
+
+.footer-light .watch-notch,
+.footer-light .watch-hand,
+.footer-light .watch-center {
+    background-color: #fff;
+}
+
+.footer-light .pill-month {
+    color: #fff;
+}
+
+.footer-left,
+.footer-right {
+    height: 100%;
+}
+
+.brand-container {
+    color: var(--accent-color);
+    text-transform: uppercase;
+    display: inline-block;
+    transition: none;
+}
+
+.top-row {
+    display: flex;
+    align-items: center;
+    gap: 1vh;
+    margin-bottom: 0.5vh;
+}
+
+.bottom-row {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-top: 0.3vh;
+}
+
+.title-text {
+    height: 6.5vh;
+    aspect-ratio: 505 / 119;
+    background-color: var(--accent-color);
+    -webkit-mask: url('../../assets/imgs/svg/month.svg') no-repeat center;
+    mask: url('../../assets/imgs/svg/month.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: none;
+}
+
+.left-block {
+    font-family: "Zenless_Glyphs", monospace;
+    text-align: right;
+    font-size: 0.5vh;
+    line-height: 1.1;
+    margin-right: 0.3vh;
+    color: var(--accent-color);
+    transition: none;
+}
+
+.right-meta-group {
+    display: flex;
+    align-items: center;
+}
+
+.right-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.2vh;
+    flex-shrink: 0;
+}
+
+.zzz-dashed-svg {
+    height: 2.2vh;
+    aspect-ratio: 66/25;
+    background-color: var(--accent-color);
+    -webkit-mask: url('../../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
+    mask: url('../../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    margin-right: -0.6vh;
+    transition: none;
+}
+
+.pill-month {
+    background-color: var(--accent-color);
+    color: #0f0f0f;
+    padding: 0.25vh 1.35vh 0.3vh 1.35vh;
+    border-radius: 3vh;
+    font-size: 1.1vh;
+    font-weight: 950;
+    line-height: 1;
+    transition: none;
+}
+
+.year-display {
+    font-size: 1.6vh;
+    font-weight: 950;
+    letter-spacing: 0.1vh;
+    line-height: 1;
+    margin-right: -0.25vh;
+    color: var(--accent-color);
+    transition: none;
+}
+
+.zzz-logo-final {
+    display: flex;
+    cursor: pointer;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.zzz-logo-final:hover {
+    transform: scale(1.1);
+    filter: drop-shadow(0 0 1rem var(--accent-color));
+}
+
+.zzz-logo-final img {
+    height: 8vh;
+    width: auto;
+    margin-bottom: 0.2rem;
+}
+
+.zzz-logo-sub {
+    font-size: 0.8rem;
+    background: var(--accent-color);
+    color: #000;
+    padding: 0.2rem 1rem;
+    font-weight: 950;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    transition: none;
+}
+
+@media (orientation: portrait) {
+    .footer {
+        width: 13vw;
+        min-width: 5rem;
+        height: 100vh;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        flex-direction: column;
+        padding: 5vh 0 2vh 0;
+        border-bottom: none;
+        box-shadow: 1rem 0 3rem rgba(0, 0, 0, 0.5);
+    }
+
+    .footer-left,
+    .footer-right,
+    .brand-container {
+        display: none !important;
+    }
+
+    .footer .row {
+        flex-direction: column;
+        justify-content: center !important;
+        align-items: center !important;
+        height: 100% !important;
+    }
+
+    .vertical-brand {
+        display: flex !important;
+        flex-direction: column;
+        align-items: center;
+        gap: 1vh;
+        margin-top: auto;
+        padding-bottom: 2vh;
+    }
+
+    .vertical-month-svg {
+        height: 21vh;
+        width: 6vh;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .vertical-month-svg::before {
+        content: '';
+        position: absolute;
+        width: 21vh;
+        height: 6vh;
+        background-color: var(--accent-color);
+        -webkit-mask: url(../../assets/imgs/svg/month.svg) no-repeat center;
+        mask: url(../../assets/imgs/svg/month.svg) no-repeat center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        transform: rotate(90deg);
+    }
+
+    .vertical-brand .zzz-logo-final img {
+        height: 2.5vh;
+        width: auto;
+    }
+}

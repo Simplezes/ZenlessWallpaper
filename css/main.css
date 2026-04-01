@@ -1,5 +1,6 @@
 :root {
     --accent-color: #FC5B90;
+    --bg-color: #111;
     font-size: clamp(0.6rem, calc(100vh / 108), 2.5rem);
 }
 
@@ -33,7 +34,7 @@ body {
     margin: 0;
     overflow: hidden;
     font-family: "Zenless", monospace;
-    background: #111;
+    background: var(--bg-color);
 }
 
 .paper-overlay {

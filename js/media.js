@@ -109,3 +109,4 @@ window.wallpaperRegisterAudioListener(function (audioData) {
 });
 
 updateMediaUI();
+window.addEventListener('footer-ready', updateMediaUI);
