@@ -110,7 +110,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
     const applyColorsAndText = () => {
         const duration = (window.CharacterTransition && window.CharacterTransition.COLOR_DURATION) || 800;
         const colorObj = {
-            accent: oldAccent || '#FC5B90'
+            accent: oldAccent || 'rgb(252, 91, 144)'
         };
 
         anime({
@@ -167,7 +167,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             isCharacterChanging = true;
             window.CharacterTransition.run(outgoingImg, tempImg, {
                 type: transitionType,
-                accent: charData.baseColor || '#FC5B90',
+                accent: charData.baseColor || 'rgb(252, 91, 144)',
                 oldAccent: oldAccent,
                 onStart: () => {
                     const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
@@ -179,7 +179,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     updateText(factionText, charData.faction, -30, factionOpacity);
                     updateText(nicknameText, charData.name, 30, nicknameOpacity);
 
-                    const currentAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || oldAccent || '#FC5B90';
+                    const currentAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || oldAccent || 'rgb(252, 91, 144)';
                     const colorObj = { accent: currentAccent };
                     const colorDuration = (window.CharacterTransition && window.CharacterTransition.COLOR_DURATION) || 320;
 
@@ -332,33 +332,6 @@ function updateText(el, text, offset, targetOpacity) {
     }
 }
 
-function parseHsl(hex) {
-    let r = 0, g = 0, b = 0;
-    if (hex.length === 4) {
-        r = parseInt(hex[1] + hex[1], 16);
-        g = parseInt(hex[2] + hex[2], 16);
-        b = parseInt(hex[3] + hex[3], 16);
-    } else if (hex.length === 7) {
-        r = parseInt(hex.substring(1, 3), 16);
-        g = parseInt(hex.substring(3, 5), 16);
-        b = parseInt(hex.substring(5, 7), 16);
-    }
-    r /= 255; g /= 255; b /= 255;
-    let max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h, s, l = (max + min) / 2;
-    if (max === min) { h = s = 0; }
-    else {
-        let d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h /= 6;
-    }
-    return { h: h * 360, s: s * 100, l: l * 100 };
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     if (window.app) {

@@ -7,7 +7,7 @@ export default class Background extends Component {
             character: 'Burnice White',
             faction: 'KOBEBW',
             nickname: 'BURNICE',
-            baseColor: '#FC5B90'
+            baseColor: 'rgb(252, 91, 144)'
         };
     }
 
@@ -24,7 +24,7 @@ export default class Background extends Component {
                 <defs>
                     <filter id="rough-paper">
                         <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="3" result="noise" />
-                        <feDiffuseLighting in="noise" lighting-color="#fff" surfaceScale="0.8" result="light">
+                        <feDiffuseLighting in="noise" lighting-color='rgb(255, 255, 255)' surfaceScale="0.8" result="light">
                             <feDistantLight azimuth="45" elevation="65" />
                         </feDiffuseLighting>
                         <feBlend in="light" in2="SourceGraphic" mode="multiply" />

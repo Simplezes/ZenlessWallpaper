@@ -68,28 +68,15 @@
             this.scanlinePattern = this.ctx.createPattern(patCanvas, 'repeat');
         }
 
-        hexBlend(color, factor) {
-            let str = String(color || '#FC5B90').trim();
-            let r = 0, g = 0, b = 0;
+                rgbBlend(color, factor) {
+            let str = String(color || 'rgb(252, 91, 144)').trim();
+            let r = 252, g = 91, b = 144;
 
-            const hexMatch = str.match(/#([0-9a-fA-F]+)/);
-            if (hexMatch) {
-                let hex = hexMatch[1];
-                if (hex.length === 3) hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-                if (hex.length >= 6) {
-                    r = parseInt(hex.slice(0, 2), 16);
-                    g = parseInt(hex.slice(2, 4), 16);
-                    b = parseInt(hex.slice(4, 6), 16);
-                }
-            } else {
-                const rgbMatch = str.match(/(?:rgb|rgba)\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
-                if (rgbMatch) {
-                    r = parseInt(rgbMatch[1], 10);
-                    g = parseInt(rgbMatch[2], 10);
-                    b = parseInt(rgbMatch[3], 10);
-                } else {
-                    r = 252; g = 91; b = 144;
-                }
+            const rgbMatch = str.match(/(?:rgb|rgba)\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+            if (rgbMatch) {
+                r = parseInt(rgbMatch[1], 10);
+                g = parseInt(rgbMatch[2], 10);
+                b = parseInt(rgbMatch[3], 10);
             }
 
             const p = 1 - (factor / 100);
@@ -243,8 +230,8 @@
             const { w: W, h: H } = this.syncCanvas();
             const ctx = this.ctx;
             const bgCtx = this.bgCtx;
-            const accent = this.colors.new || '#FC5B90';
-            const oldAccent = this.colors.old || '#FC5B90';
+            const accent = this.colors.new || 'rgb(252, 91, 144)';
+            const oldAccent = this.colors.old || 'rgb(252, 91, 144)';
             const p = this.progress.value;
 
             ctx.clearRect(0, 0, W, H);
@@ -256,7 +243,7 @@
             }
 
             bgCtx.save();
-            bgCtx.fillStyle = this.hexBlend(oldAccent, 24);
+            bgCtx.fillStyle = this.rgbBlend(oldAccent, 24);
             bgCtx.fillRect(0, 0, W, H);
 
             let pBG = Math.min(1, p * 1.2);
@@ -267,7 +254,7 @@
 
             this.definePath(bgCtx, W, H, pBG, 'inner');
             bgCtx.clip();
-            bgCtx.fillStyle = this.hexBlend(accent, 24);
+            bgCtx.fillStyle = this.rgbBlend(accent, 24);
             bgCtx.fillRect(0, 0, W, H);
             bgCtx.restore();
 
@@ -295,12 +282,12 @@
             const ctx = this.ctx;
             const bgCtx = this.bgCtx;
 
-            const oldAccent = this.colors.old || '#111111';
-            const BG_OLD = this.hexBlend(oldAccent, 24);
-            const BG_NEW = this.hexBlend(accent, 24);
-            const BG_PANEL = this.hexBlend(oldAccent, 38);
-            const P3_CYAN = '#000000';
-            const P3_WHITE = '#FFFFFF';
+            const oldAccent = this.colors.old || 'rgb(17, 17, 17)';
+            const BG_OLD = this.rgbBlend(oldAccent, 24);
+            const BG_NEW = this.rgbBlend(accent, 24);
+            const BG_PANEL = this.rgbBlend(oldAccent, 38);
+            const P3_CYAN = 'rgb(0, 0, 0)';
+            const P3_WHITE = 'rgb(255, 255, 255)';
 
             ctx.clearRect(0, 0, W, H);
             bgCtx.clearRect(0, 0, W, H);
@@ -377,7 +364,7 @@
                     ctx.translate(10, 10);
                     this.drawImgFit(this.images.new, W, H);
                     ctx.globalCompositeOperation = 'source-in';
-                    ctx.fillStyle = '#000000';
+                    ctx.fillStyle = 'rgb(0, 0, 0)';
                     ctx.fillRect(-50, -50, W + 100, H + 100);
                     ctx.restore();
 
@@ -662,7 +649,7 @@
                         ctx.fill();
 
                         ctx.globalAlpha = 1.0;
-                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillStyle = 'rgb(255, 255, 255)';
                         ctx.beginPath();
                         ctx.moveTo(cell.x + slide + w - 4, 0);
                         ctx.lineTo(cell.x + slide + w + 2, 0);
@@ -682,7 +669,7 @@
                     this.definePath(ctx, W, H, p, 'main');
                     ctx.stroke();
 
-                    ctx.strokeStyle = '#FFFFFF';
+                    ctx.strokeStyle = 'rgb(255, 255, 255)';
                     ctx.lineWidth = 5;
                     this.definePath(ctx, W, H, Math.max(0, p - 0.08), 'inner');
                     ctx.stroke();
@@ -708,8 +695,8 @@
                     };
 
                     drawLine(0, 1, 30, accent);
-                    drawLine(35, 1, 12, '#FFFFFF');
-                    drawLine(-45, 0.8, 8, '#00D4FF');
+                    drawLine(35, 1, 12, 'rgb(255, 255, 255)');
+                    drawLine(-45, 0.8, 8, 'rgb(0, 212, 255)');
 
                     if (p > 0.02 && p < 1) {
                         ctx.beginPath();
@@ -734,7 +721,7 @@
                 }
 
                 case 'wavyCircle': {
-                    const oldAccent = this.colors.old || '#111111';
+                    const oldAccent = this.colors.old || 'rgb(17, 17, 17)';
 
                     ctx.strokeStyle = oldAccent;
                     ctx.lineWidth = 12 * (1 - p);
@@ -787,8 +774,8 @@
             this.active = true;
             this.images.old = oldImg;
             this.images.new = newImg;
-            this.colors.new = options.accent || '#FC5B90';
-            this.colors.old = options.oldAccent || '#FC5B90';
+            this.colors.new = options.accent || 'rgb(252, 91, 144)';
+            this.colors.old = options.oldAccent || 'rgb(252, 91, 144)';
 
             this.onDone = options.onDone || null;
 

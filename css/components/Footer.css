@@ -6,7 +6,7 @@
     width: 100%;
     height: 13vh;
     min-height: 6rem;
-    background: #0f0f0f;
+    background: rgb(15, 15, 15);
     border-bottom: 0.8vh solid var(--accent-color);
     padding: 0 1vw;
     box-shadow: 0 -1rem 3rem rgba(0, 0, 0, 0.5);
@@ -15,7 +15,7 @@
 
     color: inherit;
     border-color: var(--accent-color);
-    background-color: #0f0f0f;
+    background-color: rgb(15, 15, 15);
 
     will-change: transform;
     transform: translateZ(0);
@@ -24,7 +24,7 @@
 }
 
 .footer.footer-light {
-    background: #f0f0f0;
+    background: rgb(240, 240, 240);
 }
 
 .footer-light .day-name,
@@ -32,17 +32,17 @@
 .footer-light .media-title,
 .footer-light .media-artist,
 .footer-light .header-glyphs {
-    color: #444;
+    color: rgb(68, 68, 68);
 }
 
 .footer-light .watch-notch,
 .footer-light .watch-hand,
 .footer-light .watch-center {
-    background-color: #fff;
+    background-color: rgb(255, 255, 255);
 }
 
 .footer-light .pill-month {
-    color: #fff;
+    color: rgb(255, 255, 255);
 }
 
 .footer-left,
@@ -119,7 +119,7 @@
 
 .pill-month {
     background-color: var(--accent-color);
-    color: #0f0f0f;
+    color: rgb(15, 15, 15);
     padding: 0.25vh 1.35vh 0.3vh 1.35vh;
     border-radius: 3vh;
     font-size: 1.1vh;
@@ -161,7 +161,7 @@
 .zzz-logo-sub {
     font-size: 0.8rem;
     background: var(--accent-color);
-    color: #000;
+    color: rgb(0, 0, 0);
     padding: 0.2rem 1rem;
     font-weight: 950;
     clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);

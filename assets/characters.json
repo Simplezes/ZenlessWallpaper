@@ -1,82 +1,82 @@
 {
     "characters": {
         "Cunning Hares": {
-            "Anby Demara": "#DCFB21",
-            "Billy Kid": "#FF3110",
-            "Nekomiya Mana": "#FF4D00",
-            "Nicole Demara": "#FF46BA"
+            "Anby Demara": "rgb(220, 251, 33)",
+            "Billy Kid": "rgb(255, 49, 16)",
+            "Nekomiya Mana": "rgb(255, 77, 0)",
+            "Nicole Demara": "rgb(255, 70, 186)"
         },
         "Belobog Heavy Industries": {
-            "Anton Ivanov": "#FF5E00",
-            "Ben Bigger": "#FF9100",
-            "Grace Howard": "#FF7F27",
-            "Koleda Belobog": "#FF3C00"
+            "Anton Ivanov": "rgb(255, 94, 0)",
+            "Ben Bigger": "rgb(255, 145, 0)",
+            "Grace Howard": "rgb(255, 127, 39)",
+            "Koleda Belobog": "rgb(255, 60, 0)"
         },
         "Victoria Housekeeping Co.": {
-            "Alexandrina Sebastiane": "#FF1E3F",
-            "Corin Wickes": "#B740FF",
-            "Ellen Joe": "#FF2D82",
-            "Von Lycaon": "#A0D2EB"
+            "Alexandrina Sebastiane": "rgb(255, 30, 63)",
+            "Corin Wickes": "rgb(183, 64, 255)",
+            "Ellen Joe": "rgb(255, 45, 130)",
+            "Von Lycaon": "rgb(160, 210, 235)"
         },
         "Sons of Calydon": {
-            "Burnice White": "#FFB114",
-            "Caesar King": "#FF9500",
-            "Lighter": "#FF2100",
-            "Luciana de Montefio": "#FFB800",
-            "Piper Wheel": "#FFA500",
-            "Pulchra Fellini": "#FF8C00"
+            "Burnice White": "rgb(255, 177, 20)",
+            "Caesar King": "rgb(255, 149, 0)",
+            "Lighter": "rgb(255, 33, 0)",
+            "Luciana de Montefio": "rgb(255, 184, 0)",
+            "Piper Wheel": "rgb(255, 165, 0)",
+            "Pulchra Fellini": "rgb(255, 140, 0)"
         },
         "Section 6": {
-            "Asaba Harumasa": "#FFDC00",
-            "Hoshimi Miyabi": "#00E5FF",
-            "Soukaku": "#00FBFF",
-            "Tsukishiro Yanagi": "#FF0055"
+            "Asaba Harumasa": "rgb(255, 220, 0)",
+            "Hoshimi Miyabi": "rgb(0, 229, 255)",
+            "Soukaku": "rgb(0, 251, 255)",
+            "Tsukishiro Yanagi": "rgb(255, 0, 85)"
         },
         "Criminal Investigation Special Response Team": {
-            "Jane Doe": "#FF1F6D",
-            "Qingyi": "#14FFB2",
-            "Seth Lowell": "#55A2FF",
-            "Zhu Yuan": "#0084FF"
+            "Jane Doe": "rgb(255, 31, 109)",
+            "Qingyi": "rgb(20, 255, 178)",
+            "Seth Lowell": "rgb(85, 162, 255)",
+            "Zhu Yuan": "rgb(0, 132, 255)"
         },
         "Obol Squad": {
-            "Orphie Magnusson & Magus": "#FF3B59",
-            "Seed": "#FFA500",
-            "Soldier 11": "#FFCC00",
-            "Trigger": "#FFEE00"
+            "Orphie Magnusson & Magus": "rgb(255, 59, 89)",
+            "Seed": "rgb(255, 165, 0)",
+            "Soldier 11": "rgb(255, 204, 0)",
+            "Trigger": "rgb(255, 238, 0)"
         },
         "Silver Squad": {
-            "Soldier 0 - Anby": "#DCFB21"
+            "Soldier 0 - Anby": "rgb(220, 251, 33)"
         },
         "Mockingbird": {
-            "Hugo Vlad": "#FF0000",
-            "Vivian Banshee": "#B740FF"
+            "Hugo Vlad": "rgb(255, 0, 0)",
+            "Vivian Banshee": "rgb(183, 64, 255)"
         },
         "Yunkui Summit": {
-            "Ju Fufu": "#FF8C00",
-            "Pan Yinhu": "#FFCC00",
-            "Ye Shunguang": "#FF1612",
-            "Yixuan": "#D49D00"
+            "Ju Fufu": "rgb(255, 140, 0)",
+            "Pan Yinhu": "rgb(255, 204, 0)",
+            "Ye Shunguang": "rgb(255, 22, 18)",
+            "Yixuan": "rgb(212, 157, 0)"
         },
         "Spook Shack": {
-            "Alice Thymefield": "#FFD700",
-            "Komano Manato": "#FF4500",
-            "Lucia Elowen": "#00EEFF",
-            "Ukinami Yuzuha": "#FF0000",
-            "Yidhari Murphy": "#BD00FF"
+            "Alice Thymefield": "rgb(255, 215, 0)",
+            "Komano Manato": "rgb(255, 69, 0)",
+            "Lucia Elowen": "rgb(0, 238, 255)",
+            "Ukinami Yuzuha": "rgb(255, 0, 0)",
+            "Yidhari Murphy": "rgb(189, 0, 255)"
         },
         "Stars of Lyra": {
-            "Astra Yao": "#FF003C",
-            "Evelyn Chevalier": "#B740FF"
+            "Astra Yao": "rgb(255, 0, 60)",
+            "Evelyn Chevalier": "rgb(183, 64, 255)"
         },
         "Krampus Compliance Authority": {
-            "Banyue": "#FFA500",
-            "Dialyn": "#00FFCC",
-            "Zhao": "#FF4D6D"
+            "Banyue": "rgb(255, 165, 0)",
+            "Dialyn": "rgb(0, 255, 204)",
+            "Zhao": "rgb(255, 77, 109)"
         },
         "Angels of Delusion": {
-            "Sunna": "#DCFB21",
-            "Nangong Yu": "#562ab5",
-            "Aria": "#FF8BA4"
+            "Sunna": "rgb(220, 251, 33)",
+            "Nangong Yu": "rgb(86, 42, 181)",
+            "Aria": "rgb(255, 139, 164)"
         }
     }
 }
