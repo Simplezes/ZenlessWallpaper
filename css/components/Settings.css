@@ -73,20 +73,17 @@
 .segment-path {
     fill: rgb(15, 15, 15);
     stroke: rgb(15, 15, 15);
-    stroke-width: 14;
     stroke-linejoin: round;
     paint-order: stroke fill;
-    filter: url(#feather-filter);
     opacity: 0.95;
     cursor: pointer;
-    transition: fill 0.8s ease, stroke 0.8s ease, opacity 0.2s ease;
     pointer-events: auto;
 }
 
 .segment-path:hover,
 .segment-svg.active .segment-path {
     fill: rgb(235, 204, 33);
-    stroke:rgb(235, 204, 33);
+    stroke: rgb(235, 204, 33);
     opacity: 1;
     transition: fill 0.2s ease, stroke 0.2s ease, opacity 0.2s ease;
 }
@@ -452,6 +449,9 @@
     height: 100%;
     object-fit: cover;
     border-radius: 2.6rem;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 .agent-use-btn-wrapper {

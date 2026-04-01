@@ -64,7 +64,7 @@ export default class AgentList extends Component {
                 const isSelected = name === this.state.selectedAvatarName;
                 html += `
                     <div class="agent-avatar-item ${isActive ? 'active' : ''} ${isSelected ? 'selected' : ''}" data-name="${name}">
-                        <img src="assets/avatars/${fileName}" class="avatar-img" alt="${name}" loading="lazy">
+                        <img src="assets/avatars/${fileName}" class="avatar-img" alt="${name}" loading="lazy" draggable="false">
                     </div>
                 `;
             }
@@ -156,6 +156,7 @@ export default class AgentList extends Component {
 
         panel.onmousedown = (e) => {
             if (e.button !== 0) return;
+            e.preventDefault();
             isDown = true;
             panel.classList.add('grabbing');
             startY = e.pageY - panel.offsetTop;
@@ -170,6 +171,7 @@ export default class AgentList extends Component {
 
         panel.onmousemove = (e) => {
             if (!isDown) return;
+            e.preventDefault();
             panel.scrollTop = scrollStart - (e.pageY - panel.offsetTop - startY) * 2;
         };
     }
