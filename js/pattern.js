@@ -2,10 +2,14 @@ const PatternRenderer = (() => {
     const ANGLE_DEG = -25;
     const ANGLE_RAD = ANGLE_DEG * (Math.PI / 180);
 
-    const TILE_VH = 0.3;
-    const TILE_VH_2 = 0.12;
-    const GAP_FRAC = 0.08;
-    const H_GAP = 0.8;
+    const SCALE_1 = 0.4;
+    const SCALE_2 = 0.4;
+
+    const V_GAP = 15;
+    const H_GAP = 10;
+
+    const WANDER_AMOUNT = 1;
+    const WANDER_FREQ = 1;
 
     let canvas = null;
     let ctx = null;
@@ -13,25 +17,21 @@ const PatternRenderer = (() => {
     let image2 = null;
 
     function init() {
-        if (!canvas) {
-            canvas = document.getElementById('bg-pattern-canvas');
-        }
+        if (!canvas) canvas = document.getElementById('bg-pattern-canvas');
         if (!canvas) return;
-        
+
         ctx = canvas.getContext('2d');
 
         window.removeEventListener('resize', onResize);
         window.addEventListener('resize', onResize);
 
         resize();
-        
-        const loadImg = (src) => {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.src = src;
-                img.onload = () => resolve(img);
-            });
-        };
+
+        const loadImg = (src) => new Promise((resolve) => {
+            const img = new Image();
+            img.src = src;
+            img.onload = () => resolve(img);
+        });
 
         Promise.all([
             loadImg('assets/imgs/zenless_bangboo.webp'),
@@ -60,46 +60,46 @@ const PatternRenderer = (() => {
         const H = window.innerHeight;
         ctx.clearRect(0, 0, W, H);
 
-        const tileH1 = Math.round(H * TILE_VH);
-        const tileH2 = Math.round(H * TILE_VH_2);
+        const tileW1 = Math.round(image1.naturalWidth  * SCALE_1);
+        const tileH1 = Math.round(image1.naturalHeight * SCALE_1);
+        const tileW2 = Math.round(image2.naturalWidth  * SCALE_2);
+        const tileH2 = Math.round(image2.naturalHeight * SCALE_2);
 
-        const tileW1 = Math.round(tileH1 * image1.naturalWidth / image1.naturalHeight);
-        const tileW2 = Math.round(tileH2 * image2.naturalWidth / image2.naturalHeight);
+        const colPitch1 = tileW1 + H_GAP;
+        const colPitch2 = tileW2 + H_GAP;
 
-        const colPitch = tileW1 * (1 + H_GAP);
-        const rowPitch = tileH1 * (1 + GAP_FRAC);
-        const rowOff = colPitch / 2;
-        const extra = Math.max(W, H) * 1.5;
+        const rowBlock = tileH1 + V_GAP + tileH2 + V_GAP;
+        const extra = (Math.max(W, H)) * 1.5;
 
-        const drawImage = (img, x, y, tw, th) => {
-            ctx.save();
-            ctx.translate(x, y);
-            ctx.rotate(ANGLE_RAD);
-            ctx.drawImage(img, -tw / 2, -th / 2, tw, th);
-            ctx.restore();
-        };
+        ctx.save();
+        ctx.translate(W / 2, H / 2);
+        ctx.rotate(ANGLE_RAD);
+        ctx.translate(-W / 2, -H / 2);
 
-        let row = 0;
-        for (let y = -extra; y < H + extra; y += rowPitch) {
-            const isRowEven = (row % 2 === 0);
-            const shift1 = isRowEven ? 0 : rowOff;
-            const shift2 = isRowEven ? rowOff : 0;
+        for (let y = -extra; y < H + extra; y += rowBlock) {
+            
+            const rowAShift = Math.sin(y * WANDER_FREQ) * WANDER_AMOUNT;
 
-            for (let x = -extra + shift1; x < W + extra; x += colPitch) {
-                drawImage(image1, x, y, tileW1, tileH1);
+            for (let x = -extra - WANDER_AMOUNT; x < W + extra + WANDER_AMOUNT; x += colPitch1) {
+                ctx.drawImage(image1, x + rowAShift, y, tileW1, tileH1);
             }
-            for (let x = -extra + shift2; x < W + extra; x += colPitch) {
-                drawImage(image2, x, y, tileW2, tileH2);
+
+            const yMid = y + tileH1 + V_GAP;
+            
+            const rowBShift = Math.sin(yMid * WANDER_FREQ) * WANDER_AMOUNT;
+            const xOffset = colPitch1 / 2;
+
+            for (let x = -extra - WANDER_AMOUNT; x < W + extra + WANDER_AMOUNT; x += colPitch2) {
+                ctx.drawImage(image2, x + xOffset + rowBShift, yMid, tileW2, tileH2);
             }
-            row++;
         }
+
+        ctx.restore();
 
         const pCanvas = document.createElement('canvas');
         const pCtx = pCanvas.getContext('2d');
         pCanvas.width = 4;
         pCanvas.height = 4;
-
-        pCtx.strokeStyle = 'rgba(0, 0, 0, 0.8)';
         pCtx.lineWidth = 1;
         pCtx.beginPath();
         pCtx.moveTo(0, 4);
@@ -108,10 +108,7 @@ const PatternRenderer = (() => {
 
         ctx.save();
         ctx.globalCompositeOperation = 'source-atop';
-
-        const pattern = ctx.createPattern(pCanvas, 'repeat');
-        ctx.fillStyle = pattern;
-
+        ctx.fillStyle = ctx.createPattern(pCanvas, 'repeat');
         ctx.fillRect(0, 0, W, H);
         ctx.restore();
     }
