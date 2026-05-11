@@ -71,12 +71,16 @@
         "Krampus Compliance Authority": {
             "Banyue": "rgb(255, 165, 0)",
             "Dialyn": "rgb(0, 255, 204)",
-            "Zhao": "rgb(255, 77, 109)"
+            "Zhao": "rgb(255, 77, 109)",
+            "Promeia": "rgb(159, 122, 237)"
         },
         "Angels of Delusion": {
             "Sunna": "rgb(220, 251, 33)",
             "Nangong Yu": "rgb(86, 42, 181)",
             "Aria": "rgb(255, 139, 164)"
+        },
+        "Metropolitan Order Division": {
+            "Cissia": "rgb(183, 69, 105)"
         }
     }
 }
