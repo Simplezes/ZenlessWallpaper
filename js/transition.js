@@ -24,6 +24,7 @@
             this.currentType = 'shutter';
             this.cleanupTask = null;
             this._generation = 0;
+            this._lastTransitionType = null;
             this._lastCharSway = null;
             this._lastBgSway = null;
             this._cachedW = 0;
@@ -968,8 +969,11 @@
             if (options.type && TRANSITION_TYPES.includes(options.type)) {
                 this.currentType = options.type;
             } else {
-                this.currentType = TRANSITION_TYPES[Math.floor(Math.random() * TRANSITION_TYPES.length)];
+                const availableTypes = TRANSITION_TYPES.filter(type => type !== this._lastTransitionType);
+                const choices = availableTypes.length ? availableTypes : TRANSITION_TYPES;
+                this.currentType = choices[Math.floor(Math.random() * choices.length)];
             }
+            this._lastTransitionType = this.currentType;
 
             this.images.old.style.opacity = '0';
             this.images.new.style.opacity = '0';
