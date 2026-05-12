@@ -138,8 +138,23 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         updateText(factionText, charData.faction, -30, factionOpacity);
         updateText(nicknameText, charData.name, 30, nicknameOpacity);
 
+        const calName = document.querySelector('.calendar-agent-name');
+        if (calName) {
+            updateText(calName, charData.name, 0, 1);
+        }
+
         localStorage.setItem('selectedCharacter', charData.name);
         localStorage.setItem('selectedVariant', variant);
+        localStorage.setItem('selectedFaction', charData.faction);
+        localStorage.setItem('selectedNickname', charData.nickname);
+
+        window.dispatchEvent(new CustomEvent('character-changed', {
+            detail: {
+                character: charData.name,
+                faction: charData.faction,
+                nickname: charData.nickname
+            }
+        }));
     };
 
     if (textOnly) {
@@ -183,6 +198,11 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     updateText(factionText, charData.faction, -30, factionOpacity);
                     updateText(nicknameText, charData.name, 30, nicknameOpacity);
 
+                    const calName = document.querySelector('.calendar-agent-name');
+                    if (calName) {
+                        updateText(calName, charData.name, 0, 1);
+                    }
+
                     const currentAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || oldAccent || 'rgb(252, 91, 144)';
                     const colorObj = { accent: currentAccent };
                     const colorDuration = (window.CharacterTransition && window.CharacterTransition.COLOR_DURATION) || 320;
@@ -205,7 +225,18 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                 onDone: () => {
                     localStorage.setItem('selectedCharacter', charData.name);
                     localStorage.setItem('selectedVariant', variant);
+                    localStorage.setItem('selectedFaction', charData.faction);
+                    localStorage.setItem('selectedNickname', charData.nickname);
 
+                    window.dispatchEvent(new CustomEvent('character-changed', {
+                        detail: {
+                            character: charData.name,
+                            faction: charData.faction,
+                            nickname: charData.nickname
+                        }
+                    }));
+
+                    const mainImg = document.getElementById('main-image');
                     mainImg.src = imgPath;
                     return mainImg.decode().then(() => {
                         isCharacterChanging = false;
@@ -343,6 +374,11 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         loadCharacters();
     }
+});
+
+window.addEventListener('layout-changed', () => {
+    lastTargetImg = null;
+    isCharacterChanging = false;
 });
 
 function kickLayout() {

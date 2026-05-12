@@ -20,7 +20,8 @@ class Store {
                 artist: 'IDLE',
                 isPlaying: false,
                 playbackState: 0
-            }
+            },
+            layout: localStorage.getItem('wallpaperLayout') || 'calendar'
         };
 
         this.listeners = [];

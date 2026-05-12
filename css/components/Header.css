@@ -11,6 +11,10 @@
     justify-content: space-between;
 }
 
+.mobile-header.header-hide-left {
+    justify-content: flex-end;
+}
+
 .calendar-title {
     font-family: 'Zenless', sans-serif;
     font-size: 3.5vh;

@@ -183,12 +183,13 @@ class KineticSway {
         const manualFlip = this._manualFlip;
 
         for (let item of this.elements) {
-            if (!item.el) {
+            if (!item.el || !item.el.isConnected) {
                 if (item.id) item.el = document.getElementById(item.id);
                 if (!item.el) continue;
                 item.el.style.translate = '';
                 item.el.style.rotate = '';
                 item.el.style.scale = '';
+                item._imgs = null;
             }
 
             const t = this.time * this.globalSpeed * item.speedOffset;

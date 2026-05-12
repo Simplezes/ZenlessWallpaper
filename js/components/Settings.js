@@ -23,19 +23,21 @@ export default class Settings extends Component {
                 <path d="M3 12L8 7L8 17L3 12Z" fill="currentColor" />
                 <path d="M21 12L16 7L16 17L21 12Z" />
                 <path d="M12 2V22" stroke-width="2" stroke-dasharray="4 4" opacity="0.6" />
-            </svg>`
+            </svg>`,
+            layout: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>`
         };
 
         this.MENU_ITEMS = [
             { id: 'agents', label: 'AGENTS', img: 'assets/imgs/icons/Icon_Agents.webp', angle: 0 },
-            { id: 'variant', label: 'MODE', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 40 },
-            { id: 'footer', label: 'THEME', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 80 },
-            { id: 'kinetic', label: 'MOTION', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 120 },
-            { id: 'close', label: 'CLOSE', icon: this.ICONS.close, angle: 160 },
-            { id: 'pattern', label: 'PATTERN', img: 'assets/imgs/icons/Icon_DMs.webp', angle: 200 },
-            { id: 'ambient', label: 'EFFECTS', img: 'assets/imgs/icons/Icon_More.webp', angle: 240 },
-            { id: 'rotate', label: 'ROTATE', icon: this.ICONS.rotate, angle: 280 },
-            { id: 'flip', label: 'FLIP', icon: this.ICONS.flip, angle: 320 },
+            { id: 'variant', label: 'MODE', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 36 },
+            { id: 'footer', label: 'THEME', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 72 },
+            { id: 'kinetic', label: 'MOTION', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 108 },
+            { id: 'close', label: 'CLOSE', icon: this.ICONS.close, angle: 144 },
+            { id: 'layout', label: 'LAYOUT', icon: this.ICONS.layout, angle: 180 },
+            { id: 'pattern', label: 'PATTERN', img: 'assets/imgs/icons/Icon_DMs.webp', angle: 216 },
+            { id: 'ambient', label: 'EFFECTS', img: 'assets/imgs/icons/Icon_More.webp', angle: 252 },
+            { id: 'rotate', label: 'ROTATE', icon: this.ICONS.rotate, angle: 288 },
+            { id: 'flip', label: 'FLIP', icon: this.ICONS.flip, angle: 324 },
         ];
 
         this._clickBound = false;
@@ -248,12 +250,22 @@ export default class Settings extends Component {
             case 'variant': this.cycleVariant(); break;
             case 'footer': this.toggleFooterTheme(); break;
             case 'kinetic': this.toggleKinetic(); break;
+            case 'layout': this.toggleLayout(); break;
             case 'pattern': this.togglePattern(); break;
             case 'ambient': this.toggleAmbient(); break;
             case 'rotate': this.cycleRotate(); break;
             case 'flip': this.toggleFlip(); break;
             case 'close': this.closeMenu(); break;
         }
+    }
+
+    toggleLayout() {
+        const current = localStorage.getItem('wallpaperLayout') || 'calendar';
+        const next = current === 'calendar' ? 'default' : 'calendar';
+        localStorage.setItem('wallpaperLayout', next);
+        if (window.store) window.store.setState({ layout: next });
+        window.dispatchEvent(new CustomEvent('layout-changed', { detail: { layout: next } }));
+        this.closeMenu();
     }
 
     cycleVariant() {

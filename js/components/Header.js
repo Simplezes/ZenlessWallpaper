@@ -7,13 +7,19 @@ export default class Header extends Component {
         
         this.useStore(store, (s) => ({
             month: s.month,
-            year: s.year
+            year: s.year,
+            layout: s.layout,
+            isPortrait: s.isPortrait
         }));
     }
 
     render() {
+        const isCalendar = this.state.layout === 'calendar';
+        const hideHeaderLeft = isCalendar && this.state.isPortrait;
+
         return `
-        <div class="mobile-header">
+        <div class="mobile-header ${hideHeaderLeft ? 'header-hide-left' : ''}">
+            ${hideHeaderLeft ? '' : `
             <div class="header-left">
                 <h1 class="calendar-title">CALENDAR</h1>
                 <div class="header-sub">
@@ -21,6 +27,7 @@ export default class Header extends Component {
                     <div class="header-glyphs">KOBEBW BBABA BBZBE YEAUKE</div>
                 </div>
             </div>
+            `}
             <div class="header-right">
                 <div class="pill-month" id="header-month-name">${this.state.month}</div>
                 <div class="year-display">[ <span id="header-year">${this.state.year}</span> ]</div>
