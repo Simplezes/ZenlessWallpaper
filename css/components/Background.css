@@ -8,8 +8,8 @@
 }
 
 .bg-layer {
-    position: fixed;
-    inset: -5%;
+    position: absolute;
+    inset: 0;
     z-index: -2;
     background-size: 100% 100% !important;
     background-repeat: no-repeat !important;
@@ -59,22 +59,32 @@
 }
 
 #image-container {
-    position: fixed;
+    position: absolute;
     inset: 0;
-    z-index: 90;
+    z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
     pointer-events: none;
-    -webkit-mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%);
-    mask-image: linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%);
     will-change: transform;
+}
+
+.layout-default .bg-layer,
+.layout-default #image-container,
+.layout-default #bg-pattern-canvas {
+    position: fixed !important;
+    inset: 0 !important;
+}
+
+.layout-default .char-image {
+    height: 100vh;
+    width: auto;
 }
 
 .char-image {
     position: absolute;
-    height: 100vh;
-    width: auto;
+    height: 100%;
+    width: 100%;
     object-fit: cover;
     opacity: 0;
 }
@@ -84,7 +94,7 @@
 }
 
 .ambient-text {
-    position: fixed;
+    position: absolute;
     font-family: "AbrilFatface", serif;
     text-transform: uppercase;
     white-space: nowrap;
@@ -95,7 +105,22 @@
     color: var(--accent-color);
 }
 
-.ambient-text.faction {
+.layout-default .ambient-text {
+    position: fixed;
+}
+
+.layout-calendar .ambient-text.faction {
+    top: 50px;
+    left: 80px;
+    font-size: 100px;
+    opacity: 0.35;
+    z-index: 2;
+    letter-spacing: -2px;
+    filter: blur(2px);
+    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+}
+
+.layout-default .ambient-text.faction {
     top: calc(var(--taskbar-top, 0rem) + 12vh + env(safe-area-inset-top, 0rem));
     left: calc(var(--taskbar-left, 0rem) + 4vw + env(safe-area-inset-left, 0rem));
     font-size: 7vh;
@@ -103,17 +128,76 @@
     z-index: 2;
     letter-spacing: -0.1rem;
     filter: blur(0.1rem);
-    text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85), 0 0 3vh color-mix(in srgb, var(--accent-color), transparent 60%);
+    text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85);
 }
 
-.ambient-text.nickname {
+.layout-calendar .ambient-text.nickname {
+    bottom: 120px;
+    right: 120px;
+    font-size: 160px;
+    opacity: 0.75;
+    z-index: 600;
+    letter-spacing: -10px;
+    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+}
+
+.layout-default .ambient-text.nickname {
     bottom: calc(var(--taskbar-bottom, 0rem) + 22vh + env(safe-area-inset-bottom, 0rem));
     right: calc(var(--taskbar-right, 0rem) + 3vw + env(safe-area-inset-right, 0rem));
     font-size: 10vh;
     opacity: 0.75;
     z-index: 600;
     letter-spacing: -0.6rem;
-    text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85), 0 0 3vh color-mix(in srgb, var(--accent-color), transparent 60%);
+    text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85);
+}
+
+.layout-calendar {
+    background-color: rgb(216, 213, 210);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+}
+
+#logo-container {
+    position: fixed;
+    top: var(--taskbar-top, 0rem);
+    left: var(--taskbar-left, 0rem);
+    right: var(--taskbar-right, 0rem);
+    bottom: calc(13vh + var(--taskbar-bottom, 0rem));
+    z-index: 500;
+    pointer-events: none;
+    isolation: isolate;
+    contain: layout style;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo-svg {
+    width: 100%;
+    height: 100%;
+}
+
+
+.layout-default #logo-container {
+    filter: drop-shadow(0 1rem 3rem rgba(0, 0, 0, 0.6));
+}
+
+.masked-content-group {
+    filter:
+        drop-shadow(5px 0 0 rgb(15, 15, 15)) drop-shadow(-5px 0 0 rgb(15, 15, 15)) drop-shadow(0 5px 0 rgb(15, 15, 15)) drop-shadow(0 -5px 0 rgb(15, 15, 15));
+}
+
+#background-masked-content {
+    width: 2438px;
+    height: 1001.7px;
+    position: relative;
+    overflow: hidden;
+    background-color: var(--accent-color);
+    contain: paint;
+    transform: translateZ(0);
+    will-change: transform, opacity;
 }
 
 .halftone-global {
@@ -186,9 +270,11 @@
 }
 
 #bg-pattern-canvas {
-    position: fixed;
+    position: absolute;
     inset: 0;
-    z-index: 2;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
     pointer-events: none;
     mix-blend-mode: multiply;
     opacity: 0;
@@ -196,6 +282,147 @@
 
 #bg-pattern-canvas.visible {
     opacity: 0.25;
+}
+
+.calendar-modular-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    width: 100%;
+}
+
+.calendar-header-block,
+.calendar-footer-block {
+    margin: 0;
+    padding: 0;
+}
+
+.calendar-label {
+    font-family: "Zenless";
+    font-weight: 950;
+    font-size: 52px;
+    line-height: 0.75;
+    letter-spacing: -2px;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.calendar-sub-label {
+    display: flex;
+    align-items: stretch;
+    gap: 2px;
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 1%;
+    line-height: 1;
+}
+
+.calendar-sub-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.calendar-zenless-label {
+    line-height: 1;
+}
+
+.calendar-meta-text {
+    font-family: "Zenless_Glyphs", monospace;
+    font-size: 3px;
+    line-height: 1;
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.zzz-tag-svg {
+    height: 32px;
+    width: auto;
+    display: flex;
+    align-items: center;
+}
+
+.zzz-tag-svg svg {
+    height: 100%;
+    width: auto;
+}
+
+.calendar-footer-group-svg {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.calendar-name-badge-svg {
+    height: 32px;
+    width: auto;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1%;
+}
+
+.calendar-name-badge-svg svg {
+    height: 100%;
+    width: auto;
+}
+
+.calendar-agent-name {
+    font-family: "Big Shoulders Display", sans-serif;
+    font-size: 92px;
+    line-height: 0.8;
+    text-transform: uppercase;
+    font-weight: 950;
+    letter-spacing: -4px;
+    margin: 0;
+    padding: 0;
+}
+
+.calendar-month-center-display-svg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.center-month-num {
+    font-family: "RubikMonoOne", sans-serif;
+    font-size: 250px;
+    color: rgb(15, 15, 15);
+    line-height: 0.9;
+    letter-spacing: -40px;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    transform: scaleY(1.7);
+}
+
+.center-month-name {
+    position: absolute;
+    font-family: "Caveat", cursive;
+    font-size: 140px;
+    font-style: italic;
+    color: var(--accent-color);
+    transform: rotate(-10deg);
+    text-shadow: 4px 4px 0px rgba(15, 15, 15, 0.1);
+    white-space: nowrap;
+    z-index: 10;
+}
+
+.calendar-patch {
+    position: absolute;
+    width: 45%;
+    height: auto;
+    left: -2%;
+    top: 10%;
+    transform: rotate(-5deg);
+    z-index: 15;
+    pointer-events: none;
+    filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.15));
 }
 
 @media (orientation: portrait) {
@@ -220,6 +447,54 @@
     .ambient-text.faction {
         left: calc(var(--taskbar-left, 0rem) + 15vw + env(safe-area-inset-left, 0rem));
     }
+
+    #logo-container {
+        width: 100vw;
+        height: 100vh;
+        bottom: 0;
+        right: auto;
+        top: 0;
+        left: 0;
+        transform: none;
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        background-color: transparent;
+        z-index: 10000;
+        padding-bottom: 5vh;
+    }
+
+    .calendar-ui-overlay {
+        padding: 4vh 5vw;
+    }
+
+    .calendar-header-group {
+        margin-top: 22vh;
+    }
+
+    .calendar-label {
+        font-size: 8vw;
+    }
+
+    .calendar-sub-label {
+        font-size: 3vw;
+    }
+
+    .calendar-agent-name {
+        font-size: 10vw;
+        letter-spacing: -2px;
+    }
+
+    #background-masked-content {
+        transform: scale(1.05);
+        transform-origin: center center;
+    }
+
+    .calendar-name-badge {
+        font-size: 4vw;
+        padding: 0.5vh 3vw;
+    }
+
 }
 
 @media screen and (min-aspect-ratio: 2/1) {

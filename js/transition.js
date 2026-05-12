@@ -42,20 +42,23 @@
         }
 
         init() {
-            if (this.canvas) return;
+            this.canvas = document.getElementById('zzz-cyber-transition');
+            this.bgCanvas = document.getElementById('zzz-bg-transition');
 
-            this.canvas = document.createElement('canvas');
-            this.canvas.id = 'zzz-cyber-transition';
-            const charMask = 'linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%)';
+            if (!this.canvas) {
+                this.canvas = document.createElement('canvas');
+                this.canvas.id = 'zzz-cyber-transition';
+                const charMask = 'linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%)';
+                this.canvas.style.cssText = `position:fixed;inset:0;width:100%;height:100%;z-index:509;pointer-events:none;display:block;opacity:0;will-change:transform;backface-visibility:hidden; -webkit-mask-image: ${charMask}; mask-image: ${charMask};`;
+                document.body.appendChild(this.canvas);
+            }
 
-            this.canvas.style.cssText = `position:fixed;inset:0;width:100%;height:100%;z-index:509;pointer-events:none;display:block;opacity:0;will-change:transform;backface-visibility:hidden; -webkit-mask-image: ${charMask}; mask-image: ${charMask};`;
-
-            this.bgCanvas = document.createElement('canvas');
-            this.bgCanvas.id = 'zzz-bg-transition';
-            this.bgCanvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:-5;pointer-events:none;display:block;opacity:0;will-change:transform;';
-
-            document.body.appendChild(this.canvas);
-            document.body.appendChild(this.bgCanvas);
+            if (!this.bgCanvas) {
+                this.bgCanvas = document.createElement('canvas');
+                this.bgCanvas.id = 'zzz-bg-transition';
+                this.bgCanvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:-5;pointer-events:none;display:block;opacity:0;will-change:transform;';
+                document.body.appendChild(this.bgCanvas);
+            }
 
             this.ctx = this.canvas.getContext('2d');
             this.bgCtx = this.bgCanvas.getContext('2d');
@@ -97,8 +100,23 @@
         syncCanvas() {
             const isPortrait = window.innerHeight > window.innerWidth;
             const dpr = window.devicePixelRatio || 1;
-            const w = isPortrait ? window.innerHeight : window.innerWidth;
-            const h = isPortrait ? window.innerWidth : window.innerHeight;
+
+            const isInLogo = this.canvas.parentElement && this.canvas.parentElement.id === 'background-masked-content';
+
+            let w, h;
+            if (isInLogo) {
+                if (isPortrait) {
+                    w = window.innerHeight;
+                    h = window.innerWidth;
+                } else {
+                    w = 2438;
+                    h = 1001.7;
+                }
+            } else {
+                w = isPortrait ? window.innerHeight : window.innerWidth;
+                h = isPortrait ? window.innerWidth : window.innerHeight;
+            }
+
             const orientKey = isPortrait ? 'portrait' : 'landscape';
             const manualRot = parseInt(localStorage.getItem(`charRotate_${orientKey}`) || '0', 10);
             const manualFlip = localStorage.getItem(`charFlip_${orientKey}`) === 'true' ? -1 : 1;
@@ -108,15 +126,32 @@
             const bgSway = (window.kineticSway && window.kineticSway.getSway('backdrop')) || { x: 0, y: 0, rotate: 0, scaleX: 1, scaleY: 1 };
 
             if (this._swayChanged(charSway, this._lastCharSway)) {
-                if (isPortrait) {
-                    const basePortraitRot = 90;
-
+                if (isInLogo && isPortrait) {
                     this.canvas.style.inset = 'unset';
+                    this.canvas.style.position = 'absolute';
                     this.canvas.style.top = '50%';
                     this.canvas.style.left = '50%';
                     this.canvas.style.marginTop = (-h / 2) + 'px';
                     this.canvas.style.marginLeft = (-w / 2) + 'px';
 
+                    const basePortraitRot = 90;
+                    const cRot = basePortraitRot + manualRot + (charSway.rotate || 0);
+                    const cSX = manualFlip * (charSway.scaleX || 1);
+                    const cSY = charSway.scaleY || 1;
+                    this.canvas.style.transform = `translate(${charSway.x}px, ${charSway.y}px) rotate(${cRot}deg) scale(${cSX}, ${cSY})`;
+                    this.canvas.style.filter = charSway.filter || 'none';
+                } else if (isInLogo) {
+                    this.canvas.style.inset = '0';
+                    this.canvas.style.position = 'absolute';
+                    this.canvas.style.transform = `translate(${charSway.x}px, ${charSway.y}px) rotate(${charSway.rotate || 0}deg) scale(${charSway.scaleX || 1}, ${charSway.scaleY || 1})`;
+                    this.canvas.style.filter = charSway.filter || 'none';
+                } else if (isPortrait) {
+                    const basePortraitRot = 90;
+                    this.canvas.style.inset = 'unset';
+                    this.canvas.style.top = '50%';
+                    this.canvas.style.left = '50%';
+                    this.canvas.style.marginTop = (-h / 2) + 'px';
+                    this.canvas.style.marginLeft = (-w / 2) + 'px';
                     const cRot = basePortraitRot + manualRot + (charSway.rotate || 0);
                     const cSX = manualFlip * (charSway.scaleX || 1);
                     const cSY = charSway.scaleY || 1;
@@ -128,7 +163,6 @@
                     this.canvas.style.left = '';
                     this.canvas.style.marginTop = '';
                     this.canvas.style.marginLeft = '';
-
                     const cRot = rawCharSway ? (charSway.rotate || 0) : manualRot;
                     const cSX = rawCharSway ? (charSway.scaleX || 1) : manualFlip;
                     const cSY = charSway.scaleY || 1;
@@ -143,15 +177,30 @@
                 const bgSX = bgSway.scaleX || 1;
                 const bgSY = bgSway.scaleY || 1;
 
-                if (isPortrait) {
+                if (isInLogo && isPortrait) {
                     const basePortraitRot = 90;
-
                     this.bgCanvas.style.inset = 'unset';
+                    this.bgCanvas.style.position = 'absolute';
                     this.bgCanvas.style.top = '50%';
                     this.bgCanvas.style.left = '50%';
                     this.bgCanvas.style.marginTop = (-h / 2) + 'px';
                     this.bgCanvas.style.marginLeft = (-w / 2) + 'px';
 
+                    const finalRot = basePortraitRot + manualRot + bgRot;
+                    const finalScaleX = manualFlip * bgSX;
+                    const finalScaleY = bgSY;
+                    this.bgCanvas.style.transform = `translate(${bgSway.x}px, ${bgSway.y}px) rotate(${finalRot}deg) scale(${finalScaleX}, ${finalScaleY})`;
+                } else if (isInLogo) {
+                    this.bgCanvas.style.inset = '0';
+                    this.bgCanvas.style.position = 'absolute';
+                    this.bgCanvas.style.transform = `translate(${bgSway.x}px, ${bgSway.y}px) rotate(${bgRot}deg) scale(${bgSX}, ${bgSY})`;
+                } else if (isPortrait) {
+                    const basePortraitRot = 90;
+                    this.bgCanvas.style.inset = 'unset';
+                    this.bgCanvas.style.top = '50%';
+                    this.bgCanvas.style.left = '50%';
+                    this.bgCanvas.style.marginTop = (-h / 2) + 'px';
+                    this.bgCanvas.style.marginLeft = (-w / 2) + 'px';
                     const finalRot = basePortraitRot + manualRot + bgRot;
                     const finalScaleX = manualFlip * bgSX;
                     this.bgCanvas.style.transform = `translate(${bgSway.x}px, ${bgSway.y}px) rotate(${finalRot}deg) scale(${finalScaleX}, ${bgSY})`;
@@ -161,21 +210,17 @@
                     this.bgCanvas.style.left = '';
                     this.bgCanvas.style.marginTop = '';
                     this.bgCanvas.style.marginLeft = '';
-
                     const finalRot = manualRot + bgRot;
                     const finalScaleX = manualFlip * bgSX;
                     this.bgCanvas.style.transform = `translate(${bgSway.x}px, ${bgSway.y}px) rotate(${finalRot}deg) scale(${finalScaleX}, ${bgSY})`;
                 }
-
                 this._lastBgSway = { ...bgSway };
             }
 
             let drawDpr = dpr;
-            if (w * drawDpr > 2560) {
-                drawDpr = 2560 / w;
-            }
-            if (h * drawDpr > 1600) {
-                drawDpr = Math.min(drawDpr, 1600 / h);
+            if (!isInLogo) {
+                if (w * drawDpr > 2560) drawDpr = 2560 / w;
+                if (h * drawDpr > 1600) drawDpr = Math.min(drawDpr, 1600 / h);
             }
 
             const targetW = Math.round(w * drawDpr);
@@ -185,8 +230,13 @@
                 if (c.width !== targetW || c.height !== targetH) {
                     c.width = targetW;
                     c.height = targetH;
-                    c.style.width = w + 'px';
-                    c.style.height = h + 'px';
+                    if (isInLogo && !isPortrait) {
+                        c.style.width = '100%';
+                        c.style.height = '100%';
+                    } else {
+                        c.style.width = w + 'px';
+                        c.style.height = h + 'px';
+                    }
                     this.ctx.setTransform(drawDpr, 0, 0, drawDpr, 0, 0);
                     this.bgCtx.setTransform(drawDpr, 0, 0, drawDpr, 0, 0);
                     this._cachedDpr = drawDpr;
@@ -205,20 +255,16 @@
         drawImgFit(img, w, h) {
             if (!img || !img.naturalWidth) return;
             const imgAspect = img.naturalWidth / img.naturalHeight;
-            let drawW, drawH, drawX, drawY;
-            const isPortrait = window.innerHeight > window.innerWidth;
+            const targetAspect = w / h;
 
-            if (isPortrait) {
-                if (h * imgAspect >= w) {
-                    drawH = h;
-                    drawW = h * imgAspect;
-                } else {
-                    drawW = w;
-                    drawH = w / imgAspect;
-                }
-            } else {
+            let drawW, drawH, drawX, drawY;
+
+            if (imgAspect > targetAspect) {
                 drawH = h;
                 drawW = h * imgAspect;
+            } else {
+                drawW = w;
+                drawH = w / imgAspect;
             }
 
             drawX = (w - drawW) / 2;
