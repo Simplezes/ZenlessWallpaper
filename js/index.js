@@ -16,7 +16,7 @@ class App {
     async init() {
         console.log("Initializing App...");
 
-        const DEBUG_SKIP_LOADER = true;
+        const DEBUG_SKIP_LOADER = false;
 
         if (!DEBUG_SKIP_LOADER) {
             this.loadingScreen = new LoadingScreen();
