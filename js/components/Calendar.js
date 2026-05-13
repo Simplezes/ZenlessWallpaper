@@ -14,7 +14,7 @@ export default class Calendar extends Component {
         const { year, month, today } = this.state;
         const daysInMonth = new Date(year, month + 1, 0).getDate();
         const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
-        
+
         const isPortrait = window.innerHeight > window.innerWidth;
         const midPoint = isPortrait ? daysInMonth : 15;
 
@@ -26,7 +26,7 @@ export default class Calendar extends Component {
             const dayIdx = dateObj.getDay();
             const dayName = dayNames[dayIdx];
             const isWeekend = (dayIdx === 0 || dayIdx === 6);
-            
+
             const dayClass = `day d-flex flex-column align-items-center ${isWeekend ? 'weekend' : ''} ${i === today ? 'today' : ''}`;
             const nameClass = `day-name ${isWeekend ? 'pink' : ''}`;
             const numClass = `day-num ${isWeekend ? 'pink' : ''}`;
@@ -69,7 +69,7 @@ export default class Calendar extends Component {
                 this.container.classList.toggle('show-names');
             }
         });
-        
+
         window.addEventListener('resize', () => this.update());
 
         this.scheduleMidnightUpdate();

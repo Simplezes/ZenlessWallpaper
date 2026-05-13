@@ -44,7 +44,7 @@ export default class Footer extends Component {
                     </div>
                 </div>
 
-                <div class="col-auto d-flex align-items-center justify-content-end h-100 p-0 pe-5 footer-right">
+                <div class="col-auto d-flex align-items-center justify-content-end h-100 p-0 pe-4 footer-right gap-4">
                     <div class="brand-container">
                         <div class="top-row">
                             <div class="title-text title-svg"></div>
@@ -55,8 +55,8 @@ export default class Footer extends Component {
                         </div>
                         <div class="bottom-row">
                             <div class="left-block">
-                                KOBEBW BBABA SWEGVW<br>
-                                PERSONA 3&4 ARE THE BEST PERSONA
+                                KOBEBW BBABA SWEGVW KFKOW<br>
+                                PERSONA 3 AND 4 ARE THE BEST PERSONA BB
                             </div>
                             <div class="right-meta-group">
                                 <div class="right-meta">
@@ -68,7 +68,7 @@ export default class Footer extends Component {
                         </div>
                     </div>
                     
-                    <div class="zzz-logo-final ms-5 mobile-settings-trigger">
+                    <div class="zzz-logo-final ms-4 mobile-settings-trigger">
                         <img src="${logoSrc}" alt="ZZZ">
                         <div class="zzz-logo-sub">Settings</div>
                     </div>
@@ -79,7 +79,7 @@ export default class Footer extends Component {
                     <div id="watch-mobile-root"></div>
                     <div class="zzz-logo-final">
                         <img src="${logoSrc}" alt="ZZZ">
-                        <div class="zzz-logo-sub">CONFIG</div>
+                        <div class="zzz-logo-sub">Settings</div>
                     </div>
                 </div>
             </div>

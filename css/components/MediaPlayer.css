@@ -4,9 +4,9 @@
     justify-content: center;
     color: rgb(255, 255, 255);
     padding-left: 2vh;
-    width: 26vh;
+    width: 28vh;
     min-width: 18rem;
-    max-width: 26vh;
+    max-width: 28vh;
     flex-shrink: 0;
     position: relative;
     transition: opacity 0.5s ease;
@@ -15,7 +15,7 @@
 
 .terminal-status {
     font-family: "Rajdhani", sans-serif;
-    font-size: clamp(0.8rem, 0.9vh, 1.6rem);
+    font-size: clamp(0.8rem, 1vh, 1.6rem);
     color: var(--accent-color);
     letter-spacing: 0.2rem;
     margin-bottom: 0.2rem;
@@ -56,7 +56,7 @@
 .media-title {
     display: inline-block;
     font-family: "Rajdhani", sans-serif;
-    font-size: clamp(1.8rem, 3.2vh, 5rem);
+    font-size: clamp(1.8rem, 3.5vh, 5rem);
     font-weight: 900;
     color: rgb(255, 255, 255);
     text-transform: uppercase;
@@ -67,7 +67,7 @@
 
 .media-artist {
     font-family: "Rajdhani", sans-serif;
-    font-size: clamp(1rem, 1.6vh, 2.4rem);
+    font-size: clamp(1rem, 1.7vh, 2.4rem);
     font-weight: 500;
     color: rgb(136, 136, 136);
     text-transform: uppercase;
