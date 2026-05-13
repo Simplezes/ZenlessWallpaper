@@ -489,9 +489,14 @@
     .char-image {
         width: 100vh !important;
         height: 100vw !important;
-        max-width: none !important;
         object-fit: cover !important;
-        object-position: center !important;
+    }
+
+    .layout-calendar #background-masked-content .char-image {
+        width: 2400px !important;
+        height: 1080px !important;
+        object-position: center center;
+        transform-origin: center center;
     }
 
     .ambient-text.nickname {
