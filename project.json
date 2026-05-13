@@ -1,0 +1,31 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "[i]The design and concept are based on the [url=https://x.com/ZZZ_EN/status/2027964547999371359]Zenless Zone Zero promotional art/UI[/url].[/i]\r\n\r\n[h2]Credits & Resources[/h2]\r\nAll characters and related assets are property of their respective owners.\r\n\r\n[list]\r\n[*] [b]Developer[/b]: [url=https://www.mihoyo.com/]miHoYo Co., Ltd.[/url]\r\n[*] [b]Global Publisher[/b]: [url=https://www.hoyoverse.com/]HoYoverse (Cognosphere Pte., Ltd.)[/url]\r\n[*] [b]ZZZ Glyphs Font[/b]: [url=https://github.com/SpeedyOrc-C/HoYo-Glyphs]HoYo-Glyphs by SpeedyOrc-C[/url]\r\n[*] [b]Characters' name & faction font[/b]: [url=https://fonts.google.com/specimen/Abril+Fatface]AbrilFatface[/url]\r\n[*] [b]Primary Font[/b]: [url=https://fonts.google.com/specimen/Poppins]Poppins (via Google Fonts)[/url]\r\n[*] [b]Secondary Font[/b]: [url=https://fonts.google.com/specimen/Rajdhani]Rajdhani (via Google Fonts)[/url]\r\n[*] [b]All ZZZ Resources[/b]: Images, logos, and related assets are sourced from official ZZZ media.\r\n[/list]\r\n\r\n[h2]Source Code[/h2]\r\nAvailable on GitHub: [url=http://github.com/Simplezes/ZenlessWallpaper]Simplezes/ZenlessWallpaper[/url]",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0.8352941176470589 0.592156862745098 0.09803921568627451"
+			}
+		},
+		"supportsaudioprocessing" : true
+	},
+	"preview" : "preview.jpg",
+	"ratingsex" : "none",
+	"ratingviolence" : "none",
+	"snapshotformat" : -1,
+	"snapshotoverlay" : "",
+	"tags" : [ "Anime" ],
+	"title" : "Zenless Zone Zero: Character Dashboard",
+	"type" : "Web",
+	"version" : 12,
+	"visibility" : "public",
+	"workshopid" : "3686577945",
+	"workshopurl" : "steam://url/CommunityFilePage/3686577945"
+}
