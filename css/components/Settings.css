@@ -549,7 +549,7 @@
 .z-scrollbar__thumb {
     flex: 1;
     position: relative;
-    width: 0.6rem;
+    width: 100%;
     margin: 0.4rem 0;
 }
 
@@ -558,6 +558,8 @@
     background: currentColor;
     border-radius: 0.6rem;
     position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .z-icon {
