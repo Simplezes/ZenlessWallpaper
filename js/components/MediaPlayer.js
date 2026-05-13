@@ -90,8 +90,6 @@ export default class MediaPlayer extends Component {
     initListeners() {
         if (window.wallpaperRegisterMediaPlaybackListener) {
             window.wallpaperRegisterMediaPlaybackListener((event) => {
-                // Only update playback state — keep last known title/artist so
-                // resuming the same track restores the title without a new properties event.
                 const playbackState = Number(event?.state) || 0;
                 this.setState({ playbackState });
                 this.logMediaEvent('playback', playbackState, this.state.rawTitle, this.state.rawArtist);

@@ -19,7 +19,7 @@
     font-family: 'Zenless', sans-serif;
     font-size: 3.5vh;
     font-weight: 1000;
-    color: rgb(255, 255, 255);
+    color: rgb(15, 15, 15);
     margin: 0;
     letter-spacing: 0.1vh;
     line-height: 0.8;
@@ -52,9 +52,36 @@
 .header-glyphs {
     font-family: "Zenless_Glyphs", monospace;
     font-size: 0.6vh;
-    color: rgb(255, 255, 255);
+    color: rgb(15, 15, 15);
     opacity: 0.7;
     letter-spacing: 0.05vh;
+}
+
+.mobile-header .calendar-label {
+    font-size: 3.5vh;
+    line-height: 0.8;
+    letter-spacing: 0.1vh;
+    margin-bottom: 0.3vh;
+}
+
+.mobile-header .calendar-sub-label {
+    font-size: 1vh;
+    margin-top: 0.1vh;
+    gap: 1px;
+}
+
+.mobile-header .zzz-tag-svg {
+    height: 1.4vh;
+}
+
+.mobile-header .calendar-zenless-label {
+    font-size: 1vh;
+    line-height: 1;
+}
+
+.mobile-header .calendar-meta-text {
+    font-size: 0.15vh;
+    line-height: 1.1;
 }
 
 .mobile-header .pill-month {
@@ -66,14 +93,35 @@
     font-size: 1.2vh;
 }
 
-.mobile-header .zzz-dashed-svg {
+.mobile-header {
     height: 1vh;
     margin-top: 0.2vh;
-    opacity: 0.7;
 }
 
 @media (orientation: portrait) {
     .mobile-header {
         display: flex;
+    }
+
+    .zzz-dashed-svg {
+        display: none;
+    }
+
+    .pill-month {
+        background: rgb(15, 15, 15);
+        color: rgb(216, 213, 210);
+    }
+
+    .year-display {
+        color: rgb(15, 15, 15);
+    }
+
+    .mobile-header.theme-light .pill-month {
+        background: var(--accent-color);
+        color: rgb(216, 213, 210);
+    }
+
+    .mobile-header.theme-light .year-display {
+        color: rgb(216, 213, 210);
     }
 }

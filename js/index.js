@@ -40,6 +40,11 @@ class App {
         this.settings = new Settings();
         this.settings.mount('#settings-root');
 
+        store.subscribe((s) => {
+            document.body.classList.toggle('show-ambient', !!s.showAmbient);
+        });
+        document.body.classList.toggle('show-ambient', !!store.state.showAmbient);
+
         console.log("App ready!");
         window.dispatchEvent(new CustomEvent('app-ready'));
     }
