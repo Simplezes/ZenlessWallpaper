@@ -362,11 +362,28 @@
     border-radius: 4.2rem 4.2rem 0 0;
 }
 
+.agent-header-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
 .header-title {
     font-family: 'Zenless';
     font-size: 3rem;
     font-weight: 950;
     color: rgb(190, 190, 192);
+    margin: 0;
+}
+
+.header-subtitle {
+    margin: 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    letter-spacing: 0.08rem;
+    text-transform: uppercase;
+    color: rgba(190, 190, 192, 0.62);
 }
 
 .header-close-btn {
@@ -582,6 +599,15 @@
         display: flex;
         flex-direction: column;
         min-height: 0;
+    }
+
+    .header-title {
+        font-size: 2.4rem;
+    }
+
+    .header-subtitle {
+        font-size: 0.95rem;
+        letter-spacing: 0.06rem;
     }
 
     .z-scrollbar {
