@@ -16,7 +16,7 @@ class App {
     async init() {
         console.log("Initializing App...");
 
-        const DEBUG_SKIP_LOADER = true;
+        const DEBUG_SKIP_LOADER = false;
 
         if (!DEBUG_SKIP_LOADER) {
             this.loadingScreen = new LoadingScreen();
@@ -42,8 +42,10 @@ class App {
 
         store.subscribe((s) => {
             document.body.classList.toggle('show-ambient', !!s.showAmbient);
+            document.body.classList.toggle('show-pattern', !!s.patternEnabled);
         });
         document.body.classList.toggle('show-ambient', !!store.state.showAmbient);
+        document.body.classList.toggle('show-pattern', !!store.state.patternEnabled);
 
         console.log("App ready!");
         window.dispatchEvent(new CustomEvent('app-ready'));

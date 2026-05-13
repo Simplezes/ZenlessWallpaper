@@ -9,12 +9,12 @@ class Store {
             footerTheme: localStorage.getItem('footerTheme') || 'dark',
             kineticEnabled: localStorage.getItem('kineticSway') !== 'false',
             patternEnabled: localStorage.getItem('bgPattern') !== 'false',
+            viewOffset: 0,
 
-            
             month: 'MAR',
             monthNum: '03',
             year: '2026',
-            
+
             media: {
                 title: 'NO MEDIA',
                 artist: 'IDLE',
@@ -25,8 +25,9 @@ class Store {
         };
 
         this.listeners = [];
+        this._dateUpdateInterval = null;
         this.initDate();
-        
+
         window.addEventListener('resize', () => {
             this.setState({ isPortrait: window.innerHeight > window.innerWidth });
         });
@@ -42,6 +43,18 @@ class Store {
         this.setState({ footerTheme: theme });
     }
 
+    setViewOffset(offset) {
+        const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
+        const now = new Date();
+        const target = new Date(now.getFullYear(), now.getMonth() + offset, 1);
+        this.setState({
+            viewOffset: offset,
+            month: monthNames[target.getMonth()],
+            monthNum: (target.getMonth() + 1).toString().padStart(2, '0'),
+            year: target.getFullYear().toString()
+        });
+    }
+
     subscribe(listener) {
         this.listeners.push(listener);
         listener(this.state);
@@ -52,17 +65,10 @@ class Store {
 
     initDate() {
         const updateDate = () => {
-            const now = new Date();
-            const monthNames = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
-            this.setState({
-                month: monthNames[now.getMonth()],
-                monthNum: (now.getMonth() + 1).toString().padStart(2, '0'),
-                year: now.getFullYear().toString()
-            });
+            this.setViewOffset(this.state.viewOffset || 0);
         };
         updateDate();
-        
-        setInterval(updateDate, 60000);
+        this._dateUpdateInterval = setInterval(updateDate, 60000);
     }
 }
 

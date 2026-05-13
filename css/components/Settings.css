@@ -73,8 +73,8 @@
 .segment-path {
     fill: rgb(15, 15, 15);
     stroke: rgb(15, 15, 15);
+    stroke-width: 6px;
     stroke-linejoin: round;
-    paint-order: stroke fill;
     opacity: 0.95;
     cursor: pointer;
     pointer-events: auto;
@@ -83,9 +83,8 @@
 .segment-path:hover,
 .segment-svg.active .segment-path {
     fill: rgb(235, 204, 33);
-    stroke: rgb(235, 204, 33);
     opacity: 1;
-    transition: fill 0.2s ease, stroke 0.2s ease, opacity 0.2s ease;
+    transition: fill 0.2s ease, opacity 0.2s ease;
 }
 
 .radial-items-overlay {
