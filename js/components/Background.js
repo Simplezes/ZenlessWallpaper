@@ -49,7 +49,7 @@ export default class Background extends Component {
     renderDesktopSVG(monthData) {
         return `
             <div id="logo-container" class="desktop-view">
-                <svg id="logo-svg" viewBox="0 0 2438 1001.7" preserveAspectRatio="xMidYMid meet" style="${this.getDesktopStyles()}">
+                <svg id="logo-svg" viewBox="-10 0 2448 1001.7" preserveAspectRatio="xMidYMid meet" style="${this.getDesktopStyles()}">
                     ${this.renderCommonDefs('zzz-logo-clip')}
                     ${this.renderMaskedLayer('zzz-logo-clip', 2438, 1001.7)}
                     
@@ -62,6 +62,12 @@ export default class Background extends Component {
                     <g style="transform: translate(var(--center-tx), var(--center-ty));">
                         <foreignObject x="620" y="615" width="460" height="500">
                             ${this.renderMonthDisplayContent(monthData)}
+                        </foreignObject>
+                    </g>
+
+                    <g style="transform: translate(var(--center-tx), var(--center-ty));">
+                        <foreignObject x="620" y="615" width="460" height="500" style="overflow:visible; pointer-events:none;">
+                            <img class="calendar-patch" src="assets/imgs/patch.webp" />
                         </foreignObject>
                     </g>
                 </svg>
@@ -118,7 +124,7 @@ export default class Background extends Component {
             : "translate(var(--box-bottom-tx), var(--box-bottom-ty))";
 
         const sideW = isPortrait ? 880 : 630;
-        const sideH = isPortrait ? 750 : 984.3;
+        const sideH = isPortrait ? 750 : 980.3;
         const bottomW = isPortrait ? 350 : 650;
         const bottomH = isPortrait ? 550 : 299;
 
@@ -127,8 +133,8 @@ export default class Background extends Component {
         return `
             <defs>
                 <path id="shape-zzz" d="${zzzPath}" />
-                <rect id="shape-box-bottom" x="1087.9" y="694" width="${bottomW}" height="${bottomH}" rx="6" />
-                <rect id="shape-box-side" x="1788" y="8.7" width="${sideW}" height="${sideH}" rx="6" />
+                <rect id="shape-box-bottom" x="1087.9" y="694" width="${bottomW}" height="${bottomH}" rx="2" />
+                <rect id="shape-box-side" x="1788" y="12.7" width="${sideW}" height="${sideH}" rx="2" />
                 
                 <clipPath id="${clipId}">
                     <use href="#shape-zzz" style="transform: ${zzzTransform}" />
