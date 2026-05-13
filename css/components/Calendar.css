@@ -13,12 +13,12 @@
 }
 
 .day {
-    min-width: 3.2vh;
+    min-width: 3.8vh;
     flex-shrink: 1;
 }
 
 .day-name {
-    font-size: clamp(0.6rem, 1.1vh, 2.5rem);
+    font-size: clamp(0.6rem, 1.2vh, 2.5rem);
     color: rgb(255, 255, 255);
     letter-spacing: 0.05em;
     margin-bottom: 0.1rem;
@@ -26,7 +26,7 @@
 }
 
 .day-num {
-    font-size: clamp(1rem, 2vh, 2.5rem);
+    font-size: clamp(1rem, 2.8vh, 3.5rem);
     color: rgb(255, 255, 255);
     transition: none;
 }
@@ -39,7 +39,7 @@
 .day.today .day-num {
     background: var(--accent-color);
     color: rgb(0, 0, 0);
-    padding: 0 0.4rem;
+    padding: 0.2vh 0.6vh;
     border-radius: 0.05rem;
     transition: none;
 }
@@ -87,7 +87,7 @@
     }
 
     .day-num {
-        font-family: 'Zenless', monospace;
+        font-family: 'Arimo';
         font-size: 1vh;
         font-weight: 1000;
         color: rgb(255, 255, 255);

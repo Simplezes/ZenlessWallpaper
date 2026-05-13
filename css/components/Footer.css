@@ -6,7 +6,7 @@
     width: 100%;
     height: 17vh;
     min-height: 6rem;
-    border-bottom: 0.8vh solid var(--accent-color);
+    border-bottom: 1vh solid var(--accent-color);
     padding: 0 1vw;
     z-index: 999;
     transition: filter 0.2s ease, opacity 0.4s ease;
@@ -75,8 +75,15 @@
 .top-row {
     display: flex;
     align-items: center;
-    gap: 1vh;
+    gap: 0.5vh;
     margin-bottom: 0.5vh;
+    position: relative;
+}
+
+.badge-container {
+    position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .bottom-row {
@@ -88,7 +95,7 @@
 }
 
 .title-text {
-    height: 6.5vh;
+    height: 8.5vh;
     aspect-ratio: 505 / 119;
     background-color: var(--accent-color);
     -webkit-mask: url('../../assets/imgs/svg/month.svg') no-repeat center;
@@ -101,9 +108,8 @@
 .left-block {
     font-family: "Zenless_Glyphs", monospace;
     text-align: right;
-    font-size: 0.5vh;
-    line-height: 1.1;
-    margin-right: 0.3vh;
+    font-size: 0.6vh;
+    margin-right: 0.4vh;
     color: var(--accent-color);
     transition: none;
 }
@@ -136,16 +142,16 @@
 .pill-month {
     color: rgb(15, 15, 15);
     background-color: var(--accent-color);
-    padding: 0.25vh 1.35vh 0.3vh 1.35vh;
+    padding: 0.25vh 1.4vh 0.35vh 1.4vh;
     border-radius: 20px;
-    font-size: 1.1vh;
+    font-size: 1.2vh;
     font-weight: 950;
     line-height: 1;
     transition: none;
 }
 
 .year-display {
-    font-size: 1.6vh;
+    font-size: 1.8vh;
     font-weight: 950;
     letter-spacing: 0.1vh;
     line-height: 1;
@@ -169,20 +175,19 @@
 }
 
 .zzz-logo-final img {
-    height: 8vh;
+    height: 6.5vh;
     width: auto;
-    margin-bottom: 0.2rem;
+    margin-bottom: 1.8rem;
 }
 
 .zzz-logo-sub {
-    font-size: 0.8rem;
     background: var(--accent-color);
     color: rgb(0, 0, 0);
-    padding: 0.2rem 1rem;
+    padding: 0.2vh 1.2vh;
     font-weight: 950;
     clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
     text-transform: uppercase;
-    letter-spacing: 0.1rem;
+    letter-spacing: 0.1vh;
     transition: none;
 }
 
@@ -254,4 +259,15 @@
         height: 2.5vh;
         width: auto;
     }
+
+    .circle-month {
+        width: 4vh !important;
+        height: 4vh !important;
+    }
+
+    .circle-month span {
+        font-size: 2.5vh !important;
+        transform: rotate(90deg) !important;
+    }
+
 }
