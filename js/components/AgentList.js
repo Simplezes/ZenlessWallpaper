@@ -16,7 +16,10 @@ export default class AgentList extends Component {
         return `
         <div class="agent-list-radial ${this.state.isOpen ? 'active' : ''}" id="agent-list">
             <div class="agent-header">
-                <h1 class="header-title">Edit Avatar</h1>
+                <div class="agent-header-text">
+                    <h1 class="header-title">Edit Avatar</h1>
+                    <p class="header-subtitle">Hold and drag to scroll</p>
+                </div>
                 <div class="header-close-btn" id="agent-list-close"></div>
             </div>
 
