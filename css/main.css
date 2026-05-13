@@ -35,9 +35,15 @@
 }
 
 @font-face {
-    font-family: "AlexBrush";
-    src: url("../assets/fonts/AlexBrush-Regular.ttf");
+    font-family: "Parisienne";
+    src: url("../assets/fonts/Parisienne-Regular.ttf");
 }
+
+@font-face {
+    font-family: "OctinCollege";
+    src: url("../assets/fonts/OctinCollege.otf");
+}
+
 
 
 * {

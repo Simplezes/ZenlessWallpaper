@@ -60,7 +60,7 @@ export default class Background extends Component {
                     </g>
 
                     <g style="transform: translate(var(--center-tx), var(--center-ty));">
-                        <foreignObject x="620" y="615" width="460" height="500">
+                        <foreignObject x="640" y="595" width="460" height="500">
                             ${this.renderMonthDisplayContent(monthData)}
                         </foreignObject>
                     </g>
@@ -95,7 +95,7 @@ export default class Background extends Component {
                     </g>
 
                     <g style="transform: translate(var(--m-center-tx), var(--m-center-ty)) scale(var(--m-center-s));">
-                        <foreignObject x="620" y="615" width="460" height="500">
+                        <foreignObject x="660" y="600" width="460" height="500">
                             ${this.renderMonthDisplayContent(monthData)}
                         </foreignObject>
                     </g>
@@ -208,8 +208,8 @@ export default class Background extends Component {
         const { character: name, isPortrait } = this.state;
 
         const landscapeFontSize = [
-            [24, '44px'],
-            [20, '52px'],
+            [24, '35px'],
+            [20, '42px'],
             [17, '64px'],
             [13, '50px'],
             [10, '70px'],
@@ -269,7 +269,7 @@ export default class Background extends Component {
         return `
             <div class="calendar-month-center-display-svg ${inkClass}">
                 <div class="center-month-num">${monthData.num}</div>
-                <div class="center-month-name">${monthData.name}.</div>
+                <div class="center-month-name">${monthData.name}</div>
             </div>
         `;
     }
