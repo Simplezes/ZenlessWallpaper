@@ -14,7 +14,8 @@ export default class Background extends Component {
             isPortrait: s.isPortrait,
             accentColor: s.accentColor,
             footerTheme: s.footerTheme,
-            showAmbient: s.showAmbient
+            showAmbient: s.showAmbient,
+            patternEnabled: s.patternEnabled
         }));
 
         this._lastRenderedLayout = this.state.layout;
@@ -33,17 +34,44 @@ export default class Background extends Component {
     }
 
     renderCalendarLayout() {
-        const now = new Date();
-        const monthData = {
-            num: String(now.getMonth() + 1).padStart(2, '0'),
-            name: now.toLocaleString('en-US', { month: 'short' })
-        };
+        const monthData = this._getMonthDataFromStore();
 
         if (this.state.isPortrait) {
             return this.renderPortraitSVG(monthData);
         } else {
             return this.renderDesktopSVG(monthData);
         }
+    }
+
+    _getMonthDataFromStore() {
+        const monthShortNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const s = store.state;
+        const monthNum = s.monthNum || String(new Date().getMonth() + 1).padStart(2, '0');
+        const rawMonth = s.month || 'JAN';
+        const monthIdx = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'].indexOf(rawMonth);
+        const monthName = monthIdx >= 0 ? monthShortNames[monthIdx] : rawMonth;
+        return { num: monthNum, name: monthName };
+    }
+
+    _patchMonthDisplay() {
+        const { num, name } = this._getMonthDataFromStore();
+        const year = store.state.year || new Date().getFullYear();
+
+        document.querySelectorAll('.calendar-zenless-label').forEach(el => {
+            el.textContent = `ZENLESS — ${num}`;
+        });
+        document.querySelectorAll('.center-month-num').forEach(el => {
+            el.textContent = num;
+        });
+        document.querySelectorAll('.center-month-name').forEach(el => {
+            el.textContent = name;
+        });
+        document.querySelectorAll('.date-month-pill').forEach(el => {
+            el.textContent = name.toUpperCase();
+        });
+        document.querySelectorAll('.date-year-display').forEach(el => {
+            el.textContent = `[ ${year} ]`;
+        });
     }
 
     renderDesktopSVG(monthData) {
@@ -275,7 +303,7 @@ export default class Background extends Component {
     }
 
     renderCalendarDateBlock(monthData) {
-        const year = new Date().getFullYear();
+        const year = store.state.year || new Date().getFullYear();
         const inkClass = this.state.showAmbient ? 'ink-print' : '';
         return `
             <div class="calendar-date-block ${inkClass}">
@@ -322,13 +350,6 @@ export default class Background extends Component {
     }
 
     onMounted() {
-        window.addEventListener('layout-changed', (e) => {
-            this.syncStateFromStorage();
-            this.setState({ layout: e.detail.layout });
-            if (typeof resetImageCache === 'function') resetImageCache();
-            this.refreshCharacterImage();
-        });
-
         window.addEventListener('character-changed', (e) => {
             if (this.state.character !== e.detail.character) {
                 this.setState({
@@ -349,15 +370,30 @@ export default class Background extends Component {
             }
         });
 
+        let prevMonthKey = null;
+        store.subscribe((s) => {
+            const key = `${s.monthNum}-${s.year}`;
+            if (key !== prevMonthKey) {
+                prevMonthKey = key;
+                this._patchMonthDisplay();
+            }
+        });
+
         this.refreshCharacterImage();
-        this.initAll(true);
+        requestAnimationFrame(() => {
+            this.initAll(true);
+        });
     }
 
     onUpdated() {
         this.refreshCharacterImage();
         const layoutChanged = this._lastRenderedLayout !== this.state.layout;
         this._lastRenderedLayout = this.state.layout;
-        this.initAll(layoutChanged);
+
+        requestAnimationFrame(() => {
+            this.initAll(layoutChanged);
+            this._patchMonthDisplay();
+        });
     }
 
     initAll(forceWallpaperUpdate = false) {
@@ -375,7 +411,7 @@ export default class Background extends Component {
         const currentAgent = this.state.character;
         const currentVariant = localStorage.getItem('selectedVariant') || "Full";
 
-        if (window.setWallpaper && forceWallpaperUpdate) {
+        if (window.setWallpaper && (forceWallpaperUpdate || (this.state.layout === 'default' && !document.getElementById('faction-text')?.innerHTML))) {
             window.setWallpaper(currentAgent, currentVariant, true);
         }
 

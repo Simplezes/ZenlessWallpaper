@@ -8,7 +8,7 @@
     min-height: 6rem;
     border-bottom: 1vh solid var(--accent-color);
     padding: 0 1vw;
-    z-index: 999;
+    z-index: 10000;
     transition: filter 0.2s ease, opacity 0.4s ease;
 
     color: inherit;

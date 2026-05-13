@@ -109,6 +109,10 @@
     position: fixed;
 }
 
+body:not(.show-pattern) .layout-default .ambient-text {
+    display: none !important;
+}
+
 .layout-calendar .ambient-text.faction {
     top: 50px;
     left: 80px;
@@ -655,7 +659,12 @@
 .theme-light .date-year-display,
 .theme-light .addon-glyphs,
 .theme-light .addon-z {
-    color: rgb(216, 213, 210);
+    color: rgb(216, 213, 210) !important;
+}
+
+.theme-light .center-month-num {
+    color: rgb(216, 213, 210) !important;
+    -webkit-text-stroke-color: rgb(216, 213, 210) !important;
 }
 
 .theme-light .date-month-pill {

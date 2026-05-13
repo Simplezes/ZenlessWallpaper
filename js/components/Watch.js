@@ -7,12 +7,9 @@ export default class Watch extends Component {
         this.state = {
             hours: 0,
             minutes: 0,
-            seconds: 0
+            seconds: 0,
+            monthNum: store.state.monthNum || '--'
         };
-
-        this.useStore(store, (s) => ({
-            monthNum: s.monthNum
-        }));
     }
 
     render() {
@@ -48,6 +45,7 @@ export default class Watch extends Component {
     }
 
     onMounted() {
+        this.useStore(store, (s) => ({ monthNum: s.monthNum }));
         this.updateTime();
         this.timer = setInterval(() => this.updateTime(), 1000);
     }
