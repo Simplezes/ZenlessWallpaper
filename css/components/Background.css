@@ -411,28 +411,32 @@
 }
 
 .center-month-num {
-    font-family: "RubikMonoOne", sans-serif;
-    font-size: 250px;
-    color: rgb(15, 15, 15);
-    line-height: 0.9;
-    letter-spacing: -40px;
-    margin: 0;
-    padding: 0;
     display: flex;
     align-items: center;
-    transform: scaleY(1.7);
+    font-family: "OctinCollege";
+    font-size: 245px;
+    font-weight: bolder;
+    color: rgb(15, 15, 15);
+    line-height: 0.9;
+    letter-spacing: 10px;
+    margin: 0;
+    padding: 0;
+    -webkit-text-stroke-width: 15px;
+    -webkit-text-stroke-color: rgb(15, 15, 15);
+    transform: scaleY(1.6) scaleX(1.5);
 }
 
 .center-month-name {
     position: absolute;
-    font-family: "AlexBrush";
+    font-family: "Parisienne";
     font-size: 120px;
     font-style: italic;
     color: var(--accent-color);
     transform: rotate(-10deg);
     white-space: nowrap;
     z-index: 10;
-    margin-top: 150px;
+    margin-top: 50px;
+    margin-right: 50px;
 }
 
 .calendar-patch {
@@ -624,6 +628,11 @@
         -webkit-mask-size: contain;
         mask: url('../../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
         mask-size: contain;
+    }
+
+    .center-month-num {
+        font-size: 220px;
+        transform: scaleY(1.7) scaleX(1.43);
     }
 }
 
