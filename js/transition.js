@@ -106,8 +106,13 @@
             let w, h;
             if (isInLogo) {
                 if (isPortrait) {
-                    w = window.innerHeight;
-                    h = window.innerWidth;
+                    const activeCharImg = document.querySelector('#background-masked-content .char-image.active')
+                        || document.querySelector('#background-masked-content .char-image');
+                    const imgW = activeCharImg ? activeCharImg.offsetWidth : 0;
+                    const imgH = activeCharImg ? activeCharImg.offsetHeight : 0;
+
+                    w = imgW || window.innerHeight;
+                    h = imgH || window.innerWidth;
                 } else {
                     w = 2438;
                     h = 1001.7;
