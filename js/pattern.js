@@ -78,15 +78,13 @@ const PatternRenderer = (() => {
 
     function resize() {
         if (!canvas) return;
-        
+
         const isCalendar = canvas.closest('.layout-calendar');
-        
-        // If it's the masked canvas, we use the SVG coordinate space units
+
         if (canvas.id === 'bg-pattern-canvas' && isCalendar) {
             const isPortrait = window.innerHeight > window.innerWidth;
             canvas.width = isPortrait ? 1080 : 2450;
             canvas.height = isPortrait ? 2400 : 1000;
-            // No CSS style width/height needed as it's inside foreignObject
             if (ctx) ctx.setTransform(1, 0, 0, 1, 0, 0);
             return;
         }
@@ -136,15 +134,12 @@ const PatternRenderer = (() => {
         const isPortrait = window.innerHeight > window.innerWidth;
         const W = isMasked ? (isPortrait ? 1080 : 2450) : window.innerWidth;
         const H = isMasked ? (isPortrait ? 2400 : 1000) : window.innerHeight;
-        
+
         if (W === 0 || H === 0) return;
 
         ctx.clearRect(0, 0, W, H);
         if (isMasked) {
-            // Fill background with black for source-atop to work correctly in the mask
             ctx.fillStyle = 'black';
-            // Actually, source-atop uses the alpha of existing pixels. 
-            // We just need the clear to work.
         }
 
         const tileW1 = Math.round(image1.naturalWidth * SCALE_1);

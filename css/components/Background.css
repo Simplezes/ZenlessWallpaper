@@ -116,7 +116,7 @@
     opacity: 0.35;
     z-index: 2;
     letter-spacing: -2px;
-    filter: blur(2px);
+    filter: blur(2px) url(#ink-engine);
     text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
 }
 
@@ -127,7 +127,7 @@
     opacity: 0.35;
     z-index: 2;
     letter-spacing: -0.1rem;
-    filter: blur(0.1rem);
+    filter: blur(0.1rem) url(#ink-engine);
     text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85);
 }
 
@@ -139,6 +139,7 @@
     z-index: 600;
     letter-spacing: -10px;
     text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
+    filter: url(#ink-engine);
 }
 
 .layout-default .ambient-text.nickname {
@@ -149,6 +150,7 @@
     z-index: 600;
     letter-spacing: -0.6rem;
     text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85);
+    filter: url(#ink-engine);
 }
 
 .layout-calendar {
@@ -186,7 +188,12 @@
 
 .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 rgb(15, 15, 15)) drop-shadow(-5px 0 0 rgb(15, 15, 15)) drop-shadow(0 5px 0 rgb(15, 15, 15)) drop-shadow(0 -5px 0 rgb(15, 15, 15));
+        drop-shadow(5px 0 0 rgb(17, 17, 17)) drop-shadow(-5px 0 0 rgb(17, 17, 17)) drop-shadow(0 5px 0 rgb(17, 17, 17)) drop-shadow(0 -5px 0 rgb(17, 17, 17));
+}
+
+.show-ambient .masked-content-group {
+    filter:
+        drop-shadow(5px 0 0 rgb(17, 17, 17)) drop-shadow(-5px 0 0 rgb(17, 17, 17)) drop-shadow(0 5px 0 rgb(17, 17, 17)) drop-shadow(0 -5px 0 rgb(17, 17, 17)) url(#ink-engine);
 }
 
 #background-masked-content {
@@ -194,7 +201,7 @@
     height: 1001.7px;
     position: relative;
     overflow: hidden;
-    background-color: var(--accent-color);
+    background-color: color-mix(in srgb, var(--accent-color), black 25%);
     contain: paint;
     transform: translateZ(0);
     will-change: transform, opacity;
@@ -292,7 +299,15 @@
     width: 100%;
 }
 
-.calendar-header-block,
+.calendar-header-block {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
 .calendar-footer-block {
     margin: 0;
     padding: 0;
@@ -307,6 +322,7 @@
     margin: 0;
     padding: 0;
     text-transform: uppercase;
+    color: rgb(15, 15, 15);
 }
 
 .calendar-sub-label {
@@ -318,6 +334,7 @@
     font-size: 18px;
     margin-top: 1%;
     line-height: 1;
+    color: rgb(15, 15, 15);
 }
 
 .calendar-sub-content {
@@ -328,6 +345,7 @@
 
 .calendar-zenless-label {
     line-height: 1;
+    color: rgb(15, 15, 15);
 }
 
 .calendar-meta-text {
@@ -336,6 +354,7 @@
     line-height: 1;
     margin: 0;
     text-transform: uppercase;
+    color: rgb(15, 15, 15);
 }
 
 .zzz-tag-svg {
@@ -343,6 +362,7 @@
     width: auto;
     display: flex;
     align-items: center;
+    color: rgb(15, 15, 15);
 }
 
 .zzz-tag-svg svg {
@@ -361,7 +381,8 @@
     width: auto;
     display: flex;
     align-items: center;
-    margin-bottom: 1%;
+    margin-bottom: 0.8%;
+    color: rgb(15, 15, 15);
 }
 
 .calendar-name-badge-svg svg {
@@ -375,9 +396,10 @@
     line-height: 0.8;
     text-transform: uppercase;
     font-weight: 950;
-    letter-spacing: -4px;
+    letter-spacing: -1px;
     margin: 0;
     padding: 0;
+    color: rgb(15, 15, 15);
 }
 
 .calendar-month-center-display-svg {
@@ -403,14 +425,14 @@
 
 .center-month-name {
     position: absolute;
-    font-family: "Caveat", cursive;
-    font-size: 140px;
+    font-family: "AlexBrush";
+    font-size: 120px;
     font-style: italic;
     color: var(--accent-color);
     transform: rotate(-10deg);
-    text-shadow: 4px 4px 0px rgba(15, 15, 15, 0.1);
     white-space: nowrap;
     z-index: 10;
+    margin-top: 150px;
 }
 
 .calendar-patch {
@@ -423,6 +445,39 @@
     z-index: 15;
     pointer-events: none;
     filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+.calendar-date-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    text-align: center;
+}
+
+.date-month-pill {
+    background-color: rgb(15, 15, 15);
+    color: white;
+    font-family: "RubikMonoOne", sans-serif;
+    font-size: 44px;
+    padding: 12px 42px;
+    border-radius: 100px;
+    line-height: 1;
+    margin-bottom: 14px;
+    letter-spacing: -2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.date-year-display {
+    font-family: "RubikMonoOne", sans-serif;
+    font-size: 34px;
+    color: rgb(15, 15, 15);
+    letter-spacing: -1px;
+    font-weight: 900;
+    line-height: 1;
 }
 
 @media (orientation: portrait) {
@@ -461,7 +516,6 @@
         align-items: flex-end;
         background-color: transparent;
         z-index: 10000;
-        padding-bottom: 5vh;
     }
 
     .calendar-ui-overlay {
@@ -495,6 +549,77 @@
         padding: 0.5vh 3vw;
     }
 
+    .calendar-agent-name-row {
+        display: flex;
+        align-items: flex-end;
+        gap: 20px;
+        width: 100%;
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    .calendar-agent-name {
+        flex-shrink: 1;
+        min-width: 0;
+        line-height: 0.70;
+        letter-spacing: -2px;
+        margin: 0;
+        padding: 0;
+    }
+
+    .agent-name-addon {
+        flex-shrink: 0;
+        width: 260px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        padding: 0;
+        align-self: flex-end;
+        margin-right: 29%;
+    }
+
+    .addon-top {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        width: 100%;
+        flex-shrink: 0;
+        align-items: flex-end;
+    }
+
+    .addon-glyphs {
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+        font-family: "Zenless_Glyphs", monospace;
+        font-size: 5px;
+        color: rgb(15, 15, 15);
+        line-height: 1.1;
+        text-transform: uppercase;
+    }
+
+    .addon-z {
+        font-family: "Zenless";
+        font-size: 10px;
+        line-height: 1.2;
+        color: rgb(15, 15, 15);
+    }
+
+    .addon-bottom {
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+    .addon-dashed-svg {
+        display: block;
+        width: 40%;
+        height: 38px;
+        background-color: rgb(15, 15, 15);
+        -webkit-mask: url('../../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
+        -webkit-mask-size: contain;
+        mask: url('../../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
+        mask-size: contain;
+    }
 }
 
 @media screen and (min-aspect-ratio: 2/1) {
@@ -503,4 +628,41 @@
     .dot-screen {
         display: none !important;
     }
+}
+
+.theme-light .calendar-label,
+.theme-light .calendar-sub-label,
+.theme-light .calendar-zenless-label,
+.theme-light .calendar-agent-name,
+.theme-light .calendar-meta-text,
+.theme-light .zzz-tag-svg,
+.theme-light .calendar-name-badge-svg,
+.theme-light .center-month-num,
+.theme-light .date-year-display,
+.theme-light .addon-glyphs,
+.theme-light .addon-z {
+    color: rgb(216, 213, 210);
+}
+
+.theme-light .date-month-pill {
+    background-color: rgb(216, 213, 210);
+    color: rgb(15, 15, 15);
+}
+
+.theme-light.layout-calendar {
+    background-color: rgb(15, 15, 15);
+}
+
+.theme-light .addon-dashed-svg {
+    background-color: rgb(216, 213, 210);
+}
+
+.theme-light .masked-content-group {
+    filter:
+        drop-shadow(5px 0 0 rgb(216, 213, 210)) drop-shadow(-5px 0 0 rgb(216, 213, 210)) drop-shadow(0 5px 0 rgb(216, 213, 210)) drop-shadow(0 -5px 0 rgb(216, 213, 210));
+}
+
+.show-ambient.theme-light .masked-content-group {
+    filter:
+        drop-shadow(5px 0 0 rgb(216, 213, 210)) drop-shadow(-5px 0 0 rgb(216, 213, 210)) drop-shadow(0 5px 0 rgb(216, 213, 210)) drop-shadow(0 -5px 0 rgb(216, 213, 210)) url(#ink-engine);
 }

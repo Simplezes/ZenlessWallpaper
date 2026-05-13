@@ -80,7 +80,6 @@
     max-width: 100%;
 }
 
-/* Visualization */
 .terminal-visualizer {
     display: flex;
     gap: 0.4rem;

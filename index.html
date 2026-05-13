@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="css/components/Calendar.css">
     <link rel="stylesheet" href="css/components/Watch.css">
     <link rel="stylesheet" href="css/components/Settings.css">
-    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Big+Shoulders+Display:wght@900&display=swap" rel="stylesheet">
-
     <link rel="preload" href="assets/characters.json" as="fetch" crossorigin="anonymous">
     <script>
         window.charactersFetch = fetch('assets/characters.json')
@@ -45,6 +43,27 @@
     <script src="js/wallpaper.js"></script>
     <script src="js/taskbar.js"></script>
     <script src="js/pattern.js"></script>
+
+    <!-- Cotton Paper Texture -->
+    <div id="paper-texture" class="paper-texture"></div>
+
+    <!-- CMYK Global Overlay -->
+    <div id="halftone-global" class="halftone-global">
+        <div class="dot-screen screen-y"></div>
+        <div class="dot-screen screen-c"></div>
+        <div class="dot-screen screen-m"></div>
+        <div class="dot-screen screen-k"></div>
+    </div>
+
+    <!-- Refined Ink Engine Filter -->
+    <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
+        <filter id="ink-engine" x="-10%" y="-10%" width="120%" height="120%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.2" numOctaves="3" result="edge-noise" />
+            <feDisplacementMap in="SourceGraphic" in2="edge-noise" scale="3.5" result="jittered" />
+            <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="3" result="density-noise" />
+            <feComposite in="jittered" in2="density-noise" operator="arithmetic" k1="0.1" k2="1.0" k3="0" k4="0" />
+        </filter>
+    </svg>
 </body>
 
 </html>
