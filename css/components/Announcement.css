@@ -1,0 +1,184 @@
+.announcement-wrapper {
+    position: fixed;
+    bottom: 15rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    pointer-events: none;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.announcement-wrapper.active {
+    pointer-events: auto;
+}
+
+.announcement-container {
+    position: relative;
+    width: 42rem;
+    min-height: 12rem;
+    background: rgb(12, 12, 12);
+    border: 0.25rem solid rgb(40, 40, 42);
+    border-radius: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3rem 2.5rem 2rem 2.5rem;
+    box-shadow: 0 3rem 6rem rgba(0, 0, 0, 0.9);
+    opacity: 0;
+    transform: translateY(2rem);
+}
+
+.announcement-tag {
+    position: absolute;
+    top: -1.2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgb(40, 40, 42);
+    color: rgb(255, 255, 255);
+    font-weight: 900;
+    font-size: 1.1rem;
+    padding: 0.3rem 2rem;
+    border-radius: 2rem;
+    letter-spacing: 0.1rem;
+    text-transform: uppercase;
+    border: 0.2rem solid rgb(12, 12, 12);
+    z-index: 5;
+}
+
+.announcement-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 2rem;
+    width: 2.2rem;
+    height: 2.2rem;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.announcement-close:hover {
+    color: rgb(235, 204, 33);
+    transform: rotate(90deg);
+}
+
+.announcement-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.announcement-body {
+    text-align: center;
+}
+
+.announcement-title {
+    font-family: 'Zenless', 'Rajdhani', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 950;
+    color: rgb(255, 255, 255);
+    margin: 0;
+    line-height: 1.2;
+    letter-spacing: 0.05rem;
+}
+
+.announcement-footer {
+    display: flex;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 32rem;
+}
+
+.announcement-btn {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 3rem;
+    font-weight: 900;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: none;
+    text-transform: uppercase;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.announcement-btn.primary {
+    background: rgb(255, 255, 255);
+    color: rgb(0, 0, 0);
+}
+
+.announcement-btn.primary:hover {
+    background: rgb(235, 204, 33);
+    transform: scale(1.05);
+    box-shadow: 0 0.5rem 2rem rgba(235, 204, 33, 0.4);
+}
+
+.announcement-btn.secondary {
+    background: rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.announcement-btn.secondary:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: rgb(255, 255, 255);
+    transform: scale(1.05);
+}
+
+@media (max-width: 60rem) {
+    .announcement-wrapper {
+        bottom: 10rem;
+        width: 100%;
+        padding: 0 2rem;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .announcement-container {
+        width: 100%;
+        max-width: 34rem;
+        min-height: auto;
+        padding: 3rem 1.5rem 2rem 1.5rem;
+        border-radius: 2rem;
+    }
+
+    .announcement-title {
+        font-size: 1.6rem;
+    }
+
+    .announcement-tag {
+        font-size: 0.9rem;
+        padding: 0.2rem 1.5rem;
+        top: -1rem;
+    }
+
+    .announcement-footer {
+        flex-direction: column;
+        gap: 0.8rem;
+        max-width: 100%;
+    }
+
+    .announcement-btn {
+        width: 100%;
+        font-size: 1.1rem;
+        padding: 0.9rem;
+    }
+
+    .announcement-close {
+        top: 1rem;
+        right: 1.2rem;
+        width: 1.8rem;
+        height: 1.8rem;
+    }
+}
+
+@media (orientation: portrait) {
+    .announcement-wrapper {
+        bottom: 25vh;
+    }
+
+    .announcement-container {
+        max-width: 90vw;
+    }
+}
