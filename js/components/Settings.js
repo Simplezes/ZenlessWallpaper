@@ -28,21 +28,21 @@ export default class Settings extends Component {
         };
 
         this.MENU_ITEMS = [
-            { id: 'agents', label: 'AGENTS', img: 'assets/imgs/icons/Icon_Agents.webp', angle: 0 },
-            { id: 'variant', label: 'MODE', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 36 },
-            { id: 'footer', label: 'THEME', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 72 },
-            { id: 'kinetic', label: 'MOTION', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 108 },
-            { id: 'close', label: 'CLOSE', icon: this.ICONS.close, angle: 144 },
-            { id: 'layout', label: 'LAYOUT', icon: this.ICONS.layout, angle: 180 },
-            { id: 'pattern', label: 'PATTERN', img: 'assets/imgs/icons/Icon_DMs.webp', angle: 216 },
-            { id: 'ambient', label: 'EFFECTS', img: 'assets/imgs/icons/Icon_More.webp', angle: 252 },
-            { id: 'rotate', label: 'ROTATE', icon: this.ICONS.rotate, angle: 288 },
-            { id: 'flip', label: 'FLIP', icon: this.ICONS.flip, angle: 324 },
+            { id: 'agents', label: 'AGENTS', img: 'assets/imgs/icons/Icon_Agents.webp', angle: 0, category: 'char' },
+            { id: 'variant', label: 'MODE', img: 'assets/imgs/icons/Icon_Signal_Search.webp', angle: 36, category: 'char' },
+            { id: 'footer', label: 'THEME', img: 'assets/imgs/icons/Icon_Compendium.webp', angle: 72, category: 'ui' },
+            { id: 'kinetic', label: 'MOTION', img: 'assets/imgs/icons/Icon_Feedback.webp', angle: 108, category: 'fx' },
+            { id: 'close', label: 'CLOSE', icon: this.ICONS.close, angle: 144, category: 'sys' },
+            { id: 'layout', label: 'LAYOUT', icon: this.ICONS.layout, angle: 180, category: 'ui' },
+            { id: 'pattern', label: 'PATTERN', img: 'assets/imgs/icons/Icon_DMs.webp', angle: 216, category: 'fx' },
+            { id: 'ambient', label: 'EFFECTS', img: 'assets/imgs/icons/Icon_More.webp', angle: 252, category: 'fx' },
+            { id: 'rotate', label: 'ROTATE', icon: this.ICONS.rotate, angle: 288, category: 'trans' },
+            { id: 'flip', label: 'FLIP', icon: this.ICONS.flip, angle: 324, category: 'trans' },
         ];
 
         this._clickBound = false;
         this.ringRect = null;
-        
+
         this.agentList = new AgentList({
             currentAgent: this.state.currentAgent,
             onClose: () => this.setState({ isAgentListOpen: false }),
@@ -53,11 +53,11 @@ export default class Settings extends Component {
     render() {
         let segmentsHTML = '';
         let itemsHTML = '';
-        
+
         this.MENU_ITEMS.forEach(item => {
             const rot = `transform: rotate(${item.angle}deg);`;
             segmentsHTML += `
-                <svg viewBox="0 0 480 480" class="segment-svg" style="${rot}" data-id="${item.id}">
+                <svg viewBox="0 0 480 480" class="segment-svg category-${item.category}" style="${rot}" data-id="${item.id}">
                     <path class="segment-path" d="M 165.3 26.2 A 226.5 226.5 0 0 1 314.7 26.2 L 273.9 142.8 A 103 103 0 0 0 206.1 142.8 Z" />
                 </svg>
             `;
@@ -65,10 +65,16 @@ export default class Settings extends Component {
             const iconContent = item.img ?
                 `<img src="${item.img}" class="radial-img-icon" alt="${item.label}">` :
                 `<div class="radial-svg-icon">${item.icon}</div>`;
-            
+
+            const state = this.getItemActiveState(item.id);
+            const stateClass = state === true ? 'state-on' : (state === false ? 'state-off' : '');
+
             itemsHTML += `
-                <div class="radial-item" id="radial-item-${item.id}" style="--angle: ${item.angle}deg;">
+                <div class="radial-item ${stateClass}" id="radial-item-${item.id}" style="--angle: ${item.angle}deg;">
                     ${iconContent}
+                    <div class="radial-item-label-container">
+                        <span class="radial-item-name">${item.label}</span>
+                    </div>
                 </div>
             `;
         });
@@ -114,6 +120,7 @@ export default class Settings extends Component {
                             <div class="hub-inner-texture"></div>
                             <div class="hub-center-ui">
                                 <div class="hub-roulette-html" id="hub-roulette-text">${rouletteHTML}</div>
+                                <div class="hub-center-label">SELECT</div>
                             </div>
                         </div>
                     </div>
@@ -122,6 +129,45 @@ export default class Settings extends Component {
             <div id="agent-list-container"></div>
         </div>
         `;
+    }
+
+    getLabelForId(id) {
+        const item = this.MENU_ITEMS.find(m => m.id === id);
+        if (!item) return '';
+
+        switch (id) {
+            case 'variant': return `MODE: ${this.state.currentVariant}`;
+            case 'footer': return `THEME: ${this.state.footerTheme.toUpperCase()}`;
+            case 'kinetic': return `MOTION: ${this.state.kineticSwayEnabled ? 'ON' : 'OFF'}`;
+            case 'layout': return `LAYOUT: ${(localStorage.getItem('wallpaperLayout') || 'calendar').toUpperCase()}`;
+            case 'pattern': return `PATTERN: ${this.state.patternEnabled ? 'ON' : 'OFF'}`;
+            case 'ambient': return `EFFECTS: ${this.state.showAmbient ? 'ON' : 'OFF'}`;
+            case 'rotate': {
+                const key = `charRotate_${this.getOrientKey()}`;
+                const val = localStorage.getItem(key) || '0';
+                return `ROTATE: ${val}°`;
+            }
+            case 'flip': {
+                const key = `charFlip_${this.getOrientKey()}`;
+                const val = localStorage.getItem(key) === 'true';
+                return `FLIP: ${val ? 'YES' : 'NO'}`;
+            }
+            default: return item.label;
+        }
+    }
+
+    getItemActiveState(id) {
+        switch (id) {
+            case 'kinetic': return this.state.kineticSwayEnabled;
+            case 'pattern': return this.state.patternEnabled;
+            case 'ambient': return this.state.showAmbient;
+            case 'flip': return localStorage.getItem(`charFlip_${this.getOrientKey()}`) === 'true';
+            case 'footer': return this.state.footerTheme === 'dark';
+            case 'layout': return (localStorage.getItem('wallpaperLayout') || 'calendar') === 'calendar';
+            case 'variant': return true;
+            case 'rotate': return parseInt(localStorage.getItem(`charRotate_${this.getOrientKey()}`) || '0') !== 0;
+            default: return null;
+        }
     }
 
     onMounted() {
@@ -143,7 +189,7 @@ export default class Settings extends Component {
 
     reMountAgentList() {
         if (this.agentList) {
-            this.agentList.setState({ 
+            this.agentList.setState({
                 isOpen: this.state.isAgentListOpen,
                 currentAgent: this.state.currentAgent
             });
@@ -163,8 +209,18 @@ export default class Settings extends Component {
             seg.onmouseover = () => {
                 seg.classList.add('active');
                 if (overlayItem) overlayItem.classList.add('active');
-                dynamicLabel.innerText = item.label;
+
+                const label = this.getLabelForId(id);
+                dynamicLabel.innerText = label;
                 dynamicLabel.classList.add('visible');
+
+                const hubLabel = this.container.querySelector('.hub-center-label');
+                if (hubLabel) {
+                    hubLabel.innerText = label;
+                    hubLabel.style.opacity = '1';
+                    const roulette = this.container.querySelector('#hub-roulette-text');
+                    if (roulette) roulette.style.opacity = '0';
+                }
             };
 
             seg.onmouseout = () => {
@@ -172,11 +228,25 @@ export default class Settings extends Component {
                 if (overlayItem) overlayItem.classList.remove('active');
                 dynamicLabel.classList.remove('visible');
                 dynamicLabel.innerText = 'SELECT';
+
+                const hubLabel = this.container.querySelector('.hub-center-label');
+                if (hubLabel) {
+                    hubLabel.style.opacity = '0';
+                    const roulette = this.container.querySelector('#hub-roulette-text');
+                    if (roulette) roulette.style.opacity = '1';
+                }
             };
 
             seg.onclick = (e) => {
                 e.stopPropagation();
                 this.handleItemClick(id);
+                setTimeout(() => {
+                    if (seg.classList.contains('active')) {
+                        dynamicLabel.innerText = this.getLabelForId(id);
+                        const hubLabel = this.container.querySelector('.hub-center-label');
+                        if (hubLabel) hubLabel.innerText = this.getLabelForId(id);
+                    }
+                }, 50);
             };
         });
 

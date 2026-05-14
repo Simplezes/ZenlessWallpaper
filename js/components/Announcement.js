@@ -19,29 +19,30 @@ export default class Announcement extends Component {
         if (!this.state.isVisible) return '';
 
         const isNewLayout = this.state.layout === 'calendar';
-        const message = isNewLayout
-            ? "Don't like the new calendar layout?"
-            : "We created a new calendar layout!";
-        const actionLabel = isNewLayout ? "Switch to Classic" : "Try New Layout";
+        const message = "Hey Proxy! We have other calendar versions you can try! You can switch between them anytime in the settings to find your favorite.";
+        const actionLabel = isNewLayout ? "Try Classic Version" : "Try Modern Version";
 
         return `
         <div class="announcement-wrapper ${this.state.isVisible ? 'active' : ''}">
-            <div class="announcement-container">
-                <div class="announcement-tag">NOTICE</div>
-                <div class="announcement-close" id="announcement-close">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-                </div>
-                <div class="announcement-content">
-                    <div class="announcement-body">
-                        <p class="announcement-title">${message}</p>
+            <div class="announcement-choices">
+                <div class="choice-item primary" id="announcement-action">
+                    <div class="choice-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L1 21h22L12 2zm0 3.45L18.85 19H5.15L12 5.45zM11 16h2v2h-2v-2zm0-7h2v5h-2V9z"/></svg>
                     </div>
-                    <div class="announcement-footer">
-                        <button class="announcement-btn primary" id="announcement-action">
-                            ${actionLabel}
-                        </button>
-                        <button class="announcement-btn secondary" id="announcement-dismiss">
-                            Dismiss
-                        </button>
+                    <span class="choice-text">${actionLabel}</span>
+                </div>
+                <div class="choice-item secondary" id="announcement-dismiss">
+                    <div class="choice-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+                    </div>
+                    <span class="choice-text">Wait, not yet</span>
+                </div>
+            </div>
+            <div class="announcement-dialogue">
+                <div class="dialogue-content">
+                    <p class="dialogue-text">${message}</p>
+                    <div class="dialogue-next-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 17.59L11.58 12 6 6.41 7.41 5l7 7-7 7-1.41-1.41zm6 0L17.58 12 12 6.41 13.41 5l7 7-7 7-1.41-1.41z"/></svg>
                     </div>
                 </div>
             </div>
@@ -64,21 +65,20 @@ export default class Announcement extends Component {
     attachListeners() {
         const actionBtn = this.container.querySelector('#announcement-action');
         const dismissBtn = this.container.querySelector('#announcement-dismiss');
-        const closeBtn = this.container.querySelector('#announcement-close');
 
         if (actionBtn) {
-            actionBtn.onclick = () => {
+            actionBtn.onclick = (e) => {
+                e.stopPropagation();
                 this.toggleLayout();
                 this.dismiss();
             };
         }
 
         if (dismissBtn) {
-            dismissBtn.onclick = () => this.dismiss();
-        }
-
-        if (closeBtn) {
-            closeBtn.onclick = () => this.dismiss();
+            dismissBtn.onclick = (e) => {
+                e.stopPropagation();
+                this.dismiss();
+            };
         }
     }
 
@@ -100,27 +100,44 @@ export default class Announcement extends Component {
     }
 
     animateIn() {
-        const el = this.container.querySelector('.announcement-container');
-        if (!el || !window.anime) return;
+        const dialogue = this.container.querySelector('.announcement-dialogue');
+        const choices = this.container.querySelectorAll('.choice-item');
+        if (!window.anime) return;
 
-        anime({
-            targets: el,
-            translateY: [40, 0],
-            opacity: [0, 1],
-            duration: 800,
-            easing: 'easeOutElastic(1, .8)'
-        });
+        const tl = anime.timeline();
+
+        if (dialogue) {
+            tl.add({
+                targets: dialogue,
+                translateY: [60, 0],
+                opacity: [0, 1],
+                duration: 600,
+                easing: 'easeOutCubic'
+            });
+        }
+
+        if (choices.length) {
+            tl.add({
+                targets: choices,
+                translateX: [40, 0],
+                opacity: [0, 1],
+                delay: anime.stagger(100),
+                duration: 500,
+                easing: 'easeOutCubic'
+            }, '-=400');
+        }
     }
 
     dismiss() {
-        const el = this.container.querySelector('.announcement-container');
-        if (el && window.anime) {
+        const dialogue = this.container.querySelector('.announcement-dialogue');
+        const choices = this.container.querySelectorAll('.choice-item');
+        if (window.anime) {
             anime({
-                targets: el,
-                translateY: 40,
+                targets: [dialogue, ...choices],
                 opacity: 0,
+                translateY: 20,
                 duration: 400,
-                easing: 'easeInBack',
+                easing: 'easeInQuad',
                 complete: () => {
                     this.setState({ isVisible: false, hasSeen: true });
                     localStorage.setItem('announcementSeen_v2', 'true');

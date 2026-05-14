@@ -214,7 +214,7 @@ body:not(.show-pattern) .layout-default .ambient-text {
 .halftone-global {
     position: fixed;
     inset: 0;
-    z-index: 9998;
+    z-index: 99999;
     mix-blend-mode: multiply;
     pointer-events: none;
     overflow: hidden;

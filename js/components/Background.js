@@ -11,6 +11,8 @@ export default class Background extends Component {
         this.useStore(store, (s) => ({
             layout: s.layout,
             character: s.currentAgent,
+            faction: s.faction,
+            nickname: s.nickname,
             isPortrait: s.isPortrait,
             accentColor: s.accentColor,
             footerTheme: s.footerTheme,
@@ -174,8 +176,6 @@ export default class Background extends Component {
     }
 
     renderMaskedLayer(clipId, w, h) {
-        const inkClass = this.state.showAmbient ? 'ink-print' : '';
-        const pathData = this.state.isPortrait ? ZZZ_PORTRAIT_PATH : ZZZ_MAIN_PATH;
         return `
             <g class="masked-content-group">
                 <g style="clip-path: url(#${clipId}); -webkit-clip-path: url(#${clipId});">
@@ -319,13 +319,13 @@ export default class Background extends Component {
             <canvas id="zzz-bg-transition" style="position:fixed;inset:0;width:100%;height:100%;z-index:-5;pointer-events:none;opacity:0;"></canvas>
             <div id="backdrop" class="bg-layer active" style="opacity: 0;"></div>
             <div id="transition-backdrop" class="bg-layer" style="opacity: 0;"></div>
-            <div id="faction-text" class="ambient-text faction"></div>
+            <div id="faction-text" class="ambient-text faction">${this.state.faction || ''}</div>
             <div id="image-container">
                 <img id="main-image" class="char-image active" />
                 <img id="transition-image" class="char-image" />
             </div>
             <canvas id="zzz-cyber-transition" style="position:fixed;inset:0;width:100%;height:100%;z-index:509;pointer-events:none;opacity:0;"></canvas>
-            <div id="nickname-text" class="ambient-text nickname"></div>
+            <div id="nickname-text" class="ambient-text nickname">${this.state.nickname || ''}</div>
         `;
     }
 
@@ -351,12 +351,12 @@ export default class Background extends Component {
 
     onMounted() {
         window.addEventListener('character-changed', (e) => {
-            if (this.state.character !== e.detail.character) {
-                this.setState({
-                    character: e.detail.character,
+            if (store.state.currentAgent !== e.detail.character) {
+                store.setState({
+                    currentAgent: e.detail.character,
                     faction: e.detail.faction,
                     nickname: e.detail.nickname,
-                    baseColor: localStorage.getItem('--accent-color')
+                    accentColor: localStorage.getItem('--accent-color') || store.state.accentColor
                 });
             }
         });
@@ -364,7 +364,6 @@ export default class Background extends Component {
         window.addEventListener('resize', () => {
             const isPortrait = window.innerHeight > window.innerWidth;
             if (isPortrait !== this.state.isPortrait) {
-                this.syncStateFromStorage();
                 this.setState({ isPortrait });
                 this.refreshCharacterImage();
             }
@@ -434,12 +433,4 @@ export default class Background extends Component {
         }
     }
 
-    syncStateFromStorage() {
-        this.setState({
-            character: localStorage.getItem('selectedCharacter') || 'Burnice White',
-            faction: localStorage.getItem('selectedFaction') || 'KOBEBW',
-            nickname: localStorage.getItem('selectedNickname') || 'BURNICE',
-            baseColor: localStorage.getItem('--accent-color') || 'rgb(252, 91, 144)'
-        });
-    }
 }
