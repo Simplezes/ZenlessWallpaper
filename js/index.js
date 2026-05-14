@@ -3,6 +3,7 @@ import LoadingScreen from './components/LoadingScreen.js';
 import Header from './components/Header.js';
 import Background from './components/Background.js';
 import Settings from './components/Settings.js';
+import Announcement from './components/Announcement.js';
 
 import store from './store.js';
 
@@ -39,6 +40,10 @@ class App {
 
         this.settings = new Settings();
         this.settings.mount('#settings-root');
+
+        this.announcement = new Announcement();
+        this.announcement.mount('#announcement-root');
+        this.announcement.show();
 
         store.subscribe((s) => {
             document.body.classList.toggle('show-ambient', !!s.showAmbient);
