@@ -12,6 +12,9 @@ window.store = store;
 class App {
     constructor() {
         this.components = {};
+        window.charactersFetch = fetch('assets/characters.json')
+            .then(r => r.json())
+            .catch(e => console.error("Early fetch error", e));
     }
 
     async init() {

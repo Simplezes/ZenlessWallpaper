@@ -4,6 +4,8 @@
     font-size: clamp(0.6rem, calc(100vh / 108), 2.5rem);
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400..900&display=swap');
+
 @font-face {
     font-family: "Zenless";
     src: url("../assets/fonts/Zenless_Font.ttf");
@@ -39,10 +41,7 @@
     src: url("../assets/fonts/OctinCollege.otf");
 }
 
-@font-face {
-    font-family: "Arimo";
-    src: url("../assets/fonts/Arimo-VariableFont.ttf");
-}
+
 
 * {
     box-sizing: border-box;
@@ -75,24 +74,6 @@ body {
     transform: rotate(-0.1deg);
 }
 
-.paper-texture {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    mix-blend-mode: multiply;
-    opacity: 0.3;
-    background-image: url("data:image/svg+xml,%3Csvg width='512' height='512' viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='paper'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.04' numOctaves='5' result='noise'/%3E%3CfeDiffuseLighting in='noise' lighting-color='%23dddddd' surfaceScale='2' result='diffuse'%3E%3CfeDistantLight azimuth='45' elevation='50'/%3E%3C/feDiffuseLighting%3E%3CfeComponentTransfer%3E%3CfeFuncR type='gamma' exponent='1.5'/%3E%3CfeFuncG type='gamma' exponent='1.5'/%3E%3CfeFuncB type='gamma' exponent='1.5'/%3E%3C/feComponentTransfer%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23paper)'/%3E%3C/svg%3E");
-    z-index: 9997;
-    display: none;
-}
-
-body.show-pattern .paper-texture {
-    display: block;
-}
-
 .halftone-global {
-    z-index: 9998;
+    z-index: 99999;
 }

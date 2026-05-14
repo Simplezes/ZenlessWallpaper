@@ -16,12 +16,6 @@
     <link rel="stylesheet" href="css/components/Settings.css">
     <link rel="stylesheet" href="css/components/Announcement.css">
     <link rel="preload" href="assets/characters.json" as="fetch" crossorigin="anonymous">
-    <script>
-        window.charactersFetch = fetch('assets/characters.json')
-            .then(r => r.json())
-            .catch(e => console.error("Early fetch error", e));
-    </script>
-
 </head>
 
 <body>
@@ -39,15 +33,12 @@
     <script type="module" src="js/index.js"></script>
 
     <!-- Legacy / Re-organized scripts -->
-    <script src="js/cmyk.js"></script>
-    <script src="js/kinetic.js"></script>
-    <script src="js/transition.js"></script>
-    <script src="js/wallpaper.js"></script>
-    <script src="js/taskbar.js"></script>
-    <script src="js/pattern.js"></script>
-
-    <!-- Cotton Paper Texture -->
-    <div id="paper-texture" class="paper-texture"></div>
+    <script src="js/utils/cmyk.js"></script>
+    <script src="js/utils/kinetic.js"></script>
+    <script src="js/utils/transition.js"></script>
+    <script src="js/utils/wallpaper.js"></script>
+    <script src="js/utils/taskbar.js"></script>
+    <script src="js/utils/pattern.js"></script>
 
     <!-- CMYK Global Overlay -->
     <div id="halftone-global" class="halftone-global">

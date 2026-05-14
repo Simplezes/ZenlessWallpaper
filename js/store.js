@@ -2,6 +2,8 @@ class Store {
     constructor() {
         this.state = {
             currentAgent: localStorage.getItem('selectedCharacter') || "Burnice White",
+            faction: localStorage.getItem('selectedFaction') || "KOBEBW",
+            nickname: localStorage.getItem('selectedNickname') || "BURNICE",
             currentVariant: localStorage.getItem('selectedVariant') || "Default",
             accentColor: localStorage.getItem('--accent-color') || 'rgb(252, 91, 144)',
             isPortrait: window.innerHeight > window.innerWidth,
@@ -28,8 +30,12 @@ class Store {
         this._dateUpdateInterval = null;
         this.initDate();
 
+        let resizeTimeout;
         window.addEventListener('resize', () => {
-            this.setState({ isPortrait: window.innerHeight > window.innerWidth });
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                this.setState({ isPortrait: window.innerHeight > window.innerWidth });
+            }, 150);
         });
     }
 
