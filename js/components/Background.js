@@ -340,7 +340,7 @@ export default class Background extends Component {
 
     getPortraitStyles() {
         return `
-            --m-zzz-tx: 175px; --m-zzz-ty: 520px; --m-zzz-s: 0.51;
+            --m-zzz-tx: 177px; --m-zzz-ty: 520px; --m-zzz-s: 0.504;
             --m-side-tx: -1610px; --m-side-ty: 890px;
             --m-bottom-tx: -380px; --m-bottom-ty: 1010px;
             --m-center-tx: -860px; --m-center-ty: 685px; --m-center-s: 1.45;
