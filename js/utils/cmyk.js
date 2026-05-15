@@ -1,5 +1,5 @@
 const CMYKManager = {
-    scale: 0.4,
+    scale: 0.45,
     selectors: new Set(),
     currentColor: 'rgb(0, 0, 0)',
 
@@ -9,17 +9,20 @@ const CMYKManager = {
     _BG_THROTTLE_MS: 80,
 
     anyToCmyk(color) {
-        let r, g, b;
+        if (!color) return { c: 0, m: 0, y: 0, k: 0 };
 
+        let r, g, b;
         const matches = color.match(/\d+/g);
+        if (!matches || matches.length < 3) return { c: 0, m: 0, y: 0, k: 0 };
+
         r = parseInt(matches[0]) / 255;
         g = parseInt(matches[1]) / 255;
         b = parseInt(matches[2]) / 255;
 
         const k = 1 - Math.max(r, g, b);
-        const c = (1 - r - k) / (1 - k) || 0;
-        const m = (1 - g - k) / (1 - k) || 0;
-        const y = (1 - b - k) / (1 - k) || 0;
+        const c = k === 1 ? 0 : (1 - r - k) / (1 - k);
+        const m = k === 1 ? 0 : (1 - g - k) / (1 - k);
+        const y = k === 1 ? 0 : (1 - b - k) / (1 - k);
 
         return {
             c: Math.round(c * 100),
@@ -36,10 +39,10 @@ const CMYKManager = {
         const cmyk = this.anyToCmyk(color);
         const root = document.documentElement;
 
-        const sc = cmyk.c * this.scale;
-        const sm = cmyk.m * this.scale;
-        const sy = cmyk.y * this.scale;
-        const sk = cmyk.k * this.scale;
+        const sc = Math.min(48, cmyk.c * this.scale);
+        const sm = Math.min(48, cmyk.m * this.scale);
+        const sy = Math.min(48, cmyk.y * this.scale);
+        const sk = Math.min(48, cmyk.k * this.scale);
 
         if (sc !== this._lastC) { root.style.setProperty('--r-c', sc + '%'); this._lastC = sc; }
         if (sm !== this._lastM) { root.style.setProperty('--r-m', sm + '%'); this._lastM = sm; }
@@ -60,9 +63,34 @@ const CMYKManager = {
         this.updateVariables(this.currentColor);
     },
 
-    apply() {},
-    remove() {},
-    refresh() {}
+    apply(selector) {
+        if (!selector) return;
+        const els = (typeof selector === 'string') ? document.querySelectorAll(selector) : [selector];
+
+        els.forEach(el => {
+            if (el.querySelector('.halftone-local')) return;
+
+            const halftone = document.createElement('div');
+            halftone.className = 'halftone-local';
+
+            ['y', 'c', 'm', 'k'].forEach(channel => {
+                const screen = document.createElement('div');
+                screen.className = `dot-screen screen-${channel}`;
+                halftone.appendChild(screen);
+            });
+
+            el.appendChild(halftone);
+        });
+    },
+
+    remove(selector) {
+        if (!selector) return;
+        const els = (typeof selector === 'string') ? document.querySelectorAll(selector) : [selector];
+        els.forEach(el => {
+            const h = el.querySelector('.halftone-local');
+            if (h) h.remove();
+        });
+    }
 };
 
 window.CMYKManager = CMYKManager;
