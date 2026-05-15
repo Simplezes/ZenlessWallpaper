@@ -370,25 +370,6 @@
     color: transparent;
 }
 
-.hub-center-label {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    text-align: center;
-    font-family: 'Zenless', 'Rajdhani', sans-serif;
-    font-size: 1.4rem;
-    font-weight: 950;
-    color: rgb(235, 204, 33);
-    opacity: 0;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-    text-transform: uppercase;
-    line-height: 1.1;
-    text-shadow: 0 0 1rem rgba(235, 204, 33, 0.4);
-    z-index: 20;
-}
-
 #hub-roulette-text {
     transition: opacity 0.3s ease;
 }
