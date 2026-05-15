@@ -5,14 +5,14 @@
     --r-y: 0%;
     --r-k: 0%;
     --filter-opacity: 0.22;
-    --cmyk-off-cx: 0.5px;
-    --cmyk-off-cy: 0.5px;
-    --cmyk-off-mx: -0.7px;
-    --cmyk-off-my: 0.25px;
-    --cmyk-off-yx: 0.2px;
-    --cmyk-off-yy: -0.5px;
-    --cmyk-off-kx: 0.8px;
-    --cmyk-off-ky: -0.8px;
+    --cmyk-off-cx: 0px;
+    --cmyk-off-cy: 0px;
+    --cmyk-off-mx: 0px;
+    --cmyk-off-my: 0px;
+    --cmyk-off-yx: 0px;
+    --cmyk-off-yy: 0px;
+    --cmyk-off-kx: 0px;
+    --cmyk-off-ky: 0px;
 }
 
 .bg-layer {
@@ -227,39 +227,52 @@ body:not(.show-pattern) .layout-container .ambient-text {
 
 .dot-screen {
     position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
+    width: 200%;
+    height: 200%;
+    top: -50%;
+    left: -50%;
     background-repeat: repeat;
     mix-blend-mode: multiply;
     pointer-events: none;
     backface-visibility: hidden;
-    transform-origin: 50% 50%;
+    transform-origin: center center;
+    will-change: transform;
 }
 
 .screen-c {
     transform: rotate(15deg) translate3d(var(--cmyk-off-cx), var(--cmyk-off-cy), 0);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Ccircle cx='5' cy='5' r='1.5' fill='%2300aeef'/%3E%3C/svg%3E");
-    background-size: var(--sz) var(--sz);
+    background-color: #00aeef;
+    -webkit-mask-image: radial-gradient(circle, black var(--r-c, 15%), transparent calc(var(--r-c, 15%) + 1%));
+    -webkit-mask-size: var(--sz) var(--sz);
+    mask-image: radial-gradient(circle, black var(--r-c, 15%), transparent calc(var(--r-c, 15%) + 1%));
+    mask-size: var(--sz) var(--sz);
 }
 
 .screen-m {
     transform: rotate(75deg) translate3d(var(--cmyk-off-mx), var(--cmyk-off-my), 0);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Ccircle cx='5' cy='5' r='1.5' fill='%23e6007e'/%3E%3C/svg%3E");
-    background-size: var(--sz) var(--sz);
+    background-color: #e6007e;
+    -webkit-mask-image: radial-gradient(circle, black var(--r-m, 15%), transparent calc(var(--r-m, 15%) + 1%));
+    -webkit-mask-size: var(--sz) var(--sz);
+    mask-image: radial-gradient(circle, black var(--r-m, 15%), transparent calc(var(--r-m, 15%) + 1%));
+    mask-size: var(--sz) var(--sz);
 }
 
 .screen-y {
     transform: rotate(0deg) translate3d(var(--cmyk-off-yx), var(--cmyk-off-yy), 0);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Ccircle cx='5' cy='5' r='1.5' fill='%23fff100'/%3E%3C/svg%3E");
-    background-size: var(--sz) var(--sz);
+    background-color: #fff100;
+    -webkit-mask-image: radial-gradient(circle, black var(--r-y, 15%), transparent calc(var(--r-y, 15%) + 1%));
+    -webkit-mask-size: var(--sz) var(--sz);
+    mask-image: radial-gradient(circle, black var(--r-y, 15%), transparent calc(var(--r-y, 15%) + 1%));
+    mask-size: var(--sz) var(--sz);
 }
 
 .screen-k {
     transform: rotate(45deg) translate3d(var(--cmyk-off-kx), var(--cmyk-off-ky), 0);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Ccircle cx='5' cy='5' r='1.5' fill='%23231815'/%3E%3C/svg%3E");
-    background-size: var(--sz) var(--sz);
+    background-color: #231815;
+    -webkit-mask-image: radial-gradient(circle, black var(--r-k, 15%), transparent calc(var(--r-k, 15%) + 1%));
+    -webkit-mask-size: var(--sz) var(--sz);
+    mask-image: radial-gradient(circle, black var(--r-k, 15%), transparent calc(var(--r-k, 15%) + 1%));
+    mask-size: var(--sz) var(--sz);
 }
 
 #bg-pattern-canvas {
