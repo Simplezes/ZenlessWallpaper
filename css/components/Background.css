@@ -227,52 +227,40 @@ body:not(.show-pattern) .layout-container .ambient-text {
 
 .dot-screen {
     position: absolute;
-    width: 200%;
-    height: 200%;
-    top: -50%;
-    left: -50%;
+    width: 150vmax;
+    height: 150vmax;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background-repeat: repeat;
     mix-blend-mode: multiply;
     pointer-events: none;
     backface-visibility: hidden;
-    transform-origin: center center;
     will-change: transform;
 }
 
 .screen-c {
-    transform: rotate(15deg) translate3d(var(--cmyk-off-cx), var(--cmyk-off-cy), 0);
-    background-color: #00aeef;
-    -webkit-mask-image: radial-gradient(circle, black var(--r-c, 15%), transparent calc(var(--r-c, 15%) + 1%));
-    -webkit-mask-size: var(--sz) var(--sz);
-    mask-image: radial-gradient(circle, black var(--r-c, 15%), transparent calc(var(--r-c, 15%) + 1%));
-    mask-size: var(--sz) var(--sz);
+    transform: translate(-50%, -50%) rotate(15deg);
+    background-image: radial-gradient(circle, #00aeef var(--r-c, 15%), transparent calc(var(--r-c, 15%) + 1.2%));
+    background-size: var(--sz) var(--sz);
 }
 
 .screen-m {
-    transform: rotate(75deg) translate3d(var(--cmyk-off-mx), var(--cmyk-off-my), 0);
-    background-color: #e6007e;
-    -webkit-mask-image: radial-gradient(circle, black var(--r-m, 15%), transparent calc(var(--r-m, 15%) + 1%));
-    -webkit-mask-size: var(--sz) var(--sz);
-    mask-image: radial-gradient(circle, black var(--r-m, 15%), transparent calc(var(--r-m, 15%) + 1%));
-    mask-size: var(--sz) var(--sz);
+    transform: translate(-50%, -50%) rotate(75deg);
+    background-image: radial-gradient(circle, #e6007e var(--r-m, 15%), transparent calc(var(--r-m, 15%) + 1.2%));
+    background-size: var(--sz) var(--sz);
 }
 
 .screen-y {
-    transform: rotate(0deg) translate3d(var(--cmyk-off-yx), var(--cmyk-off-yy), 0);
-    background-color: #fff100;
-    -webkit-mask-image: radial-gradient(circle, black var(--r-y, 15%), transparent calc(var(--r-y, 15%) + 1%));
-    -webkit-mask-size: var(--sz) var(--sz);
-    mask-image: radial-gradient(circle, black var(--r-y, 15%), transparent calc(var(--r-y, 15%) + 1%));
-    mask-size: var(--sz) var(--sz);
+    transform: translate(-50%, -50%) rotate(0deg);
+    background-image: radial-gradient(circle, #fff100 var(--r-y, 15%), transparent calc(var(--r-y, 15%) + 1.2%));
+    background-size: var(--sz) var(--sz);
 }
 
 .screen-k {
-    transform: rotate(45deg) translate3d(var(--cmyk-off-kx), var(--cmyk-off-ky), 0);
-    background-color: #231815;
-    -webkit-mask-image: radial-gradient(circle, black var(--r-k, 15%), transparent calc(var(--r-k, 15%) + 1%));
-    -webkit-mask-size: var(--sz) var(--sz);
-    mask-image: radial-gradient(circle, black var(--r-k, 15%), transparent calc(var(--r-k, 15%) + 1%));
-    mask-size: var(--sz) var(--sz);
+    transform: translate(-50%, -50%) rotate(45deg);
+    background-image: radial-gradient(circle, #231815 var(--r-k, 15%), transparent calc(var(--r-k, 15%) + 1.2%));
+    background-size: var(--sz) var(--sz);
 }
 
 #bg-pattern-canvas {

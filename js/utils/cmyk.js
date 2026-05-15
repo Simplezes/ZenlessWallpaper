@@ -64,23 +64,8 @@ const CMYKManager = {
     },
 
     apply(selector) {
-        if (!selector) return;
-        const els = (typeof selector === 'string') ? document.querySelectorAll(selector) : [selector];
-
-        els.forEach(el => {
-            if (el.querySelector('.halftone-local')) return;
-
-            const halftone = document.createElement('div');
-            halftone.className = 'halftone-local';
-
-            ['y', 'c', 'm', 'k'].forEach(channel => {
-                const screen = document.createElement('div');
-                screen.className = `dot-screen screen-${channel}`;
-                halftone.appendChild(screen);
-            });
-
-            el.appendChild(halftone);
-        });
+        // Disabled: CMYK is now a global filter on top of everything
+        this.remove(selector);
     },
 
     remove(selector) {

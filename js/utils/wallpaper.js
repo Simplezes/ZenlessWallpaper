@@ -301,12 +301,10 @@ function updateText(el, text, offset, targetOpacity) {
         targetContent = text.replace(/ /g, '<br>');
     }
 
-    const regex = /<div class="halftone-local">.*?<\/div>/i;
-    const currentContent = el.innerHTML.replace(regex, '');
+    const currentContent = el.innerHTML;
     anime.remove(el);
 
     if (currentContent === targetContent) {
-        if (window.CMYKManager) window.CMYKManager.apply(el);
         anime({
             targets: el,
             opacity: targetOpacity,
@@ -319,13 +317,8 @@ function updateText(el, text, offset, targetOpacity) {
     }
 
     const applyContent = () => {
-        const halftone = el.querySelector('.halftone-local');
         el.innerHTML = targetContent;
         el.setAttribute('data-text', text);
-
-        if (halftone) el.appendChild(halftone);
-
-        if (window.CMYKManager) window.CMYKManager.apply(el);
 
         const enterOffset = offset * 0.65;
         if (!motionEnabled) {
