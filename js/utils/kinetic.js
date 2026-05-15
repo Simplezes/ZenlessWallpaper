@@ -121,8 +121,8 @@ class KineticSway {
         const manualFlip = this._manualFlip;
 
         for (let item of this.elements) {
-            if (!item.el) {
-                if (item.id) item.fel = document.getElementById(item.id);
+            if (!item.el || !item.el.isConnected) {
+                if (item.id) item.el = document.getElementById(item.id);
                 if (!item.el) continue;
             }
             item.el.style.translate = '';
