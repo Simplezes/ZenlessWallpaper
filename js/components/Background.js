@@ -38,12 +38,15 @@ export default class Background extends Component {
 
     renderCalendarLayout() {
         const monthData = this._getMonthDataFromStore();
+        const isPortrait = this.state.isPortrait;
 
-        if (this.state.isPortrait) {
-            return this.renderPortraitSVG(monthData);
-        } else {
-            return this.renderDesktopSVG(monthData);
-        }
+        const bgSvg = isPortrait ? this.renderPortraitBG(monthData) : this.renderDesktopBG(monthData);
+        const fgSvg = isPortrait ? this.renderPortraitFG(monthData) : this.renderDesktopFG(monthData);
+
+        return `
+            ${bgSvg}
+            ${fgSvg}
+        `;
     }
 
     _getMonthDataFromStore() {
@@ -77,21 +80,28 @@ export default class Background extends Component {
         });
     }
 
-    renderDesktopSVG(monthData) {
+    renderDesktopBG(monthData) {
         return `
-            <div id="logo-container" class="desktop-view">
-                <svg id="logo-svg" viewBox="-10 0 2448 1001.7" preserveAspectRatio="xMidYMid meet" style="${this.getDesktopStyles()}">
+            <div id="logo-bg-container" class="desktop-view">
+                <svg viewBox="-10 0 2448 1001.7" preserveAspectRatio="xMidYMid meet" style="${this.getDesktopStyles()}">
                     ${this.renderCommonDefs('zzz-logo-clip')}
                     ${this.renderMaskedLayer('zzz-logo-clip', 2438, 1001.7)}
-                    
+                </svg>
+            </div>
+        `;
+    }
+
+    renderDesktopFG(monthData) {
+        return `
+            <div id="logo-fg-container" class="desktop-view">
+                <svg viewBox="-10 0 2448 1001.7" preserveAspectRatio="xMidYMid meet" style="${this.getDesktopStyles()}">
                     <g style="transform: translate(var(--box-bottom-tx), var(--box-bottom-ty));">
                         <foreignObject x="20" y="694" width="700" height="299">
                             ${this.renderUIBoxContent(monthData)}
                         </foreignObject>
                     </g>
-
                     <g style="transform: translate(var(--center-tx), var(--center-ty));">
-                        <foreignObject x="640" y="595" width="460" height="500">
+                        <foreignObject x="440" y="495" width="860" height="700" style="overflow: visible;">
                             ${this.renderMonthDisplayContent(monthData)}
                         </foreignObject>
                     </g>
@@ -100,32 +110,36 @@ export default class Background extends Component {
         `;
     }
 
-    renderPortraitSVG(monthData) {
+    renderPortraitBG(monthData) {
         return `
-            <div id="logo-container" class="mobile-view">
-                <svg id="logo-svg" viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMax meet" style="${this.getPortraitStyles()}">
+            <div id="logo-bg-container" class="mobile-view">
+                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMax meet" style="${this.getPortraitStyles()}">
                     ${this.renderCommonDefs('zzz-logo-clip-mobile', true)}
                     ${this.renderMaskedLayer('zzz-logo-clip-mobile', 1080, 2400)}
-                    
+                </svg>
+            </div>
+        `;
+    }
+
+    renderPortraitFG(monthData) {
+        return `
+            <div id="logo-fg-container" class="mobile-view">
+                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMax meet" style="${this.getPortraitStyles()}">
                     <g style="transform: translate(var(--m-label-tx), var(--m-label-ty));">
                         <foreignObject x="50" y="1500" width="900" height="300">
                             ${this.renderCalendarHeader(monthData)}
                         </foreignObject>
                     </g>
-
                     <g style="transform: translate(var(--m-name-tx), var(--m-name-ty)) scale(var(--m-name-s));">
                         <foreignObject x="50" y="1722" width="1000" height="280">
                             ${this.renderAgentName()}
                         </foreignObject>
                     </g>
-
                     <g style="transform: translate(var(--m-center-tx), var(--m-center-ty)) scale(var(--m-center-s));">
-                        <foreignObject x="660" y="600" width="460" height="500">
+                        <foreignObject x="460" y="500" width="860" height="700" style="overflow: visible;">
                             ${this.renderMonthDisplayContent(monthData)}
                         </foreignObject>
                     </g>
-
-
                 </svg>
             </div>
         `;
@@ -284,6 +298,7 @@ export default class Background extends Component {
             <div class="calendar-month-center-display-svg ${inkClass}">
                 <div class="center-month-num">${monthData.num}</div>
                 <div class="center-month-name">${monthData.name}</div>
+                <img src="assets/imgs/patch.webp" class="patch-sticker">
             </div>
         `;
     }
