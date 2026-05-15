@@ -153,14 +153,14 @@ body:not(.show-pattern) .layout-container .ambient-text {
     height: 100vh;
 }
 
-#logo-container {
+#logo-bg-container,
+#logo-fg-container {
     position: fixed;
     width: 100%;
     top: var(--taskbar-top, 0rem);
     left: var(--taskbar-left, 0rem);
     right: var(--taskbar-right, 0rem);
     bottom: calc(13vh + var(--taskbar-bottom, 0rem));
-    z-index: 2000;
     pointer-events: none;
     isolation: isolate;
     contain: layout style;
@@ -169,11 +169,21 @@ body:not(.show-pattern) .layout-container .ambient-text {
     align-items: center;
 }
 
-.is-mobile #logo-container {
+#logo-bg-container {
+    z-index: 2000;
+}
+
+#logo-fg-container {
+    z-index: 3000;
+}
+
+.is-mobile #logo-bg-container,
+.is-mobile #logo-fg-container {
     bottom: var(--taskbar-bottom, 0rem);
 }
 
-#logo-svg {
+#logo-bg-container svg,
+#logo-fg-container svg {
     width: 100%;
     height: 100%;
 }
@@ -400,6 +410,8 @@ body:not(.show-pattern) .layout-container .ambient-text {
     align-items: center;
     width: 100%;
     height: 100%;
+    position: relative;
+    overflow: visible;
 }
 
 .center-month-num {
@@ -429,6 +441,21 @@ body:not(.show-pattern) .layout-container .ambient-text {
     z-index: 10;
     margin-top: 50px;
     margin-right: 50px;
+}
+
+.patch-sticker {
+    position: absolute;
+    width: 280px;
+    height: auto;
+    left: 12%;
+    top: 15%;
+    transform: rotate(-15deg);
+    z-index: 15;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4));
+}
+
+.show-ambient .patch-sticker {
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.4)) url(#ink-engine);
 }
 
 
@@ -495,7 +522,8 @@ body:not(.show-pattern) .layout-container .ambient-text {
         left: calc(var(--taskbar-left, 0rem) + 15vw + env(safe-area-inset-left, 0rem));
     }
 
-    #logo-container {
+    #logo-bg-container,
+    #logo-fg-container {
         width: 100vw;
         height: 100vh;
         bottom: 0;
@@ -507,7 +535,20 @@ body:not(.show-pattern) .layout-container .ambient-text {
         justify-content: center;
         align-items: flex-end;
         background-color: transparent;
-        z-index: 10000;
+    }
+
+    #logo-bg-container {
+        z-index: 2000;
+    }
+
+    #logo-fg-container {
+        z-index: 10002;
+    }
+
+    .patch-sticker {
+        width: 210px;
+        left: 20%;
+        top: 18%;
     }
 
     .calendar-ui-overlay {
