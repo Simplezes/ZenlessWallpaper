@@ -30,7 +30,8 @@ export default class Background extends Component {
 
         return `
             <div class="layout-container layout-${this.state.layout} ${this.state.isPortrait ? 'is-mobile' : 'is-desktop'} ${themeClass} ${ambientClass}">
-                ${isCalendar ? this.renderCalendarLayout() : this.renderDefaultLayout()}
+                ${this.renderDefaultLayout()}
+                ${isCalendar ? this.renderCalendarLayout() : ''}
             </div>
         `;
     }
@@ -94,12 +95,6 @@ export default class Background extends Component {
                             ${this.renderMonthDisplayContent(monthData)}
                         </foreignObject>
                     </g>
-
-                    <g style="transform: translate(var(--center-tx), var(--center-ty));">
-                        <foreignObject x="620" y="615" width="460" height="500" style="overflow:visible; pointer-events:none;">
-                            <img class="calendar-patch" src="assets/imgs/patch.webp" />
-                        </foreignObject>
-                    </g>
                 </svg>
             </div>
         `;
@@ -108,7 +103,7 @@ export default class Background extends Component {
     renderPortraitSVG(monthData) {
         return `
             <div id="logo-container" class="mobile-view">
-                <svg id="logo-svg" viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMid meet" style="${this.getPortraitStyles()}">
+                <svg id="logo-svg" viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMax meet" style="${this.getPortraitStyles()}">
                     ${this.renderCommonDefs('zzz-logo-clip-mobile', true)}
                     ${this.renderMaskedLayer('zzz-logo-clip-mobile', 1080, 2400)}
                     
@@ -130,11 +125,7 @@ export default class Background extends Component {
                         </foreignObject>
                     </g>
 
-                    <g style="transform: translate(var(--m-center-tx), var(--m-center-ty)) scale(var(--m-center-s));">
-                        <foreignObject x="620" y="615" width="460" height="500" style="overflow:visible; pointer-events:none;">
-                            <img class="calendar-patch" src="assets/imgs/patch.webp" style="position:absolute; width:45%; left:-2%; top:10%; transform:rotate(-5deg); z-index:1000;" />
-                        </foreignObject>
-                    </g>
+
                 </svg>
             </div>
         `;
@@ -142,8 +133,8 @@ export default class Background extends Component {
 
     renderCommonDefs(clipId, isPortrait = false) {
         const zzzTransform = isPortrait
-            ? "translate(var(--m-zzz-tx), var(--m-zzz-ty)) scale(var(--m-zzz-s))"
-            : "translate(var(--zzz-tx), var(--zzz-ty)) rotate(var(--zzz-r)) scale(var(--zzz-s)); transform-origin: 1737.9px 343.4px;";
+            ? "translate(var(--m-zzz-tx), var(--m-zzz-ty)) scale(var(--m-zzz-sx, var(--m-zzz-s)), var(--m-zzz-sy, var(--m-zzz-s)))"
+            : "translate(var(--zzz-tx), var(--zzz-ty)) rotate(var(--zzz-r)) scale(var(--zzz-sx, var(--zzz-s)), var(--zzz-sy, var(--zzz-s))); transform-origin: 1737.9px 343.4px;";
 
         const sideTransform = isPortrait
             ? "translate(var(--m-side-tx), var(--m-side-ty))"
@@ -171,6 +162,13 @@ export default class Background extends Component {
                     <use href="#shape-box-side" style="transform: ${sideTransform}" />
                     <use href="#shape-box-bottom" style="transform: ${bottomTransform}" />
                 </clipPath>
+
+                <mask id="${clipId}-mask">
+                    <rect x="-2000" y="-2000" width="6000" height="6000" fill="white" />
+                    <use href="#shape-zzz" style="transform: ${zzzTransform}" fill="black" />
+                    <use href="#shape-box-side" style="transform: ${sideTransform}" fill="black" />
+                    <use href="#shape-box-bottom" style="transform: ${bottomTransform}" fill="black" />
+                </mask>
             </defs>
         `;
     }
@@ -178,21 +176,9 @@ export default class Background extends Component {
     renderMaskedLayer(clipId, w, h) {
         return `
             <g class="masked-content-group">
-                <g style="clip-path: url(#${clipId}); -webkit-clip-path: url(#${clipId});">
-                    <foreignObject x="0" y="0" width="${w}" height="${h}">
-                        <div id="background-masked-content" style="width:${w}px; height:${h}px;">
-                            <canvas id="bg-pattern-canvas"></canvas>
-                            <canvas id="zzz-bg-transition" style="position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;opacity:0;"></canvas>
-                            <div id="backdrop" class="bg-layer active" style="opacity: 0;"></div>
-                            <div id="transition-backdrop" class="bg-layer" style="opacity: 0;"></div>
-                            <canvas id="zzz-cyber-transition" style="position:absolute;inset:0;width:100%;height:100%;z-index:100;pointer-events:none;opacity:0;"></canvas>
-                            <div id="image-container">
-                                <img id="main-image" class="char-image active" />
-                                <img id="transition-image" class="char-image" />
-                            </div>
-                        </div>
-                    </foreignObject>
-                </g>
+                <rect x="-1000" y="-1000" width="5000" height="5000" 
+                      mask="url(#${clipId}-mask)" 
+                      fill="var(--calendar-bg-color, rgb(216, 213, 210))" />
             </g>
         `;
     }
@@ -338,7 +324,7 @@ export default class Background extends Component {
 
     getPortraitStyles() {
         return `
-            --m-zzz-tx: 177px; --m-zzz-ty: 520px; --m-zzz-s: 0.504;
+            --m-zzz-tx: 177px; --m-zzz-ty: 333px; --m-zzz-s: 0.504; --m-zzz-sy: 0.80;
             --m-side-tx: -1610px; --m-side-ty: 890px;
             --m-bottom-tx: -380px; --m-bottom-ty: 1010px;
             --m-center-tx: -860px; --m-center-ty: 685px; --m-center-s: 1.45;
@@ -383,17 +369,25 @@ export default class Background extends Component {
     }
 
     onUpdated() {
-        this.refreshCharacterImage();
         const layoutChanged = this._lastRenderedLayout !== this.state.layout;
+        const agentChanged = this._lastAgent !== this.state.character;
         this._lastRenderedLayout = this.state.layout;
+        this._lastAgent = this.state.character;
 
         requestAnimationFrame(() => {
+            if (!agentChanged) {
+                this.refreshCharacterImage();
+            }
             this.initAll(layoutChanged);
             this._patchMonthDisplay();
         });
     }
 
     initAll(forceWallpaperUpdate = false) {
+        if (window.CharacterTransition && window.CharacterTransition.init) {
+            window.CharacterTransition.init();
+        }
+
         if (window.PatternRenderer && window.PatternRenderer.init) {
             window.PatternRenderer.init();
             const patternPref = localStorage.getItem('bgPattern') !== 'false';
@@ -408,7 +402,7 @@ export default class Background extends Component {
         const currentAgent = this.state.character;
         const currentVariant = localStorage.getItem('selectedVariant') || "Full";
 
-        if (window.setWallpaper && (forceWallpaperUpdate || (this.state.layout === 'default' && !document.getElementById('faction-text')?.innerHTML))) {
+        if (window.setWallpaper) {
             window.setWallpaper(currentAgent, currentVariant, true);
         }
 
@@ -416,6 +410,8 @@ export default class Background extends Component {
     }
 
     refreshCharacterImage() {
+        if (window.CharacterTransition && window.CharacterTransition.isActive()) return;
+
         const char = localStorage.getItem('selectedCharacter');
         const variant = localStorage.getItem('selectedVariant') || "Default";
         if (char && window.getCharacterData) {
@@ -423,7 +419,7 @@ export default class Background extends Component {
             if (charData) {
                 const imgPath = `assets/wallpaper/Mindscape_${charData.idName}_${variant}.webp`;
                 const mainImg = document.getElementById('main-image');
-                if (mainImg && (!mainImg.src || mainImg.src === '')) {
+                if (mainImg && !mainImg.getAttribute('src')) {
                     mainImg.src = imgPath;
                     mainImg.style.opacity = '1';
                 }
