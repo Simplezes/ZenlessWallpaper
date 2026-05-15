@@ -380,7 +380,7 @@
             if (p < jDuration) {
                 const shake = (1 - jP) * 35;
                 ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
-                currentScale = 1.0 + (1 - jP) * 0.12;
+                currentScale = 1.0;
             } else {
                 const explodeShake = (1 - shatterP) * 20;
                 ctx.translate((Math.random() - 0.5) * explodeShake, (Math.random() - 0.5) * explodeShake);
@@ -570,9 +570,7 @@
                 bgCtx.lineTo(leadX + pW - PSKEW, H);
                 bgCtx.lineTo(leadX - PSKEW, H);
                 bgCtx.closePath();
-                bgCtx.fillStyle = (i % 2 === 0)
-                    ? BG_PANEL
-                    : BG_OLD;
+                bgCtx.fillStyle = (i % 2 === 0) ? BG_PANEL : BG_OLD;
                 bgCtx.fill();
 
                 const edgeA = Math.max(0, Math.sin(Math.min(1, iP) * Math.PI) * 0.85);
@@ -591,23 +589,44 @@
                 }
             }
 
-            if (p > 0.28) {
-                const sIn = Math.min(1, (p - 0.28) / 0.22);
+            if (p > 0.24) {
+                const sIn = Math.min(1, (p - 0.24) / 0.24);
                 const sOut = p > 0.54 ? Math.max(0, 1 - (p - 0.54) / 0.15) : 1;
                 const sA = (1 - Math.pow(1 - sIn, 3)) * sOut;
 
                 if (sA > 0.01) {
+                    const sPunch = 1.0 + Math.sin(sIn * Math.PI) * 0.03;
+                    const jitter = (1 - sIn) * 15;
+
+                    if (sIn < 0.4) {
+                        ctx.save();
+                        ctx.globalAlpha = sA * 0.4;
+                        ctx.translate(W / 2 + jitter, H / 2);
+                        ctx.scale(sPunch * 1.05, sPunch * 1.05);
+                        ctx.translate(-W / 2, -H / 2);
+                        this.drawImgFit(this.images.new, W, H);
+                        ctx.globalCompositeOperation = 'source-in';
+                        ctx.fillStyle = accent;
+                        ctx.fillRect(0, 0, W, H);
+                        ctx.restore();
+                    }
+
                     ctx.save();
                     ctx.globalAlpha = sA * 0.30;
-                    ctx.translate(10, 10);
+                    ctx.translate(W / 2 + 10, H / 2 + 10);
+                    ctx.scale(sPunch, sPunch);
+                    ctx.translate(-W / 2, -H / 2);
                     this.drawImgFit(this.images.new, W, H);
                     ctx.globalCompositeOperation = 'source-in';
                     ctx.fillStyle = 'rgb(0, 0, 0)';
-                    ctx.fillRect(-50, -50, W + 100, H + 100);
+                    ctx.fillRect(0, 0, W, H);
                     ctx.restore();
 
                     ctx.save();
-                    ctx.globalAlpha = sA * 0.88;
+                    ctx.globalAlpha = sA * 0.95;
+                    ctx.translate(W / 2, H / 2);
+                    ctx.scale(sPunch, sPunch);
+                    ctx.translate(-W / 2, -H / 2);
                     this.drawImgFit(this.images.new, W, H);
                     ctx.globalCompositeOperation = 'source-in';
                     ctx.fillStyle = P3_CYAN;
@@ -616,31 +635,29 @@
                 }
             }
 
-            if (p > 0.44 && p < 0.55) {
-                const gA = Math.sin(((p - 0.44) / 0.11) * Math.PI) * 0.11;
+            if (p > 0.44 && p < 0.65) {
+                const gA = Math.sin(((p - 0.44) / 0.21) * Math.PI) * 0.15;
                 if (gA > 0.005) {
-                    const G = 44;
+                    const G = 60;
                     ctx.save();
-                    ctx.strokeStyle = P3_CYAN;
+                    ctx.strokeStyle = accent;
                     ctx.lineWidth = 1;
                     ctx.globalAlpha = gA;
                     ctx.beginPath();
-                    for (let x = 0; x <= W + G; x += G) {
-                        ctx.moveTo(x, 0); ctx.lineTo(x, H);
-                    }
-                    for (let y = 0; y <= H + G; y += G) {
-                        ctx.moveTo(0, y); ctx.lineTo(W, y);
-                    }
+                    for (let x = 0; x <= W + G; x += G) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
+                    for (let y = 0; y <= H + G; y += G) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
                     ctx.stroke();
                     ctx.restore();
                 }
             }
 
-            if (p > 0.52) {
-                const rP = Math.max(0, Math.min(1, (p - 0.52) / 0.42));
+            if (p > 0.50) {
+                const rP = Math.max(0, Math.min(1, (p - 0.50) / 0.44));
                 const easeR = 1 - Math.pow(1 - rP, 6);
-                const RSKEW = 380;
+                const RSKEW = 420;
                 const rw = (W + RSKEW + 120) * easeR - 120;
+
+                const punch = 1 + Math.exp(-rP * 8) * 0.08 * Math.cos(rP * Math.PI * 2);
 
                 bgCtx.save();
                 bgCtx.beginPath();
@@ -662,11 +679,24 @@
                 ctx.closePath();
                 ctx.clip();
 
-                const scale = 1.04 - easeR * 0.04;
                 ctx.translate(W / 2, H / 2);
-                ctx.scale(scale, scale);
+                ctx.scale(punch, punch);
                 ctx.translate(-W / 2, -H / 2);
+
+                if (rP < 0.15) {
+                    const shake = (1 - (rP / 0.15)) * 10;
+                    ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
+                }
+
                 this.drawImgFit(this.images.new, W, H);
+
+                if (rP < 0.2) {
+                    ctx.globalCompositeOperation = 'screen';
+                    ctx.fillStyle = P3_WHITE;
+                    ctx.globalAlpha = (1 - (rP / 0.2)) * 0.4;
+                    ctx.fillRect(0, 0, W, H);
+                }
+
                 ctx.restore();
 
                 const lineA = Math.max(0, 1 - Math.pow(rP, 2.5));
@@ -674,36 +704,22 @@
                     ctx.save();
                     ctx.globalAlpha = lineA;
                     ctx.strokeStyle = P3_WHITE;
-                    ctx.lineWidth = 10;
+                    ctx.lineWidth = 12;
                     ctx.shadowColor = P3_WHITE;
-                    ctx.shadowBlur = 6;
+                    ctx.shadowBlur = 10;
                     ctx.beginPath();
                     ctx.moveTo(rw, 0);
                     ctx.lineTo(rw - RSKEW, H);
                     ctx.stroke();
 
-                    ctx.strokeStyle = P3_CYAN;
-                    ctx.lineWidth = 4;
-                    ctx.globalAlpha = lineA * 0.8;
-                    ctx.shadowColor = P3_CYAN;
-                    ctx.shadowBlur = 18;
+                    ctx.strokeStyle = accent;
+                    ctx.lineWidth = 6;
+                    ctx.globalAlpha = lineA * 0.9;
+                    ctx.shadowColor = accent;
+                    ctx.shadowBlur = 20;
                     ctx.beginPath();
-                    ctx.moveTo(rw + 8, 0);
-                    ctx.lineTo(rw - RSKEW + 8, H);
-                    ctx.stroke();
-                    ctx.restore();
-                }
-
-                if (rP < 0.65) {
-                    const gp = Math.max(0, (p - 0.57) / (0.94 - 0.57));
-                    const grw = (W + RSKEW + 120) * (1 - Math.pow(1 - Math.min(gp, 1), 6)) - 120;
-                    ctx.save();
-                    ctx.strokeStyle = P3_CYAN;
-                    ctx.lineWidth = 1.5;
-                    ctx.globalAlpha = (1 - rP) * 0.25;
-                    ctx.beginPath();
-                    ctx.moveTo(grw, 0);
-                    ctx.lineTo(grw - RSKEW, H);
+                    ctx.moveTo(rw + 10, 0);
+                    ctx.lineTo(rw - RSKEW + 10, H);
                     ctx.stroke();
                     ctx.restore();
                 }
