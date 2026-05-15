@@ -316,7 +316,6 @@ export default class Background extends Component {
     renderDefaultLayout() {
         return `
             <canvas id="bg-pattern-canvas"></canvas>
-            <canvas id="zzz-bg-transition" style="position:fixed;inset:0;width:100%;height:100%;z-index:-5;pointer-events:none;opacity:0;"></canvas>
             <div id="backdrop" class="bg-layer active" style="opacity: 0;"></div>
             <div id="transition-backdrop" class="bg-layer" style="opacity: 0;"></div>
             <div id="faction-text" class="ambient-text faction">${this.state.faction || ''}</div>
@@ -324,7 +323,6 @@ export default class Background extends Component {
                 <img id="main-image" class="char-image active" />
                 <img id="transition-image" class="char-image" />
             </div>
-            <canvas id="zzz-cyber-transition" style="position:fixed;inset:0;width:100%;height:100%;z-index:509;pointer-events:none;opacity:0;"></canvas>
             <div id="nickname-text" class="ambient-text nickname">${this.state.nickname || ''}</div>
         `;
     }
