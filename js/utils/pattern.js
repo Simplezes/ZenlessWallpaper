@@ -79,16 +79,6 @@ const PatternRenderer = (() => {
     function resize() {
         if (!canvas) return;
 
-        const isCalendar = canvas.closest('.layout-calendar');
-
-        if (canvas.id === 'bg-pattern-canvas' && isCalendar) {
-            const isPortrait = window.innerHeight > window.innerWidth;
-            canvas.width = isPortrait ? 1080 : 2450;
-            canvas.height = isPortrait ? 2400 : 1000;
-            if (ctx) ctx.setTransform(1, 0, 0, 1, 0, 0);
-            return;
-        }
-
         const dpr = window.devicePixelRatio || 1;
         const w = window.innerWidth;
         const h = window.innerHeight;
@@ -130,17 +120,13 @@ const PatternRenderer = (() => {
 
         if (!ctx || !image1 || !image2) return;
 
-        const isMasked = canvas.id === 'bg-pattern-canvas' && canvas.closest('.layout-calendar');
-        const isPortrait = window.innerHeight > window.innerWidth;
-        const W = isMasked ? (isPortrait ? 1080 : 2450) : window.innerWidth;
-        const H = isMasked ? (isPortrait ? 2400 : 1000) : window.innerHeight;
+        const W = window.innerWidth;
+        const H = window.innerHeight;
 
         if (W === 0 || H === 0) return;
 
         ctx.clearRect(0, 0, W, H);
-        if (isMasked) {
-            ctx.fillStyle = 'black';
-        }
+
 
         const tileW1 = Math.round(image1.naturalWidth * SCALE_1);
         const tileH1 = Math.round(image1.naturalHeight * SCALE_1);

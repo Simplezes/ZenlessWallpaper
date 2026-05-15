@@ -18,7 +18,7 @@
 .bg-layer {
     position: absolute;
     inset: 0;
-    z-index: -2;
+    z-index: -10;
     background-size: 100% 100% !important;
     background-repeat: no-repeat !important;
     background-position: center;
@@ -69,7 +69,7 @@
 #image-container {
     position: absolute;
     inset: 0;
-    z-index: 10;
+    z-index: 100;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -77,16 +77,17 @@
     will-change: transform;
 }
 
-.layout-default .bg-layer,
-.layout-default #image-container,
-.layout-default #bg-pattern-canvas {
+.layout-container .bg-layer,
+.layout-container #image-container,
+.layout-container #bg-pattern-canvas {
     position: fixed !important;
     inset: 0 !important;
 }
 
-.layout-default .char-image {
+.layout-container .char-image {
     height: 100vh;
     width: auto;
+    object-fit: fill;
 }
 
 .char-image {
@@ -113,26 +114,15 @@
     color: var(--accent-color);
 }
 
-.layout-default .ambient-text {
+.layout-container .ambient-text {
     position: fixed;
 }
 
-body:not(.show-pattern) .layout-default .ambient-text {
+body:not(.show-pattern) .layout-container .ambient-text {
     display: none !important;
 }
 
-.layout-calendar .ambient-text.faction {
-    top: 50px;
-    left: 80px;
-    font-size: 100px;
-    opacity: 0.35;
-    z-index: 2;
-    letter-spacing: -2px;
-    filter: blur(2px) url(#ink-engine);
-    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
-}
-
-.layout-default .ambient-text.faction {
+.layout-container .ambient-text.faction {
     top: calc(var(--taskbar-top, 0rem) + 12vh + env(safe-area-inset-top, 0rem));
     left: calc(var(--taskbar-left, 0rem) + 4vw + env(safe-area-inset-left, 0rem));
     font-size: 7vh;
@@ -143,18 +133,9 @@ body:not(.show-pattern) .layout-default .ambient-text {
     text-shadow: 0 1rem 4rem rgba(0, 0, 0, 0.85);
 }
 
-.layout-calendar .ambient-text.nickname {
-    bottom: 120px;
-    right: 120px;
-    font-size: 160px;
-    opacity: 0.75;
-    z-index: 600;
-    letter-spacing: -10px;
-    text-shadow: 0 10px 40px rgba(0, 0, 0, 0.85);
-    filter: url(#ink-engine);
-}
 
-.layout-default .ambient-text.nickname {
+
+.layout-container .ambient-text.nickname {
     bottom: calc(var(--taskbar-bottom, 0rem) + 22vh + env(safe-area-inset-bottom, 0rem));
     right: calc(var(--taskbar-right, 0rem) + 3vw + env(safe-area-inset-right, 0rem));
     font-size: 10vh;
@@ -166,20 +147,20 @@ body:not(.show-pattern) .layout-default .ambient-text {
 }
 
 .layout-calendar {
-    background-color: rgb(216, 213, 210);
+    --calendar-bg-color: rgb(216, 213, 210);
+    background-color: transparent;
     width: 100vw;
     height: 100vh;
-    position: fixed;
-    inset: 0;
 }
 
 #logo-container {
     position: fixed;
+    width: 100%;
     top: var(--taskbar-top, 0rem);
     left: var(--taskbar-left, 0rem);
     right: var(--taskbar-right, 0rem);
     bottom: calc(13vh + var(--taskbar-bottom, 0rem));
-    z-index: 500;
+    z-index: 2000;
     pointer-events: none;
     isolation: isolate;
     contain: layout style;
@@ -188,11 +169,14 @@ body:not(.show-pattern) .layout-default .ambient-text {
     align-items: center;
 }
 
+.is-mobile #logo-container {
+    bottom: var(--taskbar-bottom, 0rem);
+}
+
 #logo-svg {
     width: 100%;
     height: 100%;
 }
-
 
 .layout-default #logo-container {
     filter: drop-shadow(0 1rem 3rem rgba(0, 0, 0, 0.6));
@@ -206,17 +190,6 @@ body:not(.show-pattern) .layout-default .ambient-text {
 .show-ambient .masked-content-group {
     filter:
         drop-shadow(5px 0 0 rgb(17, 17, 17)) drop-shadow(-5px 0 0 rgb(17, 17, 17)) drop-shadow(0 5px 0 rgb(17, 17, 17)) drop-shadow(0 -5px 0 rgb(17, 17, 17)) url(#ink-engine);
-}
-
-#background-masked-content {
-    width: 2438px;
-    height: 1001.7px;
-    position: relative;
-    overflow: hidden;
-    background-color: color-mix(in srgb, var(--accent-color), black 25%);
-    contain: paint;
-    transform: translateZ(0);
-    will-change: transform, opacity;
 }
 
 .halftone-global {
@@ -254,10 +227,10 @@ body:not(.show-pattern) .layout-default .ambient-text {
 
 .dot-screen {
     position: absolute;
-    width: 160vw;
-    height: 160vh;
-    top: -30vh;
-    left: -30vw;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
     background-repeat: repeat;
     mix-blend-mode: multiply;
     pointer-events: none;
@@ -294,7 +267,7 @@ body:not(.show-pattern) .layout-default .ambient-text {
     inset: 0;
     width: 100%;
     height: 100%;
-    z-index: 5;
+    z-index: 50;
     pointer-events: none;
     mix-blend-mode: multiply;
     opacity: 0;
@@ -359,6 +332,11 @@ body:not(.show-pattern) .layout-default .ambient-text {
 .calendar-zenless-label {
     line-height: 1;
     color: rgb(15, 15, 15);
+}
+
+.layout-calendar #faction-text,
+.layout-calendar #nickname-text {
+    display: none !important;
 }
 
 .calendar-meta-text {
@@ -452,17 +430,7 @@ body:not(.show-pattern) .layout-default .ambient-text {
     margin-right: 50px;
 }
 
-.calendar-patch {
-    position: absolute;
-    width: 45%;
-    height: auto;
-    left: -2%;
-    top: 10%;
-    transform: rotate(-5deg);
-    z-index: 15;
-    pointer-events: none;
-    filter: drop-shadow(4px 4px 10px rgba(0, 0, 0, 0.15));
-}
+
 
 .calendar-date-block {
     display: flex;
@@ -503,18 +471,19 @@ body:not(.show-pattern) .layout-default .ambient-text {
         mask-image: none !important;
     }
 
-    .char-image {
-        width: 100vh !important;
-        height: 100vw !important;
-        object-fit: cover !important;
+    .layout-default .char-image {
+        width: 115vh !important;
+        height: 115vw !important;
+        object-fit: contain !important;
     }
 
-    .layout-calendar #background-masked-content .char-image {
-        width: 2400px !important;
-        height: 1080px !important;
-        object-position: center center;
-        transform-origin: center center;
+    .layout-calendar .char-image {
+        width: 97vh !important;
+        height: 97vw !important;
+        object-fit: contain !important;
     }
+
+
 
     .ambient-text.nickname {
         font-size: 6.4vh;
@@ -561,10 +530,7 @@ body:not(.show-pattern) .layout-default .ambient-text {
         letter-spacing: -2px;
     }
 
-    #background-masked-content {
-        transform: scale(1.05);
-        transform-origin: center center;
-    }
+
 
     .calendar-name-badge {
         font-size: 4vw;
@@ -682,7 +648,8 @@ body:not(.show-pattern) .layout-default .ambient-text {
 }
 
 .theme-light.layout-calendar {
-    background-color: rgb(15, 15, 15);
+    --calendar-bg-color: rgb(15, 15, 15);
+    background-color: transparent;
 }
 
 .theme-light .addon-dashed-svg {

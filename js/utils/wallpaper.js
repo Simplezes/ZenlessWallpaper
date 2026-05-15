@@ -98,10 +98,6 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         return;
     }
 
-    const mainImg = document.getElementById('main-image');
-    const transImg = document.getElementById('transition-image');
-    if (!mainImg) return;
-
     const baseColor = charData.baseColor;
     const oldBgColor = document.body.style.backgroundColor || getComputedStyle(document.body).backgroundColor;
     const oldAccent = document.documentElement.style.getPropertyValue('--accent-color') || getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim();
@@ -157,30 +153,30 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         }));
     };
 
-    if (textOnly) {
+    const mainImg = document.getElementById('main-image');
+    const transImg = document.getElementById('transition-image');
+
+    if (textOnly || !mainImg) {
         applyColorsAndText();
         if (onComplete) onComplete();
         return;
     }
 
+
     const tempImg = new Image();
     tempImg.src = imgPath;
 
     tempImg.onload = () => {
-        const outgoingImg = lastTargetImg || mainImg;
-        const hasOld = outgoingImg.src && outgoingImg.src.includes('webp');
+        const currentMainImg = document.getElementById('main-image');
+        const outgoingImg = (currentMainImg && currentMainImg.src && currentMainImg.src.includes('webp'))
+            ? currentMainImg
+            : lastTargetImg;
+
+        const hasOld = outgoingImg && outgoingImg.src && outgoingImg.src.includes('webp');
 
         lastTargetImg = tempImg;
 
         if (hasOld && window.CharacterTransition) {
-            if (window.anime) window.anime.remove([mainImg, transImg]);
-            mainImg.style.opacity = '0';
-            mainImg.style.visibility = 'hidden';
-            if (transImg) {
-                transImg.style.opacity = '0';
-                transImg.style.visibility = 'hidden';
-            }
-
             isCharacterChanging = true;
             window.CharacterTransition.run(outgoingImg, tempImg, {
                 type: transitionType,
@@ -262,12 +258,15 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             });
         } else {
             applyColorsAndText();
-            mainImg.src = imgPath;
-            mainImg.style.opacity = '1';
-            mainImg.style.transform = '';
+            if (mainImg) {
+                mainImg.src = imgPath;
+                mainImg.style.opacity = '1';
+                mainImg.style.visibility = '';
+            }
             if (onComplete) onComplete();
         }
     };
+
 
     tempImg.onerror = () => {
         console.error("Failed to load wallpaper image:", imgPath);

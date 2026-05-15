@@ -24,7 +24,6 @@
             this.currentType = 'shutter';
             this.cleanupTask = null;
             this._generation = 0;
-            this._lastTransitionType = null;
             this._lastCharSway = null;
             this._lastBgSway = null;
             this._cachedW = 0;
@@ -42,25 +41,20 @@
         }
 
         init() {
-            if (this.canvas && this.canvas.isConnected) return;
+            if (this.canvas) return;
 
-            this.canvas = document.getElementById('zzz-cyber-transition');
-            this.bgCanvas = document.getElementById('zzz-bg-transition');
+            this.canvas = document.createElement('canvas');
+            this.canvas.id = 'zzz-cyber-transition';
+            const charMask = 'linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%)';
 
-            if (!this.canvas) {
-                this.canvas = document.createElement('canvas');
-                this.canvas.id = 'zzz-cyber-transition';
-                const charMask = 'linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%)';
-                this.canvas.style.cssText = `position:fixed;inset:0;width:100%;height:100%;z-index:509;pointer-events:none;display:block;opacity:0;will-change:transform;backface-visibility:hidden; -webkit-mask-image: ${charMask}; mask-image: ${charMask};`;
-                document.body.appendChild(this.canvas);
-            }
+            this.canvas.style.cssText = `position:fixed;inset:0;width:100%;height:100%;z-index:150;pointer-events:none;display:block;opacity:0;will-change:transform;backface-visibility:hidden; -webkit-mask-image: ${charMask}; mask-image: ${charMask};`;
 
-            if (!this.bgCanvas) {
-                this.bgCanvas = document.createElement('canvas');
-                this.bgCanvas.id = 'zzz-bg-transition';
-                this.bgCanvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:-5;pointer-events:none;display:block;opacity:0;will-change:transform;';
-                document.body.appendChild(this.bgCanvas);
-            }
+            this.bgCanvas = document.createElement('canvas');
+            this.bgCanvas.id = 'zzz-bg-transition';
+            this.bgCanvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:-5;pointer-events:none;display:block;opacity:0;will-change:transform;';
+
+            document.body.appendChild(this.canvas);
+            document.body.appendChild(this.bgCanvas);
 
             this.ctx = this.canvas.getContext('2d');
             this.bgCtx = this.bgCanvas.getContext('2d');
@@ -101,29 +95,15 @@
 
         syncCanvas() {
             const isPortrait = window.innerHeight > window.innerWidth;
-            const dpr = window.devicePixelRatio || 1;
-
-            const isInLogo = this.canvas.parentElement && this.canvas.parentElement.id === 'background-masked-content';
-
-            let w, h;
-            if (isInLogo) {
-                if (isPortrait) {
-                    const activeCharImg = document.querySelector('#background-masked-content .char-image.active')
-                        || document.querySelector('#background-masked-content .char-image');
-                    const imgW = activeCharImg ? activeCharImg.offsetWidth : 0;
-                    const imgH = activeCharImg ? activeCharImg.offsetHeight : 0;
-
-                    w = imgW || window.innerHeight;
-                    h = imgH || window.innerWidth;
-                } else {
-                    w = 2438;
-                    h = 1001.7;
-                }
-            } else {
-                w = isPortrait ? window.innerHeight : window.innerWidth;
-                h = isPortrait ? window.innerWidth : window.innerHeight;
+            const isCalendar = document.querySelector('.layout-calendar') !== null;
+            let scaleFactor = 1.0;
+            if (isPortrait) {
+                scaleFactor = isCalendar ? 0.97 : 1.15;
             }
 
+            const dpr = window.devicePixelRatio || 1;
+            const w = (isPortrait ? window.innerHeight : window.innerWidth) * scaleFactor;
+            const h = (isPortrait ? window.innerWidth : window.innerHeight) * scaleFactor;
             const orientKey = isPortrait ? 'portrait' : 'landscape';
             const manualRot = parseInt(localStorage.getItem(`charRotate_${orientKey}`) || '0', 10);
             const manualFlip = localStorage.getItem(`charFlip_${orientKey}`) === 'true' ? -1 : 1;
@@ -132,44 +112,41 @@
             const charSway = rawCharSway || { x: 0, y: 0, rotate: 0, scaleX: 1, scaleY: 1, filter: '' };
             const bgSway = (window.kineticSway && window.kineticSway.getSway('backdrop')) || { x: 0, y: 0, rotate: 0, scaleX: 1, scaleY: 1 };
 
-            if (this._swayChanged(charSway, this._lastCharSway)) {
-                if (isInLogo && isPortrait) {
-                    this.canvas.style.inset = 'unset';
-                    this.canvas.style.position = 'absolute';
-                    this.canvas.style.top = '50%';
-                    this.canvas.style.left = '50%';
-                    this.canvas.style.marginTop = (-h / 2) + 'px';
-                    this.canvas.style.marginLeft = (-w / 2) + 'px';
+            if (isPortrait) {
+                this.canvas.style.inset = 'unset';
+                this.canvas.style.top = '50%';
+                this.canvas.style.left = '50%';
+                this.canvas.style.marginTop = (-h / 2) + 'px';
+                this.canvas.style.marginLeft = (-w / 2) + 'px';
 
+                this.bgCanvas.style.inset = 'unset';
+                this.bgCanvas.style.top = '50%';
+                this.bgCanvas.style.left = '50%';
+                this.bgCanvas.style.marginTop = (-h / 2) + 'px';
+                this.bgCanvas.style.marginLeft = (-w / 2) + 'px';
+            } else {
+                this.canvas.style.inset = '0';
+                this.canvas.style.top = '';
+                this.canvas.style.left = '';
+                this.canvas.style.marginTop = '';
+                this.canvas.style.marginLeft = '';
+
+                this.bgCanvas.style.inset = '0';
+                this.bgCanvas.style.top = '';
+                this.bgCanvas.style.left = '';
+                this.bgCanvas.style.marginTop = '';
+                this.bgCanvas.style.marginLeft = '';
+            }
+
+            if (this._swayChanged(charSway, this._lastCharSway)) {
+                if (isPortrait) {
                     const basePortraitRot = 90;
-                    const cRot = basePortraitRot + manualRot + (charSway.rotate || 0);
-                    const cSX = manualFlip * (charSway.scaleX || 1);
-                    const cSY = charSway.scaleY || 1;
-                    this.canvas.style.transform = `translate(${charSway.x}px, ${charSway.y}px) rotate(${cRot}deg) scale(${cSX}, ${cSY})`;
-                    this.canvas.style.filter = charSway.filter || 'none';
-                } else if (isInLogo) {
-                    this.canvas.style.inset = '0';
-                    this.canvas.style.position = 'absolute';
-                    this.canvas.style.transform = `translate(${charSway.x}px, ${charSway.y}px) rotate(${charSway.rotate || 0}deg) scale(${charSway.scaleX || 1}, ${charSway.scaleY || 1})`;
-                    this.canvas.style.filter = charSway.filter || 'none';
-                } else if (isPortrait) {
-                    const basePortraitRot = 90;
-                    this.canvas.style.inset = 'unset';
-                    this.canvas.style.top = '50%';
-                    this.canvas.style.left = '50%';
-                    this.canvas.style.marginTop = (-h / 2) + 'px';
-                    this.canvas.style.marginLeft = (-w / 2) + 'px';
                     const cRot = basePortraitRot + manualRot + (charSway.rotate || 0);
                     const cSX = manualFlip * (charSway.scaleX || 1);
                     const cSY = charSway.scaleY || 1;
                     this.canvas.style.transform = `translate(${charSway.x}px, ${charSway.y}px) rotate(${cRot}deg) scale(${cSX}, ${cSY})`;
                     this.canvas.style.filter = charSway.filter || 'none';
                 } else {
-                    this.canvas.style.inset = '0';
-                    this.canvas.style.top = '';
-                    this.canvas.style.left = '';
-                    this.canvas.style.marginTop = '';
-                    this.canvas.style.marginLeft = '';
                     const cRot = rawCharSway ? (charSway.rotate || 0) : manualRot;
                     const cSX = rawCharSway ? (charSway.scaleX || 1) : manualFlip;
                     const cSY = charSway.scaleY || 1;
@@ -184,50 +161,26 @@
                 const bgSX = bgSway.scaleX || 1;
                 const bgSY = bgSway.scaleY || 1;
 
-                if (isInLogo && isPortrait) {
+                if (isPortrait) {
                     const basePortraitRot = 90;
-                    this.bgCanvas.style.inset = 'unset';
-                    this.bgCanvas.style.position = 'absolute';
-                    this.bgCanvas.style.top = '50%';
-                    this.bgCanvas.style.left = '50%';
-                    this.bgCanvas.style.marginTop = (-h / 2) + 'px';
-                    this.bgCanvas.style.marginLeft = (-w / 2) + 'px';
-
-                    const finalRot = basePortraitRot + manualRot + bgRot;
-                    const finalScaleX = manualFlip * bgSX;
-                    const finalScaleY = bgSY;
-                    this.bgCanvas.style.transform = `translate(${bgSway.x}px, ${bgSway.y}px) rotate(${finalRot}deg) scale(${finalScaleX}, ${finalScaleY})`;
-                } else if (isInLogo) {
-                    this.bgCanvas.style.inset = '0';
-                    this.bgCanvas.style.position = 'absolute';
-                    this.bgCanvas.style.transform = `translate(${bgSway.x}px, ${bgSway.y}px) rotate(${bgRot}deg) scale(${bgSX}, ${bgSY})`;
-                } else if (isPortrait) {
-                    const basePortraitRot = 90;
-                    this.bgCanvas.style.inset = 'unset';
-                    this.bgCanvas.style.top = '50%';
-                    this.bgCanvas.style.left = '50%';
-                    this.bgCanvas.style.marginTop = (-h / 2) + 'px';
-                    this.bgCanvas.style.marginLeft = (-w / 2) + 'px';
                     const finalRot = basePortraitRot + manualRot + bgRot;
                     const finalScaleX = manualFlip * bgSX;
                     this.bgCanvas.style.transform = `translate(${bgSway.x}px, ${bgSway.y}px) rotate(${finalRot}deg) scale(${finalScaleX}, ${bgSY})`;
                 } else {
-                    this.bgCanvas.style.inset = '0';
-                    this.bgCanvas.style.top = '';
-                    this.bgCanvas.style.left = '';
-                    this.bgCanvas.style.marginTop = '';
-                    this.bgCanvas.style.marginLeft = '';
                     const finalRot = manualRot + bgRot;
                     const finalScaleX = manualFlip * bgSX;
                     this.bgCanvas.style.transform = `translate(${bgSway.x}px, ${bgSway.y}px) rotate(${finalRot}deg) scale(${finalScaleX}, ${bgSY})`;
                 }
+
                 this._lastBgSway = { ...bgSway };
             }
 
             let drawDpr = dpr;
-            if (!isInLogo) {
-                if (w * drawDpr > 2560) drawDpr = 2560 / w;
-                if (h * drawDpr > 1600) drawDpr = Math.min(drawDpr, 1600 / h);
+            if (w * drawDpr > 2560) {
+                drawDpr = 2560 / w;
+            }
+            if (h * drawDpr > 1600) {
+                drawDpr = Math.min(drawDpr, 1600 / h);
             }
 
             const targetW = Math.round(w * drawDpr);
@@ -237,13 +190,8 @@
                 if (c.width !== targetW || c.height !== targetH) {
                     c.width = targetW;
                     c.height = targetH;
-                    if (isInLogo && !isPortrait) {
-                        c.style.width = '100%';
-                        c.style.height = '100%';
-                    } else {
-                        c.style.width = w + 'px';
-                        c.style.height = h + 'px';
-                    }
+                    c.style.width = w + 'px';
+                    c.style.height = h + 'px';
                     this.ctx.setTransform(drawDpr, 0, 0, drawDpr, 0, 0);
                     this.bgCtx.setTransform(drawDpr, 0, 0, drawDpr, 0, 0);
                     this._cachedDpr = drawDpr;
@@ -262,21 +210,20 @@
         drawImgFit(img, w, h) {
             if (!img || !img.naturalWidth) return;
             const imgAspect = img.naturalWidth / img.naturalHeight;
-            const targetAspect = w / h;
-            const isPortrait = window.innerHeight > window.innerWidth;
-            const isDefaultLandscape = !isPortrait && !!document.querySelector('.layout-container.layout-default');
-
             let drawW, drawH, drawX, drawY;
+            const isPortrait = window.innerHeight > window.innerWidth;
 
-            if (isDefaultLandscape) {
-                drawH = h;
-                drawW = h * imgAspect;
-            } else if (imgAspect > targetAspect) {
-                drawH = h;
-                drawW = h * imgAspect;
+            if (isPortrait) {
+                if (h * imgAspect >= w) {
+                    drawW = w;
+                    drawH = w / imgAspect;
+                } else {
+                    drawH = h;
+                    drawW = h * imgAspect;
+                }
             } else {
-                drawW = w;
-                drawH = w / imgAspect;
+                drawH = h;
+                drawW = h * imgAspect;
             }
 
             drawX = (w - drawW) / 2;
@@ -387,7 +334,7 @@
             if (p < jDuration) {
                 const shake = (1 - jP) * 35;
                 ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
-                currentScale = 1.0;
+                currentScale = 1.0 + (1 - jP) * 0.12;
             } else {
                 const explodeShake = (1 - shatterP) * 20;
                 ctx.translate((Math.random() - 0.5) * explodeShake, (Math.random() - 0.5) * explodeShake);
@@ -577,7 +524,9 @@
                 bgCtx.lineTo(leadX + pW - PSKEW, H);
                 bgCtx.lineTo(leadX - PSKEW, H);
                 bgCtx.closePath();
-                bgCtx.fillStyle = (i % 2 === 0) ? BG_PANEL : BG_OLD;
+                bgCtx.fillStyle = (i % 2 === 0)
+                    ? BG_PANEL
+                    : BG_OLD;
                 bgCtx.fill();
 
                 const edgeA = Math.max(0, Math.sin(Math.min(1, iP) * Math.PI) * 0.85);
@@ -596,44 +545,23 @@
                 }
             }
 
-            if (p > 0.24) {
-                const sIn = Math.min(1, (p - 0.24) / 0.24);
+            if (p > 0.28) {
+                const sIn = Math.min(1, (p - 0.28) / 0.22);
                 const sOut = p > 0.54 ? Math.max(0, 1 - (p - 0.54) / 0.15) : 1;
                 const sA = (1 - Math.pow(1 - sIn, 3)) * sOut;
 
                 if (sA > 0.01) {
-                    const sPunch = 1.0 + Math.sin(sIn * Math.PI) * 0.03;
-                    const jitter = (1 - sIn) * 15;
-
-                    if (sIn < 0.4) {
-                        ctx.save();
-                        ctx.globalAlpha = sA * 0.4;
-                        ctx.translate(W / 2 + jitter, H / 2);
-                        ctx.scale(sPunch * 1.05, sPunch * 1.05);
-                        ctx.translate(-W / 2, -H / 2);
-                        this.drawImgFit(this.images.new, W, H);
-                        ctx.globalCompositeOperation = 'source-in';
-                        ctx.fillStyle = accent;
-                        ctx.fillRect(0, 0, W, H);
-                        ctx.restore();
-                    }
-
                     ctx.save();
                     ctx.globalAlpha = sA * 0.30;
-                    ctx.translate(W / 2 + 10, H / 2 + 10);
-                    ctx.scale(sPunch, sPunch);
-                    ctx.translate(-W / 2, -H / 2);
+                    ctx.translate(10, 10);
                     this.drawImgFit(this.images.new, W, H);
                     ctx.globalCompositeOperation = 'source-in';
                     ctx.fillStyle = 'rgb(0, 0, 0)';
-                    ctx.fillRect(0, 0, W, H);
+                    ctx.fillRect(-50, -50, W + 100, H + 100);
                     ctx.restore();
 
                     ctx.save();
-                    ctx.globalAlpha = sA * 0.95;
-                    ctx.translate(W / 2, H / 2);
-                    ctx.scale(sPunch, sPunch);
-                    ctx.translate(-W / 2, -H / 2);
+                    ctx.globalAlpha = sA * 0.88;
                     this.drawImgFit(this.images.new, W, H);
                     ctx.globalCompositeOperation = 'source-in';
                     ctx.fillStyle = P3_CYAN;
@@ -642,29 +570,31 @@
                 }
             }
 
-            if (p > 0.44 && p < 0.65) {
-                const gA = Math.sin(((p - 0.44) / 0.21) * Math.PI) * 0.15;
+            if (p > 0.44 && p < 0.55) {
+                const gA = Math.sin(((p - 0.44) / 0.11) * Math.PI) * 0.11;
                 if (gA > 0.005) {
-                    const G = 60;
+                    const G = 44;
                     ctx.save();
-                    ctx.strokeStyle = accent;
+                    ctx.strokeStyle = P3_CYAN;
                     ctx.lineWidth = 1;
                     ctx.globalAlpha = gA;
                     ctx.beginPath();
-                    for (let x = 0; x <= W + G; x += G) { ctx.moveTo(x, 0); ctx.lineTo(x, H); }
-                    for (let y = 0; y <= H + G; y += G) { ctx.moveTo(0, y); ctx.lineTo(W, y); }
+                    for (let x = 0; x <= W + G; x += G) {
+                        ctx.moveTo(x, 0); ctx.lineTo(x, H);
+                    }
+                    for (let y = 0; y <= H + G; y += G) {
+                        ctx.moveTo(0, y); ctx.lineTo(W, y);
+                    }
                     ctx.stroke();
                     ctx.restore();
                 }
             }
 
-            if (p > 0.50) {
-                const rP = Math.max(0, Math.min(1, (p - 0.50) / 0.44));
+            if (p > 0.52) {
+                const rP = Math.max(0, Math.min(1, (p - 0.52) / 0.42));
                 const easeR = 1 - Math.pow(1 - rP, 6);
-                const RSKEW = 420;
+                const RSKEW = 380;
                 const rw = (W + RSKEW + 120) * easeR - 120;
-
-                const punch = 1 + Math.exp(-rP * 8) * 0.08 * Math.cos(rP * Math.PI * 2);
 
                 bgCtx.save();
                 bgCtx.beginPath();
@@ -686,24 +616,11 @@
                 ctx.closePath();
                 ctx.clip();
 
+                const scale = 1.04 - easeR * 0.04;
                 ctx.translate(W / 2, H / 2);
-                ctx.scale(punch, punch);
+                ctx.scale(scale, scale);
                 ctx.translate(-W / 2, -H / 2);
-
-                if (rP < 0.15) {
-                    const shake = (1 - (rP / 0.15)) * 10;
-                    ctx.translate((Math.random() - 0.5) * shake, (Math.random() - 0.5) * shake);
-                }
-
                 this.drawImgFit(this.images.new, W, H);
-
-                if (rP < 0.2) {
-                    ctx.globalCompositeOperation = 'screen';
-                    ctx.fillStyle = P3_WHITE;
-                    ctx.globalAlpha = (1 - (rP / 0.2)) * 0.4;
-                    ctx.fillRect(0, 0, W, H);
-                }
-
                 ctx.restore();
 
                 const lineA = Math.max(0, 1 - Math.pow(rP, 2.5));
@@ -711,22 +628,36 @@
                     ctx.save();
                     ctx.globalAlpha = lineA;
                     ctx.strokeStyle = P3_WHITE;
-                    ctx.lineWidth = 12;
+                    ctx.lineWidth = 10;
                     ctx.shadowColor = P3_WHITE;
-                    ctx.shadowBlur = 10;
+                    ctx.shadowBlur = 6;
                     ctx.beginPath();
                     ctx.moveTo(rw, 0);
                     ctx.lineTo(rw - RSKEW, H);
                     ctx.stroke();
 
-                    ctx.strokeStyle = accent;
-                    ctx.lineWidth = 6;
-                    ctx.globalAlpha = lineA * 0.9;
-                    ctx.shadowColor = accent;
-                    ctx.shadowBlur = 20;
+                    ctx.strokeStyle = P3_CYAN;
+                    ctx.lineWidth = 4;
+                    ctx.globalAlpha = lineA * 0.8;
+                    ctx.shadowColor = P3_CYAN;
+                    ctx.shadowBlur = 18;
                     ctx.beginPath();
-                    ctx.moveTo(rw + 10, 0);
-                    ctx.lineTo(rw - RSKEW + 10, H);
+                    ctx.moveTo(rw + 8, 0);
+                    ctx.lineTo(rw - RSKEW + 8, H);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                if (rP < 0.65) {
+                    const gp = Math.max(0, (p - 0.57) / (0.94 - 0.57));
+                    const grw = (W + RSKEW + 120) * (1 - Math.pow(1 - Math.min(gp, 1), 6)) - 120;
+                    ctx.save();
+                    ctx.strokeStyle = P3_CYAN;
+                    ctx.lineWidth = 1.5;
+                    ctx.globalAlpha = (1 - rP) * 0.25;
+                    ctx.beginPath();
+                    ctx.moveTo(grw, 0);
+                    ctx.lineTo(grw - RSKEW, H);
                     ctx.stroke();
                     ctx.restore();
                 }
@@ -1040,17 +971,14 @@
 
             this.onDone = options.onDone || null;
 
+            this.images.old.style.opacity = '0';
+            this.images.new.style.opacity = '0';
+
             if (options.type && TRANSITION_TYPES.includes(options.type)) {
                 this.currentType = options.type;
             } else {
-                const availableTypes = TRANSITION_TYPES.filter(type => type !== this._lastTransitionType);
-                const choices = availableTypes.length ? availableTypes : TRANSITION_TYPES;
-                this.currentType = choices[Math.floor(Math.random() * choices.length)];
+                this.currentType = TRANSITION_TYPES[Math.floor(Math.random() * TRANSITION_TYPES.length)];
             }
-            this._lastTransitionType = this.currentType;
-
-            this.images.old.style.opacity = '0';
-            this.images.new.style.opacity = '0';
 
             const { w: W, h: H } = this.syncCanvas();
 

@@ -317,7 +317,6 @@ export default class Settings extends Component {
         localStorage.setItem('wallpaperLayout', next);
         if (window.store) window.store.setState({ layout: next });
         window.dispatchEvent(new CustomEvent('layout-changed', { detail: { layout: next } }));
-        this.closeMenu();
     }
 
     cycleVariant() {
