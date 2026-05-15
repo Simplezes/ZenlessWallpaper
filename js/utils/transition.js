@@ -261,10 +261,15 @@
             if (!img || !img.naturalWidth) return;
             const imgAspect = img.naturalWidth / img.naturalHeight;
             const targetAspect = w / h;
+            const isPortrait = window.innerHeight > window.innerWidth;
+            const isDefaultLandscape = !isPortrait && !!document.querySelector('.layout-container.layout-default');
 
             let drawW, drawH, drawX, drawY;
 
-            if (imgAspect > targetAspect) {
+            if (isDefaultLandscape) {
+                drawH = h;
+                drawW = h * imgAspect;
+            } else if (imgAspect > targetAspect) {
                 drawH = h;
                 drawW = h * imgAspect;
             } else {
@@ -1176,6 +1181,12 @@
             let result = null;
             if (typeof this.onDone === 'function') result = this.onDone();
 
+            const scheduleFinalCleanup = () => {
+                this.cleanupTask = requestAnimationFrame(() => {
+                    this.cleanupTask = requestAnimationFrame(finalCleanup);
+                });
+            };
+
             const finalCleanup = () => {
                 if (finishGen === this._generation) {
                     this.canvas.style.opacity = '0';
@@ -1190,10 +1201,10 @@
 
             if (result && typeof result.then === 'function') {
                 result.then(() => {
-                    this.cleanupTask = requestAnimationFrame(finalCleanup);
+                    scheduleFinalCleanup();
                 });
             } else {
-                this.cleanupTask = requestAnimationFrame(finalCleanup);
+                scheduleFinalCleanup();
             }
         }
 
