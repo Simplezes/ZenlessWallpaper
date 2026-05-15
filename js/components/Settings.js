@@ -120,7 +120,6 @@ export default class Settings extends Component {
                             <div class="hub-inner-texture"></div>
                             <div class="hub-center-ui">
                                 <div class="hub-roulette-html" id="hub-roulette-text">${rouletteHTML}</div>
-                                <div class="hub-center-label">SELECT</div>
                             </div>
                         </div>
                     </div>
@@ -213,14 +212,6 @@ export default class Settings extends Component {
                 const label = this.getLabelForId(id);
                 dynamicLabel.innerText = label;
                 dynamicLabel.classList.add('visible');
-
-                const hubLabel = this.container.querySelector('.hub-center-label');
-                if (hubLabel) {
-                    hubLabel.innerText = label;
-                    hubLabel.style.opacity = '1';
-                    const roulette = this.container.querySelector('#hub-roulette-text');
-                    if (roulette) roulette.style.opacity = '0';
-                }
             };
 
             seg.onmouseout = () => {
@@ -228,13 +219,6 @@ export default class Settings extends Component {
                 if (overlayItem) overlayItem.classList.remove('active');
                 dynamicLabel.classList.remove('visible');
                 dynamicLabel.innerText = 'SELECT';
-
-                const hubLabel = this.container.querySelector('.hub-center-label');
-                if (hubLabel) {
-                    hubLabel.style.opacity = '0';
-                    const roulette = this.container.querySelector('#hub-roulette-text');
-                    if (roulette) roulette.style.opacity = '1';
-                }
             };
 
             seg.onclick = (e) => {
@@ -243,8 +227,6 @@ export default class Settings extends Component {
                 setTimeout(() => {
                     if (seg.classList.contains('active')) {
                         dynamicLabel.innerText = this.getLabelForId(id);
-                        const hubLabel = this.container.querySelector('.hub-center-label');
-                        if (hubLabel) hubLabel.innerText = this.getLabelForId(id);
                     }
                 }, 50);
             };
