@@ -23,6 +23,7 @@
             this.progress = { value: 0 };
             this.currentType = 'shutter';
             this.cleanupTask = null;
+            this._transitionDeck = [];
             this._generation = 0;
             this._lastCharSway = null;
             this._lastBgSway = null;
@@ -787,7 +788,7 @@
 
                 case 'lineCutIn': {
                     const skew = 450;
-                    const sweepRange = W + skew + 600;
+                    const sweepRange = W + skew * 2 + 500;
                     let pVal = p;
                     if (variant === 'inner') {
                         pVal = Math.pow(p, 1.3);
@@ -872,7 +873,7 @@
                     if (p <= 0 || p >= 1) return;
 
                     const skew = 450;
-                    const sweepRange = W + skew + 600;
+                    const sweepRange = W + skew * 2 + 500;
                     const edgeX = -skew - 300 + sweepRange * p;
 
                     const drawLine = (offsetX, alpha, lineWidth, color) => {
@@ -971,13 +972,22 @@
 
             this.onDone = options.onDone || null;
 
-            this.images.old.style.opacity = '0';
-            this.images.new.style.opacity = '0';
-
             if (options.type && TRANSITION_TYPES.includes(options.type)) {
                 this.currentType = options.type;
             } else {
-                this.currentType = TRANSITION_TYPES[Math.floor(Math.random() * TRANSITION_TYPES.length)];
+                if (this._transitionDeck.length === 0) {
+                    let deck = [...TRANSITION_TYPES];
+                    for (let i = deck.length - 1; i > 0; i--) {
+                        const j = Math.floor(Math.random() * (i + 1));
+                        [deck[i], deck[j]] = [deck[j], deck[i]];
+                    }
+                    if (this.currentType && deck[0] === this.currentType && deck.length > 1) {
+                        const swapIdx = 1 + Math.floor(Math.random() * (deck.length - 1));
+                        [deck[0], deck[swapIdx]] = [deck[swapIdx], deck[0]];
+                    }
+                    this._transitionDeck = deck;
+                }
+                this.currentType = this._transitionDeck.shift();
             }
 
             const { w: W, h: H } = this.syncCanvas();
@@ -1073,6 +1083,15 @@
             this.render();
             this.canvas.style.opacity = '1';
             this.bgCanvas.style.opacity = '1';
+
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    if (this.active && this.images.old) {
+                        this.images.old.style.opacity = '0';
+                    }
+                });
+            });
+
             options.onStart?.();
 
             const animeConfig = {
