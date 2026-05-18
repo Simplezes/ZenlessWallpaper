@@ -27,6 +27,18 @@
     contain: layout style;
 }
 
+.bg-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -10;
+    background-size: 100% 100% !important;
+    background-repeat: no-repeat !important;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    contain: layout style;
+}
+
 .bg-layer::before {
     content: '';
     position: absolute;
@@ -138,7 +150,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
 .layout-container .ambient-text.nickname {
     bottom: calc(var(--taskbar-bottom, 0rem) + 22vh + env(safe-area-inset-bottom, 0rem));
     right: calc(var(--taskbar-right, 0rem) + 3vw + env(safe-area-inset-right, 0rem));
-    font-size: 10vh;
+    font-size: 7.5vh;
     opacity: 0.75;
     z-index: 600;
     letter-spacing: -0.6rem;
@@ -606,8 +618,6 @@ body:not(.show-pattern) .layout-container .ambient-text {
     .calendar-agent-name {
         letter-spacing: -2px;
     }
-
-
 
     .calendar-name-badge {
         font-size: 4vw;
