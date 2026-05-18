@@ -240,20 +240,18 @@ export default class Background extends Component {
         const { character: name, isPortrait } = this.state;
 
         const landscapeFontSize = [
-            [24, '35px'],
-            [20, '42px'],
-            [17, '64px'],
-            [13, '50px'],
-            [10, '70px'],
-        ].find(([limit]) => name.length > limit)?.[1] || '85px';
+            [20, '65px'],
+            [17, '75px'],
+            [13, '90px'],
+            [10, '100px'],
+        ].find(([limit]) => name.length > limit)?.[1] || '120px';
 
         const portraitFontSize = [
-            [24, '20px'],
-            [20, '30px'],
-            [17, '40px'],
-            [13, '42px'],
-            [10, '47px'],
-        ].find(([limit]) => name.length > limit)?.[1] || '70px';
+            [20, '49px'],
+            [17, '57px'],
+            [13, '68px'],
+            [10, '75px'],
+        ].find(([limit]) => name.length > limit)?.[1] || '80px';
 
         const fontSize = isPortrait ? portraitFontSize : landscapeFontSize;
         const maxWidth = isPortrait ? '62%' : '650px';
