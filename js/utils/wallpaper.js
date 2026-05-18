@@ -13,11 +13,9 @@ function updateLoading(percent, status) {
             }
             loadingComplete = true;
             if (window.loaderInterval) clearInterval(window.loaderInterval);
-        }, 2500);
+        }, 800);
     }
 }
-
-
 
 let cachedRootFS = null;
 function getRootFS() {
