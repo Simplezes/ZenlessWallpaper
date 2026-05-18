@@ -168,3 +168,69 @@
     transition: border-color 0.8s ease;
     background: transparent;
 }
+
+@media (orientation: portrait) {
+    .notch-main {
+        width: 0.2vh;
+        height: 0.4vh;
+        margin-top: -0.2vh;
+        margin-left: -0.1vh;
+    }
+
+    .notch-hour {
+        width: 0.12vh;
+        height: 0.25vh;
+        margin-top: -0.125vh;
+        margin-left: -0.06vh;
+    }
+
+    .n12 { transform: rotate(0deg) translateY(-1.35vh); }
+    .n3 { transform: rotate(90deg) translateY(-1.35vh); }
+    .n6 { transform: rotate(180deg) translateY(-1.35vh); }
+    .n9 { transform: rotate(270deg) translateY(-1.35vh); }
+
+    .n1 { transform: rotate(30deg) translateY(-1.35vh); }
+    .n2 { transform: rotate(60deg) translateY(-1.35vh); }
+    .n4 { transform: rotate(120deg) translateY(-1.35vh); }
+    .n5 { transform: rotate(150deg) translateY(-1.35vh); }
+    .n7 { transform: rotate(210deg) translateY(-1.35vh); }
+    .n8 { transform: rotate(240deg) translateY(-1.35vh); }
+    .n10 { transform: rotate(300deg) translateY(-1.35vh); }
+    .n11 { transform: rotate(330deg) translateY(-1.35vh); }
+
+    .watch-hand {
+        border-radius: 0.6vh;
+    }
+
+    .watch-hour {
+        width: 0.3vh;
+        height: 0.85vh;
+        margin-left: -0.15vh;
+    }
+
+    .watch-minute {
+        width: 0.18vh;
+        height: 1.25vh;
+        margin-left: -0.09vh;
+    }
+
+    .watch-second {
+        width: 0.12vh;
+        height: 1.4vh;
+        margin-left: -0.06vh;
+    }
+
+    .watch-center {
+        width: 0.6vh;
+        height: 0.6vh;
+    }
+
+    .z-tag {
+        top: -0.1vh;
+        right: -0.6vh;
+        font-size: 0.45vh;
+        border-width: 0.08vh;
+        width: 0.9vh;
+        height: 0.9vh;
+    }
+}
