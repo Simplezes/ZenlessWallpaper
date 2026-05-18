@@ -367,8 +367,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.addEventListener('layout-changed', () => {
-    lastTargetImg = null;
+    if (window.CharacterTransition) window.CharacterTransition.cancel();
     isCharacterChanging = false;
+
+    const _char = localStorage.getItem('selectedCharacter');
+    const _variant = localStorage.getItem('selectedVariant') || 'Full';
+    const _charData = _char && window.getCharacterData ? window.getCharacterData(_char) : null;
+    if (_charData) {
+        const _img = new Image();
+        _img.src = `assets/wallpaper/Mindscape_${_charData.idName}_${_variant}.webp`;
+        lastTargetImg = _img;
+    } else {
+        lastTargetImg = null;
+    }
 });
 
 function kickLayout() {
