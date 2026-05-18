@@ -156,7 +156,6 @@ body:not(.show-pattern) .layout-container .ambient-text {
 #logo-bg-container,
 #logo-fg-container {
     position: fixed;
-    width: 100%;
     top: var(--taskbar-top, 0rem);
     left: var(--taskbar-left, 0rem);
     right: var(--taskbar-right, 0rem);
