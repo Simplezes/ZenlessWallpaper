@@ -35,6 +35,11 @@
     src: url("../assets/fonts/OctinCollege.otf");
 }
 
+@font-face {
+    font-family: "Parkinsans";
+    src: url("../assets/fonts/Parkinsans-VariableFont_wght.ttf");
+}
+
 :root {
     --accent-color: rgb(252, 91, 144);
     --bg-color: rgb(17, 17, 17);

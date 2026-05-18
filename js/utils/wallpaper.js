@@ -385,7 +385,13 @@ function fitPortraitNickname(el) {
     const isNickname = el.id === 'nickname-text' || el.classList.contains('nickname');
     const isFaction = el.id === 'faction-text' || el.classList.contains('faction');
     const isPortrait = window.innerHeight > window.innerWidth;
-    if ((!isNickname && !isFaction) || !isPortrait) {
+    // Only ambient nickname/faction text should be auto-fit.
+    // Keep other elements (like .calendar-agent-name) untouched.
+    if (!isNickname && !isFaction) {
+        return;
+    }
+
+    if (!isPortrait) {
         el.style.removeProperty('font-size');
         return;
     }
