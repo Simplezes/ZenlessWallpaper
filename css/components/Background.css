@@ -523,13 +523,27 @@ body:not(.show-pattern) .layout-container .ambient-text {
         object-fit: cover !important;
     }
 
-    .ambient-text.nickname {
+    .layout-container .ambient-text.nickname {
         font-size: 6.4vh;
         bottom: calc(var(--taskbar-bottom, 0rem) + 25vh + env(safe-area-inset-bottom, 0rem));
+        right: calc(var(--taskbar-right, 0rem) + 1.5vw + env(safe-area-inset-right, 0rem));
+        max-width: min(70vw, 52vh);
+        text-align: right;
+        white-space: nowrap;
+        overflow-wrap: normal;
+        word-break: keep-all;
+        line-height: 0.86;
     }
 
-    .ambient-text.faction {
+    .layout-container .ambient-text.faction {
+        font-size: 5.8vh;
         left: calc(var(--taskbar-left, 0rem) + 15vw + env(safe-area-inset-left, 0rem));
+        max-width: min(62vw, 50vh);
+        text-align: left;
+        white-space: nowrap;
+        overflow-wrap: normal;
+        word-break: keep-all;
+        line-height: 0.86;
     }
 
     #logo-bg-container,
