@@ -166,5 +166,5 @@
     justify-content: center;
     font-weight: 950;
     transition: border-color 0.8s ease;
-    background: rgb(15, 15, 15);
+    background: transparent;
 }
