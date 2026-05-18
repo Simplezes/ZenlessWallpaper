@@ -166,29 +166,32 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 0.4vh;
+    padding: 0.5vh;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    flex-shrink: 0;
 }
 
 .zzz-logo-final:hover {
-    transform: scale(1.1);
-    filter: drop-shadow(0 0 1rem var(--accent-color));
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 0.8rem var(--accent-color));
 }
 
 .zzz-logo-final img {
-    height: 6.5vh;
+    height: 6.2vh;
     width: auto;
-    margin-bottom: 1.8rem;
 }
 
 .zzz-logo-sub {
     background: var(--accent-color);
     color: rgb(0, 0, 0);
-    padding: 0.2vh 1.2vh;
+    padding: 0.15vh 0.8vh;
     font-weight: 950;
     clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);
     text-transform: uppercase;
-    letter-spacing: 0.1vh;
+    letter-spacing: 0.08vh;
     transition: none;
+    font-size: 0.9vh;
 }
 
 @media (orientation: portrait) {
@@ -256,7 +259,7 @@
     }
 
     .vertical-brand .zzz-logo-final img {
-        height: 2.5vh;
+        height: 2.2vh;
         width: auto;
     }
 
