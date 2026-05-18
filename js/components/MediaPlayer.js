@@ -18,11 +18,16 @@ export default class MediaPlayer extends Component {
         const { title, artist, status, isPlaying } = this.getDisplayState();
         return `
             <div class="media-container ${isPlaying ? 'is-playing' : 'is-idle'}" id="media-container">
-                <div class="terminal-status" id="terminal-status">${status}</div>
+                <div class="media-top-row">
+                    <div class="terminal-status" id="terminal-status">${status}</div>
+                </div>
                 <div class="media-title-wrap">
                     <div id="media-title" class="media-title">${title}</div>
                 </div>
-                <div id="media-artist" class="media-artist">${artist}</div>
+                <div class="media-bottom-row">
+                    <div class="artist-badge">TRACK</div>
+                    <div id="media-artist" class="media-artist">${artist}</div>
+                </div>
                 <div class="terminal-visualizer">
                     <div class="v3-bar" style="animation-delay: 0.16s"></div>
                     <div class="v3-bar" style="animation-delay: 0.3s"></div>
@@ -39,7 +44,7 @@ export default class MediaPlayer extends Component {
         if (!this.initialized) {
             this.initListeners();
             this.initialized = true;
-            
+
             this._timeUnsub = store.subscribe((s) => {
                 if (this.mounted && this.container) {
                     const statusEl = this.container.querySelector('.terminal-status');
@@ -59,7 +64,7 @@ export default class MediaPlayer extends Component {
         const artist = this.normalizeText(this.state.rawArtist);
         const isPlaying = Number(this.state.playbackState) === 1;
         const shouldShow = isPlaying && title !== '';
-        
+
         const timeStr = `${store.state.timeValue} ${store.state.ampm}`;
 
         return {
@@ -136,8 +141,8 @@ export default class MediaPlayer extends Component {
                     const val = (audioData[i * 4] + audioData[i * 4 + 64]) / 2;
                     let normalized = (val * sensitivity) / this.visualizerPeak;
                     normalized = Math.min(Math.max(normalized, 0), 1);
-                    const height = 2 + (normalized * 28);
-                    bars[i].style.height = (height / 10) + 'rem';
+                    const thickness = 2 + (normalized * 28);
+                    bars[i].style.width = (thickness / 10) + 'rem';
                 }
             });
         }
