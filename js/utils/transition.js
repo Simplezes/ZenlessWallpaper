@@ -233,6 +233,76 @@
             ctx.drawImage(img, drawX, drawY, drawW, drawH);
         }
 
+        pickTransitionType() {
+            if (this._transitionDeck.length === 0) {
+                const deck = [...TRANSITION_TYPES];
+                for (let i = deck.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [deck[i], deck[j]] = [deck[j], deck[i]];
+                }
+
+                if (this.currentType && deck[0] === this.currentType && deck.length > 1) {
+                    const swapIdx = 1 + Math.floor(Math.random() * (deck.length - 1));
+                    [deck[0], deck[swapIdx]] = [deck[swapIdx], deck[0]];
+                }
+
+                this._transitionDeck = deck;
+            }
+
+            this.currentType = this._transitionDeck.shift();
+        }
+
+        resetTransitionState(W) {
+            this.progress.value = 0;
+            this.cells = [];
+
+            if (this.currentType !== 'shutter') return;
+
+            const skew = 250;
+            const coverageBuffer = skew + 300;
+            const stripCount = Math.max(12, Math.ceil(W / 65));
+            const stripWidth = (W + coverageBuffer) / stripCount;
+
+            for (let i = 0; i < stripCount; i++) {
+                this.cells.push({
+                    x: i * (stripWidth - 1) - 150,
+                    w: stripWidth + 5,
+                    p: 0,
+                    dir: (i % 2 === 0 ? 1 : -1)
+                });
+            }
+        }
+
+        getAnimationConfig() {
+            const animeConfig = {
+                duration: CHARACTER_DURATION,
+                easing: 'easeOutExpo',
+                update: () => this.render(),
+                complete: () => this.finish()
+            };
+
+            if (this.currentType === 'shutter') {
+                animeConfig.targets = this.cells;
+                animeConfig.p = [0, 1];
+                animeConfig.duration = CHARACTER_DURATION * 0.85;
+                animeConfig.easing = 'easeOutExpo';
+                animeConfig.delay = anime.stagger(35, { from: 'first' });
+                return animeConfig;
+            }
+
+            animeConfig.targets = this.progress;
+            animeConfig.value = [0, 1];
+
+            if (this.currentType === 'highContrastCutIn') {
+                animeConfig.duration = CHARACTER_DURATION * 1.05;
+                animeConfig.easing = 'linear';
+            } else if (this.currentType === 'wavyCircle') {
+                animeConfig.duration = CHARACTER_DURATION * 1.1;
+            }
+
+            return animeConfig;
+        }
+
         render() {
             const { w: W, h: H } = this.syncCanvas();
             const ctx = this.ctx;
@@ -788,40 +858,12 @@
             if (options.type && TRANSITION_TYPES.includes(options.type)) {
                 this.currentType = options.type;
             } else {
-                if (this._transitionDeck.length === 0) {
-                    let deck = [...TRANSITION_TYPES];
-                    for (let i = deck.length - 1; i > 0; i--) {
-                        const j = Math.floor(Math.random() * (i + 1));
-                        [deck[i], deck[j]] = [deck[j], deck[i]];
-                    }
-                    if (this.currentType && deck[0] === this.currentType && deck.length > 1) {
-                        const swapIdx = 1 + Math.floor(Math.random() * (deck.length - 1));
-                        [deck[0], deck[swapIdx]] = [deck[swapIdx], deck[0]];
-                    }
-                    this._transitionDeck = deck;
-                }
-                this.currentType = this._transitionDeck.shift();
+                this.pickTransitionType();
             }
 
             const { w: W, h: H } = this.syncCanvas();
 
-            this.progress.value = 0;
-            this.cells = [];
-            if (this.currentType === 'shutter') {
-                const skew = 250;
-                const coverageBuffer = skew + 300;
-                const stripCount = Math.max(12, Math.ceil(W / 65));
-                const stripWidth = (W + coverageBuffer) / stripCount;
-
-                for (let i = 0; i < stripCount; i++) {
-                    this.cells.push({
-                        x: i * (stripWidth - 1) - 150,
-                        w: stripWidth + 5,
-                        p: 0,
-                        dir: (i % 2 === 0 ? 1 : -1)
-                    });
-                }
-            }
+            this.resetTransitionState(W);
 
             this.render();
             this.canvas.style.opacity = '1';
@@ -837,32 +879,7 @@
 
             options.onStart?.();
 
-            const animeConfig = {
-                duration: CHARACTER_DURATION,
-                easing: 'easeOutExpo',
-                update: () => this.render(),
-                complete: () => this.finish()
-            };
-
-            if (this.currentType === 'shutter') {
-                animeConfig.targets = this.cells;
-                animeConfig.p = [0, 1];
-                animeConfig.duration = CHARACTER_DURATION * 0.85;
-                animeConfig.easing = 'easeOutExpo';
-                animeConfig.delay = anime.stagger(35, { from: 'first' });
-            } else {
-                animeConfig.targets = this.progress;
-                animeConfig.value = [0, 1];
-
-                if (this.currentType === 'highContrastCutIn') {
-                    animeConfig.duration = CHARACTER_DURATION * 1.05;
-                    animeConfig.easing = 'linear';
-                } else if (this.currentType === 'wavyCircle') {
-                    animeConfig.duration = CHARACTER_DURATION * 1.1;
-                }
-            }
-
-            this.animation = anime(animeConfig);
+            this.animation = anime(this.getAnimationConfig());
         }
 
         finish() {
