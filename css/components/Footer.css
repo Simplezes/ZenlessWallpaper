@@ -263,6 +263,15 @@
         width: auto;
     }
 
+    .vertical-brand .zzz-logo-sub {
+        font-size: 1.05vh;
+        line-height: 1;
+        padding: 0.18vh 0.55vh;
+        letter-spacing: 0.05vh;
+        white-space: nowrap;
+        text-align: center;
+    }
+
     .circle-month {
         width: 4vh !important;
         height: 4vh !important;

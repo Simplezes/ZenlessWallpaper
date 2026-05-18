@@ -24,16 +24,6 @@
     transform: scale(0.9);
 }
 
-@media (max-width: 60rem) or (max-height: 60rem) {
-    .radial-menu-inner {
-        transform: scale(0.6) !important;
-    }
-
-    .radial-ring {
-        transform: scale(0.75);
-    }
-}
-
 .radial-menu-wrapper {
     position: relative;
     width: 100%;
@@ -176,6 +166,13 @@
     z-index: 20;
 }
 
+.radial-dynamic-label.visible {
+    opacity: 1;
+    top: -3rem;
+    transform: translateX(-50%) scale(1);
+    letter-spacing: 0.8rem;
+}
+
 .radial-img-icon {
     width: 100%;
     height: 100%;
@@ -191,13 +188,6 @@
 
 .radial-item.active .radial-svg-icon {
     color: rgb(0, 0, 0);
-}
-
-.radial-dynamic-label.visible {
-    opacity: 1;
-    top: -3rem;
-    transform: translateX(-50%) scale(1);
-    letter-spacing: 0.8rem;
 }
 
 .radial-hub {
@@ -237,13 +227,11 @@
     border-radius: 50%;
     box-shadow: 0 0 2.5rem rgb(235, 204, 33);
     transition: background-color 0.8s ease, box-shadow 0.8s ease;
-    -webkit-mask:
-        conic-gradient(from 335deg, black 50deg, transparent 50deg),
+    -webkit-mask: conic-gradient(from 335deg, black 50deg, transparent 50deg),
         radial-gradient(circle at 50% 50%, transparent 8rem, black 8.05rem, black 8.8rem, transparent 8.85rem),
         radial-gradient(circle at calc(50% + 3.55rem) calc(50% - 7.6rem), black 0.4rem, transparent 0.45rem),
         radial-gradient(circle at calc(50% - 3.55rem) calc(50% - 7.6rem), black 0.4rem, transparent 0.45rem);
-    mask:
-        conic-gradient(from 335deg, black 50deg, transparent 50deg),
+    mask: conic-gradient(from 335deg, black 50deg, transparent 50deg),
         radial-gradient(circle at 50% 50%, transparent 8rem, black 8.05rem, black 8.8rem, transparent 8.85rem),
         radial-gradient(circle at calc(50% + 3.55rem) calc(50% - 7.6rem), black 0.4rem, transparent 0.45rem),
         radial-gradient(circle at calc(50% - 3.55rem) calc(50% - 7.6rem), black 0.4rem, transparent 0.45rem);
@@ -312,7 +300,6 @@
 
 .hub-notch {
     position: absolute;
-    background: rgb(51, 51, 51);
     border-radius: 0.4rem;
     width: 0.6rem;
     height: 1.4rem;
@@ -636,46 +623,13 @@
     cursor: pointer;
 }
 
-@media (orientation: portrait) and (max-width: 1200px) {
-    .agent-list-radial {
-        width: min(94vw, 54rem);
-        max-height: 92vh;
+@media (max-width: 60rem) or (max-height: 60rem) {
+    .radial-menu-inner {
+        transform: scale(0.6) !important;
     }
 
-    .agent-main-container {
-        display: flex;
-        flex-direction: column;
-        min-height: 0;
-    }
-
-    .header-title {
-        font-size: 2.4rem;
-    }
-
-    .header-subtitle {
-        font-size: 0.95rem;
-        letter-spacing: 0.06rem;
-    }
-
-    .z-scrollbar {
-        height: min(58vh, 42rem);
-        margin: 0 1.2rem;
-    }
-
-    .agent-inner-panel {
-        padding: 1.5rem 1.2rem 5.5rem 1.2rem;
-    }
-
-    .agent-avatar-grid {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1rem;
-    }
-}
-
-@media (orientation: portrait) and (max-width: 600px) {
-    .agent-avatar-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0.8rem;
+    .radial-ring {
+        transform: scale(0.75);
     }
 }
 
@@ -749,6 +703,49 @@
 
     .z-scrollbar__view {
         padding-right: 1.5rem;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 1200px) {
+    .agent-list-radial {
+        width: min(94vw, 54rem);
+        max-height: 92vh;
+    }
+
+    .agent-main-container {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .header-title {
+        font-size: 2.4rem;
+    }
+
+    .header-subtitle {
+        font-size: 0.95rem;
+        letter-spacing: 0.06rem;
+    }
+
+    .z-scrollbar {
+        height: min(58vh, 42rem);
+        margin: 0 1.2rem;
+    }
+
+    .agent-inner-panel {
+        padding: 1.5rem 1.2rem 5.5rem 1.2rem;
+    }
+
+    .agent-avatar-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1rem;
+    }
+}
+
+@media (orientation: portrait) and (max-width: 600px) {
+    .agent-avatar-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.8rem;
     }
 }
 
