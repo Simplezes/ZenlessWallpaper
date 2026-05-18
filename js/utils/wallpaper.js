@@ -90,10 +90,12 @@ let lastTargetImg = null;
 let isCharacterChanging = false;
 
 window.setWallpaper = function (characterName, variant = 'Default', textOnly = false, onComplete = null, transitionType = null) {
-    const charData = window.getCharacterData(characterName);
+    let charData = window.getCharacterData(characterName);
     if (!charData) {
-        console.warn("Character data not found for:", characterName);
-        return;
+        console.warn("Character data not found for:", characterName, "- falling back to Burnice White");
+        charData = window.getCharacterData("Burnice White");
+        if (!charData) return;
+        characterName = "Burnice White";
     }
 
     const baseColor = charData.baseColor;
