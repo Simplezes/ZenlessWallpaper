@@ -97,6 +97,11 @@ const PatternRenderer = (() => {
     }
 
     function animate() {
+        if (!isVisible) {
+            animationId = null;
+            return;
+        }
+
         try {
             const motionEnabled = localStorage.getItem('kineticSway') !== 'false';
             const elapsed = motionEnabled ? (Date.now() - startTime) / 1000 : 0;
@@ -198,6 +203,9 @@ const PatternRenderer = (() => {
             canvas.classList.toggle('visible', visible);
             if (visible && !animationId) {
                 init();
+            } else if (!visible && animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
             }
         }
     }

@@ -99,7 +99,7 @@
             const isCalendar = document.querySelector('.layout-calendar') !== null;
             let scaleFactor = 1.0;
             if (isPortrait) {
-                scaleFactor = isCalendar ? 0.97 : 1.15;
+                scaleFactor = isCalendar ? 0.96 : 1.0;
             }
 
             const dpr = window.devicePixelRatio || 1;
@@ -208,14 +208,14 @@
             return { w, h };
         }
 
-        drawImgFit(img, w, h) {
+        drawImgFit(ctx, img, w, h) {
             if (!img || !img.naturalWidth) return;
             const imgAspect = img.naturalWidth / img.naturalHeight;
             let drawW, drawH, drawX, drawY;
             const isPortrait = window.innerHeight > window.innerWidth;
 
             if (isPortrait) {
-                if (h * imgAspect >= w) {
+                if (h * imgAspect <= w) {
                     drawW = w;
                     drawH = w / imgAspect;
                 } else {
@@ -230,7 +230,7 @@
             drawX = (w - drawW) / 2;
             drawY = (h - drawH) / 2;
 
-            this.ctx.drawImage(img, drawX, drawY, drawW, drawH);
+            ctx.drawImage(img, drawX, drawY, drawW, drawH);
         }
 
         render() {
@@ -271,7 +271,7 @@
             bgCtx.restore();
 
             ctx.save();
-            this.drawImgFit(this.images.old, W, H);
+            this.drawImgFit(ctx, this.images.old, W, H);
 
             ctx.globalCompositeOperation = 'destination-out';
             this.definePath(ctx, W, H, p, 'main');
@@ -282,7 +282,7 @@
             ctx.globalCompositeOperation = 'source-over';
             this.definePath(ctx, W, H, p, 'inner');
             ctx.clip();
-            this.drawImgFit(this.images.new, W, H);
+            this.drawImgFit(ctx, this.images.new, W, H);
             ctx.restore();
 
             ctx.save();
@@ -310,7 +310,7 @@
                 bgCtx.fillStyle = bgNew;
                 bgCtx.fillRect(0, 0, W, H);
                 bgCtx.globalAlpha = Math.min(1, shatterP * 1.8);
-                this.drawImgFit(this.images.new, W, H);
+                this.drawImgFit(bgCtx, this.images.new, W, H);
             }
             bgCtx.restore();
 
@@ -366,7 +366,7 @@
                     const refractX = (shard.cX - W / 2) * 0.005;
                     const refractY = (shard.cY - H * 0.45) * 0.005;
                     ctx.translate(refractX, refractY);
-                    this.drawImgFit(this.images.old, W, H);
+                    this.drawImgFit(ctx, this.images.old, W, H);
                     ctx.restore();
 
                     ctx.strokeStyle = (p > 0.1) ? accent : 'rgb(0,0,0)';
@@ -407,7 +407,7 @@
                         const refractX = (shard.cX - W / 2) * 0.008;
                         const refractY = (shard.cY - H * 0.45) * 0.008;
                         ctx.translate(refractX, refractY);
-                        this.drawImgFit(this.images.old, W, H);
+                        this.drawImgFit(ctx, this.images.old, W, H);
                     }
                     ctx.restore();
 
@@ -489,7 +489,7 @@
             bgCtx.fillRect(0, 0, W, H);
 
             if (p < 0.06) {
-                this.drawImgFit(this.images.old, W, H);
+                this.drawImgFit(ctx, this.images.old, W, H);
                 ctx.fillStyle = P3_WHITE;
                 ctx.globalAlpha = Math.sin((p / 0.06) * Math.PI);
                 ctx.fillRect(0, 0, W, H);
@@ -508,7 +508,7 @@
                 if (imgA > 0) {
                     ctx.save();
                     ctx.globalAlpha = imgA;
-                    this.drawImgFit(this.images.old, W, H);
+                    this.drawImgFit(ctx, this.images.old, W, H);
                     ctx.restore();
                 }
             }
@@ -555,7 +555,7 @@
                     ctx.save();
                     ctx.globalAlpha = sA * 0.30;
                     ctx.translate(10, 10);
-                    this.drawImgFit(this.images.new, W, H);
+                    this.drawImgFit(ctx, this.images.new, W, H);
                     ctx.globalCompositeOperation = 'source-in';
                     ctx.fillStyle = 'rgb(0, 0, 0)';
                     ctx.fillRect(-50, -50, W + 100, H + 100);
@@ -563,7 +563,7 @@
 
                     ctx.save();
                     ctx.globalAlpha = sA * 0.88;
-                    this.drawImgFit(this.images.new, W, H);
+                    this.drawImgFit(ctx, this.images.new, W, H);
                     ctx.globalCompositeOperation = 'source-in';
                     ctx.fillStyle = P3_CYAN;
                     ctx.fillRect(0, 0, W, H);
@@ -621,7 +621,7 @@
                 ctx.translate(W / 2, H / 2);
                 ctx.scale(scale, scale);
                 ctx.translate(-W / 2, -H / 2);
-                this.drawImgFit(this.images.new, W, H);
+                this.drawImgFit(ctx, this.images.new, W, H);
                 ctx.restore();
 
                 const lineA = Math.max(0, 1 - Math.pow(rP, 2.5));

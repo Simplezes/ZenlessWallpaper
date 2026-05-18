@@ -109,7 +109,7 @@
         position: absolute;
         right: calc(50% + 1.2vh);
         font-family: 'Rajdhani', sans-serif;
-        font-size: 0.8vh;
+        font-size: 1.15vh;
         font-weight: 700;
         color: rgba(255, 255, 255, 0.5);
         opacity: 0;
@@ -127,7 +127,7 @@
 
     .day-num {
         font-family: 'OctinCollege';
-        font-size: 1.4vh;
+        font-size: 1.8vh;
         font-weight: 700;
         color: rgba(255, 255, 255, 0.8);
         transition: all 0.3s ease;

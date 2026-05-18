@@ -25,6 +25,8 @@ export default class Calendar extends Component {
         this._onPointerDown = this._onPointerDown.bind(this);
         this._onPointerMove = this._onPointerMove.bind(this);
         this._onPointerUp = this._onPointerUp.bind(this);
+        this._onResize = this._onResize.bind(this);
+        this._onContainerClick = this._onContainerClick.bind(this);
     }
 
     _offsetToDate(offset) {
@@ -98,27 +100,35 @@ export default class Calendar extends Component {
 
     onMounted() {
         this.useStore(store, (s) => ({ viewOffset: s.viewOffset }));
-        this.container.addEventListener('click', (e) => {
-            if (this._wasDrag) return;
-            if (window.innerHeight > window.innerWidth) {
-                this.container.classList.toggle('show-names');
-            }
-        });
+        this.container.addEventListener('click', this._onContainerClick);
 
         this.container.addEventListener('pointerdown', this._onPointerDown);
         window.addEventListener('pointermove', this._onPointerMove);
         window.addEventListener('pointerup', this._onPointerUp);
 
-        window.addEventListener('resize', () => this.update());
+        window.addEventListener('resize', this._onResize);
 
         this.scheduleMidnightUpdate();
     }
 
     onUnmounted() {
         if (this.timeout) clearTimeout(this.timeout);
+        this.container?.removeEventListener('click', this._onContainerClick);
         this.container?.removeEventListener('pointerdown', this._onPointerDown);
         window.removeEventListener('pointermove', this._onPointerMove);
         window.removeEventListener('pointerup', this._onPointerUp);
+        window.removeEventListener('resize', this._onResize);
+    }
+
+    _onResize() {
+        this.update();
+    }
+
+    _onContainerClick() {
+        if (this._wasDrag) return;
+        if (window.innerHeight > window.innerWidth) {
+            this.container.classList.toggle('show-names');
+        }
     }
 
     _onPointerDown(e) {

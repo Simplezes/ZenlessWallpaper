@@ -1,7 +1,7 @@
 :root {
     --accent-color: rgb(252, 91, 144);
     --bg-color: rgb(17, 17, 17);
-    font-size: clamp(0.6rem, calc(100vh / 108), 2.5rem);
+    font-size: clamp(0.85rem, calc(100vh / 90), 3.2rem);
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@400..900&display=swap');

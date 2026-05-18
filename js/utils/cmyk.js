@@ -12,12 +12,12 @@ const CMYKManager = {
         if (!color) return { c: 0, m: 0, y: 0, k: 0 };
 
         let r, g, b;
-        const matches = color.match(/\d+/g);
-        if (!matches || matches.length < 3) return { c: 0, m: 0, y: 0, k: 0 };
+        const match = String(color).trim().match(/rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/i);
+        if (!match) return { c: 0, m: 0, y: 0, k: 0 };
 
-        r = parseInt(matches[0]) / 255;
-        g = parseInt(matches[1]) / 255;
-        b = parseInt(matches[2]) / 255;
+        r = parseInt(match[1], 10) / 255;
+        g = parseInt(match[2], 10) / 255;
+        b = parseInt(match[3], 10) / 255;
 
         const k = 1 - Math.max(r, g, b);
         const c = k === 1 ? 0 : (1 - r - k) / (1 - k);

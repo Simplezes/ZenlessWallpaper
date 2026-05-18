@@ -58,7 +58,7 @@
 }
 
 .mobile-header .calendar-label {
-    font-size: 3.5vh;
+    font-size: 1.5vh;
     line-height: 0.8;
     letter-spacing: 0.1vh;
     margin-bottom: 0.3vh;
@@ -75,7 +75,7 @@
 }
 
 .mobile-header .calendar-zenless-label {
-    font-size: 1vh;
+    font-size: 0.8vh;
     line-height: 1;
 }
 
@@ -85,11 +85,14 @@
 }
 
 .mobile-header .pill-month {
+    background: rgb(15, 15, 15);
+    color: rgb(216, 213, 210);
     padding: 0.4vh 1.5vh;
     font-size: 1.4vh;
 }
 
 .mobile-header .year-display {
+    color: rgb(15, 15, 15);
     font-size: 1.2vh;
 }
 
@@ -117,8 +120,8 @@
     }
 
     .mobile-header.theme-light .pill-month {
-        background: var(--accent-color);
-        color: rgb(216, 213, 210);
+        background: rgb(216, 213, 210);
+        color: rgb(15, 15, 15);
     }
 
     .mobile-header.theme-light .year-display {

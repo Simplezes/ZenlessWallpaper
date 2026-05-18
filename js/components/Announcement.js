@@ -13,6 +13,8 @@ export default class Announcement extends Component {
         this.useStore(store, (s) => ({
             layout: s.layout
         }));
+
+        this._showTimer = null;
     }
 
     render() {
@@ -93,10 +95,18 @@ export default class Announcement extends Component {
     show() {
         if (this.state.hasSeen) return;
 
-        setTimeout(() => {
+        if (this._showTimer) clearTimeout(this._showTimer);
+        this._showTimer = setTimeout(() => {
             this.setState({ isVisible: true });
             this.animateIn();
         }, 3000);
+    }
+
+    onUnmounted() {
+        if (this._showTimer) {
+            clearTimeout(this._showTimer);
+            this._showTimer = null;
+        }
     }
 
     animateIn() {

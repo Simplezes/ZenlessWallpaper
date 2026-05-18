@@ -4,13 +4,14 @@ import AgentList from './AgentList.js';
 export default class Settings extends Component {
     constructor(props = {}) {
         super(props);
+        const storage = window.safeStorage;
         this.state = {
-            currentAgent: localStorage.getItem('selectedCharacter') || "Burnice White",
-            currentVariant: localStorage.getItem('selectedVariant') || "Default",
-            showAmbient: localStorage.getItem('showAmbient') !== 'false',
-            footerTheme: localStorage.getItem('footerTheme') || 'dark',
-            kineticSwayEnabled: localStorage.getItem('kineticSway') !== 'false',
-            patternEnabled: localStorage.getItem('bgPattern') !== 'false',
+            currentAgent: storage ? storage.get('selectedCharacter', "Burnice White") : (localStorage.getItem('selectedCharacter') || "Burnice White"),
+            currentVariant: storage ? storage.get('selectedVariant', "Default") : (localStorage.getItem('selectedVariant') || "Default"),
+            showAmbient: storage ? storage.getBool('showAmbient', true) : localStorage.getItem('showAmbient') !== 'false',
+            footerTheme: storage ? storage.get('footerTheme', 'dark') : (localStorage.getItem('footerTheme') || 'dark'),
+            kineticSwayEnabled: storage ? storage.getBool('kineticSway', true) : localStorage.getItem('kineticSway') !== 'false',
+            patternEnabled: storage ? storage.getBool('bgPattern', true) : localStorage.getItem('bgPattern') !== 'false',
             isOpen: false,
             isAgentListOpen: false
         };
@@ -42,6 +43,19 @@ export default class Settings extends Component {
 
         this._clickBound = false;
         this.ringRect = null;
+        this._onMouseMove = this.handleMouseMove.bind(this);
+        this._onKeyDown = (e) => {
+            if (e.key === 'Escape') this.closeMenu();
+        };
+        this._onOpenSettings = () => this.openMenu();
+        this._onWindowClick = (e) => {
+            const trigger = e.target.closest('.zzz-logo-final, .mobile-settings-trigger');
+            if (trigger) {
+                e.preventDefault();
+                e.stopPropagation();
+                this.openMenu();
+            }
+        };
 
         this.agentList = new AgentList({
             currentAgent: this.state.currentAgent,
@@ -131,6 +145,7 @@ export default class Settings extends Component {
     }
 
     getLabelForId(id) {
+        const storage = window.safeStorage;
         const item = this.MENU_ITEMS.find(m => m.id === id);
         if (!item) return '';
 
@@ -138,17 +153,17 @@ export default class Settings extends Component {
             case 'variant': return `MODE: ${this.state.currentVariant}`;
             case 'footer': return `THEME: ${this.state.footerTheme.toUpperCase()}`;
             case 'kinetic': return `MOTION: ${this.state.kineticSwayEnabled ? 'ON' : 'OFF'}`;
-            case 'layout': return `LAYOUT: ${(localStorage.getItem('wallpaperLayout') || 'calendar').toUpperCase()}`;
+            case 'layout': return `LAYOUT: ${((storage ? storage.get('wallpaperLayout', 'calendar') : (localStorage.getItem('wallpaperLayout') || 'calendar'))).toUpperCase()}`;
             case 'pattern': return `PATTERN: ${this.state.patternEnabled ? 'ON' : 'OFF'}`;
             case 'ambient': return `EFFECTS: ${this.state.showAmbient ? 'ON' : 'OFF'}`;
             case 'rotate': {
                 const key = `charRotate_${this.getOrientKey()}`;
-                const val = localStorage.getItem(key) || '0';
+                const val = storage ? storage.get(key, '0') : (localStorage.getItem(key) || '0');
                 return `ROTATE: ${val}°`;
             }
             case 'flip': {
                 const key = `charFlip_${this.getOrientKey()}`;
-                const val = localStorage.getItem(key) === 'true';
+                const val = (storage ? storage.get(key, 'false') : localStorage.getItem(key)) === 'true';
                 return `FLIP: ${val ? 'YES' : 'NO'}`;
             }
             default: return item.label;
@@ -156,15 +171,16 @@ export default class Settings extends Component {
     }
 
     getItemActiveState(id) {
+        const storage = window.safeStorage;
         switch (id) {
             case 'kinetic': return this.state.kineticSwayEnabled;
             case 'pattern': return this.state.patternEnabled;
             case 'ambient': return this.state.showAmbient;
-            case 'flip': return localStorage.getItem(`charFlip_${this.getOrientKey()}`) === 'true';
+            case 'flip': return (storage ? storage.get(`charFlip_${this.getOrientKey()}`, 'false') : localStorage.getItem(`charFlip_${this.getOrientKey()}`)) === 'true';
             case 'footer': return this.state.footerTheme === 'dark';
-            case 'layout': return (localStorage.getItem('wallpaperLayout') || 'calendar') === 'calendar';
+            case 'layout': return (storage ? storage.get('wallpaperLayout', 'calendar') : (localStorage.getItem('wallpaperLayout') || 'calendar')) === 'calendar';
             case 'variant': return true;
-            case 'rotate': return parseInt(localStorage.getItem(`charRotate_${this.getOrientKey()}`) || '0') !== 0;
+            case 'rotate': return parseInt(storage ? storage.get(`charRotate_${this.getOrientKey()}`, '0') : (localStorage.getItem(`charRotate_${this.getOrientKey()}`) || '0')) !== 0;
             default: return null;
         }
     }
@@ -173,17 +189,21 @@ export default class Settings extends Component {
         this.attachListeners();
         this.reMountAgentList();
 
-        window.addEventListener('mousemove', (e) => this.handleMouseMove(e), { passive: true });
-        window.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') this.closeMenu();
-        });
-
-        window.addEventListener('open-settings', () => this.openMenu());
+        window.addEventListener('mousemove', this._onMouseMove, { passive: true });
+        window.addEventListener('keydown', this._onKeyDown);
+        window.addEventListener('open-settings', this._onOpenSettings);
     }
 
     onUpdated() {
         this.attachListeners();
         this.reMountAgentList();
+    }
+
+    onUnmounted() {
+        window.removeEventListener('mousemove', this._onMouseMove);
+        window.removeEventListener('keydown', this._onKeyDown);
+        window.removeEventListener('open-settings', this._onOpenSettings);
+        window.removeEventListener('click', this._onWindowClick);
     }
 
     reMountAgentList() {
@@ -233,13 +253,7 @@ export default class Settings extends Component {
         });
 
         if (!this._clickBound) {
-            window.addEventListener('click', (e) => {
-                const trigger = e.target.closest('.zzz-logo-final, .mobile-settings-trigger');
-                if (trigger) {
-                    e.preventDefault(); e.stopPropagation();
-                    this.openMenu();
-                }
-            });
+            window.addEventListener('click', this._onWindowClick);
             this._clickBound = true;
         }
 
@@ -312,9 +326,10 @@ export default class Settings extends Component {
     }
 
     toggleLayout() {
-        const current = localStorage.getItem('wallpaperLayout') || 'calendar';
+        const current = (window.safeStorage && window.safeStorage.get('wallpaperLayout', 'calendar')) || (localStorage.getItem('wallpaperLayout') || 'calendar');
         const next = current === 'calendar' ? 'default' : 'calendar';
-        localStorage.setItem('wallpaperLayout', next);
+        if (window.safeStorage) window.safeStorage.set('wallpaperLayout', next);
+        else localStorage.setItem('wallpaperLayout', next);
         if (window.store) window.store.setState({ layout: next });
         window.dispatchEvent(new CustomEvent('layout-changed', { detail: { layout: next } }));
     }
@@ -324,7 +339,8 @@ export default class Settings extends Component {
         let idx = variants.indexOf(this.state.currentVariant);
         const next = variants[(idx + 1) % variants.length];
         this.setState({ currentVariant: next });
-        localStorage.setItem('selectedVariant', next);
+        if (window.safeStorage) window.safeStorage.set('selectedVariant', next);
+        else localStorage.setItem('selectedVariant', next);
         if (window.store) window.store.setState({ currentVariant: next });
         this.applySettings();
     }
@@ -338,7 +354,8 @@ export default class Settings extends Component {
     toggleKinetic() {
         const next = !this.state.kineticSwayEnabled;
         this.setState({ kineticSwayEnabled: next });
-        localStorage.setItem('kineticSway', next);
+        if (window.safeStorage) window.safeStorage.set('kineticSway', next);
+        else localStorage.setItem('kineticSway', next);
         if (window.kineticSway) window.kineticSway.setEnabled(next);
         if (window.store) window.store.setState({ kineticEnabled: next });
     }
@@ -346,7 +363,8 @@ export default class Settings extends Component {
     togglePattern() {
         const next = !this.state.patternEnabled;
         this.setState({ patternEnabled: next });
-        localStorage.setItem('bgPattern', next);
+        if (window.safeStorage) window.safeStorage.set('bgPattern', next);
+        else localStorage.setItem('bgPattern', next);
         if (window.PatternRenderer) window.PatternRenderer.setVisible(next);
         if (window.store) window.store.setState({ patternEnabled: next });
     }
@@ -354,7 +372,8 @@ export default class Settings extends Component {
     toggleAmbient() {
         const next = !this.state.showAmbient;
         this.setState({ showAmbient: next });
-        localStorage.setItem('showAmbient', next);
+        if (window.safeStorage) window.safeStorage.set('showAmbient', next);
+        else localStorage.setItem('showAmbient', next);
         if (window.store) window.store.setState({ showAmbient: next });
         this.applySettings(true);
     }
@@ -364,19 +383,23 @@ export default class Settings extends Component {
     }
 
     cycleRotate() {
+        const storage = window.safeStorage;
         const key = `charRotate_${this.getOrientKey()}`;
-        const current = parseInt(localStorage.getItem(key) || '0');
+        const current = parseInt(storage ? storage.get(key, '0') : (localStorage.getItem(key) || '0'));
         const next = (current + 90) % 360;
-        localStorage.setItem(key, next);
+        if (window.safeStorage) window.safeStorage.set(key, next);
+        else localStorage.setItem(key, next);
         this.notifySettingsChanged({ key, value: next });
         if (window.kineticSway) window.kineticSway.resetElements();
     }
 
     toggleFlip() {
+        const storage = window.safeStorage;
         const key = `charFlip_${this.getOrientKey()}`;
-        const current = localStorage.getItem(key) === 'true';
+        const current = (storage ? storage.get(key, 'false') : localStorage.getItem(key)) === 'true';
         const next = !current;
-        localStorage.setItem(key, next);
+        if (window.safeStorage) window.safeStorage.set(key, next);
+        else localStorage.setItem(key, next);
         this.notifySettingsChanged({ key, value: next });
         if (window.kineticSway) window.kineticSway.resetElements();
     }
@@ -388,7 +411,8 @@ export default class Settings extends Component {
     }
 
     confirmAgent(name) {
-        localStorage.setItem('selectedCharacter', name);
+        if (window.safeStorage) window.safeStorage.set('selectedCharacter', name);
+        else localStorage.setItem('selectedCharacter', name);
         this.setState({ currentAgent: name, isOpen: false, isAgentListOpen: false });
         if (window.store) window.store.setState({ currentAgent: name });
         this.applySettings();
