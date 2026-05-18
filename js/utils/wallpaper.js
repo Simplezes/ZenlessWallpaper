@@ -1,6 +1,18 @@
 window.characters = [];
 let loadingComplete = false;
 
+function safeGet(key, fallback = null) {
+    if (window.safeStorage) return window.safeStorage.get(key, fallback);
+    const value = localStorage.getItem(key);
+    return value === null ? fallback : value;
+}
+
+function safeSet(key, value) {
+    if (window.safeStorage) return window.safeStorage.set(key, value);
+    localStorage.setItem(key, value);
+    return true;
+}
+
 function updateLoading(percent, status) {
     if (percent >= 100) {
         setTimeout(() => {
@@ -41,20 +53,23 @@ window.pxToCurrentRem = function (px) {
 async function loadCharacters() {
     try {
         if (!window.charactersFetch) {
-            window.charactersFetch = fetch('assets/characters.json').then(r => r.json());
+            window.charactersFetch = fetch('assets/characters.json').then(r => {
+                if (!r.ok) throw new Error(`characters.json request failed: ${r.status}`);
+                return r.json();
+            });
         }
 
         updateLoading(30, 'DECRYPTING ARCHIVES...');
         window.characters = await window.charactersFetch;
         updateLoading(50, 'CALIBRATING SIGNAL...');
 
-        const savedChar = localStorage.getItem('selectedCharacter') || "Burnice White";
-        const savedVariant = localStorage.getItem('selectedVariant') || "Full";
+        const savedChar = safeGet('selectedCharacter', "Burnice White");
+        const savedVariant = safeGet('selectedVariant', "Full");
 
         const savedCharData = window.getCharacterData(savedChar);
         if (savedCharData && savedCharData.baseColor) {
             document.documentElement.style.setProperty('--accent-color', savedCharData.baseColor);
-            localStorage.setItem('--accent-color', savedCharData.baseColor);
+            safeSet('--accent-color', savedCharData.baseColor);
             if (window.CMYKManager) {
                 window.CMYKManager.updateVariables(savedCharData.baseColor);
             }
@@ -116,7 +131,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             easing: 'linear',
             update: () => {
                 document.documentElement.style.setProperty('--accent-color', colorObj.accent);
-                localStorage.setItem('--accent-color', colorObj.accent);
+                safeSet('--accent-color', colorObj.accent);
                 if (window.CMYKManager) {
                     window.CMYKManager.updateVariables(colorObj.accent);
                 }
@@ -139,10 +154,10 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             updateText(calName, charData.name, 0, 1);
         }
 
-        localStorage.setItem('selectedCharacter', charData.name);
-        localStorage.setItem('selectedVariant', variant);
-        localStorage.setItem('selectedFaction', charData.faction);
-        localStorage.setItem('selectedNickname', charData.nickname);
+        safeSet('selectedCharacter', charData.name);
+        safeSet('selectedVariant', variant);
+        safeSet('selectedFaction', charData.faction);
+        safeSet('selectedNickname', charData.nickname);
 
         window.dispatchEvent(new CustomEvent('character-changed', {
             detail: {
@@ -211,7 +226,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                         easing: 'easeInOutQuad',
                         update: () => {
                             document.documentElement.style.setProperty('--accent-color', colorObj.accent);
-                            localStorage.setItem('--accent-color', colorObj.accent);
+                            safeSet('--accent-color', colorObj.accent);
                             if (window.CMYKManager) {
                                 window.CMYKManager.updateVariables(colorObj.accent);
                             }
@@ -219,10 +234,10 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     });
                 },
                 onDone: () => {
-                    localStorage.setItem('selectedCharacter', charData.name);
-                    localStorage.setItem('selectedVariant', variant);
-                    localStorage.setItem('selectedFaction', charData.faction);
-                    localStorage.setItem('selectedNickname', charData.nickname);
+                    safeSet('selectedCharacter', charData.name);
+                    safeSet('selectedVariant', variant);
+                    safeSet('selectedFaction', charData.faction);
+                    safeSet('selectedNickname', charData.nickname);
 
                     window.dispatchEvent(new CustomEvent('character-changed', {
                         detail: {
@@ -240,7 +255,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                         mainImg.style.opacity = '1';
 
                         document.documentElement.style.setProperty('--accent-color', baseColor);
-                        localStorage.setItem('--accent-color', baseColor);
+                        safeSet('--accent-color', baseColor);
                         if (window.CMYKManager) window.CMYKManager.updateVariables(baseColor);
 
                         if (transImg) {
@@ -270,6 +285,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 
     tempImg.onerror = () => {
         console.error("Failed to load wallpaper image:", imgPath);
+        applyColorsAndText();
         if (onComplete) onComplete();
     };
 };
@@ -372,8 +388,8 @@ window.addEventListener('layout-changed', () => {
     if (window.CharacterTransition) window.CharacterTransition.cancel();
     isCharacterChanging = false;
 
-    const _char = localStorage.getItem('selectedCharacter');
-    const _variant = localStorage.getItem('selectedVariant') || 'Full';
+    const _char = safeGet('selectedCharacter');
+    const _variant = safeGet('selectedVariant', 'Full');
     const _charData = _char && window.getCharacterData ? window.getCharacterData(_char) : null;
     if (_charData) {
         const _img = new Image();
@@ -390,8 +406,8 @@ function kickLayout() {
         document.body.style.paddingRight = '0px';
     }, 10);
 
-    const char = localStorage.getItem('selectedCharacter');
-    const variant = localStorage.getItem('selectedVariant') || "Default";
+    const char = safeGet('selectedCharacter');
+    const variant = safeGet('selectedVariant', "Default");
     if (char && window.setWallpaper) {
         window.setWallpaper(char, variant, true);
     }

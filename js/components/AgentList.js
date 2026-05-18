@@ -10,6 +10,8 @@ export default class AgentList extends Component {
         };
         
         this.savedScrollTop = 0;
+        this._scrollWrap = null;
+        this._scrollUpdate = null;
     }
 
     render() {
@@ -131,6 +133,10 @@ export default class AgentList extends Component {
         const track = el.querySelector('.z-scrollbar__track');
         track.style.display = 'block';
 
+        if (this._scrollWrap && this._scrollUpdate) {
+            this._scrollWrap.removeEventListener('scroll', this._scrollUpdate);
+        }
+
         const update = () => {
             const containerHeight = wrap.clientHeight;
             const scrollHeight = wrap.scrollHeight;
@@ -144,6 +150,8 @@ export default class AgentList extends Component {
 
         el.__updateScroll = update;
         wrap.addEventListener('scroll', update);
+        this._scrollWrap = wrap;
+        this._scrollUpdate = update;
         setTimeout(update, 100);
     }
 
@@ -183,6 +191,12 @@ export default class AgentList extends Component {
         if (this._mouseUpHandler) {
             window.removeEventListener('mouseup', this._mouseUpHandler);
             this._mouseUpHandler = null;
+        }
+
+        if (this._scrollWrap && this._scrollUpdate) {
+            this._scrollWrap.removeEventListener('scroll', this._scrollUpdate);
+            this._scrollWrap = null;
+            this._scrollUpdate = null;
         }
     }
 }

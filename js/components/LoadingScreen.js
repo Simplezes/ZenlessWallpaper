@@ -9,6 +9,7 @@ export default class LoadingScreen extends Component {
             icon: '',
             no: '',
             modeName: '',
+            error: '',
             ready: false
         };
     }
@@ -22,7 +23,7 @@ export default class LoadingScreen extends Component {
                         ${this.state.ready ? `<img id="loader-mode-icon" src="${this.state.icon}" alt="">` : '<div class="skeleton skeleton-icon"></div>'}
                     </div>
                     <div class="loader-tips-wrap">
-                        ${this.state.ready ? `<p id="loader-tip-text">${this.state.tip}</p>` : `
+                        ${this.state.ready ? `<p id="loader-tip-text">${this.state.error || this.state.tip}</p>` : `
                         <div class="skeleton skeleton-text"></div>
                         <div class="skeleton skeleton-text" style="width: 80%"></div>
                         <div class="skeleton skeleton-text" style="width: 60%"></div>
@@ -57,6 +58,7 @@ export default class LoadingScreen extends Component {
     async init() {
         try {
             const response = await fetch('assets/loading/tips.json');
+            if (!response.ok) throw new Error(`tips.json request failed: ${response.status}`);
             const loaderTips = await response.json();
 
             const categories = Object.keys(loaderTips).filter(cat => {
@@ -89,7 +91,13 @@ export default class LoadingScreen extends Component {
 
         } catch (e) {
             console.error("Failed to init LoadingScreen", e);
-            this.setState({ ready: true });
+            this.setState({
+                tip: 'Failed to load briefing data. Continuing with fallback mode.',
+                modeName: 'FALLBACK MODE',
+                no: '000',
+                error: 'Failed to load briefing data. Continuing with fallback mode.',
+                ready: true
+            });
         }
     }
 

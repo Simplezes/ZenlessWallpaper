@@ -197,7 +197,7 @@
 @media (orientation: portrait) {
     .footer {
         width: 13vw;
-        min-width: 5rem;
+        min-width: 2.5rem;
         height: 100vh;
         top: calc(var(--taskbar-top, 0rem) + env(safe-area-inset-top, 0rem));
         left: calc(var(--taskbar-left, 0rem) + env(safe-area-inset-left, 0rem));

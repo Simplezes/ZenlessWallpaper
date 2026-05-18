@@ -13,7 +13,10 @@ class App {
     constructor() {
         this.components = {};
         window.charactersFetch = fetch('assets/characters.json')
-            .then(r => r.json())
+            .then(r => {
+                if (!r.ok) throw new Error(`characters.json request failed: ${r.status}`);
+                return r.json();
+            })
             .catch(e => console.error("Early fetch error", e));
     }
 
@@ -61,6 +64,14 @@ class App {
 }
 
 window.app = new App();
+
+window.onerror = (msg, url, line, col, err) => {
+    console.error('Global error:', { msg, url, line, col, err });
+};
+
+window.onunhandledrejection = (event) => {
+    console.error('Unhandled promise rejection:', event.reason);
+};
 
 document.addEventListener('DOMContentLoaded', () => {
     window.app.init();

@@ -500,18 +500,16 @@ body:not(.show-pattern) .layout-container .ambient-text {
     }
 
     .layout-default .char-image {
-        width: 115vh !important;
-        height: 115vw !important;
-        object-fit: contain !important;
+        width: 100vh !important;
+        height: 100vw !important;
+        object-fit: cover !important;
     }
 
     .layout-calendar .char-image {
         width: 97vh !important;
         height: 97vw !important;
-        object-fit: contain !important;
+        object-fit: cover !important;
     }
-
-
 
     .ambient-text.nickname {
         font-size: 6.4vh;
@@ -524,16 +522,15 @@ body:not(.show-pattern) .layout-container .ambient-text {
 
     #logo-bg-container,
     #logo-fg-container {
-        width: 100vw;
         height: 100vh;
         bottom: 0;
-        right: auto;
+        right: calc(var(--taskbar-right, 0rem) + env(safe-area-inset-right, 0rem));
         top: 0;
         left: 0;
         transform: none;
         display: flex;
         justify-content: center;
-        align-items: flex-end;
+        align-items: flex-start;
         background-color: transparent;
     }
 
@@ -542,7 +539,13 @@ body:not(.show-pattern) .layout-container .ambient-text {
     }
 
     #logo-fg-container {
-        z-index: 10002;
+        z-index: 3000;
+    }
+
+    .layout-default #logo-bg-container,
+    .layout-default #logo-fg-container {
+        left: 0;
+        right: 0;
     }
 
     .patch-sticker {
@@ -559,16 +562,48 @@ body:not(.show-pattern) .layout-container .ambient-text {
         margin-top: 22vh;
     }
 
+    .calendar-header-block {
+        --header-block-scale: 0.72;
+        gap: 1.6vw;
+    }
+
+    .calendar-header-block .header-left-group,
+    .calendar-header-block .calendar-date-block {
+        transform: scale(var(--header-block-scale));
+    }
+
+    .calendar-header-block .header-left-group {
+        transform-origin: top left;
+    }
+
+    .calendar-header-block .calendar-date-block {
+        transform-origin: top right;
+    }
+
     .calendar-label {
-        font-size: 8vw;
+        font-size: 44px;
     }
 
     .calendar-sub-label {
-        font-size: 3vw;
+        font-size: 15px;
     }
 
+    .zzz-tag-svg {
+        height: 27px;
+    }
+
+    .date-month-pill {
+        font-size: 37px;
+        padding: 10px 34px;
+        margin-bottom: 10px;
+    }
+
+    .date-year-display {
+        font-size: 29px;
+    }
+
+
     .calendar-agent-name {
-        font-size: 10vw;
         letter-spacing: -2px;
     }
 
@@ -652,7 +687,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
     }
 
     .center-month-num {
-        font-size: 220px;
+        font-size: 203px;
         transform: scaleY(1.7) scaleX(1.43);
     }
 }

@@ -1,10 +1,12 @@
 class KineticSway {
     constructor() {
+        const storage = window.safeStorage;
         this.time = 0;
         this.lastTime = 0;
         this.elements = [];
         this.globalSpeed = 0.0006;
-        this.enabled = localStorage.getItem('kineticSway') !== 'false';
+        this.enabled = storage ? storage.getBool('kineticSway', true) : localStorage.getItem('kineticSway') !== 'false';
+        this._animId = null;
 
         this._orient = null;
         this._manualRot = 0;
@@ -17,15 +19,18 @@ class KineticSway {
         window.addEventListener('wallpaper:settingsChanged', () => this._invalidateCache());
         window.addEventListener('resize', () => this._invalidateCache());
 
-        requestAnimationFrame(this.animate);
+        if (this.enabled) {
+            this._animId = requestAnimationFrame(this.animate);
+        }
     }
 
     _refreshOrientCache() {
+        const storage = window.safeStorage;
         const isPortrait = window.innerHeight > window.innerWidth;
         this._orient = isPortrait ? 'portrait' : 'landscape';
         this._isPortrait = isPortrait;
-        this._manualRot = parseInt(localStorage.getItem(`charRotate_${this._orient}`) || '0');
-        this._manualFlip = localStorage.getItem(`charFlip_${this._orient}`) === 'true' ? -1 : 1;
+        this._manualRot = parseInt(storage ? storage.get(`charRotate_${this._orient}`, '0') : (localStorage.getItem(`charRotate_${this._orient}`) || '0'));
+        this._manualFlip = (storage ? storage.get(`charFlip_${this._orient}`, 'false') : localStorage.getItem(`charFlip_${this._orient}`)) === 'true' ? -1 : 1;
     }
 
     _invalidateCache() {
@@ -107,9 +112,16 @@ class KineticSway {
     setEnabled(enabled) {
         this.enabled = enabled;
         if (!enabled) {
+            if (this._animId) {
+                cancelAnimationFrame(this._animId);
+                this._animId = null;
+            }
             this.resetElements();
         } else {
             this.lastTime = performance.now();
+            if (!this._animId) {
+                this._animId = requestAnimationFrame(this.animate);
+            }
         }
     }
 
@@ -172,7 +184,7 @@ class KineticSway {
         this.lastTime = timestamp;
 
         if (!this.enabled) {
-            requestAnimationFrame(this.animate);
+            this._animId = null;
             return;
         }
 
@@ -253,7 +265,7 @@ class KineticSway {
             }
         }
 
-        requestAnimationFrame(this.animate);
+        this._animId = requestAnimationFrame(this.animate);
     }
 
     getSway(id) {

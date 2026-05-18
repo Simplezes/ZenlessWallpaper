@@ -22,6 +22,9 @@ export default class Background extends Component {
 
         this._lastRenderedLayout = this.state.layout;
         this._lastAgent = this.state.character;
+        this._onCharacterChanged = this._onCharacterChanged.bind(this);
+        this._onResize = this._onResize.bind(this);
+        this._unsubscribeMonth = null;
     }
 
     render() {
@@ -114,7 +117,7 @@ export default class Background extends Component {
     renderPortraitBG(monthData) {
         return `
             <div id="logo-bg-container" class="mobile-view">
-                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMax meet" style="${this.getPortraitStyles()}">
+                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMin meet" style="${this.getPortraitStyles()}">
                     ${this.renderCommonDefs('zzz-logo-clip-mobile', true)}
                     ${this.renderMaskedLayer('zzz-logo-clip-mobile', 1080, 2400)}
                 </svg>
@@ -125,9 +128,9 @@ export default class Background extends Component {
     renderPortraitFG(monthData) {
         return `
             <div id="logo-fg-container" class="mobile-view">
-                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMax meet" style="${this.getPortraitStyles()}">
+                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMin meet" style="${this.getPortraitStyles()}">
                     <g style="transform: translate(var(--m-label-tx), var(--m-label-ty));">
-                        <foreignObject x="50" y="1500" width="900" height="300">
+                        <foreignObject x="67" y="1500" width="888" height="300">
                             ${this.renderCalendarHeader(monthData)}
                         </foreignObject>
                     </g>
@@ -137,7 +140,7 @@ export default class Background extends Component {
                         </foreignObject>
                     </g>
                     <g style="transform: translate(var(--m-center-tx), var(--m-center-ty)) scale(var(--m-center-s));">
-                        <foreignObject x="460" y="500" width="860" height="700" style="overflow: visible;">
+                        <foreignObject x="460" y="493" width="860" height="700" style="overflow: visible;">
                             ${this.renderMonthDisplayContent(monthData)}
                         </foreignObject>
                     </g>
@@ -339,38 +342,25 @@ export default class Background extends Component {
     }
 
     getPortraitStyles() {
+        const nonHeaderDownShift = 'clamp(100px, min(2vh, 3vw), 160px)';
+
         return `
-            --m-zzz-tx: 177px; --m-zzz-ty: 333px; --m-zzz-s: 0.504; --m-zzz-sy: 0.80;
-            --m-side-tx: -1610px; --m-side-ty: 890px;
-            --m-bottom-tx: -380px; --m-bottom-ty: 1010px;
-            --m-center-tx: -860px; --m-center-ty: 685px; --m-center-s: 1.45;
-            --m-label-tx: 110px; --m-label-ty: -1395px;
-            --m-name-tx: 110px; --m-name-ty: 527px; --m-name-s: 0.95;
+            --m-zzz-tx: 177px; --m-zzz-ty: calc(333px + ${nonHeaderDownShift}); --m-zzz-s: 0.504; --m-zzz-sy: 0.80;
+            --m-side-tx: -1610px; --m-side-ty: calc(890px + ${nonHeaderDownShift});
+            --m-bottom-tx: -380px; --m-bottom-ty: calc(1010px + ${nonHeaderDownShift});
+            --m-center-tx: -860px; --m-center-ty: calc(685px + ${nonHeaderDownShift}); --m-center-s: 1.45;
+            --m-label-tx: 110px; --m-label-ty: -1490px;
+            --m-name-tx: 110px; --m-name-ty: calc(527px + ${nonHeaderDownShift}); --m-name-s: 0.95;
         `;
     }
 
     onMounted() {
-        window.addEventListener('character-changed', (e) => {
-            if (store.state.currentAgent !== e.detail.character) {
-                store.setState({
-                    currentAgent: e.detail.character,
-                    faction: e.detail.faction,
-                    nickname: e.detail.nickname,
-                    accentColor: localStorage.getItem('--accent-color') || store.state.accentColor
-                });
-            }
-        });
+        window.addEventListener('character-changed', this._onCharacterChanged);
 
-        window.addEventListener('resize', () => {
-            const isPortrait = window.innerHeight > window.innerWidth;
-            if (isPortrait !== this.state.isPortrait) {
-                this.setState({ isPortrait });
-                this.refreshCharacterImage();
-            }
-        });
+        window.addEventListener('resize', this._onResize);
 
         let prevMonthKey = null;
-        store.subscribe((s) => {
+        this._unsubscribeMonth = store.subscribe((s) => {
             const key = `${s.monthNum}-${s.year}`;
             if (key !== prevMonthKey) {
                 prevMonthKey = key;
@@ -380,8 +370,37 @@ export default class Background extends Component {
 
         this.refreshCharacterImage();
         requestAnimationFrame(() => {
-            this.initAll(true);
+            this.initAll();
         });
+    }
+
+    onUnmounted() {
+        window.removeEventListener('character-changed', this._onCharacterChanged);
+        window.removeEventListener('resize', this._onResize);
+        if (this._unsubscribeMonth) {
+            this._unsubscribeMonth();
+            this._unsubscribeMonth = null;
+        }
+    }
+
+    _onCharacterChanged(e) {
+        if (store.state.currentAgent !== e.detail.character) {
+            const accent = (window.safeStorage && window.safeStorage.get('--accent-color', store.state.accentColor)) || store.state.accentColor;
+            store.setState({
+                currentAgent: e.detail.character,
+                faction: e.detail.faction,
+                nickname: e.detail.nickname,
+                accentColor: accent
+            });
+        }
+    }
+
+    _onResize() {
+        const isPortrait = window.innerHeight > window.innerWidth;
+        if (isPortrait !== this.state.isPortrait) {
+            this.setState({ isPortrait });
+            this.refreshCharacterImage();
+        }
     }
 
     onUpdated() {
@@ -394,29 +413,32 @@ export default class Background extends Component {
             if (!agentChanged) {
                 this.refreshCharacterImage();
             }
-            this.initAll(layoutChanged);
+            this.initAll();
             this._patchMonthDisplay();
         });
     }
 
-    initAll(forceWallpaperUpdate = false) {
+    initAll() {
         if (window.CharacterTransition && window.CharacterTransition.init) {
             window.CharacterTransition.init();
         }
 
+        const storage = window.safeStorage;
+
         if (window.PatternRenderer && window.PatternRenderer.init) {
             window.PatternRenderer.init();
-            const patternPref = localStorage.getItem('bgPattern') !== 'false';
+            const patternPref = storage ? storage.getBool('bgPattern', true) : localStorage.getItem('bgPattern') !== 'false';
             window.PatternRenderer.setVisible(patternPref);
         }
 
         if (window.kineticSway) {
             window.kineticSway.resetElements();
-            window.kineticSway.setEnabled(localStorage.getItem('kineticSway') !== 'false');
+            const kineticEnabled = storage ? storage.getBool('kineticSway', true) : localStorage.getItem('kineticSway') !== 'false';
+            window.kineticSway.setEnabled(kineticEnabled);
         }
 
         const currentAgent = this.state.character;
-        const currentVariant = localStorage.getItem('selectedVariant') || "Full";
+        const currentVariant = storage ? storage.get('selectedVariant', "Full") : (localStorage.getItem('selectedVariant') || "Full");
 
         if (window.setWallpaper) {
             window.setWallpaper(currentAgent, currentVariant, true);
@@ -428,8 +450,9 @@ export default class Background extends Component {
     refreshCharacterImage() {
         if (window.CharacterTransition && window.CharacterTransition.isActive()) return;
 
-        const char = localStorage.getItem('selectedCharacter');
-        const variant = localStorage.getItem('selectedVariant') || "Default";
+        const storage = window.safeStorage;
+        const char = storage ? storage.get('selectedCharacter') : localStorage.getItem('selectedCharacter');
+        const variant = storage ? storage.get('selectedVariant', "Default") : (localStorage.getItem('selectedVariant') || "Default");
         if (char && window.getCharacterData) {
             const charData = window.getCharacterData(char);
             if (charData) {

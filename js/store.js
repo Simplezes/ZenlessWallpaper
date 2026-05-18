@@ -1,16 +1,17 @@
 class Store {
     constructor() {
+        const storage = window.safeStorage;
         this.state = {
-            currentAgent: localStorage.getItem('selectedCharacter') || "Burnice White",
-            faction: localStorage.getItem('selectedFaction') || "KOBEBW",
-            nickname: localStorage.getItem('selectedNickname') || "BURNICE",
-            currentVariant: localStorage.getItem('selectedVariant') || "Default",
-            accentColor: localStorage.getItem('--accent-color') || 'rgb(252, 91, 144)',
+            currentAgent: storage ? storage.get('selectedCharacter', "Burnice White") : (localStorage.getItem('selectedCharacter') || "Burnice White"),
+            faction: storage ? storage.get('selectedFaction', "KOBEBW") : (localStorage.getItem('selectedFaction') || "KOBEBW"),
+            nickname: storage ? storage.get('selectedNickname', "BURNICE") : (localStorage.getItem('selectedNickname') || "BURNICE"),
+            currentVariant: storage ? storage.get('selectedVariant', "Default") : (localStorage.getItem('selectedVariant') || "Default"),
+            accentColor: storage ? storage.get('--accent-color', 'rgb(252, 91, 144)') : (localStorage.getItem('--accent-color') || 'rgb(252, 91, 144)'),
             isPortrait: window.innerHeight > window.innerWidth,
-            showAmbient: localStorage.getItem('showAmbient') !== 'false',
-            footerTheme: localStorage.getItem('footerTheme') || 'dark',
-            kineticEnabled: localStorage.getItem('kineticSway') !== 'false',
-            patternEnabled: localStorage.getItem('bgPattern') !== 'false',
+            showAmbient: storage ? storage.getBool('showAmbient', true) : localStorage.getItem('showAmbient') !== 'false',
+            footerTheme: storage ? storage.get('footerTheme', 'dark') : (localStorage.getItem('footerTheme') || 'dark'),
+            kineticEnabled: storage ? storage.getBool('kineticSway', true) : localStorage.getItem('kineticSway') !== 'false',
+            patternEnabled: storage ? storage.getBool('bgPattern', true) : localStorage.getItem('bgPattern') !== 'false',
             viewOffset: 0,
 
             month: 'MAR',
@@ -23,7 +24,7 @@ class Store {
                 isPlaying: false,
                 playbackState: 0
             },
-            layout: localStorage.getItem('wallpaperLayout') || 'calendar'
+            layout: storage ? storage.get('wallpaperLayout', 'calendar') : (localStorage.getItem('wallpaperLayout') || 'calendar')
         };
 
         this.listeners = [];
@@ -45,7 +46,8 @@ class Store {
     }
 
     setFooterTheme(theme) {
-        localStorage.setItem('footerTheme', theme);
+        if (window.safeStorage) window.safeStorage.set('footerTheme', theme);
+        else localStorage.setItem('footerTheme', theme);
         this.setState({ footerTheme: theme });
     }
 
