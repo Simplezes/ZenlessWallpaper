@@ -312,15 +312,19 @@ function updateText(el, text, offset, targetOpacity) {
     const motionEnabled = localStorage.getItem('kineticSway') !== 'false';
 
     const isPortrait = window.innerHeight > window.innerWidth;
+    const isNickname = el.id === 'nickname-text' || el.classList.contains('nickname');
+    const isFaction = el.id === 'faction-text' || el.classList.contains('faction');
+    const isPortraitAmbient = isNickname || isFaction;
     let targetContent = text;
-    if (isPortrait && text.includes(' ') && (el.id === 'nickname-text' || el.classList.contains('nickname'))) {
-        targetContent = text.replace(/ /g, '<br>');
+    if (isPortrait && text.includes(' ') && isPortraitAmbient) {
+        targetContent = formatPortraitNickname(text);
     }
 
     const currentContent = el.innerHTML;
     anime.remove(el);
 
     if (currentContent === targetContent) {
+        fitPortraitNickname(el);
         anime({
             targets: el,
             opacity: targetOpacity,
@@ -335,6 +339,7 @@ function updateText(el, text, offset, targetOpacity) {
     const applyContent = () => {
         el.innerHTML = targetContent;
         el.setAttribute('data-text', text);
+        fitPortraitNickname(el);
 
         const enterOffset = offset * 0.65;
         if (!motionEnabled) {
@@ -373,6 +378,79 @@ function updateText(el, text, offset, targetOpacity) {
             duration: 280
         });
     }
+}
+
+function fitPortraitNickname(el) {
+    if (!el) return;
+    const isNickname = el.id === 'nickname-text' || el.classList.contains('nickname');
+    const isFaction = el.id === 'faction-text' || el.classList.contains('faction');
+    const isPortrait = window.innerHeight > window.innerWidth;
+    if ((!isNickname && !isFaction) || !isPortrait) {
+        el.style.removeProperty('font-size');
+        return;
+    }
+
+    const computed = window.getComputedStyle(el);
+    const baseFontPx = parseFloat(computed.fontSize);
+    if (!Number.isFinite(baseFontPx) || baseFontPx <= 0) return;
+
+    const maxWidthPx = isNickname
+        ? Math.min(window.innerWidth * 0.68, window.innerHeight * 0.52)
+        : Math.min(window.innerWidth * 0.62, window.innerHeight * 0.5);
+    const minFontPx = Math.max(18, window.innerHeight * 0.03);
+    let fontPx = baseFontPx;
+
+    el.style.fontSize = `${fontPx}px`;
+
+    // Step down font-size until both lines fit within portrait bounds.
+    for (let i = 0; i < 30; i += 1) {
+        const rect = el.getBoundingClientRect();
+        if (rect.width <= maxWidthPx + 1) {
+            break;
+        }
+
+        fontPx -= 1;
+        if (fontPx <= minFontPx) {
+            fontPx = minFontPx;
+            break;
+        }
+        el.style.fontSize = `${fontPx}px`;
+    }
+}
+
+function formatPortraitNickname(text) {
+    const normalized = (text || '').trim().replace(/\s+/g, ' ');
+    if (!normalized.includes(' ')) {
+        return escapeHtml(normalized);
+    }
+
+    const words = normalized.split(' ');
+    let splitAt = 1;
+    let bestScore = Number.POSITIVE_INFINITY;
+
+    for (let i = 1; i < words.length; i += 1) {
+        const lineA = words.slice(0, i).join(' ');
+        const lineB = words.slice(i).join(' ');
+        const balanceScore = Math.abs(lineA.length - lineB.length);
+
+        if (balanceScore < bestScore) {
+            bestScore = balanceScore;
+            splitAt = i;
+        }
+    }
+
+    const firstLine = words.slice(0, splitAt).join(' ');
+    const secondLine = words.slice(splitAt).join(' ');
+    return `${escapeHtml(firstLine)}<br>${escapeHtml(secondLine)}`;
+}
+
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 
