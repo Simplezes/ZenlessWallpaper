@@ -18,9 +18,7 @@ export default class Footer extends Component {
             footerTheme: s.footerTheme,
             month: s.month,
             year: s.year,
-            showAmbient: s.showAmbient,
-            timeValue: s.timeValue,
-            ampm: s.ampm
+            showAmbient: s.showAmbient
         }));
 
         this.mediaPlayer = new MediaPlayer();
@@ -30,7 +28,9 @@ export default class Footer extends Component {
     }
 
     render() {
-        const { footerTheme, month, year, showAmbient, timeValue, ampm } = this.state;
+        const { footerTheme, month, year, showAmbient } = this.state;
+        const timeValue = store.state.timeValue;
+        const ampm = store.state.ampm;
         const logoSrc = footerTheme === 'white' ? 'assets/imgs/logo_dark.png' : 'assets/imgs/logo_white.png';
         const inkClass = showAmbient ? 'footer-ink-bleed' : '';
 
@@ -97,6 +97,17 @@ export default class Footer extends Component {
     onMounted() {
         this.reMountChildren();
         window.dispatchEvent(new CustomEvent('footer-ready'));
+        
+        if (!this._timeUnsub) {
+            this._timeUnsub = store.subscribe((s) => {
+                if (this.mounted && this.container) {
+                    const valEl = this.container.querySelector('.m-time-val');
+                    const ampmEl = this.container.querySelector('.m-time-ampm');
+                    if (valEl) valEl.textContent = s.timeValue || '--:--';
+                    if (ampmEl) ampmEl.textContent = s.ampm || '--';
+                }
+            });
+        }
     }
 
     onUpdated() {

@@ -84,16 +84,41 @@ async function loadCharacters() {
     }
 }
 
+window.adjustColorForLightMode = function (rgbStr) {
+    const match = rgbStr.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+    if (!match) return rgbStr;
+    let r = parseInt(match[1]);
+    let g = parseInt(match[2]);
+    let b = parseInt(match[3]);
+
+    let luma = 0.299 * r + 0.587 * g + 0.114 * b;
+
+    if (luma > 145) {
+        let factor = 145 / luma;
+        r = Math.round(r * factor);
+        g = Math.round(g * factor);
+        b = Math.round(b * factor);
+    }
+
+    return `rgb(${r}, ${g}, ${b})`;
+};
+
 window.getCharacterData = function (name) {
     if (!window.characters || !window.characters.characters) return null;
     for (const faction in window.characters.characters) {
         const characters = window.characters.characters[faction];
         if (characters[name]) {
+            let baseColor = characters[name];
+            const isLight = (window.store && window.store.state.footerTheme === 'white') || safeGet('footerTheme', 'dark') === 'white';
+            if (isLight) {
+                baseColor = window.adjustColorForLightMode(baseColor);
+            }
+
             return {
                 name: name,
                 nickname: name.split(' ')[0],
                 faction: faction,
-                baseColor: characters[name],
+                baseColor: baseColor,
                 idName: name.replace(/ /g, '_')
             };
         }
@@ -462,7 +487,22 @@ function escapeHtml(text) {
 
 document.addEventListener('DOMContentLoaded', () => {
     if (window.app) {
-        window.addEventListener('app-ready', loadCharacters);
+        window.addEventListener('app-ready', () => {
+            loadCharacters();
+            if (window.store) {
+                window.store.subscribe((s) => {
+                    const char = safeGet('selectedCharacter');
+                    if (char && window.getCharacterData) {
+                        const charData = window.getCharacterData(char);
+                        if (charData) {
+                            document.documentElement.style.setProperty('--accent-color', charData.baseColor);
+                            safeSet('--accent-color', charData.baseColor);
+                            if (window.CMYKManager) window.CMYKManager.updateVariables(charData.baseColor);
+                        }
+                    }
+                });
+            }
+        });
     } else {
         loadCharacters();
     }

@@ -7,9 +7,7 @@ export default class MediaPlayer extends Component {
         this.state = {
             rawTitle: '',
             rawArtist: '',
-            playbackState: 0,
-            timeValue: '--:--',
-            ampm: '--'
+            playbackState: 0
         };
 
         this.visualizerPeak = 0.1;
@@ -40,11 +38,14 @@ export default class MediaPlayer extends Component {
     onMounted() {
         if (!this.initialized) {
             this.initListeners();
-            this.useStore(store, (s) => ({
-                timeValue: s.timeValue,
-                ampm: s.ampm
-            }));
             this.initialized = true;
+            
+            this._timeUnsub = store.subscribe((s) => {
+                if (this.mounted && this.container) {
+                    const statusEl = this.container.querySelector('.terminal-status');
+                    if (statusEl) statusEl.textContent = `${s.timeValue} ${s.ampm}`;
+                }
+            });
         }
         this.updateScrolling();
     }
@@ -59,7 +60,7 @@ export default class MediaPlayer extends Component {
         const isPlaying = Number(this.state.playbackState) === 1;
         const shouldShow = isPlaying && title !== '';
         
-        const timeStr = `${this.state.timeValue} ${this.state.ampm}`;
+        const timeStr = `${store.state.timeValue} ${store.state.ampm}`;
 
         return {
             title: shouldShow ? title : 'NO MEDIA',
