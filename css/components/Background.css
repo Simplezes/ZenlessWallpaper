@@ -160,7 +160,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
     top: var(--taskbar-top, 0rem);
     left: var(--taskbar-left, 0rem);
     right: var(--taskbar-right, 0rem);
-    bottom: calc(13vh + var(--taskbar-bottom, 0rem));
+    bottom: calc(max(17vh, 6rem) + var(--taskbar-bottom, 0rem));
     pointer-events: none;
     isolation: isolate;
     contain: layout style;
@@ -182,10 +182,11 @@ body:not(.show-pattern) .layout-container .ambient-text {
     bottom: var(--taskbar-bottom, 0rem);
 }
 
-#logo-bg-container svg,
-#logo-fg-container svg {
+#logo-bg-container > svg,
+#logo-fg-container > svg {
     width: 100%;
     height: 100%;
+    overflow: visible;
 }
 
 .layout-default #logo-container {

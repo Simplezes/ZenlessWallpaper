@@ -83,7 +83,7 @@ export default class Background extends Component {
     renderDesktopBG(monthData) {
         return `
             <div id="logo-bg-container" class="desktop-view">
-                <svg viewBox="-10 0 2448 1001.7" preserveAspectRatio="xMidYMid meet" style="${this.getDesktopStyles()}">
+                <svg viewBox="-10 0 2448 1001.7" preserveAspectRatio="xMidYMid meet" overflow="visible" style="${this.getDesktopStyles()}">
                     ${this.renderCommonDefs('zzz-logo-clip')}
                     ${this.renderMaskedLayer('zzz-logo-clip', 2438, 1001.7)}
                 </svg>
@@ -178,7 +178,7 @@ export default class Background extends Component {
                 </clipPath>
 
                 <mask id="${clipId}-mask">
-                    <rect x="-2000" y="-2000" width="6000" height="6000" fill="white" />
+                    <rect x="-10000" y="-5000" width="25000" height="15000" fill="white" />
                     <use href="#shape-zzz" style="transform: ${zzzTransform}" fill="black" />
                     <use href="#shape-box-side" style="transform: ${sideTransform}" fill="black" />
                     <use href="#shape-box-bottom" style="transform: ${bottomTransform}" fill="black" />
@@ -190,7 +190,7 @@ export default class Background extends Component {
     renderMaskedLayer(clipId, w, h) {
         return `
             <g class="masked-content-group">
-                <rect x="-1000" y="-1000" width="5000" height="5000" 
+                <rect x="-10000" y="-5000" width="25000" height="15000" 
                       mask="url(#${clipId}-mask)" 
                       fill="var(--calendar-bg-color, rgb(216, 213, 210))" />
             </g>
