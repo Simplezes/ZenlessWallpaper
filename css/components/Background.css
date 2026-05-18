@@ -657,14 +657,6 @@ body:not(.show-pattern) .layout-container .ambient-text {
     }
 }
 
-@media screen and (min-aspect-ratio: 2/1) {
-
-    .halftone-local,
-    .dot-screen {
-        display: none !important;
-    }
-}
-
 .theme-light .calendar-label,
 .theme-light .calendar-sub-label,
 .theme-light .calendar-zenless-label,
