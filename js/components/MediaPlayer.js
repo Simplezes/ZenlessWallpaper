@@ -1,4 +1,5 @@
 import Component from './Component.js';
+import store from '../store.js';
 
 export default class MediaPlayer extends Component {
     constructor(props = {}) {
@@ -6,7 +7,9 @@ export default class MediaPlayer extends Component {
         this.state = {
             rawTitle: '',
             rawArtist: '',
-            playbackState: 0
+            playbackState: 0,
+            timeValue: '--:--',
+            ampm: '--'
         };
 
         this.visualizerPeak = 0.1;
@@ -37,6 +40,10 @@ export default class MediaPlayer extends Component {
     onMounted() {
         if (!this.initialized) {
             this.initListeners();
+            this.useStore(store, (s) => ({
+                timeValue: s.timeValue,
+                ampm: s.ampm
+            }));
             this.initialized = true;
         }
         this.updateScrolling();
@@ -51,11 +58,13 @@ export default class MediaPlayer extends Component {
         const artist = this.normalizeText(this.state.rawArtist);
         const isPlaying = Number(this.state.playbackState) === 1;
         const shouldShow = isPlaying && title !== '';
+        
+        const timeStr = `${this.state.timeValue} ${this.state.ampm}`;
 
         return {
             title: shouldShow ? title : 'NO MEDIA',
             artist: shouldShow ? (artist || 'IDLE') : 'IDLE',
-            status: shouldShow ? 'SIGNAL RECEIVED // PLAYING' : 'SIGNAL LOST // IDLE',
+            status: timeStr,
             isPlaying: shouldShow
         };
     }

@@ -24,12 +24,15 @@ class Store {
                 isPlaying: false,
                 playbackState: 0
             },
+            timeValue: '--:--',
+            ampm: '--',
             layout: storage ? storage.get('wallpaperLayout', 'calendar') : (localStorage.getItem('wallpaperLayout') || 'calendar')
         };
 
         this.listeners = [];
         this._dateUpdateInterval = null;
         this.initDate();
+        this.initTime();
 
         let resizeTimeout;
         window.addEventListener('resize', () => {
@@ -77,6 +80,20 @@ class Store {
         };
         updateDate();
         this._dateUpdateInterval = setInterval(updateDate, 60000);
+    }
+
+    initTime() {
+        const updateTime = () => {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const hours12 = hours % 12 || 12;
+            const timeValue = `${String(hours12).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+            this.setState({ timeValue, ampm });
+        };
+        updateTime();
+        setInterval(updateTime, 1000);
     }
 }
 

@@ -282,4 +282,24 @@
         transform: rotate(90deg) !important;
     }
 
+    .mobile-top-time {
+        display: flex !important;
+        margin-bottom: auto;
+        font-family: "Rajdhani", monospace;
+        color: var(--accent-color);
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        line-height: 1;
+        text-align: center;
+        margin-top: 0.7vh;
+    }
+
+    .m-time-val {
+        font-size: 1vh;
+    }
+
+    .m-time-ampm {
+        font-size: 0.7vh;
+    }
+
 }

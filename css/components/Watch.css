@@ -14,13 +14,13 @@
     transition: background-color 0.8s ease;
 }
 
-.circle-month span {
+#watch-month-num {
     font-family: "OctinCollege";
     font-size: 4.5vh;
     font-weight: 1000;
     line-height: 1;
     display: block;
-    transform: translateY(0.15vh);
+    transform: scaleX(0.9) translateY(0.15vh);
     position: relative;
     z-index: 0;
     opacity: 1;
@@ -46,10 +46,6 @@
     background-color: rgb(15, 15, 15);
     opacity: 1;
     border-radius: 0.1rem;
-}
-
-#watch-month-num {
-    opacity: 0.4;
 }
 
 .notch-main {
@@ -152,6 +148,8 @@
     transform: translate(-50%, -50%);
 }
 
+
+
 .z-tag {
     position: absolute;
     top: -0.2vh;
@@ -182,6 +180,10 @@
         height: 0.25vh;
         margin-top: -0.125vh;
         margin-left: -0.06vh;
+    }
+
+    #watch-month-num {
+        font-size: 3.15vh;
     }
 
     .n12 {
@@ -258,6 +260,8 @@
         width: 0.6vh;
         height: 0.6vh;
     }
+
+
 
     .z-tag {
         top: -0.1vh;

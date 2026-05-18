@@ -85,7 +85,7 @@
     .calendar-wrap {
         height: 100%;
         justify-content: flex-start;
-        padding-top: 2vh;
+        padding-top: 1.2vh;
         cursor: pointer;
     }
 

@@ -18,7 +18,9 @@ export default class Footer extends Component {
             footerTheme: s.footerTheme,
             month: s.month,
             year: s.year,
-            showAmbient: s.showAmbient
+            showAmbient: s.showAmbient,
+            timeValue: s.timeValue,
+            ampm: s.ampm
         }));
 
         this.mediaPlayer = new MediaPlayer();
@@ -28,13 +30,18 @@ export default class Footer extends Component {
     }
 
     render() {
-        const { footerTheme, month, year, showAmbient } = this.state;
+        const { footerTheme, month, year, showAmbient, timeValue, ampm } = this.state;
         const logoSrc = footerTheme === 'white' ? 'assets/imgs/logo_dark.png' : 'assets/imgs/logo_white.png';
         const inkClass = showAmbient ? 'footer-ink-bleed' : '';
 
         return `
         <div class="footer container-fluid p-0 m-0 ${footerTheme === 'white' ? 'footer-light' : ''} ${inkClass}">
             <div class="row w-100 h-100 m-0 align-items-center justify-content-between flex-nowrap">
+                <div class="mobile-top-time d-none flex-column align-items-center">
+                    <div class="m-time-val">${timeValue || '--:--'}</div>
+                    <div class="m-time-ampm">${ampm || '--'}</div>
+                </div>
+
                 <div class="col-auto d-flex align-items-center h-100 p-0 footer-left">
                     <div id="media-player-root"></div>
                 </div>
