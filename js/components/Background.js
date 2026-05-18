@@ -21,6 +21,7 @@ export default class Background extends Component {
         }));
 
         this._lastRenderedLayout = this.state.layout;
+        this._lastAgent = this.state.character;
     }
 
     render() {
