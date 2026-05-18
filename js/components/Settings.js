@@ -43,6 +43,7 @@ export default class Settings extends Component {
 
         this._clickBound = false;
         this.ringRect = null;
+        this._indicatorRotation = null;
         this._onMouseMove = this.handleMouseMove.bind(this);
         this._onKeyDown = (e) => {
             if (e.key === 'Escape') this.closeMenu();
@@ -72,7 +73,7 @@ export default class Settings extends Component {
             const rot = `transform: rotate(${item.angle}deg);`;
             segmentsHTML += `
                 <svg viewBox="0 0 480 480" class="segment-svg category-${item.category}" style="${rot}" data-id="${item.id}">
-                    <path class="segment-path" d="M 165.3 26.2 A 226.5 226.5 0 0 1 314.7 26.2 L 273.9 142.8 A 103 103 0 0 0 206.1 142.8 Z" />
+                    <path class="segment-path" d="M 177.6 22.6 A 226.5 226.5 0 0 1 302.4 22.6 L 268.4 141.1 A 103 103 0 0 0 211.6 141.1 Z" />
                 </svg>
             `;
 
@@ -284,6 +285,7 @@ export default class Settings extends Component {
     closeMenu() {
         if (!this.state.isOpen) return;
         const menuInner = this.container.querySelector('.radial-menu-inner');
+        this._indicatorRotation = null;
 
         anime({
             targets: menuInner,
@@ -307,7 +309,17 @@ export default class Settings extends Component {
         const cx = this.ringRect.left + this.ringRect.width / 2;
         const cy = this.ringRect.top + this.ringRect.height / 2;
         const angle = Math.atan2(e.clientY - cy, e.clientX - cx) * (180 / Math.PI);
-        indicator.style.transform = `translate(-50%, -50%) rotate(${angle + 90}deg)`;
+        const targetRotation = angle + 90;
+
+        if (this._indicatorRotation === null) {
+            this._indicatorRotation = targetRotation;
+        }
+
+        let delta = targetRotation - this._indicatorRotation;
+        delta = ((delta + 540) % 360) - 180;
+        this._indicatorRotation += delta;
+
+        indicator.style.transform = `translate(-50%, -50%) rotate(${this._indicatorRotation}deg)`;
     }
 
     handleItemClick(id) {
