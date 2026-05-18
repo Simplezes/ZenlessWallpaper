@@ -26,23 +26,7 @@
     font-weight: 700;
 }
 
-.terminal-status::before {
-    content: "";
-    width: 0.6vh;
-    height: 0.6vh;
-    background: var(--accent-color);
-    border-radius: 50%;
-    box-shadow: 0 0 1rem var(--accent-color);
-}
 
-.media-container.is-idle .terminal-status {
-    color: rgb(85, 85, 85);
-}
-
-.media-container.is-idle .terminal-status::before {
-    background: rgb(68, 68, 68);
-    box-shadow: none;
-}
 
 .media-title-wrap {
     width: 100%;
