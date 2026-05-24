@@ -48,7 +48,59 @@ export default class Calendar extends Component {
         const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
         const isPortrait = window.innerHeight > window.innerWidth;
-        const midPoint = isPortrait ? daysInMonth : 15;
+        const isNarrowLandscape = !isPortrait && window.innerWidth < 1150;
+
+        if (isPortrait) {
+            let row1Html = '';
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dateObj = new Date(year, month, i);
+                const dayIdx = dateObj.getDay();
+                const isWeekend = (dayIdx === 0 || dayIdx === 6);
+                const isToday = (viewOffset === 0) && (i === this._realToday) && (month === this._realMonth) && (year === this._realYear);
+                const dayClass = `day ${isWeekend ? 'weekend' : ''} ${isToday ? 'today' : ''}`;
+                row1Html += `<div class="${dayClass}"><span class="day-name">${dayNames[dayIdx]}</span><span class="day-num">${i.toString().padStart(2, '0')}</span></div>`;
+            }
+            return `
+                <div class="calendar-bar row-single d-flex justify-content-center align-items-center w-100">
+                    ${row1Html}
+                </div>
+            `;
+        }
+
+        if (isNarrowLandscape) {
+            let row1Html = '', row2Html = '';
+            let weekStart;
+
+            if (viewOffset === 0) {
+                const dow = new Date(this._realYear, this._realMonth, this._realToday).getDay();
+                weekStart = new Date(this._realYear, this._realMonth, this._realToday - dow);
+            } else {
+                const firstDow = new Date(year, month, 1).getDay();
+                weekStart = new Date(year, month, 1 - firstDow);
+            }
+
+            for (let i = 0; i < 14; i++) {
+                const d = new Date(weekStart.getFullYear(), weekStart.getMonth(), weekStart.getDate() + i);
+                const dayNum = d.getDate();
+                const dayIdx = d.getDay();
+                const isWeekend = (dayIdx === 0 || dayIdx === 6);
+                const isToday = (viewOffset === 0) && dayNum === this._realToday && d.getMonth() === this._realMonth && d.getFullYear() === this._realYear;
+                const isOtherMonth = d.getMonth() !== month;
+                const dayClass = `day${isWeekend ? ' weekend' : ''}${isToday ? ' today' : ''}${isOtherMonth ? ' other-month' : ''}`;
+                const dayHtml = `<div class="${dayClass}"><span class="day-name">${dayNames[dayIdx]}</span><span class="day-num">${dayNum.toString().padStart(2, '0')}</span></div>`;
+                if (i < 7) row1Html += dayHtml;
+                else row2Html += dayHtml;
+            }
+
+            return `
+                <div class="calendar-bar row1 d-flex justify-content-center align-items-center w-100">
+                    ${row1Html}
+                </div>
+                <div class="calendar-bar row2 d-flex justify-content-center align-items-center w-100 mt-1">
+                    ${row2Html}
+                </div>
+            `;
+        }
 
         let row1Html = '';
         let row2Html = '';
@@ -73,19 +125,11 @@ export default class Calendar extends Component {
                 </div>
             `;
 
-            if (i <= midPoint) {
+            if (i <= 15) {
                 row1Html += dayHtml;
             } else {
                 row2Html += dayHtml;
             }
-        }
-
-        if (isPortrait) {
-            return `
-                <div class="calendar-bar row-single d-flex justify-content-center align-items-center w-100">
-                    ${row1Html}
-                </div>
-            `;
         }
 
         return `

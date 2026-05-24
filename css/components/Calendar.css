@@ -76,6 +76,31 @@
     }
 }
 
+@media (orientation: landscape) and (max-width: 1150px) {
+    .day {
+        width: min(5vh, 5.5vw);
+        max-width: min(5vh, 5.5vw);
+        min-width: 0;
+    }
+
+    .calendar-bar {
+        gap: clamp(0.3rem, 0.9vw, 1.4rem);
+    }
+
+    .day-name {
+        font-size: clamp(0.55rem, 1.2vh, 1.4rem);
+    }
+
+    .day-num {
+        font-size: clamp(0.75rem, 2.6vh, 3.5rem);
+    }
+
+    .day.other-month .day-name,
+    .day.other-month .day-num {
+        opacity: 0.25;
+    }
+}
+
 @media (orientation: portrait) {
     .calendar-bar {
         flex-direction: column;
