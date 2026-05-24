@@ -127,14 +127,21 @@ window.getCharacterData = function (name) {
 }
 
 let lastTargetImg = null;
-let isCharacterChanging = false;
+window.isCharacterChanging = false;
 
 window.setWallpaper = function (characterName, variant = 'Default', textOnly = false, onComplete = null, transitionType = null) {
+    if (!textOnly) {
+        window.isCharacterChanging = true;
+    }
+
     let charData = window.getCharacterData(characterName);
     if (!charData) {
         console.warn("Character data not found for:", characterName, "- falling back to Burnice White");
         charData = window.getCharacterData("Burnice White");
-        if (!charData) return;
+        if (!charData) {
+            if (!textOnly) window.isCharacterChanging = false;
+            return;
+        }
         characterName = "Burnice White";
     }
 
@@ -199,6 +206,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
     if (textOnly || !mainImg) {
         applyColorsAndText();
         if (onComplete) onComplete();
+        if (!textOnly) window.isCharacterChanging = false;
         return;
     }
 
@@ -217,7 +225,6 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         lastTargetImg = tempImg;
 
         if (hasOld && window.CharacterTransition) {
-            isCharacterChanging = true;
             window.CharacterTransition.run(outgoingImg, tempImg, {
                 type: transitionType,
                 accent: charData.baseColor || 'rgb(252, 91, 144)',
@@ -241,7 +248,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 
                     const currentAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || oldAccent || 'rgb(252, 91, 144)';
                     const colorObj = { accent: currentAccent };
-                    const colorDuration = (window.CharacterTransition && window.CharacterTransition.COLOR_DURATION) || 320;
+                    const colorDuration = (window.CharacterTransition && window.CharacterTransition.COLOR_DURATION) || 750;
 
                     if (window._uiColorAnim) window._uiColorAnim.pause();
                     window._uiColorAnim = anime({
@@ -275,7 +282,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     const mainImg = document.getElementById('main-image');
                     mainImg.src = imgPath;
                     return mainImg.decode().then(() => {
-                        isCharacterChanging = false;
+                        window.isCharacterChanging = false;
                         mainImg.style.visibility = '';
                         mainImg.style.opacity = '1';
 
@@ -289,7 +296,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                         }
                         if (onComplete) onComplete();
                     }).catch(() => {
-                        isCharacterChanging = false;
+                        window.isCharacterChanging = false;
                         mainImg.style.visibility = '';
                         mainImg.style.opacity = '1';
                         if (onComplete) onComplete();
@@ -410,8 +417,6 @@ function fitPortraitNickname(el) {
     const isNickname = el.id === 'nickname-text' || el.classList.contains('nickname');
     const isFaction = el.id === 'faction-text' || el.classList.contains('faction');
     const isPortrait = window.innerHeight > window.innerWidth;
-    // Only ambient nickname/faction text should be auto-fit.
-    // Keep other elements (like .calendar-agent-name) untouched.
     if (!isNickname && !isFaction) {
         return;
     }
@@ -433,7 +438,6 @@ function fitPortraitNickname(el) {
 
     el.style.fontSize = `${fontPx}px`;
 
-    // Step down font-size until both lines fit within portrait bounds.
     for (let i = 0; i < 30; i += 1) {
         const rect = el.getBoundingClientRect();
         if (rect.width <= maxWidthPx + 1) {
@@ -489,19 +493,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.app) {
         window.addEventListener('app-ready', () => {
             loadCharacters();
-            if (window.store) {
-                window.store.subscribe((s) => {
-                    const char = safeGet('selectedCharacter');
-                    if (char && window.getCharacterData) {
-                        const charData = window.getCharacterData(char);
-                        if (charData) {
-                            document.documentElement.style.setProperty('--accent-color', charData.baseColor);
-                            safeSet('--accent-color', charData.baseColor);
-                            if (window.CMYKManager) window.CMYKManager.updateVariables(charData.baseColor);
-                        }
-                    }
-                });
-            }
         });
     } else {
         loadCharacters();
@@ -510,7 +501,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 window.addEventListener('layout-changed', () => {
     if (window.CharacterTransition) window.CharacterTransition.cancel();
-    isCharacterChanging = false;
+    window.isCharacterChanging = false;
 
     const _char = safeGet('selectedCharacter');
     const _variant = safeGet('selectedVariant', 'Full');

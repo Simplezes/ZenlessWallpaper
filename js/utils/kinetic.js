@@ -153,12 +153,12 @@ class KineticSway {
                     item._imgs.forEach(img => {
                         img.style.transform = `rotate(${90 + manualRot}deg) scaleX(${manualFlip})`;
                     });
-                    item.el.style.filter = `drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) brightness(1)`;
+                    item.el.style.filter = `brightness(1)`;
                 } else {
                     baseR = manualRot;
                     baseScaleX = item.baseScale * manualFlip;
                     item.el.style.transform = `translate(0px, 0px) rotate(${baseR}deg) scale(${baseScaleX}, ${item.baseScale})`;
-                    item.el.style.filter = `drop-shadow(0 20px 40px rgba(0, 0, 0, 0.4)) brightness(1)`;
+                    item.el.style.filter = `brightness(1)`;
 
                     if (!item._imgs) item._imgs = item.el.querySelectorAll('.char-image');
                     item._imgs.forEach(img => { img.style.transform = ''; });
@@ -250,12 +250,9 @@ class KineticSway {
                 const progress = (Math.sin(t + item.phaseY) * Math.sin(t * item.speedRatio3) + 1) / 2;
 
                 if (Math.abs(progress - item._lastFilterP) > 0.012) {
-                    const shadowY = 10 + (20 * progress);
-                    const shadowBlur = 30 + (30 * progress);
-                    const shadowAlpha = 0.3 + (0.2 * progress);
                     const brightness = 1 + (0.04 * progress);
 
-                    const filter = `drop-shadow(0 ${shadowY.toFixed(1)}px ${shadowBlur.toFixed(1)}px rgba(0,0,0,${shadowAlpha.toFixed(3)})) brightness(${brightness.toFixed(4)})`;
+                    const filter = `brightness(${brightness.toFixed(4)})`;
                     item.el.style.filter = filter;
                     item.currentSway.filter = filter;
                     item._lastFilterP = progress;
