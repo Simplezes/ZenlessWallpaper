@@ -52,7 +52,7 @@
 
             this.bgCanvas = document.createElement('canvas');
             this.bgCanvas.id = 'zzz-bg-transition';
-            this.bgCanvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:-5;pointer-events:none;display:block;opacity:0;will-change:transform;';
+            this.bgCanvas.style.cssText = 'position:fixed;inset:0;width:100%;height:100%;z-index:-15;pointer-events:none;display:block;opacity:0;will-change:transform;';
 
             document.body.appendChild(this.canvas);
             document.body.appendChild(this.bgCanvas);
@@ -866,16 +866,11 @@
             this.resetTransitionState(W);
 
             this.render();
+            if (this.images.old) {
+                this.images.old.style.opacity = '0';
+            }
             this.canvas.style.opacity = '1';
             this.bgCanvas.style.opacity = '1';
-
-            requestAnimationFrame(() => {
-                requestAnimationFrame(() => {
-                    if (this.active && this.images.old) {
-                        this.images.old.style.opacity = '0';
-                    }
-                });
-            });
 
             options.onStart?.();
 

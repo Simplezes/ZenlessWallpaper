@@ -232,7 +232,7 @@
     background: rgb(235, 204, 33);
     border-radius: 50%;
     box-shadow: 0 0 2.5rem rgb(235, 204, 33);
-    transition: background-color 0.8s ease, box-shadow 0.8s ease;
+    transition: box-shadow 0.8s ease;
     -webkit-mask: conic-gradient(from 335deg, black 50deg, transparent 50deg),
         radial-gradient(circle at 50% 50%, transparent 8rem, black 8.05rem, black 8.8rem, transparent 8.85rem),
         radial-gradient(circle at calc(50% + 3.55rem) calc(50% - 7.6rem), black 0.4rem, transparent 0.45rem),
@@ -255,7 +255,7 @@
     background: rgb(235, 204, 33);
     clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
     z-index: 13;
-    transition: background-color 0.8s ease;
+
 }
 
 .hub-ring-bg {
@@ -474,7 +474,7 @@
 
 .agent-avatar-item.selected {
     border: 0.5rem solid rgb(235, 204, 33);
-    transition: border-color 0.8s ease;
+
 }
 
 .agent-avatar-item.active::before {

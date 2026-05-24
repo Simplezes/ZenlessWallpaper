@@ -438,7 +438,7 @@ export default class Background extends Component {
         const currentAgent = this.state.character;
         const currentVariant = storage ? storage.get('selectedVariant', "Full") : (localStorage.getItem('selectedVariant') || "Full");
 
-        if (window.setWallpaper) {
+        if (window.setWallpaper && !window.isCharacterChanging) {
             window.setWallpaper(currentAgent, currentVariant, true);
         }
 
