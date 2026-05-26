@@ -266,19 +266,8 @@ export default class Background extends Component {
     renderAgentName() {
         const { character: name, isPortrait } = this.state;
 
-        const landscapeFontSize = [
-            [20, '65px'],
-            [17, '75px'],
-            [13, '90px'],
-            [10, '100px'],
-        ].find(([limit]) => name.length > limit)?.[1] || '120px';
-
-        const portraitFontSize = [
-            [20, '49px'],
-            [17, '57px'],
-            [13, '68px'],
-            [10, '75px'],
-        ].find(([limit]) => name.length > limit)?.[1] || '80px';
+        const landscapeFontSize = `${Math.max(40, Math.min(100, Math.round(700 / name.length)))}px`;
+        const portraitFontSize = `${Math.max(30, Math.min(55, Math.round(550 / name.length)))}px`;
 
         const fontSize = isPortrait ? portraitFontSize : landscapeFontSize;
         const maxWidth = isPortrait ? '62%' : '650px';
