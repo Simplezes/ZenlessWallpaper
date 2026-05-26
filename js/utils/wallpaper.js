@@ -171,7 +171,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         });
 
         const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
-        document.documentElement.style.setProperty('--filter-opacity', isAmbientEnabled ? '0.3' : '0');
+        document.documentElement.style.setProperty('--filter-opacity', isAmbientEnabled ? '0.10' : '0');
 
         const factionOpacity = 0.4;
         const nicknameOpacity = 0.9;
@@ -231,7 +231,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                 oldAccent: oldAccent,
                 onStart: () => {
                     const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
-                    document.documentElement.style.setProperty('--filter-opacity', isAmbientEnabled ? '0.22' : '0');
+                    document.documentElement.style.setProperty('--filter-opacity', isAmbientEnabled ? '0.08' : '0');
 
                     const factionOpacity = 0.4;
                     const nicknameOpacity = 0.9;

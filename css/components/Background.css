@@ -4,7 +4,7 @@
     --r-m: 0%;
     --r-y: 0%;
     --r-k: 0%;
-    --filter-opacity: 0.22;
+    --filter-opacity: 0.10;
     --cmyk-off-cx: 0px;
     --cmyk-off-cy: 0px;
     --cmyk-off-mx: 0px;
@@ -206,12 +206,12 @@ body:not(.show-pattern) .layout-container .ambient-text {
 
 .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 var(--bg-color)) drop-shadow(-5px 0 0 var(--bg-color)) drop-shadow(0 5px 0 var(--bg-color)) drop-shadow(0 -5px 0 var(--bg-color));
+        drop-shadow(5px 0 0 var(--color-black)) drop-shadow(-5px 0 0 var(--color-black)) drop-shadow(0 5px 0 var(--color-black)) drop-shadow(0 -5px 0 var(--color-black));
 }
 
 .show-ambient .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 var(--bg-color)) drop-shadow(-5px 0 0 var(--bg-color)) drop-shadow(0 5px 0 var(--bg-color)) drop-shadow(0 -5px 0 var(--bg-color)) url(#ink-engine);
+        drop-shadow(5px 0 0 var(--color-black)) drop-shadow(-5px 0 0 var(--color-black)) drop-shadow(0 5px 0 var(--color-black)) drop-shadow(0 -5px 0 var(--color-black)) url(#ink-engine);
 }
 
 .halftone-global {
@@ -752,10 +752,10 @@ body:not(.show-pattern) .layout-container .ambient-text {
 
 .theme-light .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 var(--color-light-bg)) drop-shadow(-5px 0 0 var(--color-light-bg)) drop-shadow(0 5px 0 var(--color-light-bg)) drop-shadow(0 -5px 0 var(--color-light-bg));
+        drop-shadow(5px 0 0 var(--color-white)) drop-shadow(-5px 0 0 var(--color-white)) drop-shadow(0 5px 0 var(--color-white)) drop-shadow(0 -5px 0 var(--color-white));
 }
 
 .show-ambient.theme-light .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 var(--color-light-bg)) drop-shadow(-5px 0 0 var(--color-light-bg)) drop-shadow(0 5px 0 var(--color-light-bg)) drop-shadow(0 -5px 0 var(--color-light-bg)) url(#ink-engine);
+        drop-shadow(5px 0 0 var(--color-white)) drop-shadow(-5px 0 0 var(--color-white)) drop-shadow(0 5px 0 var(--color-white)) drop-shadow(0 -5px 0 var(--color-white)) url(#ink-engine);
 }
