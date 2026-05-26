@@ -46,9 +46,8 @@
 
             this.canvas = document.createElement('canvas');
             this.canvas.id = 'zzz-cyber-transition';
-            const charMask = 'linear-gradient(to bottom, black 0%, black calc(100% - 17vh), transparent 100%)';
 
-            this.canvas.style.cssText = `position:fixed;inset:0;width:100%;height:100%;z-index:150;pointer-events:none;display:block;opacity:0;will-change:transform;backface-visibility:hidden; -webkit-mask-image: ${charMask}; mask-image: ${charMask};`;
+            this.canvas.style.cssText = `position:fixed;inset:0;width:100%;height:100%;z-index:150;pointer-events:none;display:block;opacity:0;will-change:transform;backface-visibility:hidden;`;
 
             this.bgCanvas = document.createElement('canvas');
             this.bgCanvas.id = 'zzz-bg-transition';
