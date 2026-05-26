@@ -24,7 +24,8 @@
     position: relative;
     z-index: 0;
     opacity: 1;
-    text-shadow: -0.05rem -0.05rem 0 rgb(15, 15, 15), 0.05rem -0.05rem 0 rgb(15, 15, 15), -0.05rem 0.05rem 0 rgb(15, 15, 15), 0.05rem 0.05rem 0 rgb(15, 15, 15);
+    -webkit-text-stroke: 0.1rem rgb(15, 15, 15);
+    paint-order: stroke fill;
 }
 
 .watch-hands {

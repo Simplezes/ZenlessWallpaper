@@ -62,7 +62,8 @@
 
 .footer-light #watch-month-num {
     color: rgb(216, 213, 210);
-    text-shadow: -0.05rem -0.05rem 0 rgb(216, 213, 210), 0.05rem -0.05rem 0 rgb(216, 213, 210), -0.05rem 0.05rem 0 rgb(216, 213, 210), 0.05rem 0.05rem 0 rgb(216, 213, 210);
+    -webkit-text-stroke: 0.1rem rgb(216, 213, 210);
+    paint-order: stroke fill;
 }
 
 .footer-left,
