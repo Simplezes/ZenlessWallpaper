@@ -354,7 +354,7 @@ export default class Settings extends Component {
         if (window.safeStorage) window.safeStorage.set('selectedVariant', next);
         else localStorage.setItem('selectedVariant', next);
         if (window.store) window.store.setState({ currentVariant: next });
-        this.applySettings();
+        this.applySettings(false, { currentVariant: next });
     }
 
     toggleFooterTheme() {
@@ -417,9 +417,17 @@ export default class Settings extends Component {
         if (window.kineticSway) window.kineticSway.resetElements();
     }
 
-    applySettings(textOnly = false) {
+    applySettings(textOnly = false, overrides = {}) {
         if (window.setWallpaper) {
-            window.setWallpaper(this.state.currentAgent, this.state.currentVariant, textOnly);
+            const storage = window.safeStorage;
+            const currentAgent = overrides.currentAgent
+                || this.state.currentAgent
+                || (storage ? storage.get('selectedCharacter', "Burnice White") : (localStorage.getItem('selectedCharacter') || "Burnice White"));
+            const currentVariant = overrides.currentVariant
+                || this.state.currentVariant
+                || (storage ? storage.get('selectedVariant', "Default") : (localStorage.getItem('selectedVariant') || "Default"));
+
+            window.setWallpaper(currentAgent, currentVariant, textOnly);
         }
     }
 
@@ -428,6 +436,6 @@ export default class Settings extends Component {
         else localStorage.setItem('selectedCharacter', name);
         this.setState({ currentAgent: name, isOpen: false, isAgentListOpen: false });
         if (window.store) window.store.setState({ currentAgent: name });
-        this.applySettings();
+        this.applySettings(false, { currentAgent: name });
     }
 }

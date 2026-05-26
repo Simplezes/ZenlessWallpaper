@@ -117,8 +117,12 @@ window.getCharacterData = function (name) {
 
 let lastTargetImg = null;
 window.isCharacterChanging = false;
+window._wallpaperRequestSeq = window._wallpaperRequestSeq || 0;
 
 window.setWallpaper = function (characterName, variant = 'Default', textOnly = false, onComplete = null, transitionType = null) {
+    const requestId = ++window._wallpaperRequestSeq;
+    const isStaleRequest = () => requestId !== window._wallpaperRequestSeq;
+
     if (!textOnly) {
         window.isCharacterChanging = true;
     }
@@ -140,6 +144,8 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
     const imgPath = `assets/wallpaper/Mindscape_${charData.idName}_${variant}.webp`;
 
     const applyColorsAndText = () => {
+        if (isStaleRequest()) return;
+
         const duration = (window.CharacterTransition && window.CharacterTransition.COLOR_DURATION) || 800;
         const colorObj = {
             accent: oldAccent || 'rgb(252, 91, 144)'
@@ -191,10 +197,19 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 
     const mainImg = document.getElementById('main-image');
     const transImg = document.getElementById('transition-image');
+    const interruptedTransition = !textOnly && window.CharacterTransition && window.CharacterTransition.isActive();
+
+    if (interruptedTransition) {
+        window.CharacterTransition.cancel();
+        if (transImg) {
+            transImg.style.visibility = 'hidden';
+            transImg.style.opacity = '0';
+        }
+    }
 
     if (textOnly || !mainImg) {
         applyColorsAndText();
-        if (onComplete) onComplete();
+        if (!isStaleRequest() && onComplete) onComplete();
         if (!textOnly) window.isCharacterChanging = false;
         return;
     }
@@ -204,12 +219,14 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
     tempImg.src = imgPath;
 
     tempImg.onload = () => {
+        if (isStaleRequest()) return;
+
         const currentMainImg = document.getElementById('main-image');
         const outgoingImg = (currentMainImg && currentMainImg.src && currentMainImg.src.includes('webp'))
             ? currentMainImg
             : lastTargetImg;
 
-        const hasOld = outgoingImg && outgoingImg.src && outgoingImg.src.includes('webp');
+        const hasOld = !interruptedTransition && outgoingImg && outgoingImg.src && outgoingImg.src.includes('webp');
 
         lastTargetImg = tempImg;
 
@@ -219,6 +236,8 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                 accent: charData.baseColor || 'rgb(252, 91, 144)',
                 oldAccent: oldAccent,
                 onStart: () => {
+                    if (isStaleRequest()) return;
+
                     const isAmbientEnabled = localStorage.getItem('showAmbient') !== 'false';
                     document.documentElement.style.setProperty('--filter-opacity', isAmbientEnabled ? '0.08' : '0');
 
@@ -255,6 +274,8 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     });
                 },
                 onDone: () => {
+                    if (isStaleRequest()) return;
+
                     safeSet('selectedCharacter', charData.name);
                     safeSet('selectedVariant', variant);
                     safeSet('selectedFaction', charData.faction);
@@ -271,6 +292,8 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     const mainImg = document.getElementById('main-image');
                     mainImg.src = imgPath;
                     return mainImg.decode().then(() => {
+                        if (isStaleRequest()) return;
+
                         window.isCharacterChanging = false;
                         mainImg.style.visibility = '';
                         mainImg.style.opacity = '1';
@@ -285,6 +308,8 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                         }
                         if (onComplete) onComplete();
                     }).catch(() => {
+                        if (isStaleRequest()) return;
+
                         window.isCharacterChanging = false;
                         mainImg.style.visibility = '';
                         mainImg.style.opacity = '1';
@@ -294,6 +319,8 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             });
         } else {
             applyColorsAndText();
+            if (isStaleRequest()) return;
+
             if (mainImg) {
                 mainImg.src = imgPath;
                 mainImg.style.opacity = '1';
@@ -305,6 +332,8 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 
 
     tempImg.onerror = () => {
+        if (isStaleRequest()) return;
+
         console.error("Failed to load wallpaper image:", imgPath);
         applyColorsAndText();
         if (onComplete) onComplete();
