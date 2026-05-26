@@ -427,20 +427,26 @@ body:not(.show-pattern) .layout-container .ambient-text {
 }
 
 .center-month-num {
-    display: flex;
-    align-items: center;
+    display: block;
+    width: 320px;
+    height: 250px;
+    overflow: visible;
+    color: var(--color-dark-text);
+    margin: 0;
+    padding: 0;
+    transform: scaleY(1.6) scaleX(1.5);
+}
+
+.center-month-num text {
     font-family: "OctinCollege";
     font-size: 234px;
     font-weight: bolder;
-    color: var(--color-dark-text);
-    line-height: 0.9;
-    letter-spacing: 10px;
-    margin: 0;
-    padding: 0;
-    --stroke-color: var(--color-dark-text);
-    -webkit-text-stroke: 15px var(--stroke-color);
+    fill: currentColor;
+    stroke: var(--stroke-color, var(--color-dark-text));
+    stroke-width: 15px;
+    stroke-linejoin: round;
     paint-order: stroke fill;
-    transform: scaleY(1.6) scaleX(1.5);
+    letter-spacing: 5px;
 }
 
 .center-month-name {
@@ -712,8 +718,11 @@ body:not(.show-pattern) .layout-container .ambient-text {
     }
 
     .center-month-num {
-        font-size: 203px;
         transform: scaleY(1.7) scaleX(1.43);
+    }
+
+    .center-month-num text {
+        font-size: 203px;
     }
 }
 
