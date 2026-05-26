@@ -84,23 +84,15 @@ async function loadCharacters() {
     }
 }
 
-window.adjustColorForLightMode = function (rgbStr) {
-    const match = rgbStr.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-    if (!match) return rgbStr;
-    let r = parseInt(match[1]);
-    let g = parseInt(match[2]);
-    let b = parseInt(match[3]);
+window.pickCharacterColorByTheme = function (colorEntry, isLight) {
+    if (typeof colorEntry === 'string') return colorEntry;
+    if (!colorEntry || typeof colorEntry !== 'object') return null;
 
-    let luma = 0.299 * r + 0.587 * g + 0.114 * b;
-
-    if (luma > 145) {
-        let factor = 145 / luma;
-        r = Math.round(r * factor);
-        g = Math.round(g * factor);
-        b = Math.round(b * factor);
+    if (isLight) {
+        return colorEntry.light || colorEntry.dark || null;
     }
 
-    return `rgb(${r}, ${g}, ${b})`;
+    return colorEntry.dark || colorEntry.light || null;
 };
 
 window.getCharacterData = function (name) {
@@ -108,11 +100,8 @@ window.getCharacterData = function (name) {
     for (const faction in window.characters.characters) {
         const characters = window.characters.characters[faction];
         if (characters[name]) {
-            let baseColor = characters[name];
             const isLight = (window.store && window.store.state.footerTheme === 'white') || safeGet('footerTheme', 'dark') === 'white';
-            if (isLight) {
-                baseColor = window.adjustColorForLightMode(baseColor);
-            }
+            const baseColor = window.pickCharacterColorByTheme(characters[name], isLight) || 'rgb(252, 91, 144)';
 
             return {
                 name: name,

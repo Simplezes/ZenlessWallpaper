@@ -361,6 +361,7 @@ export default class Settings extends Component {
         const next = this.state.footerTheme === 'dark' ? 'white' : 'dark';
         this.setState({ footerTheme: next });
         if (window.store) window.store.setFooterTheme(next);
+        this.applySettings(true);
     }
 
     toggleKinetic() {
