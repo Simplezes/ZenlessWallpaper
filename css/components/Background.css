@@ -645,33 +645,42 @@ body:not(.show-pattern) .layout-container .ambient-text {
         padding: 0.5vh 3vw;
     }
 
+    .calendar-footer-block {
+        display: grid;
+        grid-template-columns: 430px 280px;
+        grid-template-areas:
+            "badge badge"
+            "name  addon";
+        align-content: start;
+    }
+
+    .calendar-name-badge-svg {
+        grid-area: badge;
+    }
+
     .calendar-agent-name-row {
-        display: flex;
-        align-items: flex-end;
-        gap: 20px;
-        width: 100%;
-        justify-content: space-between;
-        flex-direction: row;
+        display: contents;
     }
 
     .calendar-agent-name {
-        flex-shrink: 1;
+        grid-area: name;
         min-width: 0;
         line-height: 0.70;
         letter-spacing: -2px;
         margin: 0;
         padding: 0;
+        align-self: end;
     }
 
     .agent-name-addon {
-        flex-shrink: 0;
+        grid-area: addon;
         width: 280px;
         display: flex;
         flex-direction: column;
         gap: 6px;
         padding: 0;
-        align-self: flex-end;
-        margin-right: 29%;
+        align-self: end;
+        margin-right: 0;
     }
 
     .addon-top {
