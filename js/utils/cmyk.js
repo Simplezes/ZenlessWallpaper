@@ -1,5 +1,5 @@
 const CMYKManager = {
-    scale: 0.45,
+    scale: 0.28,
     selectors: new Set(),
     currentColor: 'rgb(0, 0, 0)',
 
@@ -64,7 +64,6 @@ const CMYKManager = {
     },
 
     apply(selector) {
-        // Disabled: CMYK is now a global filter on top of everything
         this.remove(selector);
     },
 
