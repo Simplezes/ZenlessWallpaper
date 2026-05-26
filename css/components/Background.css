@@ -438,7 +438,8 @@ body:not(.show-pattern) .layout-container .ambient-text {
     margin: 0;
     padding: 0;
     --stroke-color: rgb(15, 15, 15);
-    text-shadow: -7.5px -7.5px 0 var(--stroke-color), 0 -7.5px 0 var(--stroke-color), 7.5px -7.5px 0 var(--stroke-color), 7.5px 0 0 var(--stroke-color), 7.5px 7.5px 0 var(--stroke-color), 0 7.5px 0 var(--stroke-color), -7.5px 7.5px 0 var(--stroke-color), -7.5px 0 0 var(--stroke-color);
+    -webkit-text-stroke: 15px var(--stroke-color);
+    paint-order: stroke fill;
     transform: scaleY(1.6) scaleX(1.5);
 }
 
