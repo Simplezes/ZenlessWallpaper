@@ -47,7 +47,11 @@
 .footer-light .media-title,
 .footer-light .media-artist,
 .footer-light .header-glyphs {
-    color: rgb(68, 68, 68);
+    color: rgb(0, 0, 0);
+}
+
+.footer-light .day.today .day-num {
+    color: rgb(216, 213, 210) !important;
 }
 
 .footer-light .watch-notch,
