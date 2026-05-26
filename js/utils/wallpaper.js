@@ -201,6 +201,13 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 
     if (interruptedTransition) {
         window.CharacterTransition.cancel();
+        if (mainImg) {
+            if (lastTargetImg && lastTargetImg.src && lastTargetImg.src.includes('webp')) {
+                mainImg.src = lastTargetImg.src;
+            }
+            mainImg.style.visibility = '';
+            mainImg.style.opacity = '1';
+        }
         if (transImg) {
             transImg.style.visibility = 'hidden';
             transImg.style.opacity = '0';
@@ -226,7 +233,7 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             ? currentMainImg
             : lastTargetImg;
 
-        const hasOld = !interruptedTransition && outgoingImg && outgoingImg.src && outgoingImg.src.includes('webp');
+        const hasOld = outgoingImg && outgoingImg.src && outgoingImg.src.includes('webp');
 
         lastTargetImg = tempImg;
 
