@@ -25,7 +25,6 @@ export default class MediaPlayer extends Component {
                     <div id="media-title" class="media-title">${title}</div>
                 </div>
                 <div class="media-bottom-row">
-                    <div class="artist-badge">TRACK</div>
                     <div id="media-artist" class="media-artist">${artist}</div>
                 </div>
                 <div class="terminal-visualizer">

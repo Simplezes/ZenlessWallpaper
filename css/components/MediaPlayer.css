@@ -82,23 +82,6 @@
     margin-bottom: 0.5vmin;
 }
 
-.artist-badge {
-    background-color: var(--accent-color);
-    color: rgb(15, 15, 15);
-    padding: 0.1vmin 1.5vmin;
-    font-size: clamp(10px, 1.3vmin, 18px);
-    font-weight: 950;
-    margin-right: 1.2vmin;
-    flex-shrink: 0;
-    line-height: 1.2;
-    clip-path: polygon(15% 0, 100% 0, 85% 100%, 0 100%);
-}
-
-.media-container.is-idle .artist-badge {
-    background-color: rgb(85, 85, 85);
-    color: rgb(216, 213, 210);
-}
-
 .media-artist {
     font-family: "Rajdhani", sans-serif;
     font-size: clamp(10px, 1.6vmin, 24px);
