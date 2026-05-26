@@ -27,6 +27,15 @@ export default class Background extends Component {
         this._unsubscribeMonth = null;
     }
 
+    getCharacterImagePath(charName) {
+        if (!charName || !window.getCharacterData) return '';
+        const storage = window.safeStorage;
+        const variant = storage ? storage.get('selectedVariant', "Default") : (localStorage.getItem('selectedVariant') || "Default");
+        const charData = window.getCharacterData(charName);
+        if (!charData) return '';
+        return `assets/wallpaper/Mindscape_${charData.idName}_${variant}.webp`;
+    }
+
     render() {
         const isCalendar = this.state.layout === 'calendar';
         const themeClass = this.state.footerTheme === 'white' ? 'theme-light' : '';
@@ -317,13 +326,16 @@ export default class Background extends Component {
     }
 
     renderDefaultLayout() {
+        const charName = this._lastAgent || this.state.character;
+        const imgPath = this.getCharacterImagePath(charName);
+        const hasImg = !!imgPath;
         return `
             <canvas id="bg-pattern-canvas"></canvas>
             <div id="backdrop" class="bg-layer active" style="opacity: 0;"></div>
             <div id="transition-backdrop" class="bg-layer" style="opacity: 0;"></div>
             <div id="faction-text" class="ambient-text faction">${this.state.faction || ''}</div>
             <div id="image-container">
-                <img id="main-image" class="char-image active" />
+                <img id="main-image" class="char-image active" ${hasImg ? `src="${imgPath}" style="opacity: 1;"` : ''} />
                 <img id="transition-image" class="char-image" />
             </div>
             <div id="nickname-text" class="ambient-text nickname">${this.state.nickname || ''}</div>
