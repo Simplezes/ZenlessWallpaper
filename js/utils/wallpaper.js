@@ -120,7 +120,7 @@ window.isCharacterChanging = false;
 window._wallpaperRequestSeq = window._wallpaperRequestSeq || 0;
 
 window.setWallpaper = function (characterName, variant = 'Default', textOnly = false, onComplete = null, transitionType = null) {
-    const requestId = ++window._wallpaperRequestSeq;
+    const requestId = textOnly ? window._wallpaperRequestSeq : ++window._wallpaperRequestSeq;
     const isStaleRequest = () => requestId !== window._wallpaperRequestSeq;
 
     if (!textOnly) {
