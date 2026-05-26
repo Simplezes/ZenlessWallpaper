@@ -131,7 +131,7 @@ export default class Background extends Component {
     renderPortraitBG(monthData) {
         return `
             <div id="logo-bg-container" class="mobile-view">
-                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMin meet" style="${this.getPortraitStyles()}">
+                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMax meet" style="${this.getPortraitStyles()}">
                     ${this.renderCommonDefs('zzz-logo-clip-mobile', true)}
                     ${this.renderMaskedLayer('zzz-logo-clip-mobile', 1080, 2400)}
                 </svg>
@@ -142,14 +142,14 @@ export default class Background extends Component {
     renderPortraitFG(monthData) {
         return `
             <div id="logo-fg-container" class="mobile-view">
-                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMin meet" style="${this.getPortraitStyles()}">
+                <svg viewBox="0 0 1080 2400" preserveAspectRatio="xMidYMax meet" style="${this.getPortraitStyles()}">
                     <g style="transform: translate(var(--m-label-tx), var(--m-label-ty));">
                         <foreignObject x="67" y="1500" width="888" height="300">
                             ${this.renderCalendarHeader(monthData)}
                         </foreignObject>
                     </g>
                     <g style="transform: translate(var(--m-name-tx), var(--m-name-ty)) scale(var(--m-name-s));">
-                        <foreignObject x="50" y="1722" width="1000" height="280">
+                        <foreignObject x="84" y="1722" width="1000" height="280">
                             ${this.renderAgentName()}
                         </foreignObject>
                     </g>

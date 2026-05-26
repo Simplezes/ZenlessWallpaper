@@ -665,7 +665,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
 
     .agent-name-addon {
         flex-shrink: 0;
-        width: 260px;
+        width: 280px;
         display: flex;
         flex-direction: column;
         gap: 6px;
