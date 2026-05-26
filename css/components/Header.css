@@ -19,7 +19,7 @@
     font-family: 'Zenless', sans-serif;
     font-size: 3.5vh;
     font-weight: 1000;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
     margin: 0;
     letter-spacing: 0.1vh;
     line-height: 0.8;
@@ -52,7 +52,7 @@
 .header-glyphs {
     font-family: "Zenless_Glyphs", monospace;
     font-size: 0.6vh;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
     opacity: 0.7;
     letter-spacing: 0.05vh;
 }
@@ -85,14 +85,14 @@
 }
 
 .mobile-header .pill-month {
-    background: rgb(15, 15, 15);
-    color: rgb(216, 213, 210);
+    background: var(--color-dark-text);
+    color: var(--color-light-bg);
     padding: 0.4vh 1.5vh;
     font-size: 1.4vh;
 }
 
 .mobile-header .year-display {
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
     font-size: 1.2vh;
 }
 
@@ -111,20 +111,20 @@
     }
 
     .pill-month {
-        background: rgb(15, 15, 15);
-        color: rgb(216, 213, 210);
+        background: var(--color-dark-text);
+        color: var(--color-light-bg);
     }
 
     .year-display {
-        color: rgb(15, 15, 15);
+        color: var(--color-dark-text);
     }
 
     .mobile-header.theme-light .pill-month {
-        background: rgb(216, 213, 210);
-        color: rgb(15, 15, 15);
+        background: var(--color-light-bg);
+        color: var(--color-dark-text);
     }
 
     .mobile-header.theme-light .year-display {
-        color: rgb(216, 213, 210);
+        color: var(--color-light-bg);
     }
 }

@@ -28,14 +28,14 @@
     left: -20px;
     right: -20px;
     bottom: -20px;
-    background-color: rgb(15, 15, 15);
+    background-color: var(--color-dark-text);
     z-index: -1;
     pointer-events: none;
     transition: background-color 0.3s ease;
 }
 
 .footer.footer-light::before {
-    background-color: rgb(216, 213, 210);
+    background-color: var(--color-light-bg);
 }
 
 .footer.footer-ink-bleed::before {
@@ -47,26 +47,26 @@
 .footer-light .media-title,
 .footer-light .media-artist,
 .footer-light .header-glyphs {
-    color: rgb(0, 0, 0);
+    color: var(--color-black);
 }
 
 .footer-light .day.today .day-num {
-    color: rgb(216, 213, 210) !important;
+    color: var(--color-light-bg) !important;
 }
 
 .footer-light .watch-notch,
 .footer-light .watch-hand,
 .footer-light .watch-center {
-    background-color: rgb(15, 15, 15);
+    background-color: var(--color-dark-text);
 }
 
 .footer-light .pill-month {
-    color: rgb(216, 213, 210);
+    color: var(--color-light-bg);
 }
 
 .footer-light #watch-month-num {
-    color: rgb(216, 213, 210);
-    -webkit-text-stroke: 0.1rem rgb(216, 213, 210);
+    color: var(--color-light-bg);
+    -webkit-text-stroke: 0.1rem var(--color-light-bg);
     paint-order: stroke fill;
 }
 
@@ -150,7 +150,7 @@
 }
 
 .pill-month {
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
     background-color: var(--accent-color);
     padding: 0.25vh 1.4vh 0.35vh 1.4vh;
     border-radius: 20px;
@@ -194,7 +194,7 @@
 
 .zzz-logo-sub {
     background: var(--accent-color);
-    color: rgb(0, 0, 0);
+    color: var(--color-black);
     padding: 0.15vh 0.8vh;
     font-weight: 950;
     clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%);

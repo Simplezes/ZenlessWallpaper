@@ -159,7 +159,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
 }
 
 .layout-calendar {
-    --calendar-bg-color: rgb(216, 213, 210);
+    --calendar-bg-color: var(--color-light-bg);
     background-color: transparent;
     width: 100vw;
     height: 100vh;
@@ -206,12 +206,12 @@ body:not(.show-pattern) .layout-container .ambient-text {
 
 .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 rgb(17, 17, 17)) drop-shadow(-5px 0 0 rgb(17, 17, 17)) drop-shadow(0 5px 0 rgb(17, 17, 17)) drop-shadow(0 -5px 0 rgb(17, 17, 17));
+        drop-shadow(5px 0 0 var(--bg-color)) drop-shadow(-5px 0 0 var(--bg-color)) drop-shadow(0 5px 0 var(--bg-color)) drop-shadow(0 -5px 0 var(--bg-color));
 }
 
 .show-ambient .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 rgb(17, 17, 17)) drop-shadow(-5px 0 0 rgb(17, 17, 17)) drop-shadow(0 5px 0 rgb(17, 17, 17)) drop-shadow(0 -5px 0 rgb(17, 17, 17)) url(#ink-engine);
+        drop-shadow(5px 0 0 var(--bg-color)) drop-shadow(-5px 0 0 var(--bg-color)) drop-shadow(0 5px 0 var(--bg-color)) drop-shadow(0 -5px 0 var(--bg-color)) url(#ink-engine);
 }
 
 .halftone-global {
@@ -331,7 +331,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
     margin: 0;
     padding: 0;
     text-transform: uppercase;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
 }
 
 .calendar-sub-label {
@@ -343,7 +343,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
     font-size: 18px;
     margin-top: 1%;
     line-height: 1;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
 }
 
 .calendar-sub-content {
@@ -354,7 +354,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
 
 .calendar-zenless-label {
     line-height: 1;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
 }
 
 .layout-calendar #faction-text,
@@ -368,7 +368,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
     line-height: 1;
     margin: 0;
     text-transform: uppercase;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
 }
 
 .zzz-tag-svg {
@@ -376,7 +376,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
     width: auto;
     display: flex;
     align-items: center;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
 }
 
 .zzz-tag-svg svg {
@@ -396,7 +396,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
     display: flex;
     align-items: center;
     margin-bottom: 0.8%;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
 }
 
 .calendar-name-badge-svg svg {
@@ -413,7 +413,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
     letter-spacing: -1px;
     margin: 0;
     padding: 0;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
 }
 
 .calendar-month-center-display-svg {
@@ -432,12 +432,12 @@ body:not(.show-pattern) .layout-container .ambient-text {
     font-family: "OctinCollege";
     font-size: 234px;
     font-weight: bolder;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
     line-height: 0.9;
     letter-spacing: 10px;
     margin: 0;
     padding: 0;
-    --stroke-color: rgb(15, 15, 15);
+    --stroke-color: var(--color-dark-text);
     -webkit-text-stroke: 15px var(--stroke-color);
     paint-order: stroke fill;
     transform: scaleY(1.6) scaleX(1.5);
@@ -483,7 +483,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
 }
 
 .date-month-pill {
-    background-color: rgb(15, 15, 15);
+    background-color: var(--color-dark-text);
     color: white;
     font-family: "RubikMonoOne", sans-serif;
     font-size: 44px;
@@ -500,7 +500,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
 .date-year-display {
     font-family: "RubikMonoOne", sans-serif;
     font-size: 34px;
-    color: rgb(15, 15, 15);
+    color: var(--color-dark-text);
     letter-spacing: -1px;
     font-weight: 900;
     line-height: 1;
@@ -683,7 +683,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
         gap: 0;
         font-family: "Zenless_Glyphs", monospace;
         font-size: 5px;
-        color: rgb(15, 15, 15);
+        color: var(--color-dark-text);
         line-height: 1.1;
         text-transform: uppercase;
     }
@@ -692,7 +692,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
         font-family: "Zenless";
         font-size: 10px;
         line-height: 1.2;
-        color: rgb(15, 15, 15);
+        color: var(--color-dark-text);
     }
 
     .addon-bottom {
@@ -704,7 +704,7 @@ body:not(.show-pattern) .layout-container .ambient-text {
         display: block;
         width: 40%;
         height: 38px;
-        background-color: rgb(15, 15, 15);
+        background-color: var(--color-dark-text);
         -webkit-mask: url('../../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
         -webkit-mask-size: contain;
         mask: url('../../assets/imgs/svg/zzz_dashed.svg') no-repeat center;
@@ -728,34 +728,34 @@ body:not(.show-pattern) .layout-container .ambient-text {
 .theme-light .date-year-display,
 .theme-light .addon-glyphs,
 .theme-light .addon-z {
-    color: rgb(216, 213, 210) !important;
+    color: var(--color-light-bg) !important;
 }
 
 .theme-light .center-month-num {
-    color: rgb(216, 213, 210) !important;
-    --stroke-color: rgb(216, 213, 210) !important;
+    color: var(--color-light-bg) !important;
+    --stroke-color: var(--color-light-bg) !important;
 }
 
 .theme-light .date-month-pill {
-    background-color: rgb(216, 213, 210);
-    color: rgb(15, 15, 15);
+    background-color: var(--color-light-bg);
+    color: var(--color-dark-text);
 }
 
 .theme-light.layout-calendar {
-    --calendar-bg-color: rgb(15, 15, 15);
+    --calendar-bg-color: var(--color-dark-text);
     background-color: transparent;
 }
 
 .theme-light .addon-dashed-svg {
-    background-color: rgb(216, 213, 210);
+    background-color: var(--color-light-bg);
 }
 
 .theme-light .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 rgb(216, 213, 210)) drop-shadow(-5px 0 0 rgb(216, 213, 210)) drop-shadow(0 5px 0 rgb(216, 213, 210)) drop-shadow(0 -5px 0 rgb(216, 213, 210));
+        drop-shadow(5px 0 0 var(--color-light-bg)) drop-shadow(-5px 0 0 var(--color-light-bg)) drop-shadow(0 5px 0 var(--color-light-bg)) drop-shadow(0 -5px 0 var(--color-light-bg));
 }
 
 .show-ambient.theme-light .masked-content-group {
     filter:
-        drop-shadow(5px 0 0 rgb(216, 213, 210)) drop-shadow(-5px 0 0 rgb(216, 213, 210)) drop-shadow(0 5px 0 rgb(216, 213, 210)) drop-shadow(0 -5px 0 rgb(216, 213, 210)) url(#ink-engine);
+        drop-shadow(5px 0 0 var(--color-light-bg)) drop-shadow(-5px 0 0 var(--color-light-bg)) drop-shadow(0 5px 0 var(--color-light-bg)) drop-shadow(0 -5px 0 var(--color-light-bg)) url(#ink-engine);
 }
