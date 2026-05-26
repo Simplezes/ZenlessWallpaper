@@ -43,6 +43,34 @@
 :root {
     --accent-color: rgb(252, 91, 144);
     --bg-color: rgb(17, 17, 17);
+
+    --color-white: rgb(255, 255, 255);
+    --color-black: rgb(0, 0, 0);
+    --color-dark-text: rgb(15, 15, 15);
+    --color-light-bg: rgb(216, 213, 210);
+
+    --color-silver: rgb(190, 190, 192);
+    --color-gray: rgb(136, 136, 136);
+    --color-gray-dark: rgb(85, 85, 85);
+    --color-gray-darker: rgb(68, 68, 68);
+    --color-slate-gray: rgb(65, 67, 66);
+    --color-gray-deep: rgb(51, 51, 51);
+    --color-gray-shadow: rgb(42, 42, 42);
+
+    --color-bg-card-dark: rgb(22, 22, 22);
+    --color-bg-card-light: rgb(47, 47, 47);
+    --color-bg-header: rgb(45, 45, 47);
+    --color-bg-sub-header: rgb(40, 40, 42);
+
+    --color-near-black-deep: rgb(8, 8, 8);
+    --color-near-black-dot: rgb(9, 9, 7);
+    --color-near-black-soft: rgb(12, 12, 12);
+    --color-near-black-main: rgb(14, 14, 14);
+    --color-near-black-alt: rgb(26, 26, 26);
+
+    --color-yellow: rgb(235, 204, 33);
+    --color-green: rgb(164, 255, 51);
+
     font-size: clamp(0.85rem, calc(100vh / 90), 3.2rem);
 }
 

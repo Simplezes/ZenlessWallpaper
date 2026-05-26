@@ -33,7 +33,7 @@
     align-items: center;
     gap: 1.5rem;
     background: rgba(10, 10, 10, 0.9);
-    border: 0.2rem solid rgb(45, 45, 47);
+    border: 0.2rem solid var(--color-bg-header);
     padding: 0.8rem 1.5rem 0.8rem 1rem;
     border-radius: 3rem;
     cursor: pointer;
@@ -45,48 +45,48 @@
 }
 
 .choice-item:hover {
-    background: rgb(255, 255, 255);
-    border-color: rgb(255, 255, 255);
+    background: var(--color-white);
+    border-color: var(--color-white);
     transform: translateX(-1rem) scale(1.02);
 }
 
 .choice-item:hover .choice-text {
-    color: rgb(0, 0, 0);
+    color: var(--color-black);
 }
 
 .choice-item:hover .choice-icon {
-    background: rgb(0, 0, 0);
-    color: rgb(255, 255, 255);
-    border-color: rgb(0, 0, 0);
+    background: var(--color-black);
+    color: var(--color-white);
+    border-color: var(--color-black);
 }
 
 .choice-icon {
     width: 2.8rem;
     height: 2.8rem;
-    background: rgb(255, 255, 255);
-    color: rgb(0, 0, 0);
+    background: var(--color-white);
+    color: var(--color-black);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 0.6rem;
-    border: 0.15rem solid rgb(255, 255, 255);
+    border: 0.15rem solid var(--color-white);
     transition: all 0.2s ease;
     flex-shrink: 0;
 }
 
 .choice-item.primary .choice-icon {
-    background: rgb(235, 204, 33);
-    border-color: rgb(235, 204, 33);
+    background: var(--color-yellow);
+    border-color: var(--color-yellow);
 }
 
 .choice-item.primary:hover .choice-icon {
-    background: rgb(0, 0, 0);
-    border-color: rgb(0, 0, 0);
+    background: var(--color-black);
+    border-color: var(--color-black);
 }
 
 .choice-text {
-    color: rgb(255, 255, 255);
+    color: var(--color-white);
     font-size: 1.6rem;
     font-weight: 900;
     text-transform: none;
@@ -99,7 +99,7 @@
     width: 100%;
     max-width: 110rem;
     background: rgba(8, 8, 8, 0.9);
-    border: 0.25rem solid rgb(40, 40, 42);
+    border: 0.25rem solid var(--color-bg-sub-header);
     border-radius: 1.2rem;
     padding: 3.5rem 5rem 3rem 5rem;
     align-self: center;
@@ -116,7 +116,7 @@
     font-family: 'Zenless', 'Rajdhani', sans-serif;
     font-size: 2.1rem;
     font-weight: 700;
-    color: rgb(255, 255, 255);
+    color: var(--color-white);
     margin: 0;
     line-height: 1.4;
     letter-spacing: 0.02rem;

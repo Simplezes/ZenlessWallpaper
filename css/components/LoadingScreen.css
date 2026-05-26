@@ -5,7 +5,7 @@
     z-index: 100000;
     display: flex;
     font-family: 'Zenless';
-    color: rgb(255, 255, 255);
+    color: var(--color-white);
     overflow: hidden;
     pointer-events: none;
 }
@@ -44,7 +44,7 @@
 .loader-left {
     width: 25%;
     max-width: 80rem;
-    background: rgb(0, 0, 0);
+    background: var(--color-black);
     display: flex;
     flex-direction: column;
     padding: 6rem 3rem 4rem 4rem;
@@ -120,7 +120,7 @@
 }
 
 .loader-no {
-    color: rgb(68, 68, 68);
+    color: var(--color-gray-darker);
     font-size: 1.8rem;
     font-weight: 900;
     line-height: 1;
@@ -142,7 +142,7 @@
 .loader-right {
     flex: 1;
     position: relative;
-    background: rgb(17, 17, 17);
+    background: var(--bg-color);
     overflow: hidden;
 }
 
