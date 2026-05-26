@@ -15,10 +15,17 @@ export default class Background extends Component {
             nickname: s.nickname,
             isPortrait: s.isPortrait,
             accentColor: s.accentColor,
-            footerTheme: s.footerTheme,
             showAmbient: s.showAmbient,
             patternEnabled: s.patternEnabled
         }));
+
+        this._footerTheme = store.state.footerTheme || 'dark';
+        store.subscribe((s) => {
+            if (s.footerTheme !== this._footerTheme) {
+                this._footerTheme = s.footerTheme;
+                this._patchThemeClass();
+            }
+        });
 
         this._lastRenderedLayout = this.state.layout;
         this._lastAgent = this.state.character;
@@ -38,7 +45,7 @@ export default class Background extends Component {
 
     render() {
         const isCalendar = this.state.layout === 'calendar';
-        const themeClass = this.state.footerTheme === 'white' ? 'theme-light' : '';
+        const themeClass = this._footerTheme === 'white' ? 'theme-light' : '';
         const ambientClass = this.state.showAmbient ? 'show-ambient' : '';
 
         return `
@@ -47,6 +54,12 @@ export default class Background extends Component {
                 ${isCalendar ? this.renderCalendarLayout() : ''}
             </div>
         `;
+    }
+
+    _patchThemeClass() {
+        const el = this.container && this.container.querySelector('.layout-container');
+        if (!el) return;
+        el.classList.toggle('theme-light', this._footerTheme === 'white');
     }
 
     renderCalendarLayout() {
