@@ -80,7 +80,12 @@ export default class Background extends Component {
             el.textContent = `ZENLESS — ${num}`;
         });
         document.querySelectorAll('.center-month-num').forEach(el => {
-            el.textContent = num;
+            const textNode = el.querySelector('text');
+            if (textNode) {
+                textNode.textContent = num;
+            } else {
+                el.textContent = num;
+            }
         });
         document.querySelectorAll('.center-month-name').forEach(el => {
             el.textContent = name;
@@ -307,7 +312,9 @@ export default class Background extends Component {
         const inkClass = this.state.showAmbient ? 'ink-print' : '';
         return `
             <div class="calendar-month-center-display-svg ${inkClass}">
-                <div class="center-month-num">${monthData.num}</div>
+                <svg class="center-month-num" viewBox="0 0 320 250">
+                    <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle">${monthData.num}</text>
+                </svg>
                 <div class="center-month-name">${monthData.name}</div>
                 <img src="assets/imgs/patch.webp" class="patch-sticker">
             </div>
