@@ -10,6 +10,7 @@ const PatternRenderer = (() => {
 
     const SHIFT_DISTANCE = 400;
     const MOTION_SPEED = 20;
+    const FRAME_INTERVAL = 1000 / 30;
 
     let canvas = null;
     let ctx = null;
@@ -18,7 +19,9 @@ const PatternRenderer = (() => {
     let pixelPattern = null;
     let animationId = null;
     let startTime = Date.now();
+    let lastFrameTime = 0;
     let isVisible = false;
+    let motionEnabledCache = localStorage.getItem('kineticSway') !== 'false';
 
     function init() {
         const foundCanvas = document.getElementById('bg-pattern-canvas');
@@ -76,10 +79,68 @@ const PatternRenderer = (() => {
         }
     }
 
+    let rowCanvas1 = null;
+    let rowCanvas2 = null;
+
+    function preRenderRows() {
+        if (!image1 || !image2) return;
+
+        const W = window.innerWidth;
+        const H = window.innerHeight;
+        if (W === 0 || H === 0) return;
+
+        const extra = Math.ceil(Math.sqrt(W * W + H * H) / 2);
+        const startX = -extra - SHIFT_DISTANCE;
+        const endX = W + extra + SHIFT_DISTANCE;
+
+        const tileW1 = Math.round(image1.naturalWidth * SCALE_1);
+        const tileH1 = Math.round(image1.naturalHeight * SCALE_1);
+        const tileW2 = Math.round(image2.naturalWidth * SCALE_2);
+        const tileH2 = Math.round(image2.naturalHeight * SCALE_2);
+
+        if (tileW1 === 0 || tileW2 === 0) return;
+
+        const colPitch1 = tileW1 + H_GAP;
+        const colPitch2 = tileW2 + H_GAP;
+
+        const totalWidth1 = endX - startX + colPitch1;
+        const totalWidth2 = endX - startX + colPitch2;
+
+        rowCanvas1 = document.createElement('canvas');
+        rowCanvas1.width = totalWidth1;
+        rowCanvas1.height = tileH1;
+        const ctx1 = rowCanvas1.getContext('2d');
+        for (let x = 0; x < totalWidth1; x += colPitch1) {
+            ctx1.drawImage(image1, x, 0, tileW1, tileH1);
+        }
+
+        rowCanvas2 = document.createElement('canvas');
+        rowCanvas2.width = totalWidth2;
+        rowCanvas2.height = tileH2;
+        const ctx2 = rowCanvas2.getContext('2d');
+        for (let x = 0; x < totalWidth2; x += colPitch2) {
+            ctx2.drawImage(image2, x, 0, tileW2, tileH2);
+        }
+
+        if (pixelPattern) {
+            ctx1.save();
+            ctx1.globalCompositeOperation = 'source-atop';
+            ctx1.fillStyle = pixelPattern;
+            ctx1.fillRect(0, 0, totalWidth1, tileH1);
+            ctx1.restore();
+
+            ctx2.save();
+            ctx2.globalCompositeOperation = 'source-atop';
+            ctx2.fillStyle = pixelPattern;
+            ctx2.fillRect(0, 0, totalWidth2, tileH2);
+            ctx2.restore();
+        }
+    }
+
     function resize() {
         if (!canvas) return;
 
-        const dpr = window.devicePixelRatio || 1;
+        const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
         const w = window.innerWidth;
         const h = window.innerHeight;
 
@@ -88,23 +149,34 @@ const PatternRenderer = (() => {
         canvas.style.width = w + 'px';
         canvas.style.height = h + 'px';
         if (ctx) ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        preRenderRows();
     }
 
     function startAnimation() {
         if (animationId) cancelAnimationFrame(animationId);
-        if (!animationId) startTime = Date.now();
-        animate();
+        if (!animationId) {
+            startTime = Date.now();
+            lastFrameTime = 0;
+        }
+        animationId = requestAnimationFrame(animate);
     }
 
-    function animate() {
+    function animate(timestamp) {
         if (!isVisible) {
             animationId = null;
             return;
         }
 
+        const delta = timestamp - lastFrameTime;
+        if (delta < FRAME_INTERVAL) {
+            animationId = requestAnimationFrame(animate);
+            return;
+        }
+        lastFrameTime = timestamp - (delta % FRAME_INTERVAL);
+
         try {
-            const motionEnabled = localStorage.getItem('kineticSway') !== 'false';
-            const elapsed = motionEnabled ? (Date.now() - startTime) / 1000 : 0;
+            const elapsed = motionEnabledCache ? (Date.now() - startTime) / 1000 : 0;
             draw(elapsed);
         } catch (e) {
             console.error("Pattern animation error:", e);
@@ -130,8 +202,13 @@ const PatternRenderer = (() => {
 
         if (W === 0 || H === 0) return;
 
+        if (!rowCanvas1 || !rowCanvas2) {
+            preRenderRows();
+        }
+
         ctx.clearRect(0, 0, W, H);
 
+        if (!rowCanvas1 || !rowCanvas2) return;
 
         const tileW1 = Math.round(image1.naturalWidth * SCALE_1);
         const tileH1 = Math.round(image1.naturalHeight * SCALE_1);
@@ -143,8 +220,8 @@ const PatternRenderer = (() => {
         const colPitch1 = tileW1 + H_GAP;
         const colPitch2 = tileW2 + H_GAP;
         const rowBlock = tileH1 + V_GAP + tileH2 + V_GAP;
-        const extra = (Math.max(W, H)) * 1.5;
-        const timeOffset = elapsed * MOTION_SPEED;
+        const extra = Math.ceil(Math.sqrt(W * W + H * H) / 2);
+        const startX = -extra - SHIFT_DISTANCE;
 
         ctx.save();
         ctx.translate(W / 2, H / 2);
@@ -168,27 +245,16 @@ const PatternRenderer = (() => {
             const rowAShift = (isEven ? -SHIFT_DISTANCE : SHIFT_DISTANCE) + motionA;
             const rowBShift = (isEven ? SHIFT_DISTANCE : -SHIFT_DISTANCE) + motionB;
 
-            for (let x = -extra - SHIFT_DISTANCE * 2; x < W + extra + SHIFT_DISTANCE * 2; x += colPitch1) {
-                ctx.drawImage(image1, x + rowAShift, y, tileW1, tileH1);
-            }
+            ctx.drawImage(rowCanvas1, startX + rowAShift, y);
 
             const yMid = y + tileH1 + V_GAP;
             const xOffset = colPitch1 / 2;
-            for (let x = -extra - SHIFT_DISTANCE * 2; x < W + extra + SHIFT_DISTANCE * 2; x += colPitch2) {
-                ctx.drawImage(image2, x + xOffset + rowBShift, yMid, tileW2, tileH2);
-            }
+            ctx.drawImage(rowCanvas2, startX + xOffset + rowBShift, yMid);
+
             rowIndex++;
         }
 
         ctx.restore();
-
-        if (pixelPattern) {
-            ctx.save();
-            ctx.globalCompositeOperation = 'source-atop';
-            ctx.fillStyle = pixelPattern;
-            ctx.fillRect(0, 0, W, H);
-            ctx.restore();
-        }
     }
 
     function onResize() {
@@ -210,9 +276,26 @@ const PatternRenderer = (() => {
         }
     }
 
+    function setMotion(enabled) {
+        motionEnabledCache = enabled;
+        if (!enabled) {
+            if (isVisible) draw(0);
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+                animationId = null;
+            }
+        } else {
+            if (isVisible && !animationId) {
+                startTime = Date.now();
+                lastFrameTime = 0;
+                animationId = requestAnimationFrame(animate);
+            }
+        }
+    }
+
     document.addEventListener('DOMContentLoaded', init);
 
-    return { setVisible, init };
+    return { setVisible, setMotion, init };
 })();
 
 window.PatternRenderer = PatternRenderer;

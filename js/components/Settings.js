@@ -337,6 +337,14 @@ export default class Settings extends Component {
         }
     }
 
+    _patchItemState(id, active) {
+        if (!this.container) return;
+        const el = this.container.querySelector(`#radial-item-${id}`);
+        if (!el) return;
+        el.classList.toggle('state-on', active === true);
+        el.classList.toggle('state-off', active === false);
+    }
+
     toggleLayout() {
         const current = (window.safeStorage && window.safeStorage.get('wallpaperLayout', 'calendar')) || (localStorage.getItem('wallpaperLayout') || 'calendar');
         const next = current === 'calendar' ? 'default' : 'calendar';
@@ -359,23 +367,27 @@ export default class Settings extends Component {
 
     toggleFooterTheme() {
         const next = this.state.footerTheme === 'dark' ? 'white' : 'dark';
-        this.setState({ footerTheme: next });
+        this._state.footerTheme = next;
+        this._patchItemState('footer', next === 'dark');
         if (window.store) window.store.setFooterTheme(next);
         this.applySettings(true);
     }
 
     toggleKinetic() {
         const next = !this.state.kineticSwayEnabled;
-        this.setState({ kineticSwayEnabled: next });
+        this._state.kineticSwayEnabled = next;
+        this._patchItemState('kinetic', next);
         if (window.safeStorage) window.safeStorage.set('kineticSway', next);
         else localStorage.setItem('kineticSway', next);
         if (window.kineticSway) window.kineticSway.setEnabled(next);
+        if (window.PatternRenderer) window.PatternRenderer.setMotion(next);
         if (window.store) window.store.setState({ kineticEnabled: next });
     }
 
     togglePattern() {
         const next = !this.state.patternEnabled;
-        this.setState({ patternEnabled: next });
+        this._state.patternEnabled = next;
+        this._patchItemState('pattern', next);
         if (window.safeStorage) window.safeStorage.set('bgPattern', next);
         else localStorage.setItem('bgPattern', next);
         if (window.PatternRenderer) window.PatternRenderer.setVisible(next);
@@ -384,7 +396,8 @@ export default class Settings extends Component {
 
     toggleAmbient() {
         const next = !this.state.showAmbient;
-        this.setState({ showAmbient: next });
+        this._state.showAmbient = next;
+        this._patchItemState('ambient', next);
         if (window.safeStorage) window.safeStorage.set('showAmbient', next);
         else localStorage.setItem('showAmbient', next);
         if (window.store) window.store.setState({ showAmbient: next });

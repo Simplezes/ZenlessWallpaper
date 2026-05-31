@@ -35,7 +35,7 @@
                 this._lastCharSway = null;
                 this._lastBgSway = null;
 
-                if (this.canvas && this.bgCanvas) {
+                if (this.active && this.canvas && this.bgCanvas) {
                     this.syncCanvas();
                 }
             });
@@ -474,8 +474,6 @@
                     bgCtx.strokeStyle = P3_CYAN;
                     bgCtx.lineWidth = 2;
                     bgCtx.globalAlpha = edgeA;
-                    bgCtx.shadowColor = P3_CYAN;
-                    bgCtx.shadowBlur = 8;
                     bgCtx.beginPath();
                     bgCtx.moveTo(leadX + pW, 0);
                     bgCtx.lineTo(leadX + pW - PSKEW, H);
@@ -568,8 +566,6 @@
                     ctx.globalAlpha = lineA;
                     ctx.strokeStyle = P3_WHITE;
                     ctx.lineWidth = 10;
-                    ctx.shadowColor = P3_WHITE;
-                    ctx.shadowBlur = 6;
                     ctx.beginPath();
                     ctx.moveTo(rw, 0);
                     ctx.lineTo(rw - RSKEW, H);
@@ -578,8 +574,6 @@
                     ctx.strokeStyle = P3_CYAN;
                     ctx.lineWidth = 4;
                     ctx.globalAlpha = lineA * 0.8;
-                    ctx.shadowColor = P3_CYAN;
-                    ctx.shadowBlur = 18;
                     ctx.beginPath();
                     ctx.moveTo(rw + 8, 0);
                     ctx.lineTo(rw - RSKEW + 8, H);
@@ -617,8 +611,6 @@
                     bgCtx.save();
                     bgCtx.strokeStyle = P3_CYAN;
                     bgCtx.lineWidth = 1.5;
-                    bgCtx.shadowColor = P3_CYAN;
-                    bgCtx.shadowBlur = 4;
                     bgCtx.globalAlpha = bA;
 
                     bgCtx.beginPath();
@@ -730,8 +722,6 @@
                     ctx.translate(-cx, -cy);
                     ctx.fillStyle = accent;
                     ctx.globalAlpha = flashAlpha;
-                    ctx.shadowColor = accent;
-                    ctx.shadowBlur = 20;
                     ctx.fillRect(tile.x, tile.y, tile.w, tile.h);
                 }
 
