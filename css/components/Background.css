@@ -55,23 +55,15 @@
 .bg-layer::after {
     content: '';
     position: absolute;
-    inset: 0;
+    top: -10rem;
+    left: -10rem;
+    right: -10rem;
+    bottom: -10rem;
     background-image:
         linear-gradient(to right, rgba(255, 255, 255, 0.03) 0.1rem, transparent 0.1rem),
         linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 0.1rem, transparent 0.1rem);
     background-size: 10rem 10rem;
     mask-image: radial-gradient(circle at center, black, transparent 80%);
-    animation: patternDrift 40s linear infinite;
-}
-
-@keyframes patternDrift {
-    from {
-        background-position: 0 0;
-    }
-
-    to {
-        background-position: 50rem 50rem;
-    }
 }
 
 .bg-layer.active {
@@ -86,7 +78,7 @@
     justify-content: center;
     align-items: center;
     pointer-events: none;
-    will-change: transform;
+    will-change: transform, filter;
 }
 
 .layout-container .bg-layer,
@@ -124,6 +116,7 @@
     user-select: none;
     isolation: isolate;
     color: var(--accent-color);
+    will-change: transform;
 }
 
 .layout-container .ambient-text {
@@ -257,8 +250,6 @@ body:not(.show-pattern) .layout-container .ambient-text {
     background-repeat: repeat;
     mix-blend-mode: multiply;
     pointer-events: none;
-    backface-visibility: hidden;
-    will-change: transform;
 }
 
 .screen-c {

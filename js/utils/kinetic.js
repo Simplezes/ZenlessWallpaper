@@ -181,6 +181,12 @@ class KineticSway {
     animate(timestamp) {
         if (!this.lastTime) this.lastTime = timestamp;
         const dt = timestamp - this.lastTime;
+
+        if (dt < 33) {
+            this._animId = requestAnimationFrame(this.animate);
+            return;
+        }
+
         this.lastTime = timestamp;
 
         if (!this.enabled) {
@@ -245,21 +251,6 @@ class KineticSway {
                 scaleX: finalScaleX,
                 scaleY: finalScale
             };
-
-            if (item.el.id === 'image-container') {
-                const progress = (Math.sin(t + item.phaseY) * Math.sin(t * item.speedRatio3) + 1) / 2;
-
-                if (Math.abs(progress - item._lastFilterP) > 0.012) {
-                    const brightness = 1 + (0.04 * progress);
-
-                    const filter = `brightness(${brightness.toFixed(4)})`;
-                    item.el.style.filter = filter;
-                    item.currentSway.filter = filter;
-                    item._lastFilterP = progress;
-                } else {
-                    item.currentSway.filter = item.el.style.filter;
-                }
-            }
         }
 
         this._animId = requestAnimationFrame(this.animate);
