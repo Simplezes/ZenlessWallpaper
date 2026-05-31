@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
     'use strict';
 
     const CHARACTER_DURATION = 5400;
@@ -6,7 +6,7 @@
     const COLOR_DURATION = 750;
     const TRANSITION_OUTLINE_THICKNESS = 8;
     const WAVY_CIRCLE_STEPS = 30;
-    const TRANSITION_TYPES = ['shutter', 'cornerWaves', 'triangle', 'wavyCircle', 'lineCutIn', 'highContrastCutIn'];
+    const TRANSITION_TYPES = ['shutter', 'cornerWaves', 'triangle', 'wavyCircle', 'lineCutIn', 'highContrastCutIn', 'glitchBlocks', 'pixelVortex'];
 
     class CharacterTransition {
         constructor() {
@@ -251,24 +251,63 @@
             this.currentType = this._transitionDeck.shift();
         }
 
-        resetTransitionState(W) {
+        resetTransitionState(W, H) {
             this.progress.value = 0;
             this.cells = [];
 
-            if (this.currentType !== 'shutter') return;
+            if (this.currentType === 'shutter') {
+                const skew = 250;
+                const coverageBuffer = skew + 300;
+                const stripCount = Math.max(12, Math.ceil(W / 65));
+                const stripWidth = (W + coverageBuffer) / stripCount;
 
-            const skew = 250;
-            const coverageBuffer = skew + 300;
-            const stripCount = Math.max(12, Math.ceil(W / 65));
-            const stripWidth = (W + coverageBuffer) / stripCount;
-
-            for (let i = 0; i < stripCount; i++) {
-                this.cells.push({
-                    x: i * (stripWidth - 1) - 150,
-                    w: stripWidth + 5,
-                    p: 0,
-                    dir: (i % 2 === 0 ? 1 : -1)
-                });
+                for (let i = 0; i < stripCount; i++) {
+                    this.cells.push({
+                        x: i * (stripWidth - 1) - 150,
+                        w: stripWidth + 5,
+                        p: 0,
+                        dir: (i % 2 === 0 ? 1 : -1)
+                    });
+                }
+            } else if (this.currentType === 'glitchBlocks') {
+                this.glitchRects = [];
+                for (let i = 0; i < 60; i++) {
+                    const s = Math.random() * 0.4;
+                    this.glitchRects.push({
+                        x: Math.random(),
+                        y: Math.random(),
+                        w: Math.random() * 0.2 + 0.05,
+                        h: Math.random() * 0.2 + 0.05,
+                        start: s,
+                        end: s + 0.1 + Math.random() * 0.3
+                    });
+                }
+            } else if (this.currentType === 'pixelVortex') {
+                const tileSize = 80;
+                const cols = Math.ceil(W / tileSize) + 1;
+                const rows = Math.ceil(H / tileSize) + 1;
+                const offsetX = Math.floor((cols * tileSize - W) / 2);
+                const offsetY = Math.floor((rows * tileSize - H) / 2);
+                const maxDist = Math.sqrt((W / 2) * (W / 2) + (H / 2) * (H / 2));
+                this.vortexTiles = [];
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const tx = c * tileSize - offsetX;
+                        const ty = r * tileSize - offsetY;
+                        const dx = tx + tileSize / 2 - W / 2;
+                        const dy = ty + tileSize / 2 - H / 2;
+                        const dist = Math.sqrt(dx * dx + dy * dy) / maxDist;
+                        const spiralDelay = dist * 0.55;
+                        this.vortexTiles.push({
+                            x: tx,
+                            y: ty,
+                            w: tileSize,
+                            h: tileSize,
+                            delay: spiralDelay,
+                            p: 0
+                        });
+                    }
+                }
             }
         }
 
@@ -289,10 +328,22 @@
                 return animeConfig;
             }
 
+            if (this.currentType === 'pixelVortex') {
+                animeConfig.targets = this.vortexTiles;
+                animeConfig.p = [0, 1];
+                animeConfig.duration = CHARACTER_DURATION * 0.45;
+                animeConfig.easing = 'easeInOutBack';
+                animeConfig.delay = (el) => el.delay * CHARACTER_DURATION * 0.45;
+                return animeConfig;
+            }
+
             animeConfig.targets = this.progress;
             animeConfig.value = [0, 1];
 
-            if (this.currentType === 'highContrastCutIn') {
+            if (this.currentType === 'glitchBlocks') {
+                animeConfig.duration = CHARACTER_DURATION * 0.55;
+                animeConfig.easing = 'linear';
+            } else if (this.currentType === 'highContrastCutIn') {
                 animeConfig.duration = CHARACTER_DURATION * 1.05;
                 animeConfig.easing = 'linear';
             } else if (this.currentType === 'wavyCircle') {
@@ -315,6 +366,11 @@
 
             if (this.currentType === 'highContrastCutIn') {
                 this.renderCutIn(W, H, p, accent);
+                return;
+            }
+
+            if (this.currentType === 'pixelVortex') {
+                this.renderPixelVortex(W, H, p, accent);
                 return;
             }
 
@@ -596,9 +652,128 @@
             }
         }
 
+        renderPixelVortex(W, H, p, accent) {
+            const ctx = this.ctx;
+            const bgCtx = this.bgCtx;
+            const oldAccent = this.colors.old || 'rgb(252, 91, 144)';
+
+            ctx.clearRect(0, 0, W, H);
+            bgCtx.clearRect(0, 0, W, H);
+
+            bgCtx.fillStyle = this.rgbBlend(oldAccent, 24);
+            bgCtx.fillRect(0, 0, W, H);
+
+            if (!this.vortexTiles) return;
+
+            let tileSum = 0;
+            for (let i = 0; i < this.vortexTiles.length; i++) tileSum += this.vortexTiles[i].p;
+            const overallP = tileSum / this.vortexTiles.length;
+
+            if (overallP > 0.25) {
+                const bgP = Math.min(1, (overallP - 0.25) / 0.55);
+                bgCtx.save();
+                bgCtx.globalAlpha = 1 - Math.pow(1 - bgP, 3);
+                bgCtx.fillStyle = this.rgbBlend(accent, 24);
+                bgCtx.fillRect(0, 0, W, H);
+                bgCtx.restore();
+            }
+
+            for (let i = 0; i < this.vortexTiles.length; i++) {
+                const tile = this.vortexTiles[i];
+                const tp = tile.p;
+
+                if (tp <= 0) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(tile.x, tile.y, tile.w, tile.h);
+                    ctx.clip();
+                    this.drawImgFit(ctx, this.images.old, W, H);
+                    ctx.restore();
+                    continue;
+                }
+
+                const cx = tile.x + tile.w / 2;
+                const cy = tile.y + tile.h / 2;
+
+                if (tp >= 1) {
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.rect(tile.x, tile.y, tile.w, tile.h);
+                    ctx.clip();
+                    this.drawImgFit(ctx, this.images.new, W, H);
+                    ctx.restore();
+                    continue;
+                }
+
+                const flipPhase = tp;
+                const scaleX = Math.abs(Math.cos(flipPhase * Math.PI));
+                const showNew = flipPhase > 0.5;
+
+                ctx.save();
+                ctx.beginPath();
+                ctx.rect(tile.x, tile.y, tile.w, tile.h);
+                ctx.clip();
+                ctx.translate(cx, cy);
+                ctx.scale(Math.max(0.001, scaleX), 1);
+                ctx.translate(-cx, -cy);
+
+                if (showNew) {
+                    this.drawImgFit(ctx, this.images.new, W, H);
+                } else {
+                    this.drawImgFit(ctx, this.images.old, W, H);
+                }
+
+                const flashAlpha = Math.max(0, 1 - Math.abs(flipPhase - 0.5) * 8) * 0.9;
+                if (flashAlpha > 0.01) {
+                    ctx.translate(cx, cy);
+                    ctx.scale(1 / Math.max(0.001, scaleX), 1);
+                    ctx.translate(-cx, -cy);
+                    ctx.fillStyle = accent;
+                    ctx.globalAlpha = flashAlpha;
+                    ctx.shadowColor = accent;
+                    ctx.shadowBlur = 20;
+                    ctx.fillRect(tile.x, tile.y, tile.w, tile.h);
+                }
+
+                ctx.restore();
+            }
+        }
+
         definePath(ctx, W, H, p, variant = 'main') {
             ctx.beginPath();
             switch (this.currentType) {
+                case 'glitchBlocks': {
+                    let rP = p;
+
+                    if (this.glitchRects) {
+                        for (let i = 0; i < this.glitchRects.length; i++) {
+                            const rect = this.glitchRects[i];
+                            const localP = variant === 'inner' ? Math.pow(rP, 1.2) : rP;
+                            if (localP >= rect.start) {
+                                let bP = (localP - rect.start) / (rect.end - rect.start);
+                                if (bP < 1.0) {
+                                    const scale = Math.sin(bP * Math.PI) * rect.h;
+                                    ctx.rect(rect.x * W, rect.y * H, rect.w * W, scale * H);
+                                }
+                            }
+                        }
+                    }
+
+                    if (rP > 0.3) {
+                        const sweepP = (rP - 0.3) / 0.7;
+                        const localSweep = variant === 'inner' ? Math.pow(sweepP, 1.2) : sweepP;
+                        const easeSweep = 1 - Math.pow(1 - localSweep, 4);
+
+                        const strips = 10;
+                        for (let i = 0; i < strips; i++) {
+                            const stripDelay = (i % 3) * 0.05;
+                            let sp = Math.max(0, easeSweep - stripDelay) * 1.15;
+                            ctx.rect(0, (i / strips) * H - 1, W * Math.min(1, sp), (H / strips) + 3);
+                        }
+                    }
+                    break;
+                }
+
                 case 'shutter': {
                     const skew = 250;
                     for (const cell of this.cells) {
@@ -704,9 +879,23 @@
             ctx.lineWidth = TRANSITION_OUTLINE_THICKNESS;
             ctx.fillStyle = accent;
 
-            if (p <= 0 || p >= 1) return;
+            if ((p <= 0 || p >= 1) && this.currentType !== 'shutter') return;
 
             switch (this.currentType) {
+                case 'glitchBlocks': {
+                    if (p > 0 && p < 1) {
+                        ctx.save();
+                        ctx.fillStyle = accent;
+                        ctx.globalAlpha = 0.5 * (1 - p);
+                        if (p < 0.95) {
+                            this.definePath(ctx, W, H, p, 'main');
+                            ctx.fill();
+                        }
+                        ctx.restore();
+                    }
+                    break;
+                }
+
                 case 'shutter': {
                     const skewS = 250;
                     for (const cell of this.cells) {
@@ -862,7 +1051,7 @@
 
             const { w: W, h: H } = this.syncCanvas();
 
-            this.resetTransitionState(W);
+            this.resetTransitionState(W, H);
 
             this.render();
             if (this.images.old) {
