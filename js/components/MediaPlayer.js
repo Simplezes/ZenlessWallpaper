@@ -15,9 +15,9 @@ export default class MediaPlayer extends Component {
     }
 
     render() {
-        const { title, artist, status, isPlaying } = this.getDisplayState();
+        const { title, artist, status, isPlaying, theme } = this.getDisplayState();
         return `
-            <div class="media-container ${isPlaying ? 'is-playing' : 'is-idle'}" id="media-container">
+            <div class="media-container ${isPlaying ? 'is-playing' : 'is-idle'}" id="media-container" data-theme="${theme}">
                 <div class="media-top-row">
                     <div class="terminal-status" id="terminal-status">${status}</div>
                 </div>
@@ -47,6 +47,21 @@ export default class MediaPlayer extends Component {
             this._timeUnsub = store.subscribe((s) => {
                 if (this.mounted && this.container) {
                     const statusEl = this.container.querySelector('.terminal-status');
+                    const titleEl = this.container.querySelector('#media-title');
+                    const mediaContainer = this.container.querySelector('#media-container');
+                    
+                    // Update theme attribute
+                    if (mediaContainer) {
+                        const currentTheme = s.footerTheme || 'dark';
+                        mediaContainer.setAttribute('data-theme', currentTheme);
+                    }
+                    
+                    // Update time display
+                    const isPlaying = Number(this.state.playbackState) === 1;
+                    if (!isPlaying && titleEl) {
+                        titleEl.textContent = `${s.timeValue} ${s.ampm}`;
+                    }
+                    
                     if (statusEl) statusEl.textContent = `${s.timeValue} ${s.ampm}`;
                 }
             });
@@ -63,14 +78,16 @@ export default class MediaPlayer extends Component {
         const artist = this.normalizeText(this.state.rawArtist);
         const isPlaying = Number(this.state.playbackState) === 1;
         const shouldShow = isPlaying && title !== '';
-
+        
+        const theme = store.state.footerTheme || 'dark';
         const timeStr = `${store.state.timeValue} ${store.state.ampm}`;
 
         return {
-            title: shouldShow ? title : 'NO MEDIA',
-            artist: shouldShow ? (artist || 'IDLE') : 'IDLE',
+            title: shouldShow ? title : timeStr,
+            artist: shouldShow ? (artist || 'IDLE') : '',
             status: timeStr,
-            isPlaying: shouldShow
+            isPlaying: shouldShow,
+            theme
         };
     }
 

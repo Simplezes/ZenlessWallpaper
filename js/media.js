@@ -16,6 +16,8 @@ function updateMediaUI() {
     const isPlaying = currentPlaybackState === 1;
     const hasMedia = currentMediaTitle && currentMediaTitle !== 'NO MEDIA' && currentMediaTitle.trim() !== '';
     const shouldShow = hasMedia && isPlaying;
+    
+    const timeStr = `${store.state.timeValue} ${store.state.ampm}`;
 
     if (shouldShow) {
         container.classList.remove('is-idle');
@@ -34,13 +36,13 @@ function updateMediaUI() {
     } else {
         container.classList.add('is-idle');
         container.classList.remove('is-playing');
-        if (statusEl) statusEl.textContent = 'SIGNAL LOST // IDLE';
+        if (statusEl) statusEl.textContent = timeStr;
         if (titleEl) {
-            titleEl.textContent = 'NO MEDIA';
+            titleEl.textContent = timeStr;
             titleEl.classList.remove('scrolling');
-            lastTitleText = 'NO MEDIA';
+            lastTitleText = timeStr;
         }
-        if (artistEl) artistEl.textContent = 'IDLE';
+        if (artistEl) artistEl.textContent = '';
         if (recTitle) recTitle.textContent = 'NO MEDIA';
         if (recArtist) recArtist.textContent = 'IDLE';
     }
