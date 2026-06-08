@@ -12,11 +12,42 @@
     overflow: hidden;
 }
 
+.media-title {
+    display: inline-block;
+    font-family: "Rajdhani", sans-serif;
+    font-size: clamp(16px, 3.5vmin, 60px);
+    font-weight: 900;
+    color: var(--color-white);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    padding-right: 2vmin;
+}
+
+.media-container.is-idle .media-title {
+    font-size: clamp(20px, 5vmin, 80px);
+    color: var(--accent-color);
+}
+
+.media-container.is-playing .media-title {
+    font-size: clamp(16px, 3.5vmin, 60px);
+    color: var(--color-white);
+}
+
 .media-top-row {
     display: flex;
     align-items: center;
     gap: 1.2vmin;
     margin-bottom: 0.2vmin;
+    min-height: clamp(20px, 2.5vmin, 32px);
+}
+
+.media-container.is-idle .media-top-row {
+    display: none;
+}
+
+.media-container.is-playing .media-top-row {
+    display: flex;
 }
 
 .terminal-status {
@@ -63,23 +94,31 @@
     margin-bottom: 0.2vmin;
 }
 
-.media-title {
-    display: inline-block;
-    font-family: "Rajdhani", sans-serif;
-    font-size: clamp(16px, 3.5vmin, 60px);
-    font-weight: 900;
-    color: var(--color-white);
-    text-transform: uppercase;
-    letter-spacing: -0.01em;
-    line-height: 1.1;
-    transition: none;
-    padding-right: 2vmin;
+.media-container.is-idle .media-title-wrap {
+    margin-bottom: 0;
+}
+
+.media-container.is-playing .media-title-wrap {
+    margin-bottom: 0.2vmin;
+}
+
+.media-container[data-theme="light"] .media-title {
+    color: var(--color-dark-text);
 }
 
 .media-bottom-row {
     display: flex;
     align-items: center;
     margin-bottom: 0.5vmin;
+    min-height: clamp(10px, 1.6vmin, 24px);
+}
+
+.media-container.is-idle .media-bottom-row {
+    display: none;
+}
+
+.media-container.is-playing .media-bottom-row {
+    display: flex;
 }
 
 .media-artist {
