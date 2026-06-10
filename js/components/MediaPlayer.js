@@ -39,6 +39,48 @@ export default class MediaPlayer extends Component {
         `;
     }
 
+    update() {
+        if (!this.container) return;
+
+        const { title, artist, status, isPlaying, theme } = this.getDisplayState();
+        const mediaContainer = this.container.querySelector('#media-container');
+
+        if (!mediaContainer) {
+            this.container.innerHTML = this.render();
+            this.onUpdated();
+            return;
+        }
+
+        mediaContainer.setAttribute('data-theme', theme);
+
+        const artistEl = this.container.querySelector('#media-artist');
+        if (artistEl && artistEl.textContent !== artist) artistEl.textContent = artist;
+
+        const statusEl = this.container.querySelector('.terminal-status');
+        if (statusEl && statusEl.textContent !== status) statusEl.textContent = status;
+
+        const wasPlaying = mediaContainer.classList.contains('is-playing');
+        const titleEl = this.container.querySelector('#media-title');
+
+        if (wasPlaying !== isPlaying) {
+            if (titleEl) {
+                titleEl.style.opacity = '0';
+                setTimeout(() => {
+                    titleEl.textContent = title;
+                    titleEl.style.opacity = '';
+                    this.updateScrolling();
+                }, 300);
+            }
+            mediaContainer.classList.toggle('is-playing', isPlaying);
+            mediaContainer.classList.toggle('is-idle', !isPlaying);
+        } else {
+            if (titleEl && titleEl.textContent !== title) {
+                titleEl.textContent = title;
+                this.updateScrolling();
+            }
+        }
+    }
+
     onMounted() {
         if (!this.initialized) {
             this.initListeners();
@@ -50,13 +92,11 @@ export default class MediaPlayer extends Component {
                     const titleEl = this.container.querySelector('#media-title');
                     const mediaContainer = this.container.querySelector('#media-container');
                     
-                    // Update theme attribute
                     if (mediaContainer) {
                         const currentTheme = s.footerTheme || 'dark';
                         mediaContainer.setAttribute('data-theme', currentTheme);
                     }
                     
-                    // Update time display
                     const isPlaying = Number(this.state.playbackState) === 1;
                     if (!isPlaying && titleEl) {
                         titleEl.textContent = `${s.timeValue} ${s.ampm}`;
