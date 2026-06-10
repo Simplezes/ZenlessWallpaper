@@ -136,6 +136,7 @@ class KineticSway {
             if (!item.el || !item.el.isConnected) {
                 if (item.id) item.el = document.getElementById(item.id);
                 if (!item.el) continue;
+                item._imgs = null;
             }
             item.el.style.translate = '';
             item.el.style.rotate = '';
