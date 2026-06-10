@@ -26,6 +26,7 @@ class Store {
             },
             timeValue: '--:--',
             ampm: '--',
+            use24h: storage ? storage.getBool('use24h', false) : localStorage.getItem('use24h') === 'true',
             layout: storage ? storage.get('wallpaperLayout', 'calendar') : (localStorage.getItem('wallpaperLayout') || 'calendar')
         };
 
@@ -87,13 +88,28 @@ class Store {
             const now = new Date();
             const hours = now.getHours();
             const minutes = now.getMinutes();
-            const ampm = hours >= 12 ? 'PM' : 'AM';
-            const hours12 = hours % 12 || 12;
-            const timeValue = `${String(hours12).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
-            this.setState({ timeValue, ampm });
+            if (this.state.use24h) {
+                const timeValue = `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                this.setState({ timeValue, ampm: '' });
+            } else {
+                const ampm = hours >= 12 ? 'PM' : 'AM';
+                const hours12 = hours % 12 || 12;
+                const timeValue = `${String(hours12).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                this.setState({ timeValue, ampm });
+            }
         };
+        this._updateTime = updateTime;
         updateTime();
         setInterval(updateTime, 1000);
+    }
+
+    toggleTimeFormat() {
+        const use24h = !this.state.use24h;
+        const storage = window.safeStorage;
+        if (storage) storage.set('use24h', use24h);
+        else localStorage.setItem('use24h', use24h);
+        this.setState({ use24h });
+        if (this._updateTime) this._updateTime();
     }
 }
 
