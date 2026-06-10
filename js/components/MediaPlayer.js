@@ -91,20 +91,27 @@ export default class MediaPlayer extends Component {
                     const statusEl = this.container.querySelector('.terminal-status');
                     const titleEl = this.container.querySelector('#media-title');
                     const mediaContainer = this.container.querySelector('#media-container');
-                    
+
                     if (mediaContainer) {
                         const currentTheme = s.footerTheme || 'dark';
                         mediaContainer.setAttribute('data-theme', currentTheme);
                     }
-                    
+
+                    const timeStr = s.ampm ? `${s.timeValue} ${s.ampm}` : s.timeValue;
                     const isPlaying = Number(this.state.playbackState) === 1;
                     if (!isPlaying && titleEl) {
-                        titleEl.textContent = `${s.timeValue} ${s.ampm}`;
+                        titleEl.textContent = timeStr;
                     }
-                    
-                    if (statusEl) statusEl.textContent = `${s.timeValue} ${s.ampm}`;
+
+                    if (statusEl) statusEl.textContent = timeStr;
                 }
             });
+
+            const mediaContainer = this.container.querySelector('#media-container');
+            if (mediaContainer) {
+                mediaContainer.style.cursor = 'pointer';
+                mediaContainer.addEventListener('click', () => store.toggleTimeFormat());
+            }
         }
         this.updateScrolling();
     }
@@ -120,7 +127,7 @@ export default class MediaPlayer extends Component {
         const shouldShow = isPlaying && title !== '';
         
         const theme = store.state.footerTheme || 'dark';
-        const timeStr = `${store.state.timeValue} ${store.state.ampm}`;
+        const timeStr = store.state.ampm ? `${store.state.timeValue} ${store.state.ampm}` : store.state.timeValue;
 
         return {
             title: shouldShow ? title : timeStr,

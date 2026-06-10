@@ -104,9 +104,19 @@ export default class Footer extends Component {
                     const valEl = this.container.querySelector('.m-time-val');
                     const ampmEl = this.container.querySelector('.m-time-ampm');
                     if (valEl) valEl.textContent = s.timeValue || '--:--';
-                    if (ampmEl) ampmEl.textContent = s.ampm || '--';
+                    if (ampmEl) {
+                        ampmEl.textContent = s.ampm || '';
+                        ampmEl.style.visibility = s.use24h ? 'hidden' : 'visible';
+                    }
                 }
             });
+        }
+
+        const timeContainer = this.container.querySelector('.mobile-top-time');
+        if (timeContainer && !timeContainer._clickBound) {
+            timeContainer._clickBound = true;
+            timeContainer.style.cursor = 'pointer';
+            timeContainer.addEventListener('click', () => store.toggleTimeFormat());
         }
     }
 
