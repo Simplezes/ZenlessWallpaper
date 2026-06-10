@@ -428,6 +428,10 @@ export default class Background extends Component {
         this._lastRenderedLayout = this.state.layout;
         this._lastAgent = this.state.character;
 
+        if (window.kineticSway) {
+            window.kineticSway.resetElements();
+        }
+
         requestAnimationFrame(() => {
             if (!agentChanged) {
                 this.refreshCharacterImage();
