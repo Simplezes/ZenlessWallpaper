@@ -1,5 +1,11 @@
 {
     "characters": {
+        "Phaethon": {
+            "Pyrois": {
+                "dark": "rgb(88, 138, 221)",
+                "light": "rgb(65, 102, 188)"
+            }
+        },
         "Cunning Hares": {
             "Anby Demara": {
                 "dark": "rgb(220, 251, 33)",
@@ -240,6 +246,12 @@
             "Cissia": {
                 "dark": "rgb(183, 69, 105)",
                 "light": "rgb(188, 71, 108)"
+            }
+        },
+        "External Strategy Department": {
+            "Velina Airgid": {
+                "dark": "rgb(88, 138, 221)",
+                "light": "rgb(65, 102, 188)"
             }
         }
     }
