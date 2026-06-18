@@ -3,7 +3,8 @@
         "Phaethon": {
             "Pyrois": {
                 "dark": "rgb(88, 138, 221)",
-                "light": "rgb(65, 102, 188)"
+                "light": "rgb(65, 102, 188)",
+                "variants": ["Default_Belle", "Default_Wise", "Partial_Belle", "Partial_Wise", "Full_Belle", "Full_Wise"]
             }
         },
         "Cunning Hares": {

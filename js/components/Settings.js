@@ -355,8 +355,10 @@ export default class Settings extends Component {
     }
 
     cycleVariant() {
-        const variants = ['Default', 'Partial', 'Full'];
+        const charData = window.getCharacterData && window.getCharacterData(this.state.currentAgent);
+        const variants = (charData && charData.variants) || ['Default', 'Partial', 'Full'];
         let idx = variants.indexOf(this.state.currentVariant);
+        if (idx === -1) idx = 0;
         const next = variants[(idx + 1) % variants.length];
         this.setState({ currentVariant: next });
         if (window.safeStorage) window.safeStorage.set('selectedVariant', next);
@@ -447,8 +449,18 @@ export default class Settings extends Component {
     confirmAgent(name) {
         if (window.safeStorage) window.safeStorage.set('selectedCharacter', name);
         else localStorage.setItem('selectedCharacter', name);
-        this.setState({ currentAgent: name, isOpen: false, isAgentListOpen: false });
-        if (window.store) window.store.setState({ currentAgent: name });
-        this.applySettings(false, { currentAgent: name });
+
+        const charData = window.getCharacterData && window.getCharacterData(name);
+        const validVariants = (charData && charData.variants) || ['Default', 'Partial', 'Full'];
+        let variant = this.state.currentVariant;
+        if (!validVariants.includes(variant)) {
+            variant = validVariants[0];
+            if (window.safeStorage) window.safeStorage.set('selectedVariant', variant);
+            else localStorage.setItem('selectedVariant', variant);
+        }
+
+        this.setState({ currentAgent: name, currentVariant: variant, isOpen: false, isAgentListOpen: false });
+        if (window.store) window.store.setState({ currentAgent: name, currentVariant: variant });
+        this.applySettings(false, { currentAgent: name, currentVariant: variant });
     }
 }

@@ -108,7 +108,8 @@ window.getCharacterData = function (name) {
                 nickname: name.split(' ')[0],
                 faction: faction,
                 baseColor: baseColor,
-                idName: name.replace(/ /g, '_')
+                idName: name.replace(/ /g, '_'),
+                variants: characters[name].variants || null
             };
         }
     }
