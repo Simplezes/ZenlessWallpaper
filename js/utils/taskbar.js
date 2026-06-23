@@ -42,4 +42,5 @@ function detectTaskbar() {
 
 detectTaskbar();
 window.addEventListener('resize', detectTaskbar);
-setTimeout(detectTaskbar, 500);
+
+[200, 500, 1000, 2000, 4000].forEach(ms => setTimeout(detectTaskbar, ms));

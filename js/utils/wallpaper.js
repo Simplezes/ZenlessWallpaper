@@ -61,6 +61,15 @@ async function loadCharacters() {
 
         updateLoading(30, 'DECRYPTING ARCHIVES...');
         window.characters = await window.charactersFetch;
+
+        if (!window.characters) {
+            window.characters = await fetch('assets/characters.json')
+                .then(r => {
+                    if (!r.ok) throw new Error(`characters.json retry failed: ${r.status}`);
+                    return r.json();
+                });
+        }
+
         updateLoading(50, 'CALIBRATING SIGNAL...');
 
         const savedChar = safeGet('selectedCharacter', "Burnice White");
@@ -81,6 +90,7 @@ async function loadCharacters() {
 
     } catch (e) {
         console.error("Failed to load characters.json", e);
+        updateLoading(100, 'FALLBACK MODE');
     }
 }
 
@@ -329,11 +339,13 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             applyColorsAndText();
             if (isStaleRequest()) return;
 
-            if (mainImg) {
-                mainImg.src = imgPath;
-                mainImg.style.opacity = '1';
-                mainImg.style.visibility = '';
+            const currentMainImg = document.getElementById('main-image');
+            if (currentMainImg) {
+                currentMainImg.src = imgPath;
+                currentMainImg.style.opacity = '1';
+                currentMainImg.style.visibility = '';
             }
+            window.isCharacterChanging = false;
             if (onComplete) onComplete();
         }
     };
@@ -341,10 +353,33 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
 
     tempImg.onerror = () => {
         if (isStaleRequest()) return;
+        console.warn("Failed to load wallpaper image, retrying in 1.5s:", imgPath);
 
-        console.error("Failed to load wallpaper image:", imgPath);
-        applyColorsAndText();
-        if (onComplete) onComplete();
+        setTimeout(() => {
+            if (isStaleRequest()) return;
+            const retryImg = new Image();
+            retryImg.onload = () => {
+                if (isStaleRequest()) return;
+                applyColorsAndText();
+                if (isStaleRequest()) return;
+                const currentMainImg = document.getElementById('main-image');
+                if (currentMainImg) {
+                    currentMainImg.src = imgPath;
+                    currentMainImg.style.opacity = '1';
+                    currentMainImg.style.visibility = '';
+                }
+                window.isCharacterChanging = false;
+                if (onComplete) onComplete();
+            };
+            retryImg.onerror = () => {
+                if (isStaleRequest()) return;
+                console.error("Failed to load wallpaper image after retry:", imgPath);
+                applyColorsAndText();
+                window.isCharacterChanging = false;
+                if (onComplete) onComplete();
+            };
+            retryImg.src = imgPath;
+        }, 1500);
     };
 };
 
