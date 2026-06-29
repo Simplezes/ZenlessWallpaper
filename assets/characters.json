@@ -253,6 +253,10 @@
             "Velina Airgid": {
                 "dark": "rgb(88, 138, 221)",
                 "light": "rgb(65, 102, 188)"
+            },
+            "Norma Hollowell": {
+                "dark": "rgb(88, 138, 221)",
+                "light": "rgb(65, 102, 188)"
             }
         }
     }
