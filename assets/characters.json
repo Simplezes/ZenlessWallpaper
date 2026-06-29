@@ -2,261 +2,268 @@
     "characters": {
         "Phaethon": {
             "Pyrois": {
-                "dark": "rgb(88, 138, 221)",
-                "light": "rgb(65, 102, 188)",
-                "variants": ["Default_Belle", "Default_Wise", "Partial_Belle", "Partial_Wise", "Full_Belle", "Full_Wise"]
+                "dark": "rgb(8, 67, 255)",
+                "light": "rgb(6, 49, 188)",
+                "variants": [
+                    "Default_Belle",
+                    "Default_Wise",
+                    "Partial_Belle",
+                    "Partial_Wise",
+                    "Full_Belle",
+                    "Full_Wise"
+                ]
             }
         },
         "Cunning Hares": {
             "Anby Demara": {
-                "dark": "rgb(220, 251, 33)",
-                "light": "rgb(165, 188, 25)"
+                "dark": "rgb(147, 255, 0)",
+                "light": "rgb(108, 188, 0)"
             },
             "Billy Kid": {
-                "dark": "rgb(255, 49, 16)",
-                "light": "rgb(188, 36, 18)"
+                "dark": "rgb(255, 73, 0)",
+                "light": "rgb(188, 54, 0)"
             },
             "Starlight - Billy Kid": {
-                "dark": "rgb(255, 49, 16)",
-                "light": "rgb(188, 36, 18)"
+                "dark": "rgb(255, 0, 2)",
+                "light": "rgb(188, 0, 2)"
             },
             "Nekomiya Mana": {
-                "dark": "rgb(255, 77, 0)",
-                "light": "rgb(188, 57, 0)"
+                "dark": "rgb(255, 39, 0)",
+                "light": "rgb(188, 29, 0)"
             },
             "Nicole Demara": {
-                "dark": "rgb(255, 70, 186)",
-                "light": "rgb(188, 52, 137)"
+                "dark": "rgb(255, 0, 86)",
+                "light": "rgb(188, 0, 63)"
             }
         },
         "Belobog Heavy Industries": {
             "Anton Ivanov": {
-                "dark": "rgb(255, 94, 0)",
-                "light": "rgb(188, 69, 0)"
+                "dark": "rgb(255, 53, 0)",
+                "light": "rgb(188, 39, 0)"
             },
             "Ben Bigger": {
-                "dark": "rgb(255, 145, 0)",
-                "light": "rgb(188, 107, 0)"
+                "dark": "rgb(255, 42, 0)",
+                "light": "rgb(188, 31, 0)"
             },
             "Grace Howard": {
-                "dark": "rgb(255, 127, 39)",
-                "light": "rgb(188, 94, 29)"
+                "dark": "rgb(255, 37, 0)",
+                "light": "rgb(188, 27, 0)"
             },
             "Koleda Belobog": {
-                "dark": "rgb(255, 60, 0)",
-                "light": "rgb(188, 44, 0)"
+                "dark": "rgb(255, 70, 0)",
+                "light": "rgb(188, 52, 0)"
             }
         },
         "Victoria Housekeeping Co.": {
             "Alexandrina Sebastiane": {
-                "dark": "rgb(255, 30, 63)",
-                "light": "rgb(188, 22, 46)"
+                "dark": "rgb(255, 0, 20)",
+                "light": "rgb(188, 0, 15)"
             },
             "Corin Wickes": {
-                "dark": "rgb(183, 64, 255)",
-                "light": "rgb(135, 47, 188)"
+                "dark": "rgb(208, 0, 255)",
+                "light": "rgb(153, 0, 188)"
             },
             "Ellen Joe": {
-                "dark": "rgb(255, 45, 130)",
-                "light": "rgb(188, 33, 96)"
+                "dark": "rgb(255, 0, 89)",
+                "light": "rgb(188, 0, 66)"
             },
             "Von Lycaon": {
-                "dark": "rgb(160, 210, 235)",
-                "light": "rgb(128, 168, 188)"
+                "dark": "rgb(4, 67, 255)",
+                "light": "rgb(3, 49, 188)"
             }
         },
         "Sons of Calydon": {
             "Burnice White": {
-                "dark": "rgb(255, 177, 20)",
-                "light": "rgb(188, 130, 18)"
+                "dark": "rgb(255, 28, 0)",
+                "light": "rgb(188, 21, 0)"
             },
             "Caesar King": {
-                "dark": "rgb(255, 149, 0)",
-                "light": "rgb(188, 110, 0)"
+                "dark": "rgb(255, 129, 0)",
+                "light": "rgb(188, 95, 0)"
             },
             "Lighter": {
-                "dark": "rgb(255, 33, 0)",
-                "light": "rgb(188, 24, 0)"
+                "dark": "rgb(255, 69, 0)",
+                "light": "rgb(188, 51, 0)"
             },
             "Luciana de Montefio": {
-                "dark": "rgb(255, 184, 0)",
-                "light": "rgb(188, 136, 0)"
+                "dark": "rgb(255, 112, 0)",
+                "light": "rgb(188, 82, 0)"
             },
             "Piper Wheel": {
-                "dark": "rgb(255, 165, 0)",
-                "light": "rgb(188, 122, 0)"
+                "dark": "rgb(52, 118, 255)",
+                "light": "rgb(39, 87, 188)"
             },
             "Pulchra Fellini": {
-                "dark": "rgb(255, 140, 0)",
-                "light": "rgb(188, 103, 0)"
+                "dark": "rgb(255, 46, 0)",
+                "light": "rgb(188, 34, 0)"
             }
         },
         "Section 6": {
             "Asaba Harumasa": {
-                "dark": "rgb(255, 220, 0)",
-                "light": "rgb(188, 162, 0)"
+                "dark": "rgb(255, 182, 0)",
+                "light": "rgb(188, 134, 0)"
             },
             "Hoshimi Miyabi": {
-                "dark": "rgb(0, 229, 255)",
-                "light": "rgb(0, 169, 188)"
+                "dark": "rgb(0, 255, 247)",
+                "light": "rgb(0, 188, 182)"
             },
             "Soukaku": {
-                "dark": "rgb(0, 251, 255)",
-                "light": "rgb(0, 185, 188)"
+                "dark": "rgb(0, 104, 255)",
+                "light": "rgb(0, 77, 188)"
             },
             "Tsukishiro Yanagi": {
-                "dark": "rgb(255, 0, 85)",
-                "light": "rgb(188, 0, 63)"
+                "dark": "rgb(255, 0, 29)",
+                "light": "rgb(188, 0, 21)"
             }
         },
         "Criminal Investigation Special Response Team": {
             "Jane Doe": {
-                "dark": "rgb(255, 31, 109)",
-                "light": "rgb(188, 23, 80)"
+                "dark": "rgb(255, 0, 92)",
+                "light": "rgb(188, 0, 68)"
             },
             "Qingyi": {
-                "dark": "rgb(20, 255, 178)",
-                "light": "rgb(18, 188, 131)"
+                "dark": "rgb(0, 255, 182)",
+                "light": "rgb(0, 188, 134)"
             },
             "Seth Lowell": {
-                "dark": "rgb(85, 162, 255)",
-                "light": "rgb(63, 119, 188)"
+                "dark": "rgb(3, 12, 255)",
+                "light": "rgb(2, 9, 188)"
             },
             "Zhu Yuan": {
-                "dark": "rgb(0, 132, 255)",
-                "light": "rgb(0, 97, 188)"
+                "dark": "rgb(0, 59, 255)",
+                "light": "rgb(0, 43, 188)"
             }
         },
         "Obol Squad": {
             "Orphie & Magus": {
-                "dark": "rgb(255, 59, 89)",
-                "light": "rgb(188, 43, 66)"
+                "dark": "rgb(255, 0, 42)",
+                "light": "rgb(188, 0, 31)"
             },
             "Seed": {
-                "dark": "rgb(255, 165, 0)",
-                "light": "rgb(188, 122, 0)"
+                "dark": "rgb(255, 177, 0)",
+                "light": "rgb(188, 131, 0)"
             },
             "Soldier 11": {
-                "dark": "rgb(255, 204, 0)",
-                "light": "rgb(188, 150, 0)"
+                "dark": "rgb(255, 81, 0)",
+                "light": "rgb(188, 59, 0)"
             },
             "Trigger": {
-                "dark": "rgb(255, 238, 0)",
-                "light": "rgb(188, 175, 0)"
+                "dark": "rgb(255, 25, 0)",
+                "light": "rgb(188, 18, 0)"
             }
         },
         "Silver Squad": {
             "Soldier 0 - Anby": {
-                "dark": "rgb(220, 251, 33)",
-                "light": "rgb(165, 188, 25)"
+                "dark": "rgb(255, 147, 38)",
+                "light": "rgb(188, 108, 28)"
             }
         },
         "Mockingbird": {
             "Hugo Vlad": {
-                "dark": "rgb(255, 0, 0)",
-                "light": "rgb(188, 0, 0)"
+                "dark": "rgb(255, 39, 30)",
+                "light": "rgb(188, 29, 22)"
             },
             "Vivian Banshee": {
-                "dark": "rgb(183, 64, 255)",
-                "light": "rgb(135, 47, 188)"
+                "dark": "rgb(167, 0, 255)",
+                "light": "rgb(123, 0, 188)"
             }
         },
         "Yunkui Summit": {
             "Ju Fufu": {
-                "dark": "rgb(255, 140, 0)",
-                "light": "rgb(188, 103, 0)"
+                "dark": "rgb(255, 97, 0)",
+                "light": "rgb(188, 71, 0)"
             },
             "Pan Yinhu": {
-                "dark": "rgb(255, 204, 0)",
-                "light": "rgb(188, 150, 0)"
+                "dark": "rgb(255, 144, 0)",
+                "light": "rgb(188, 106, 0)"
             },
             "Ye Shunguang": {
-                "dark": "rgb(255, 22, 18)",
-                "light": "rgb(188, 18, 18)"
+                "dark": "rgb(255, 32, 0)",
+                "light": "rgb(188, 23, 0)"
             },
             "Yixuan": {
-                "dark": "rgb(212, 157, 0)",
-                "light": "rgb(188, 139, 0)"
+                "dark": "rgb(255, 113, 0)",
+                "light": "rgb(188, 84, 0)"
             }
         },
         "Spook Shack": {
             "Alice Thymefield": {
-                "dark": "rgb(255, 215, 0)",
-                "light": "rgb(188, 159, 0)"
+                "dark": "rgb(255, 121, 0)",
+                "light": "rgb(188, 90, 0)"
             },
             "Komano Manato": {
-                "dark": "rgb(255, 69, 0)",
-                "light": "rgb(188, 51, 0)"
+                "dark": "rgb(255, 11, 0)",
+                "light": "rgb(188, 8, 0)"
             },
             "Lucia Elowen": {
-                "dark": "rgb(0, 238, 255)",
-                "light": "rgb(0, 175, 188)"
+                "dark": "rgb(164, 174, 255)",
+                "light": "rgb(121, 129, 188)"
             },
             "Ukinami Yuzuha": {
-                "dark": "rgb(255, 0, 0)",
-                "light": "rgb(188, 0, 0)"
+                "dark": "rgb(255, 0, 17)",
+                "light": "rgb(188, 0, 13)"
             },
             "Yidhari Murphy": {
-                "dark": "rgb(189, 0, 255)",
-                "light": "rgb(139, 0, 188)"
+                "dark": "rgb(133, 0, 255)",
+                "light": "rgb(98, 0, 188)"
             }
         },
         "Stars of Lyra": {
             "Astra Yao": {
-                "dark": "rgb(255, 0, 60)",
-                "light": "rgb(188, 0, 44)"
+                "dark": "rgb(255, 0, 43)",
+                "light": "rgb(188, 0, 32)"
             },
             "Evelyn Chevalier": {
-                "dark": "rgb(183, 64, 255)",
-                "light": "rgb(135, 47, 188)"
+                "dark": "rgb(91, 4, 255)",
+                "light": "rgb(67, 3, 188)"
             }
         },
         "Krampus Compliance Authority": {
             "Banyue": {
-                "dark": "rgb(255, 165, 0)",
-                "light": "rgb(188, 122, 0)"
+                "dark": "rgb(255, 159, 0)",
+                "light": "rgb(188, 117, 0)"
             },
             "Dialyn": {
-                "dark": "rgb(0, 255, 204)",
-                "light": "rgb(0, 188, 150)"
+                "dark": "rgb(33, 152, 255)",
+                "light": "rgb(24, 112, 188)"
             },
             "Zhao": {
-                "dark": "rgb(255, 77, 109)",
-                "light": "rgb(188, 57, 80)"
+                "dark": "rgb(255, 0, 46)",
+                "light": "rgb(188, 0, 34)"
             },
             "Promeia": {
-                "dark": "rgb(159, 122, 237)",
-                "light": "rgb(126, 97, 188)"
+                "dark": "rgb(113, 0, 255)",
+                "light": "rgb(83, 0, 188)"
             }
         },
         "Angels of Delusion": {
             "Sunna": {
-                "dark": "rgb(220, 251, 33)",
-                "light": "rgb(165, 188, 25)"
+                "dark": "rgb(145, 255, 31)",
+                "light": "rgb(107, 188, 23)"
             },
             "Nangong Yu": {
-                "dark": "rgb(86, 42, 181)",
-                "light": "rgb(89, 44, 188)"
+                "dark": "rgb(132, 0, 255)",
+                "light": "rgb(98, 0, 188)"
             },
             "Aria": {
-                "dark": "rgb(255, 139, 164)",
-                "light": "rgb(188, 102, 121)"
+                "dark": "rgb(255, 0, 88)",
+                "light": "rgb(188, 0, 65)"
             }
         },
         "Metropolitan Order Division": {
             "Cissia": {
-                "dark": "rgb(183, 69, 105)",
-                "light": "rgb(188, 71, 108)"
+                "dark": "rgb(255, 0, 168)",
+                "light": "rgb(188, 0, 124)"
             }
         },
         "External Strategy Department": {
             "Velina Airgid": {
-                "dark": "rgb(88, 138, 221)",
-                "light": "rgb(65, 102, 188)"
+                "dark": "rgb(66, 21, 255)",
+                "light": "rgb(49, 15, 188)"
             },
             "Norma Hollowell": {
-                "dark": "rgb(88, 138, 221)",
-                "light": "rgb(65, 102, 188)"
+                "dark": "rgb(0, 104, 255)",
+                "light": "rgb(0, 77, 188)"
             }
         }
     }
