@@ -592,12 +592,87 @@ function kickLayout() {
 window.addEventListener('focus', kickLayout);
 window.addEventListener('resize', kickLayout);
 
-if (window.wallpaperPropertyListener) {
-    const originalSetPaused = window.wallpaperPropertyListener.setPaused;
-    window.wallpaperPropertyListener.setPaused = function (paused) {
-        if (originalSetPaused) originalSetPaused(paused);
+window.wallpaperPropertyListener = {
+    applyUserProperties: function (properties) {
+        if (properties.character) {
+            const char = properties.character.value;
+            if (window.app && window.app.settings) {
+                window.app.settings.confirmAgent(char);
+            } else {
+                safeSet('selectedCharacter', char);
+                window.setWallpaper(char, safeGet('selectedVariant', 'Default'));
+            }
+        }
+        if (properties.variant) {
+            const variant = properties.variant.value;
+            if (window.app && window.app.settings) {
+                window.app.settings.setState({ currentVariant: variant });
+                if (window.store) window.store.setState({ currentVariant: variant });
+                safeSet('selectedVariant', variant);
+                window.app.settings.applySettings(false, { currentVariant: variant });
+            } else {
+                safeSet('selectedVariant', variant);
+                window.setWallpaper(safeGet('selectedCharacter', 'Burnice White'), variant);
+            }
+        }
+        if (properties.variant_pyrois) {
+            const variant = properties.variant_pyrois.value;
+            if (window.app && window.app.settings) {
+                window.app.settings.setState({ currentVariant: variant });
+                if (window.store) window.store.setState({ currentVariant: variant });
+                safeSet('selectedVariant', variant);
+                window.app.settings.applySettings(false, { currentVariant: variant });
+            } else {
+                safeSet('selectedVariant', variant);
+                window.setWallpaper(safeGet('selectedCharacter', 'Pyrois'), variant);
+            }
+        }
+        if (properties.flip) {
+            const flip = properties.flip.value;
+            const key = `charFlip_${window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'}`;
+            safeSet(key, flip);
+            window.dispatchEvent(new CustomEvent('wallpaper:settingsChanged', { detail: { key, value: flip } }));
+            if (window.kineticSway) window.kineticSway.resetElements();
+        }
+        if (properties.rotate) {
+            const rotate = parseInt(properties.rotate.value);
+            const key = `charRotate_${window.innerHeight > window.innerWidth ? 'portrait' : 'landscape'}`;
+            safeSet(key, rotate);
+            window.dispatchEvent(new CustomEvent('wallpaper:settingsChanged', { detail: { key, value: rotate } }));
+            if (window.kineticSway) window.kineticSway.resetElements();
+        }
+        if (properties.motion) {
+            const motion = properties.motion.value;
+            safeSet('kineticSway', motion);
+            if (window.kineticSway) window.kineticSway.setEnabled(motion);
+            if (window.PatternRenderer) window.PatternRenderer.setMotion(motion);
+            if (window.store) window.store.setState({ kineticEnabled: motion });
+        }
+        if (properties.pattern) {
+            const pattern = properties.pattern.value;
+            safeSet('bgPattern', pattern);
+            if (window.PatternRenderer) window.PatternRenderer.setVisible(pattern);
+            if (window.store) window.store.setState({ patternEnabled: pattern });
+        }
+        if (properties.theme) {
+            const theme = properties.theme.value;
+            safeSet('footerTheme', theme);
+            if (window.store) window.store.setFooterTheme(theme);
+            if (window.app && window.app.settings) {
+                window.app.settings.setState({ footerTheme: theme });
+                window.app.settings.applySettings(true);
+            }
+        }
+        if (properties.layout) {
+            const layout = properties.layout.value;
+            safeSet('wallpaperLayout', layout);
+            if (window.store) window.store.setState({ layout: layout });
+            window.dispatchEvent(new CustomEvent('layout-changed', { detail: { layout: layout } }));
+        }
+    },
+    setPaused: function (paused) {
         if (!paused) {
             kickLayout();
         }
-    };
-}
+    }
+};
