@@ -33,7 +33,6 @@
 
 .media-container.is-playing .media-title {
     font-size: clamp(16px, 3.5vmin, 60px);
-    color: var(--color-white);
 }
 
 .media-top-row {
@@ -109,7 +108,8 @@
     margin-bottom: 0.2vmin;
 }
 
-.media-container[data-theme="light"] .media-title {
+.media-container[data-theme="light"] .media-title,
+.media-container[data-theme="light"].is-playing .media-title {
     color: var(--color-dark-text);
 }
 
