@@ -9,6 +9,7 @@
     z-index: 900;
     align-items: flex-start;
     justify-content: space-between;
+    transition: top 0.4s cubic-bezier(0.4, 0, 0.2, 1), left 0.4s cubic-bezier(0.4, 0, 0.2, 1), right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .mobile-header.header-hide-left {
