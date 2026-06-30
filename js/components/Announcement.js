@@ -99,6 +99,12 @@ export default class Announcement extends Component {
         this._showTimer = setTimeout(() => {
             this.setState({ isVisible: true });
             this.animateIn();
+
+            this._autoDismissTimer = setTimeout(() => {
+                if (this.state.isVisible) {
+                    this.dismiss();
+                }
+            }, 12000);
         }, 3000);
     }
 
@@ -106,6 +112,10 @@ export default class Announcement extends Component {
         if (this._showTimer) {
             clearTimeout(this._showTimer);
             this._showTimer = null;
+        }
+        if (this._autoDismissTimer) {
+            clearTimeout(this._autoDismissTimer);
+            this._autoDismissTimer = null;
         }
     }
 
@@ -139,6 +149,10 @@ export default class Announcement extends Component {
     }
 
     dismiss() {
+        if (this._autoDismissTimer) {
+            clearTimeout(this._autoDismissTimer);
+            this._autoDismissTimer = null;
+        }
         const dialogue = this.container.querySelector('.announcement-dialogue');
         const choices = this.container.querySelectorAll('.choice-item');
         if (window.anime) {
