@@ -356,13 +356,16 @@ export default class Settings extends Component {
 
     cycleVariant() {
         const charData = window.getCharacterData && window.getCharacterData(this.state.currentAgent);
-        const variants = (charData && charData.variants) || ['Default', 'Partial', 'Full'];
+        const hasCustomVariants = charData && charData.variants && charData.variants.length > 0;
+        const variants = hasCustomVariants ? charData.variants : ['Default', 'Partial', 'Full'];
         let idx = variants.indexOf(this.state.currentVariant);
         if (idx === -1) idx = 0;
         const next = variants[(idx + 1) % variants.length];
         this.setState({ currentVariant: next });
-        if (window.safeStorage) window.safeStorage.set('selectedVariant', next);
-        else localStorage.setItem('selectedVariant', next);
+
+        const storageKey = hasCustomVariants ? 'selectedVariantCustom' : 'selectedVariant';
+        if (window.safeStorage) window.safeStorage.set(storageKey, next);
+        else localStorage.setItem(storageKey, next);
         if (window.store) window.store.setState({ currentVariant: next });
         this.applySettings(false, { currentVariant: next });
     }
@@ -451,12 +454,16 @@ export default class Settings extends Component {
         else localStorage.setItem('selectedCharacter', name);
 
         const charData = window.getCharacterData && window.getCharacterData(name);
-        const validVariants = (charData && charData.variants) || ['Default', 'Partial', 'Full'];
-        let variant = this.state.currentVariant;
-        if (!validVariants.includes(variant)) {
-            variant = validVariants[0];
-            if (window.safeStorage) window.safeStorage.set('selectedVariant', variant);
-            else localStorage.setItem('selectedVariant', variant);
+        const hasCustomVariants = charData && charData.variants && charData.variants.length > 0;
+        const validVariants = hasCustomVariants ? charData.variants : ['Default', 'Partial', 'Full'];
+        const storageKey = hasCustomVariants ? 'selectedVariantCustom' : 'selectedVariant';
+        const storage = window.safeStorage;
+
+        let variant = storage ? storage.get(storageKey, null) : localStorage.getItem(storageKey);
+        if (!variant || !validVariants.includes(variant)) {
+            variant = hasCustomVariants ? charData.variants[0] : 'Full';
+            if (storage) storage.set(storageKey, variant);
+            else localStorage.setItem(storageKey, variant);
         }
 
         this.setState({ currentAgent: name, currentVariant: variant, isOpen: false, isAgentListOpen: false });
