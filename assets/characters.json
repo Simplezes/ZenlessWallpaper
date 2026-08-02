@@ -265,6 +265,12 @@
                 "dark": "rgb(0, 104, 255)",
                 "light": "rgb(0, 77, 188)"
             }
+        },
+        "Covenant of Dayat": {
+            "Remielle Dan": {
+                "dark": "rgb(232, 151, 176)",
+                "light": "rgb(207, 97, 131)"
+            }
         }
     }
 }
