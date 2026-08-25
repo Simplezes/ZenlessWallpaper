@@ -271,6 +271,12 @@
                 "dark": "rgb(232, 151, 176)",
                 "light": "rgb(207, 97, 131)"
             }
+        },
+        "Airspace Patrol Department": {
+            "Sigrid de L'Azur": {
+                "dark": "rgb(45, 99, 224)",
+                "light": "rgb(28, 72, 173)"
+            }
         }
     }
 }
