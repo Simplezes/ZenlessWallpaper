@@ -2,6 +2,134 @@ body.hide-footer .footer {
     display: none;
 }
 
+.chip-clock,
+.chip-media,
+.chip-zmark {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+}
+
+body.hide-footer .chip-clock,
+body.hide-footer .chip-zmark {
+    display: flex;
+}
+
+body.hide-footer .chip-media.active {
+    display: block;
+}
+
+.chip-clock {
+    left: calc(var(--taskbar-left, 0rem) + clamp(1rem, 1.4vw, 2rem) + env(safe-area-inset-left, 0rem));
+    bottom: calc(var(--taskbar-bottom, 0rem) + clamp(2rem, 2.4vw, 3.2rem) + env(safe-area-inset-bottom, 0rem));
+    align-items: stretch;
+    cursor: pointer;
+}
+
+.chip-clock .dock {
+    display: flex;
+    align-items: center;
+    transform: skewX(-12deg);
+    transform-origin: bottom left;
+}
+
+.chip-clock .month-wedge {
+    flex-shrink: 0;
+    align-self: stretch;
+    background: var(--accent-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.05vmin 1.85vmin;
+}
+
+.chip-clock .month-wedge span {
+    display: inline-block;
+    transform: skewX(12deg);
+    font-family: "RubikMonoOne", sans-serif;
+    font-size: 2.3vmin;
+    line-height: 1;
+    color: var(--color-black);
+}
+
+.chip-clock .plate {
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    gap: 1.3vmin;
+    background: rgba(10, 10, 12, 0.85);
+    padding: 1.05vmin 2.2vmin;
+}
+
+.chip-clock .chip-day {
+    display: inline-block;
+    transform: skewX(12deg);
+    font-family: "RubikMonoOne", sans-serif;
+    font-size: 1.85vmin;
+    line-height: 1;
+    color: var(--accent-color);
+}
+
+.chip-clock .time {
+    display: inline-flex;
+    align-items: baseline;
+    transform: skewX(12deg);
+    font-family: "RubikMonoOne", sans-serif;
+    font-size: 2.8vmin;
+    line-height: 1;
+    color: var(--color-white);
+}
+
+.chip-clock .time small {
+    font-size: 1.4vmin;
+    line-height: 1;
+    margin-left: 0.6vmin;
+    opacity: 0.7;
+}
+
+.chip-media {
+    left: calc(var(--taskbar-left, 0rem) + clamp(1rem, 1.4vw, 2rem) + env(safe-area-inset-left, 0rem));
+    bottom: calc(var(--taskbar-bottom, 0rem) + clamp(2rem, 2.4vw, 3.2rem) + env(safe-area-inset-bottom, 0rem) + 6.6vmin);
+    background: rgba(10, 10, 12, 0.7);
+    border-left: 0.35vmin solid var(--accent-color);
+    padding: 0.75vmin 1.85vmin;
+    border-radius: 0.35vmin;
+    font-family: "Rajdhani", sans-serif;
+    font-weight: 600;
+    font-size: 2vmin;
+    color: var(--color-silver);
+    max-width: 24vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.chip-zmark {
+    right: calc(var(--taskbar-right, 0rem) + clamp(1rem, 1.4vw, 2rem) + env(safe-area-inset-right, 0rem));
+    bottom: calc(var(--taskbar-bottom, 0rem) + clamp(2rem, 2.4vw, 3.2rem) + env(safe-area-inset-bottom, 0rem));
+    width: 5.1vmin;
+    height: 5.1vmin;
+    border: 0.25vmin solid var(--accent-color);
+    background: rgba(10, 10, 12, 0.7);
+    transform: rotate(45deg);
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), filter 0.3s ease;
+}
+
+.chip-zmark:hover {
+    transform: rotate(45deg) scale(1.15);
+    filter: drop-shadow(0 0 0.6rem var(--accent-color));
+}
+
+.chip-zmark span {
+    transform: rotate(-45deg);
+    font-family: "RubikMonoOne", sans-serif;
+    font-size: 2.1vmin;
+    color: var(--accent-color);
+}
+
 .footer {
     position: fixed;
     bottom: calc(var(--taskbar-bottom, 0rem) + env(safe-area-inset-bottom, 0rem));
@@ -316,4 +444,7 @@ body.hide-footer .footer {
         font-size: 0.7vh;
     }
 
+    .chip-media {
+        max-width: 40vw;
+    }
 }

@@ -258,7 +258,7 @@
 			"taskbar" :
 			{
 				"order" : 10,
-				"text" : "Hide Taskbar",
+				"text" : "Minimal Taskbar",
 				"type" : "bool",
 				"value" : false
 			},

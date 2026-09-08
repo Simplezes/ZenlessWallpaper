@@ -1,4 +1,5 @@
 import Footer from './components/Footer.js';
+import FooterSlim from './components/FooterSlim.js';
 import LoadingScreen from './components/LoadingScreen.js';
 import Header from './components/Header.js';
 import Background from './components/Background.js';
@@ -43,6 +44,9 @@ class App {
 
         this.footer = new Footer();
         this.footer.mount('#footer-container');
+
+        this.footerSlim = new FooterSlim();
+        this.footerSlim.mount('#footer-slim-root');
 
         this.dossier = new AgentDossier();
         this.dossier.mount('#dossier-root');

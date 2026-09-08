@@ -170,6 +170,7 @@ export default class MediaPlayer extends Component {
             window.wallpaperRegisterMediaPlaybackListener((event) => {
                 const playbackState = Number(event?.state) || 0;
                 this.setState({ playbackState });
+                store.setState({ media: { ...store.state.media, playbackState } });
                 this.logMediaEvent('playback', playbackState, this.state.rawTitle, this.state.rawArtist);
             });
         }
@@ -182,6 +183,7 @@ export default class MediaPlayer extends Component {
                     rawTitle,
                     rawArtist
                 });
+                store.setState({ media: { ...store.state.media, title: rawTitle, artist: rawArtist } });
                 this.logMediaEvent('properties', this.state.playbackState, rawTitle, rawArtist);
             });
         }
