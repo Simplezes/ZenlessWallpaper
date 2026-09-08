@@ -2,8 +2,8 @@
     "characters": {
         "Phaethon": {
             "Pyrois": {
-                "dark": "rgb(8, 67, 255)",
-                "light": "rgb(6, 49, 188)",
+                "dark": "rgb(33, 80, 230)",
+                "light": "rgb(24, 59, 170)",
                 "variants": [
                     "Default_Belle",
                     "Default_Wise",
@@ -20,8 +20,8 @@
         },
         "Cunning Hares": {
             "Anby Demara": {
-                "dark": "rgb(147, 255, 0)",
-                "light": "rgb(108, 188, 0)",
+                "dark": "rgb(143, 230, 25)",
+                "light": "rgb(105, 169, 19)",
                 "attribute": "Electric",
                 "specialty": "Stun",
                 "damageType": "Slash",
@@ -29,8 +29,8 @@
                 "quote": "Maybe movies are Anby's real life..."
             },
             "Billy Kid": {
-                "dark": "rgb(255, 73, 0)",
-                "light": "rgb(188, 54, 0)",
+                "dark": "rgb(230, 84, 25)",
+                "light": "rgb(169, 62, 19)",
                 "attribute": "Physical",
                 "specialty": "Attack",
                 "damageType": "Pierce",
@@ -38,16 +38,16 @@
                 "quote": "He sure loves the Starlight Knights, but does he love the sense of justice or just the special effects?"
             },
             "Starlight - Billy Kid": {
-                "dark": "rgb(255, 0, 2)",
-                "light": "rgb(188, 0, 2)",
+                "dark": "rgb(230, 25, 27)",
+                "light": "rgb(169, 19, 20)",
                 "attribute": "Physical",
                 "specialty": "Rupture",
                 "damageType": "Slash",
                 "rarity": 4
             },
             "Nekomiya Mana": {
-                "dark": "rgb(255, 39, 0)",
-                "light": "rgb(188, 29, 0)",
+                "dark": "rgb(230, 57, 25)",
+                "light": "rgb(169, 42, 19)",
                 "attribute": "Physical",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -55,8 +55,8 @@
                 "quote": "Despite leaving the Red Fang Gang for a while, Nekomata still commands respect within the gang"
             },
             "Nicole Demara": {
-                "dark": "rgb(255, 0, 86)",
-                "light": "rgb(188, 0, 63)",
+                "dark": "rgb(230, 25, 94)",
+                "light": "rgb(169, 19, 69)",
                 "attribute": "Ether",
                 "specialty": "Support",
                 "damageType": "Strike",
@@ -66,8 +66,8 @@
         },
         "Belobog Heavy Industries": {
             "Anton Ivanov": {
-                "dark": "rgb(255, 53, 0)",
-                "light": "rgb(188, 39, 0)",
+                "dark": "rgb(230, 68, 25)",
+                "light": "rgb(169, 50, 19)",
                 "attribute": "Electric",
                 "specialty": "Attack",
                 "damageType": "Pierce",
@@ -75,8 +75,8 @@
                 "quote": "Keywords for dealing with Anton: \"Passion,\" \"Bond,\" and \"Bro.\""
             },
             "Ben Bigger": {
-                "dark": "rgb(255, 42, 0)",
-                "light": "rgb(188, 31, 0)",
+                "dark": "rgb(230, 59, 25)",
+                "light": "rgb(169, 44, 19)",
                 "attribute": "Fire",
                 "specialty": "Defense",
                 "damageType": "Strike",
@@ -84,8 +84,8 @@
                 "quote": "In terms of daily tasks, \"fur care\" is the second most important. The most important task is \"settling the accounts.\""
             },
             "Grace Howard": {
-                "dark": "rgb(255, 37, 0)",
-                "light": "rgb(188, 27, 0)",
+                "dark": "rgb(230, 55, 25)",
+                "light": "rgb(169, 40, 19)",
                 "attribute": "Electric",
                 "specialty": "Anomaly",
                 "damageType": "Pierce",
@@ -93,8 +93,8 @@
                 "quote": "Grace always has a soft spot for cute machines."
             },
             "Koleda Belobog": {
-                "dark": "rgb(255, 70, 0)",
-                "light": "rgb(188, 52, 0)",
+                "dark": "rgb(230, 82, 25)",
+                "light": "rgb(169, 60, 19)",
                 "attribute": "Fire",
                 "specialty": "Stun",
                 "damageType": "Strike",
@@ -104,8 +104,8 @@
         },
         "Victoria Housekeeping Co.": {
             "Alexandrina Sebastiane": {
-                "dark": "rgb(255, 0, 20)",
-                "light": "rgb(188, 0, 15)",
+                "dark": "rgb(230, 25, 41)",
+                "light": "rgb(169, 19, 31)",
                 "attribute": "Electric",
                 "specialty": "Support",
                 "damageType": "Strike",
@@ -113,8 +113,8 @@
                 "quote": "Rina often stops in front of all kinds of stores. Almost as if she's doing field research to expand her own field of services..."
             },
             "Corin Wickes": {
-                "dark": "rgb(208, 0, 255)",
-                "light": "rgb(153, 0, 188)",
+                "dark": "rgb(192, 25, 230)",
+                "light": "rgb(141, 19, 169)",
                 "attribute": "Physical",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -122,8 +122,8 @@
                 "quote": "With enough encouragement, Corin will always spring into action. Of course, a little shock will also do the trick..."
             },
             "Ellen Joe": {
-                "dark": "rgb(255, 0, 89)",
-                "light": "rgb(188, 0, 66)",
+                "dark": "rgb(230, 25, 97)",
+                "light": "rgb(169, 19, 72)",
                 "attribute": "Ice",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -131,8 +131,8 @@
                 "quote": "Shark Rule #2: If you want to skip class, grab an accomplice!"
             },
             "Von Lycaon": {
-                "dark": "rgb(4, 67, 255)",
-                "light": "rgb(3, 49, 188)",
+                "dark": "rgb(29, 79, 230)",
+                "light": "rgb(21, 58, 170)",
                 "attribute": "Ice",
                 "specialty": "Stun",
                 "damageType": "Strike",
@@ -142,8 +142,8 @@
         },
         "Sons of Calydon": {
             "Burnice White": {
-                "dark": "rgb(255, 28, 0)",
-                "light": "rgb(188, 21, 0)",
+                "dark": "rgb(230, 48, 25)",
+                "light": "rgb(169, 36, 19)",
                 "attribute": "Fire",
                 "specialty": "Anomaly",
                 "damageType": "Pierce",
@@ -151,8 +151,8 @@
                 "quote": "Dogs love her... Not surprisingly, really."
             },
             "Caesar King": {
-                "dark": "rgb(255, 129, 0)",
-                "light": "rgb(188, 95, 0)",
+                "dark": "rgb(230, 129, 25)",
+                "light": "rgb(169, 95, 19)",
                 "attribute": "Physical",
                 "specialty": "Defense",
                 "damageType": "Slash",
@@ -160,8 +160,8 @@
                 "quote": "Impression of Caesar:\n · It seems like we now know more about Caesar's... weakness?"
             },
             "Lighter": {
-                "dark": "rgb(255, 69, 0)",
-                "light": "rgb(188, 51, 0)",
+                "dark": "rgb(230, 81, 25)",
+                "light": "rgb(169, 60, 19)",
                 "attribute": "Fire",
                 "specialty": "Stun",
                 "damageType": "Strike",
@@ -169,8 +169,8 @@
                 "quote": "His shades make him look cool, but also bring trouble."
             },
             "Luciana de Montefio": {
-                "dark": "rgb(255, 112, 0)",
-                "light": "rgb(188, 82, 0)",
+                "dark": "rgb(230, 115, 25)",
+                "light": "rgb(169, 84, 19)",
                 "attribute": "Fire",
                 "specialty": "Support",
                 "damageType": "Strike",
@@ -178,8 +178,8 @@
                 "quote": "Lucy's family drama sure is wild"
             },
             "Piper Wheel": {
-                "dark": "rgb(52, 118, 255)",
-                "light": "rgb(39, 87, 188)",
+                "dark": "rgb(72, 125, 235)",
+                "light": "rgb(54, 92, 173)",
                 "attribute": "Physical",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -187,8 +187,8 @@
                 "quote": "Piper seems to be really lucky... Maybe it'll rub off if we hang out with her more."
             },
             "Pulchra Fellini": {
-                "dark": "rgb(255, 46, 0)",
-                "light": "rgb(188, 34, 0)",
+                "dark": "rgb(230, 62, 25)",
+                "light": "rgb(169, 46, 19)",
                 "attribute": "Physical",
                 "specialty": "Stun",
                 "damageType": "Slash",
@@ -198,8 +198,8 @@
         },
         "Section 6": {
             "Asaba Harumasa": {
-                "dark": "rgb(255, 182, 0)",
-                "light": "rgb(188, 134, 0)",
+                "dark": "rgb(230, 171, 25)",
+                "light": "rgb(169, 126, 19)",
                 "attribute": "Electric",
                 "specialty": "Attack",
                 "damageType": "Pierce",
@@ -207,8 +207,8 @@
                 "quote": "Perhaps flowers can bloom in wounds."
             },
             "Hoshimi Miyabi": {
-                "dark": "rgb(0, 255, 247)",
-                "light": "rgb(0, 188, 182)",
+                "dark": "rgb(25, 230, 223)",
+                "light": "rgb(19, 169, 164)",
                 "attribute": "Ice",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -216,8 +216,8 @@
                 "quote": "Sometimes, she enters a semi-conscious meditative state after training."
             },
             "Soukaku": {
-                "dark": "rgb(0, 104, 255)",
-                "light": "rgb(0, 77, 188)",
+                "dark": "rgb(25, 109, 230)",
+                "light": "rgb(19, 80, 169)",
                 "attribute": "Ice",
                 "specialty": "Support",
                 "damageType": "Slash",
@@ -225,8 +225,8 @@
                 "quote": "Though she loves food, she doesn't seem bothered as to whether it actually tastes good..."
             },
             "Tsukishiro Yanagi": {
-                "dark": "rgb(255, 0, 29)",
-                "light": "rgb(188, 0, 21)",
+                "dark": "rgb(230, 25, 49)",
+                "light": "rgb(169, 19, 36)",
                 "attribute": "Electric",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -236,8 +236,8 @@
         },
         "Criminal Investigation Special Response Team": {
             "Jane Doe": {
-                "dark": "rgb(255, 0, 92)",
-                "light": "rgb(188, 0, 68)",
+                "dark": "rgb(230, 25, 99)",
+                "light": "rgb(169, 19, 73)",
                 "attribute": "Physical",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -245,8 +245,8 @@
                 "quote": "Is Jane a bystander who acted on accident, or a mastermind who planned it all...?"
             },
             "Qingyi": {
-                "dark": "rgb(0, 255, 182)",
-                "light": "rgb(0, 188, 134)",
+                "dark": "rgb(25, 230, 171)",
+                "light": "rgb(19, 169, 126)",
                 "attribute": "Electric",
                 "specialty": "Stun",
                 "damageType": "Strike",
@@ -254,8 +254,8 @@
                 "quote": "Just how old is Qingyi exactly...? If you ask her directly, she'll probably fob you off by saying it's \"top secret\"..."
             },
             "Seth Lowell": {
-                "dark": "rgb(3, 12, 255)",
-                "light": "rgb(2, 9, 188)",
+                "dark": "rgb(28, 35, 230)",
+                "light": "rgb(21, 26, 169)",
                 "attribute": "Electric",
                 "specialty": "Defense",
                 "damageType": "Slash",
@@ -263,8 +263,8 @@
                 "quote": "How come Seth is always treating people to meals? Do Pub Sec officers make that much?"
             },
             "Zhu Yuan": {
-                "dark": "rgb(0, 59, 255)",
-                "light": "rgb(0, 43, 188)",
+                "dark": "rgb(25, 73, 230)",
+                "light": "rgb(19, 53, 169)",
                 "attribute": "Ether",
                 "specialty": "Attack",
                 "damageType": "Pierce",
@@ -274,8 +274,8 @@
         },
         "Obol Squad": {
             "Orphie & Magus": {
-                "dark": "rgb(255, 0, 42)",
-                "light": "rgb(188, 0, 31)",
+                "dark": "rgb(230, 25, 59)",
+                "light": "rgb(169, 19, 44)",
                 "attribute": "Fire",
                 "specialty": "Attack",
                 "damageType": "Pierce",
@@ -283,8 +283,8 @@
                 "quote": "They are two blossoms from a single seed."
             },
             "Seed": {
-                "dark": "rgb(255, 177, 0)",
-                "light": "rgb(188, 131, 0)",
+                "dark": "rgb(230, 167, 25)",
+                "light": "rgb(169, 124, 19)",
                 "attribute": "Electric",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -292,8 +292,8 @@
                 "quote": "She's the delicate genius huddled inside the cockpit - and the heir to a fearsome mech on the frontlines."
             },
             "Soldier 11": {
-                "dark": "rgb(255, 81, 0)",
-                "light": "rgb(188, 59, 0)",
+                "dark": "rgb(230, 90, 25)",
+                "light": "rgb(169, 66, 19)",
                 "attribute": "Fire",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -301,8 +301,8 @@
                 "quote": "For Soldier 11, super-spicy noodles is an essential item."
             },
             "Trigger": {
-                "dark": "rgb(255, 25, 0)",
-                "light": "rgb(188, 18, 0)",
+                "dark": "rgb(230, 45, 25)",
+                "light": "rgb(169, 33, 19)",
                 "attribute": "Electric",
                 "specialty": "Stun",
                 "damageType": "Pierce",
@@ -312,8 +312,8 @@
         },
         "Silver Squad": {
             "Soldier 0 - Anby": {
-                "dark": "rgb(255, 147, 38)",
-                "light": "rgb(188, 108, 28)",
+                "dark": "rgb(233, 147, 60)",
+                "light": "rgb(172, 108, 44)",
                 "attribute": "Electric",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -322,8 +322,8 @@
         },
         "Mockingbird": {
             "Hugo Vlad": {
-                "dark": "rgb(255, 39, 30)",
-                "light": "rgb(188, 29, 22)",
+                "dark": "rgb(233, 60, 52)",
+                "light": "rgb(171, 44, 39)",
                 "attribute": "Ice",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -331,8 +331,8 @@
                 "quote": "There never was any seed of evil."
             },
             "Vivian Banshee": {
-                "dark": "rgb(167, 0, 255)",
-                "light": "rgb(123, 0, 188)",
+                "dark": "rgb(159, 25, 230)",
+                "light": "rgb(117, 19, 169)",
                 "attribute": "Ether",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -342,8 +342,8 @@
         },
         "Yunkui Summit": {
             "Ju Fufu": {
-                "dark": "rgb(255, 97, 0)",
-                "light": "rgb(188, 71, 0)",
+                "dark": "rgb(230, 103, 25)",
+                "light": "rgb(169, 76, 19)",
                 "attribute": "Fire",
                 "specialty": "Stun",
                 "damageType": "Strike",
@@ -351,8 +351,8 @@
                 "quote": "This young master of Suibian Temple has immense powers, and her bearing is nothing short of majestic."
             },
             "Pan Yinhu": {
-                "dark": "rgb(255, 144, 0)",
-                "light": "rgb(188, 106, 0)",
+                "dark": "rgb(230, 141, 25)",
+                "light": "rgb(169, 104, 19)",
                 "attribute": "Physical",
                 "specialty": "Defense",
                 "damageType": "Strike",
@@ -360,8 +360,8 @@
                 "quote": "As Suibian Temple's head chef, he ensures every piece of char siu conquers his companions' taste buds!"
             },
             "Ye Shunguang": {
-                "dark": "rgb(255, 32, 0)",
-                "light": "rgb(188, 23, 0)",
+                "dark": "rgb(230, 51, 25)",
+                "light": "rgb(169, 37, 19)",
                 "attribute": "Physical",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -369,8 +369,8 @@
                 "quote": "Fate may be unpredictable, but she's willing to shoulder the burdens of the world."
             },
             "Yixuan": {
-                "dark": "rgb(255, 113, 0)",
-                "light": "rgb(188, 84, 0)",
+                "dark": "rgb(230, 116, 25)",
+                "light": "rgb(169, 86, 19)",
                 "attribute": "Ether",
                 "specialty": "Rupture",
                 "damageType": "Strike",
@@ -380,8 +380,8 @@
         },
         "Spook Shack": {
             "Alice Thymefield": {
-                "dark": "rgb(255, 121, 0)",
-                "light": "rgb(188, 90, 0)",
+                "dark": "rgb(230, 122, 25)",
+                "light": "rgb(169, 91, 19)",
                 "attribute": "Physical",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -389,8 +389,8 @@
                 "quote": "Impression of Alice:\n · It seems Alice thinks shelling out huge sums of money to help friends is normal..."
             },
             "Komano Manato": {
-                "dark": "rgb(255, 11, 0)",
-                "light": "rgb(188, 8, 0)",
+                "dark": "rgb(230, 34, 25)",
+                "light": "rgb(169, 25, 19)",
                 "attribute": "Fire",
                 "specialty": "Rupture",
                 "damageType": "Slash",
@@ -398,8 +398,8 @@
                 "quote": "Who knew there were so many good places to soak up the sun!"
             },
             "Lucia Elowen": {
-                "dark": "rgb(164, 174, 255)",
-                "light": "rgb(121, 129, 188)",
+                "dark": "rgb(173, 181, 246)",
+                "light": "rgb(128, 134, 181)",
                 "attribute": "Ether",
                 "specialty": "Support",
                 "damageType": "Strike",
@@ -407,8 +407,8 @@
                 "quote": "Passing through countless tales, walking within boundless dreams."
             },
             "Ukinami Yuzuha": {
-                "dark": "rgb(255, 0, 17)",
-                "light": "rgb(188, 0, 13)",
+                "dark": "rgb(230, 25, 39)",
+                "light": "rgb(169, 19, 29)",
                 "attribute": "Physical",
                 "specialty": "Support",
                 "damageType": "Strike",
@@ -416,8 +416,8 @@
                 "quote": "Impression of Ukinami Yuzuha:\n · A master of mischief - but not for fun."
             },
             "Yidhari Murphy": {
-                "dark": "rgb(133, 0, 255)",
-                "light": "rgb(98, 0, 188)",
+                "dark": "rgb(132, 25, 230)",
+                "light": "rgb(97, 19, 169)",
                 "attribute": "Ice",
                 "specialty": "Rupture",
                 "damageType": "Strike",
@@ -427,8 +427,8 @@
         },
         "Stars of Lyra": {
             "Astra Yao": {
-                "dark": "rgb(255, 0, 43)",
-                "light": "rgb(188, 0, 32)",
+                "dark": "rgb(230, 25, 60)",
+                "light": "rgb(169, 19, 44)",
                 "attribute": "Ether",
                 "specialty": "Support",
                 "damageType": "Strike",
@@ -436,8 +436,8 @@
                 "quote": "Astra doesn't seem to care much for things like company rules... She prefers sneaking out to hang out with her fans."
             },
             "Evelyn Chevalier": {
-                "dark": "rgb(91, 4, 255)",
-                "light": "rgb(67, 3, 188)",
+                "dark": "rgb(99, 29, 230)",
+                "light": "rgb(73, 21, 170)",
                 "attribute": "Fire",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -447,8 +447,8 @@
         },
         "Krampus Compliance Authority": {
             "Banyue": {
-                "dark": "rgb(255, 159, 0)",
-                "light": "rgb(188, 117, 0)",
+                "dark": "rgb(230, 153, 25)",
+                "light": "rgb(169, 112, 19)",
                 "attribute": "Fire",
                 "specialty": "Rupture",
                 "damageType": "Strike",
@@ -456,8 +456,8 @@
                 "quote": "Intelligent Construct problem #2: maintaining antique parts."
             },
             "Dialyn": {
-                "dark": "rgb(33, 152, 255)",
-                "light": "rgb(24, 112, 188)",
+                "dark": "rgb(55, 150, 233)",
+                "light": "rgb(40, 111, 172)",
                 "attribute": "Physical",
                 "specialty": "Stun",
                 "damageType": "Slash",
@@ -465,8 +465,8 @@
                 "quote": "Every remarkable person ends up getting countless complaints."
             },
             "Zhao": {
-                "dark": "rgb(255, 0, 46)",
-                "light": "rgb(188, 0, 34)",
+                "dark": "rgb(230, 25, 62)",
+                "light": "rgb(169, 19, 46)",
                 "attribute": "Ice",
                 "specialty": "Defense",
                 "damageType": "Slash",
@@ -474,8 +474,8 @@
                 "quote": "But when a partner offers help without asking for anything in return, Xiao'Zhao gets a bit uncomfortable. It's not that she dislikes them - she just can't figure out what she's supposed to offer back to complete the \"transaction.\""
             },
             "Promeia": {
-                "dark": "rgb(113, 0, 255)",
-                "light": "rgb(83, 0, 188)",
+                "dark": "rgb(116, 25, 230)",
+                "light": "rgb(85, 19, 169)",
                 "attribute": "Ice",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -485,8 +485,8 @@
         },
         "Angels of Delusion": {
             "Sunna": {
-                "dark": "rgb(145, 255, 31)",
-                "light": "rgb(107, 188, 23)",
+                "dark": "rgb(145, 233, 53)",
+                "light": "rgb(107, 172, 40)",
                 "attribute": "Physical",
                 "specialty": "Support",
                 "damageType": "Strike",
@@ -494,8 +494,8 @@
                 "quote": "Delusions stretch out long, slender branches, quietly binding one person's daydream into a grand story shared by three."
             },
             "Nangong Yu": {
-                "dark": "rgb(132, 0, 255)",
-                "light": "rgb(98, 0, 188)",
+                "dark": "rgb(131, 25, 230)",
+                "light": "rgb(97, 19, 169)",
                 "attribute": "Ether",
                 "specialty": "Stun",
                 "damageType": "Strike",
@@ -503,8 +503,8 @@
                 "quote": "Impression of Nangong Yu:\n · She's an exceptionally capable idol team captain and a \"winner at life.\""
             },
             "Aria": {
-                "dark": "rgb(255, 0, 88)",
-                "light": "rgb(188, 0, 65)",
+                "dark": "rgb(230, 25, 96)",
+                "light": "rgb(169, 19, 71)",
                 "attribute": "Ether",
                 "specialty": "Anomaly",
                 "damageType": "Strike",
@@ -514,8 +514,8 @@
         },
         "Metropolitan Order Division": {
             "Cissia": {
-                "dark": "rgb(255, 0, 168)",
-                "light": "rgb(188, 0, 124)",
+                "dark": "rgb(230, 25, 160)",
+                "light": "rgb(169, 19, 118)",
                 "attribute": "Electric",
                 "specialty": "Attack",
                 "damageType": "Slash",
@@ -525,8 +525,8 @@
         },
         "External Strategy Department": {
             "Velina Airgid": {
-                "dark": "rgb(66, 21, 255)",
-                "light": "rgb(49, 15, 188)",
+                "dark": "rgb(80, 44, 232)",
+                "light": "rgb(59, 32, 171)",
                 "attribute": "Wind",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -534,8 +534,8 @@
                 "quote": "There are still things even the perfect Administrative Director struggles with."
             },
             "Norma Hollowell": {
-                "dark": "rgb(0, 104, 255)",
-                "light": "rgb(0, 77, 188)",
+                "dark": "rgb(25, 109, 230)",
+                "light": "rgb(19, 80, 169)",
                 "attribute": "Fire",
                 "specialty": "Stun",
                 "damageType": "Strike",
@@ -545,8 +545,8 @@
         },
         "Covenant of Dayat": {
             "Remielle Dan": {
-                "dark": "rgb(232, 151, 176)",
-                "light": "rgb(207, 97, 131)",
+                "dark": "rgb(224, 159, 179)",
+                "light": "rgb(196, 108, 135)",
                 "attribute": "Lumiflux",
                 "specialty": "Anomaly",
                 "damageType": "Slash",
@@ -556,8 +556,8 @@
         },
         "Airspace Patrol Department": {
             "Sigrid de L'Azur": {
-                "dark": "rgb(45, 99, 224)",
-                "light": "rgb(28, 72, 173)",
+                "dark": "rgb(63, 106, 206)",
+                "light": "rgb(42, 78, 159)",
                 "attribute": "Ice",
                 "specialty": "Attack",
                 "damageType": "Pierce",
