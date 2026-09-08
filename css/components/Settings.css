@@ -424,6 +424,15 @@
     color: rgba(190, 190, 192, 0.62);
 }
 
+.header-hint {
+    margin: 0;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.04rem;
+    color: rgba(190, 190, 192, 0.4);
+}
+
 .header-close-btn {
     width: 9rem;
     height: 6rem;

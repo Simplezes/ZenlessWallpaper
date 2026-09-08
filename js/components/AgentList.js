@@ -21,6 +21,7 @@ export default class AgentList extends Component {
                 <div class="agent-header-text">
                     <h1 class="header-title">Edit Avatar</h1>
                     <p class="header-subtitle">Hold and drag to scroll</p>
+                    <p class="header-hint">Won't update the Wallpaper Engine panel</p>
                 </div>
                 <div class="header-close-btn" id="agent-list-close"></div>
             </div>
