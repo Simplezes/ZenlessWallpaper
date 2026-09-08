@@ -606,12 +606,9 @@ function kickLayout() {
 window.addEventListener('focus', kickLayout);
 window.addEventListener('resize', kickLayout);
 
-let isWeInit = true;
 
-function shouldApplyWeProperty(key) {
-    if (!isWeInit) return true;
-    const val = window.safeStorage ? window.safeStorage.get(key) : localStorage.getItem(key);
-    return val === null || val === undefined;
+function shouldApplyWeProperty() {
+    return true;
 }
 
 window.wallpaperPropertyListener = {
@@ -706,10 +703,6 @@ window.wallpaperPropertyListener = {
             safeSet('wallpaperLayout', layout);
             if (window.store) window.store.setState({ layout: layout });
             window.dispatchEvent(new CustomEvent('layout-changed', { detail: { layout: layout } }));
-        }
-
-        if (isWeInit) {
-            setTimeout(() => { isWeInit = false; }, 50);
         }
     },
     setPaused: function (paused) {
