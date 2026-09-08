@@ -72,6 +72,7 @@
 
 .loader-tips-wrap {
     flex: 1;
+    min-height: 0;
     max-width: 100%;
     display: flex;
     flex-direction: column;
@@ -114,6 +115,8 @@
 .loader-metadata-block {
     display: flex;
     flex-direction: column;
+    flex: 1;
+    min-width: 0;
     gap: 0;
     align-items: flex-start;
     overflow: hidden;
@@ -234,8 +237,15 @@
         width: 100%;
         max-width: none;
         height: auto;
+        max-height: 52vh;
         padding: 4rem 3rem 5rem 4rem;
         flex: 0 0 auto;
+        overflow: hidden;
+    }
+
+    .loader-right {
+        flex: 1 1 32vh;
+        min-height: 32vh;
     }
 
     .loader-mode-header {
@@ -260,19 +270,19 @@
 
     .loader-footer-left {
         margin-top: 4rem;
-        gap: 2rem;
+        gap: 1.4rem;
     }
 
     .loader-icons-bottom {
-        height: 3rem;
+        height: 2.2rem;
     }
 
     .loader-no {
-        font-size: 2.4rem;
+        font-size: 1.8rem;
     }
 
     .loader-mode-name {
-        font-size: 1.5rem;
+        font-size: 1.1rem;
         white-space: normal;
         overflow: visible;
         text-overflow: clip;

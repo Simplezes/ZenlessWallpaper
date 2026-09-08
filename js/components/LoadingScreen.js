@@ -88,6 +88,7 @@ export default class LoadingScreen extends Component {
 
             await this.preloadImages([wallpaperImg, iconImg, 'assets/imgs/Bangboo_Net_Loading.webp']);
             this.setState({ ready: true });
+            this.fitTipText();
 
         } catch (e) {
             console.error("Failed to init LoadingScreen", e);
@@ -98,6 +99,23 @@ export default class LoadingScreen extends Component {
                 error: 'Failed to load briefing data. Continuing with fallback mode.',
                 ready: true
             });
+        }
+    }
+
+    fitTipText() {
+        const el = this.container.querySelector('#loader-tip-text');
+        const wrap = this.container.querySelector('.loader-tips-wrap');
+        if (!el || !wrap) return;
+
+        el.style.fontSize = '';
+        let fontPx = parseFloat(window.getComputedStyle(el).fontSize);
+        if (!Number.isFinite(fontPx) || fontPx <= 0) return;
+
+        const minFontPx = 14;
+        for (let i = 0; i < 40; i += 1) {
+            if (el.scrollHeight <= wrap.clientHeight || fontPx <= minFontPx) break;
+            fontPx -= 1;
+            el.style.fontSize = `${fontPx}px`;
         }
     }
 
