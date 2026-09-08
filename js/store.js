@@ -12,6 +12,7 @@ class Store {
             footerTheme: storage ? storage.get('footerTheme', 'dark') : (localStorage.getItem('footerTheme') || 'dark'),
             kineticEnabled: storage ? storage.getBool('kineticSway', true) : localStorage.getItem('kineticSway') !== 'false',
             patternEnabled: storage ? storage.getBool('bgPattern', true) : localStorage.getItem('bgPattern') !== 'false',
+            hideFooter: storage ? storage.getBool('hideFooter', false) : localStorage.getItem('hideFooter') === 'true',
             viewOffset: 0,
 
             month: 'MAR',

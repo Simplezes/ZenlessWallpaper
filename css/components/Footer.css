@@ -1,3 +1,7 @@
+body.hide-footer .footer {
+    display: none;
+}
+
 .footer {
     position: fixed;
     bottom: calc(var(--taskbar-bottom, 0rem) + env(safe-area-inset-bottom, 0rem));

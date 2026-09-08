@@ -255,6 +255,13 @@
 				"type" : "bool",
 				"value" : true
 			},
+			"taskbar" :
+			{
+				"order" : 10,
+				"text" : "Hide Taskbar",
+				"type" : "bool",
+				"value" : false
+			},
 			"flip" :
 			{
 				"order" : 3,

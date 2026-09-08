@@ -54,9 +54,11 @@ class App {
         store.subscribe((s) => {
             document.body.classList.toggle('show-ambient', !!s.showAmbient);
             document.body.classList.toggle('show-pattern', !!s.patternEnabled);
+            document.body.classList.toggle('hide-footer', !!s.hideFooter);
         });
         document.body.classList.toggle('show-ambient', !!store.state.showAmbient);
         document.body.classList.toggle('show-pattern', !!store.state.patternEnabled);
+        document.body.classList.toggle('hide-footer', !!store.state.hideFooter);
 
         console.log("App ready!");
         window.dispatchEvent(new CustomEvent('app-ready'));

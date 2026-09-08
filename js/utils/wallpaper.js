@@ -707,6 +707,11 @@ window.wallpaperPropertyListener = {
                 window.app.settings.applySettings(true);
             }
         }
+        if (properties.taskbar && shouldApplyWeProperty('hideFooter')) {
+            const hideFooter = properties.taskbar.value;
+            safeSet('hideFooter', hideFooter);
+            if (window.store) window.store.setState({ hideFooter: hideFooter });
+        }
         if (properties.layout && shouldApplyWeProperty('wallpaperLayout')) {
             const layout = properties.layout.value;
             safeSet('wallpaperLayout', layout);
