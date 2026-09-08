@@ -698,6 +698,15 @@ window.wallpaperPropertyListener = {
                 window.app.settings.applySettings(true);
             }
         }
+        if (properties.ambient && shouldApplyWeProperty('showAmbient')) {
+            const ambient = properties.ambient.value;
+            safeSet('showAmbient', ambient);
+            if (window.store) window.store.setState({ showAmbient: ambient });
+            if (window.app && window.app.settings) {
+                window.app.settings.setState({ showAmbient: ambient });
+                window.app.settings.applySettings(true);
+            }
+        }
         if (properties.layout && shouldApplyWeProperty('wallpaperLayout')) {
             const layout = properties.layout.value;
             safeSet('wallpaperLayout', layout);

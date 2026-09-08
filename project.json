@@ -1,0 +1,419 @@
+{
+	"contentrating" : "Everyone",
+	"description" : "[i]The design and concept are based on the [url=https://x.com/ZZZ_EN/status/2027964547999371359]Zenless Zone Zero promotional art/UI[/url].[/i]\r\n\r\n[h2]Credits & Resources[/h2]\r\nAll characters and related assets are property of their respective owners.\r\n\r\n[list]\r\n[*] [b]Developer[/b]: [url=https://www.mihoyo.com/]miHoYo Co., Ltd.[/url]\r\n[*] [b]Global Publisher[/b]: [url=https://www.hoyoverse.com/]HoYoverse (Cognosphere Pte., Ltd.)[/url]\r\n[*] [b]Zenless Font[/b]: [url=assets/fonts/Zenless_Font.ttf]Zenless (Custom Game Font)[/url]\r\n[*] [b]ZZZ Glyphs Font[/b]: [url=https://github.com/SpeedyOrc-C/HoYo-Glyphs]HoYo-Glyphs by SpeedyOrc-C[/url]\r\n[*] [b]Characters' Name & Faction[/b]: [url=https://fonts.google.com/specimen/Abril+Fatface]AbrilFatface[/url]\r\n[*] [b]Primary Interface[/b]: [url=https://fonts.google.com/specimen/Rajdhani]Rajdhani[/url]\r\n[*] [b]Decorative Accent[/b]: [url=https://www.dafont.com/octin-college.font]OctinCollege[/url]\r\n[*] [b]Handwritten Accent[/b]: [url=https://fonts.google.com/specimen/Parisienne]Parisienne[/url]\r\n[*] [b]Bold Display[/b]: [url=https://fonts.google.com/specimen/Rubik+Mono+One]RubikMonoOne[/url]\r\n[*] [b]General Text[/b]: [url=https://fonts.google.com/specimen/Arimo]Arimo[/url]\r\n[*] [b]All ZZZ Resources[/b]: Images, logos, and related assets are sourced from official ZZZ media.\r\n[/list]\r\n[h2]Source Code[/h2]\r\nAvailable on GitHub: [url=http://github.com/Simplezes/ZenlessWallpaper]Simplezes/ZenlessWallpaper[/url]",
+	"file" : "index.html",
+	"general" : 
+	{
+		"properties" : 
+		{
+			"character" : 
+			{
+				"options" : 
+				[
+					{
+						"label" : "Alexandrina Sebastiane",
+						"value" : "Alexandrina Sebastiane"
+					},
+					{
+						"label" : "Alice Thymefield",
+						"value" : "Alice Thymefield"
+					},
+					{
+						"label" : "Anby Demara",
+						"value" : "Anby Demara"
+					},
+					{
+						"label" : "Anton Ivanov",
+						"value" : "Anton Ivanov"
+					},
+					{
+						"label" : "Aria",
+						"value" : "Aria"
+					},
+					{
+						"label" : "Asaba Harumasa",
+						"value" : "Asaba Harumasa"
+					},
+					{
+						"label" : "Astra Yao",
+						"value" : "Astra Yao"
+					},
+					{
+						"label" : "Banyue",
+						"value" : "Banyue"
+					},
+					{
+						"label" : "Ben Bigger",
+						"value" : "Ben Bigger"
+					},
+					{
+						"label" : "Billy Kid",
+						"value" : "Billy Kid"
+					},
+					{
+						"label" : "Burnice White",
+						"value" : "Burnice White"
+					},
+					{
+						"label" : "Caesar King",
+						"value" : "Caesar King"
+					},
+					{
+						"label" : "Cissia",
+						"value" : "Cissia"
+					},
+					{
+						"label" : "Corin Wickes",
+						"value" : "Corin Wickes"
+					},
+					{
+						"label" : "Dialyn",
+						"value" : "Dialyn"
+					},
+					{
+						"label" : "Ellen Joe",
+						"value" : "Ellen Joe"
+					},
+					{
+						"label" : "Evelyn Chevalier",
+						"value" : "Evelyn Chevalier"
+					},
+					{
+						"label" : "Grace Howard",
+						"value" : "Grace Howard"
+					},
+					{
+						"label" : "Hoshimi Miyabi",
+						"value" : "Hoshimi Miyabi"
+					},
+					{
+						"label" : "Hugo Vlad",
+						"value" : "Hugo Vlad"
+					},
+					{
+						"label" : "Jane Doe",
+						"value" : "Jane Doe"
+					},
+					{
+						"label" : "Ju Fufu",
+						"value" : "Ju Fufu"
+					},
+					{
+						"label" : "Koleda Belobog",
+						"value" : "Koleda Belobog"
+					},
+					{
+						"label" : "Komano Manato",
+						"value" : "Komano Manato"
+					},
+					{
+						"label" : "Lighter",
+						"value" : "Lighter"
+					},
+					{
+						"label" : "Lucia Elowen",
+						"value" : "Lucia Elowen"
+					},
+					{
+						"label" : "Luciana de Montefio",
+						"value" : "Luciana de Montefio"
+					},
+					{
+						"label" : "Nangong Yu",
+						"value" : "Nangong Yu"
+					},
+					{
+						"label" : "Nekomiya Mana",
+						"value" : "Nekomiya Mana"
+					},
+					{
+						"label" : "Nicole Demara",
+						"value" : "Nicole Demara"
+					},
+					{
+						"label" : "Norma Hollowell",
+						"value" : "Norma Hollowell"
+					},
+					{
+						"label" : "Orphie & Magus",
+						"value" : "Orphie & Magus"
+					},
+					{
+						"label" : "Pan Yinhu",
+						"value" : "Pan Yinhu"
+					},
+					{
+						"label" : "Piper Wheel",
+						"value" : "Piper Wheel"
+					},
+					{
+						"label" : "Promeia",
+						"value" : "Promeia"
+					},
+					{
+						"label" : "Pulchra Fellini",
+						"value" : "Pulchra Fellini"
+					},
+					{
+						"label" : "Pyrois",
+						"value" : "Pyrois"
+					},
+					{
+						"label" : "Qingyi",
+						"value" : "Qingyi"
+					},
+					{
+						"label" : "Remielle Dan",
+						"value" : "Remielle Dan"
+					},
+					{
+						"label" : "Seed",
+						"value" : "Seed"
+					},
+					{
+						"label" : "Seth Lowell",
+						"value" : "Seth Lowell"
+					},
+					{
+						"label" : "Sigrid de L'Azur",
+						"value" : "Sigrid de L'Azur"
+					},
+					{
+						"label" : "Soldier 0 - Anby",
+						"value" : "Soldier 0 - Anby"
+					},
+					{
+						"label" : "Soldier 11",
+						"value" : "Soldier 11"
+					},
+					{
+						"label" : "Soukaku",
+						"value" : "Soukaku"
+					},
+					{
+						"label" : "Starlight - Billy Kid",
+						"value" : "Starlight - Billy Kid"
+					},
+					{
+						"label" : "Sunna",
+						"value" : "Sunna"
+					},
+					{
+						"label" : "Trigger",
+						"value" : "Trigger"
+					},
+					{
+						"label" : "Tsukishiro Yanagi",
+						"value" : "Tsukishiro Yanagi"
+					},
+					{
+						"label" : "Ukinami Yuzuha",
+						"value" : "Ukinami Yuzuha"
+					},
+					{
+						"label" : "Velina Airgid",
+						"value" : "Velina Airgid"
+					},
+					{
+						"label" : "Vivian Banshee",
+						"value" : "Vivian Banshee"
+					},
+					{
+						"label" : "Von Lycaon",
+						"value" : "Von Lycaon"
+					},
+					{
+						"label" : "Ye Shunguang",
+						"value" : "Ye Shunguang"
+					},
+					{
+						"label" : "Yidhari Murphy",
+						"value" : "Yidhari Murphy"
+					},
+					{
+						"label" : "Yixuan",
+						"value" : "Yixuan"
+					},
+					{
+						"label" : "Zhao",
+						"value" : "Zhao"
+					},
+					{
+						"label" : "Zhu Yuan",
+						"value" : "Zhu Yuan"
+					}
+				],
+				"order" : 1,
+				"text" : "Character",
+				"type" : "combo",
+				"value" : "Burnice White"
+			},
+			"ambient" :
+			{
+				"order" : 9,
+				"text" : "Effects",
+				"type" : "bool",
+				"value" : true
+			},
+			"flip" :
+			{
+				"order" : 3,
+				"text" : "Flip",
+				"type" : "bool",
+				"value" : false
+			},
+			"layout" : 
+			{
+				"options" : 
+				[
+					{
+						"label" : "Calendar",
+						"value" : "calendar"
+					},
+					{
+						"label" : "Default",
+						"value" : "default"
+					}
+				],
+				"order" : 8,
+				"text" : "Layout",
+				"type" : "combo",
+				"value" : "calendar"
+			},
+			"motion" : 
+			{
+				"order" : 5,
+				"text" : "Motion",
+				"type" : "bool",
+				"value" : true
+			},
+			"pattern" : 
+			{
+				"order" : 6,
+				"text" : "Pattern",
+				"type" : "bool",
+				"value" : true
+			},
+			"rotate" : 
+			{
+				"options" : 
+				[
+					{
+						"label" : "0",
+						"value" : "0"
+					},
+					{
+						"label" : "90",
+						"value" : "90"
+					},
+					{
+						"label" : "180",
+						"value" : "180"
+					},
+					{
+						"label" : "270",
+						"value" : "270"
+					}
+				],
+				"order" : 4,
+				"text" : "Rotate",
+				"type" : "combo",
+				"value" : "0"
+			},
+			"schemecolor" : 
+			{
+				"order" : 0,
+				"text" : "ui_browse_properties_scheme_color",
+				"type" : "color",
+				"value" : "0.00392156862745098 0.29411764705882354 0.7215686274509804"
+			},
+			"theme" : 
+			{
+				"options" : 
+				[
+					{
+						"label" : "Dark",
+						"value" : "dark"
+					},
+					{
+						"label" : "Light",
+						"value" : "white"
+					}
+				],
+				"order" : 7,
+				"text" : "Theme",
+				"type" : "combo",
+				"value" : "dark"
+			},
+			"variant" : 
+			{
+				"condition" : "character.value != 'Pyrois'",
+				"options" : 
+				[
+					{
+						"label" : "Default",
+						"value" : "Default"
+					},
+					{
+						"label" : "Partial",
+						"value" : "Partial"
+					},
+					{
+						"label" : "Full",
+						"value" : "Full"
+					}
+				],
+				"order" : 2,
+				"text" : "Variant",
+				"type" : "combo",
+				"value" : "Default"
+			},
+			"variant_pyrois" : 
+			{
+				"condition" : "character.value == 'Pyrois'",
+				"options" : 
+				[
+					{
+						"label" : "Default Belle",
+						"value" : "Default_Belle"
+					},
+					{
+						"label" : "Default Wise",
+						"value" : "Default_Wise"
+					},
+					{
+						"label" : "Partial Belle",
+						"value" : "Partial_Belle"
+					},
+					{
+						"label" : "Partial Wise",
+						"value" : "Partial_Wise"
+					},
+					{
+						"label" : "Full Belle",
+						"value" : "Full_Belle"
+					},
+					{
+						"label" : "Full Wise",
+						"value" : "Full_Wise"
+					}
+				],
+				"order" : 2,
+				"text" : "Pyrois variant",
+				"type" : "combo",
+				"value" : "Default_Belle"
+			}
+		},
+		"supportsaudioprocessing" : true
+	},
+	"preview" : "preview.jpg",
+	"ratingsex" : "none",
+	"ratingviolence" : "none",
+	"tags" : [ "Anime" ],
+	"title" : "Zenless Zone Zero: Character Dashboard",
+	"type" : "Web",
+	"version" : 33,
+	"visibility" : "public",
+	"workshopid" : "3686577945",
+	"workshopurl" : "steam://url/CommunityFilePage/3686577945"
+}
