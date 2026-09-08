@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="js/libs/bootstrap.min.css">
     <link rel="stylesheet" href="css/main.css">
-    <!-- Component-based Styles -->
     <link rel="stylesheet" href="css/components/LoadingScreen.css">
     <link rel="stylesheet" href="css/components/Header.css">
     <link rel="stylesheet" href="css/components/Background.css">
@@ -14,7 +13,7 @@
     <link rel="stylesheet" href="css/components/MediaPlayer.css">
     <link rel="stylesheet" href="css/components/Calendar.css">
     <link rel="stylesheet" href="css/components/Watch.css">
-    <link rel="stylesheet" href="css/components/Settings.css">
+    <link rel="stylesheet" href="css/components/AgentDossier.css">
     <link rel="stylesheet" href="css/components/Announcement.css">
     <link rel="preload" href="assets/characters.json" as="fetch" crossorigin="anonymous">
 </head>
@@ -24,17 +23,15 @@
     <div id="header-container"></div>
     <div id="background-container"></div>
     <div id="footer-container"></div>
-    <div id="settings-root"></div>
+    <div id="dossier-root"></div>
     <div id="announcement-root"></div>
 
     <script src="js/libs/bootstrap.bundle.min.js"></script>
     <script src="js/libs/anime.min.js"></script>
     <script src="js/utils/safeStorage.js"></script>
 
-    <!-- Component-based Entry Point -->
     <script type="module" src="js/index.js"></script>
 
-    <!-- Legacy / Re-organized scripts -->
     <script src="js/utils/cmyk.js"></script>
     <script src="js/utils/kinetic.js"></script>
     <script src="js/utils/transition.js"></script>
@@ -42,7 +39,6 @@
     <script src="js/utils/taskbar.js"></script>
     <script src="js/utils/pattern.js"></script>
 
-    <!-- CMYK Global Overlay -->
     <div id="halftone-global" class="halftone-global">
         <div class="dot-screen screen-y"></div>
         <div class="dot-screen screen-c"></div>
@@ -50,7 +46,6 @@
         <div class="dot-screen screen-k"></div>
     </div>
 
-    <!-- Refined Ink Engine Filter -->
     <svg style="position: absolute; width: 0; height: 0;" aria-hidden="true">
         <filter id="ink-engine" x="-10%" y="-10%" width="120%" height="120%">
             <feTurbulence type="fractalNoise" baseFrequency="0.2" numOctaves="2" result="edge-noise" />

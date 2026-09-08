@@ -615,12 +615,8 @@ window.wallpaperPropertyListener = {
     applyUserProperties: function (properties) {
         if (properties.character && shouldApplyWeProperty('selectedCharacter')) {
             const char = properties.character.value;
-            if (window.app && window.app.settings) {
-                window.app.settings.confirmAgent(char);
-            } else {
-                safeSet('selectedCharacter', char);
-                window.setWallpaper(char, safeGet('selectedVariant', 'Default'));
-            }
+            safeSet('selectedCharacter', char);
+            window.setWallpaper(char, safeGet('selectedVariant', 'Default'));
         }
         if (properties.variant && shouldApplyWeProperty('selectedVariant')) {
             const variant = properties.variant.value;
@@ -629,15 +625,10 @@ window.wallpaperPropertyListener = {
             const isCustom = charData && charData.variants && charData.variants.length > 0;
             
             safeSet('selectedVariant', variant);
-            
+
             if (!isCustom) {
-                if (window.app && window.app.settings) {
-                    window.app.settings.setState({ currentVariant: variant });
-                    if (window.store) window.store.setState({ currentVariant: variant });
-                    window.app.settings.applySettings(false, { currentVariant: variant });
-                } else {
-                    window.setWallpaper(currentChar, variant);
-                }
+                if (window.store) window.store.setState({ currentVariant: variant });
+                window.setWallpaper(currentChar, variant);
             }
         }
         if (properties.variant_pyrois && shouldApplyWeProperty('selectedVariantCustom')) {
@@ -647,15 +638,10 @@ window.wallpaperPropertyListener = {
             const isCustom = charData && charData.variants && charData.variants.length > 0;
 
             safeSet('selectedVariantCustom', variant);
-            
+
             if (isCustom) {
-                if (window.app && window.app.settings) {
-                    window.app.settings.setState({ currentVariant: variant });
-                    if (window.store) window.store.setState({ currentVariant: variant });
-                    window.app.settings.applySettings(false, { currentVariant: variant });
-                } else {
-                    window.setWallpaper(currentChar, variant);
-                }
+                if (window.store) window.store.setState({ currentVariant: variant });
+                window.setWallpaper(currentChar, variant);
             }
         }
         if (properties.flip) {
@@ -693,19 +679,11 @@ window.wallpaperPropertyListener = {
             const theme = properties.theme.value;
             safeSet('footerTheme', theme);
             if (window.store) window.store.setFooterTheme(theme);
-            if (window.app && window.app.settings) {
-                window.app.settings.setState({ footerTheme: theme });
-                window.app.settings.applySettings(true);
-            }
         }
         if (properties.ambient && shouldApplyWeProperty('showAmbient')) {
             const ambient = properties.ambient.value;
             safeSet('showAmbient', ambient);
             if (window.store) window.store.setState({ showAmbient: ambient });
-            if (window.app && window.app.settings) {
-                window.app.settings.setState({ showAmbient: ambient });
-                window.app.settings.applySettings(true);
-            }
         }
         if (properties.taskbar && shouldApplyWeProperty('hideFooter')) {
             const hideFooter = properties.taskbar.value;

@@ -31,7 +31,7 @@ export default class Footer extends Component {
         const { footerTheme, month, year, showAmbient } = this.state;
         const timeValue = store.state.timeValue;
         const ampm = store.state.ampm;
-        const logoSrc = footerTheme === 'white' ? 'assets/imgs/logo_dark.png' : 'assets/imgs/logo_white.png';
+        const logoSrc = footerTheme === 'white' ? 'assets/imgs/logo_dark.webp' : 'assets/imgs/logo_white.webp';
         const inkClass = showAmbient ? 'footer-ink-bleed' : '';
 
         return `
@@ -75,18 +75,18 @@ export default class Footer extends Component {
                         </div>
                     </div>
                     
-                    <div class="zzz-logo-final ms-4 mobile-settings-trigger">
+                    <div class="zzz-logo-final ms-4 dossier-trigger">
                         <img src="${logoSrc}" alt="ZZZ">
-                        <div class="zzz-logo-sub">Settings</div>
+                        <div class="zzz-logo-sub">Agents</div>
                     </div>
                 </div>
 
-                <div class="vertical-brand d-none mobile-settings-trigger">
+                <div class="vertical-brand d-none dossier-trigger">
                     <div class="vertical-month-text vertical-month-svg"></div>
                     <div id="watch-mobile-root"></div>
                     <div class="zzz-logo-final">
                         <img src="${logoSrc}" alt="ZZZ">
-                        <div class="zzz-logo-sub">Settings</div>
+                        <div class="zzz-logo-sub">Agents</div>
                     </div>
                 </div>
             </div>

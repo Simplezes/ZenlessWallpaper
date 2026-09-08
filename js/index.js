@@ -2,7 +2,7 @@ import Footer from './components/Footer.js';
 import LoadingScreen from './components/LoadingScreen.js';
 import Header from './components/Header.js';
 import Background from './components/Background.js';
-import Settings from './components/Settings.js';
+import AgentDossier from './components/AgentDossier.js';
 import Announcement from './components/Announcement.js';
 
 import store from './store.js';
@@ -44,8 +44,8 @@ class App {
         this.footer = new Footer();
         this.footer.mount('#footer-container');
 
-        this.settings = new Settings();
-        this.settings.mount('#settings-root');
+        this.dossier = new AgentDossier();
+        this.dossier.mount('#dossier-root');
 
         this.announcement = new Announcement();
         this.announcement.mount('#announcement-root');
