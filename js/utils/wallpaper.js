@@ -101,6 +101,8 @@ async function loadCharacters() {
             updateLoading(100, 'SIGNAL ESTABLISHED');
         });
 
+        restartRandomAgentTimer();
+
 
     } catch (e) {
         console.error("Failed to load characters.json", e);
@@ -412,6 +414,18 @@ window.triggerRandomCharacter = function () {
     window.setWallpaper(randomChar, randomVariant);
 };
 
+let randomAgentTimer = null;
+function restartRandomAgentTimer() {
+    if (randomAgentTimer) clearInterval(randomAgentTimer);
+    randomAgentTimer = null;
+
+    const enabled = window.safeStorage ? window.safeStorage.getBool('randomAuto', false) : safeGet('randomAuto') === 'true';
+    if (!enabled) return;
+
+    const minutes = parseInt(safeGet('randomInterval', '15'), 10) || 15;
+    randomAgentTimer = setInterval(window.triggerRandomCharacter, minutes * 60000);
+}
+
 
 
 function updateText(el, text, offset, targetOpacity) {
@@ -695,6 +709,14 @@ window.wallpaperPropertyListener = {
             safeSet('wallpaperLayout', layout);
             if (window.store) window.store.setState({ layout: layout });
             window.dispatchEvent(new CustomEvent('layout-changed', { detail: { layout: layout } }));
+        }
+        if (properties.randomAuto && shouldApplyWeProperty('randomAuto')) {
+            safeSet('randomAuto', properties.randomAuto.value);
+            restartRandomAgentTimer();
+        }
+        if (properties.randomInterval && shouldApplyWeProperty('randomInterval')) {
+            safeSet('randomInterval', properties.randomInterval.value);
+            restartRandomAgentTimer();
         }
     },
     setPaused: function (paused) {

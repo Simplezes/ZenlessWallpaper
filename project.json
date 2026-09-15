@@ -6,6 +6,13 @@
 	{
 		"properties" : 
 		{
+			"ambient" : 
+			{
+				"order" : 9,
+				"text" : "Effects",
+				"type" : "bool",
+				"value" : true
+			},
 			"character" : 
 			{
 				"options" : 
@@ -248,21 +255,7 @@
 				"type" : "combo",
 				"value" : "Burnice White"
 			},
-			"ambient" :
-			{
-				"order" : 9,
-				"text" : "Effects",
-				"type" : "bool",
-				"value" : true
-			},
-			"taskbar" :
-			{
-				"order" : 10,
-				"text" : "Minimal Taskbar",
-				"type" : "bool",
-				"value" : false
-			},
-			"flip" :
+			"flip" : 
 			{
 				"order" : 3,
 				"text" : "Flip",
@@ -333,6 +326,31 @@
 				"text" : "ui_browse_properties_scheme_color",
 				"type" : "color",
 				"value" : "0.00392156862745098 0.29411764705882354 0.7215686274509804"
+			},
+			"randomAuto" :
+			{
+				"order" : 11,
+				"text" : "Auto Random Agent",
+				"type" : "bool",
+				"value" : false
+			},
+			"randomInterval" :
+			{
+				"condition" : "randomAuto.value == true",
+				"max" : 120,
+				"min" : 1,
+				"order" : 12,
+				"step" : 1,
+				"text" : "Random Agent Interval (minutes)",
+				"type" : "slider",
+				"value" : 15
+			},
+			"taskbar" :
+			{
+				"order" : 10,
+				"text" : "Minimal Taskbar",
+				"type" : "bool",
+				"value" : false
 			},
 			"theme" : 
 			{
@@ -419,7 +437,7 @@
 	"tags" : [ "Anime" ],
 	"title" : "Zenless Zone Zero: Character Dashboard",
 	"type" : "Web",
-	"version" : 33,
+	"version" : 34,
 	"visibility" : "public",
 	"workshopid" : "3686577945",
 	"workshopurl" : "steam://url/CommunityFilePage/3686577945"
