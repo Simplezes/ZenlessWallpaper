@@ -6,7 +6,8 @@ const DAY_NAMES = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 export default class FooterSlim extends Component {
     render() {
         const now = new Date();
-        const dayLabel = `${DAY_NAMES[now.getDay()]} ${now.getDate().toString().padStart(2, '0')}`;
+        const dayName = window.i18n ? window.i18n.dayName(now.getDay()) : DAY_NAMES[now.getDay()];
+        const dayLabel = `${dayName} ${now.getDate().toString().padStart(2, '0')}`;
 
         const timeValue = store.state.timeValue || '--:--';
         const ampm = store.state.ampm;
@@ -45,6 +46,13 @@ export default class FooterSlim extends Component {
             clock._clickBound = true;
             clock.addEventListener('click', () => store.toggleTimeFormat());
         }
+
+        this._onLanguageChanged = () => this.update();
+        window.addEventListener('language-changed', this._onLanguageChanged);
+    }
+
+    onUnmounted() {
+        window.removeEventListener('language-changed', this._onLanguageChanged);
     }
 
     onUpdated() {

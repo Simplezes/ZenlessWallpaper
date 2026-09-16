@@ -67,7 +67,7 @@ export default class Footer extends Component {
                             </div>
                             <div class="right-meta-group">
                                 <div class="right-meta">
-                                    <div class="pill-month" id="brand-month-name">${month}</div>
+                                    <div class="pill-month" id="brand-month-name">${window.i18n ? window.i18n.monthNameFromKey(month) : month}</div>
                                     <div class="year-display">[ <span id="brand-year">${year}</span> ]</div>
                                 </div>
                                 <div class="zzz-dashed-svg"></div>
@@ -117,6 +117,17 @@ export default class Footer extends Component {
             timeContainer._clickBound = true;
             timeContainer.style.cursor = 'pointer';
             timeContainer.addEventListener('click', () => store.toggleTimeFormat());
+        }
+
+        this._onLanguageChanged = () => this.update();
+        window.addEventListener('language-changed', this._onLanguageChanged);
+    }
+
+    onUnmounted() {
+        window.removeEventListener('language-changed', this._onLanguageChanged);
+        if (this._timeUnsub) {
+            this._timeUnsub();
+            this._timeUnsub = null;
         }
     }
 

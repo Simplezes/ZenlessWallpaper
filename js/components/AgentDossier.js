@@ -1,11 +1,14 @@
 import Component from './Component.js';
 
 const RARITY_LETTER = { 4: 'S', 3: 'A' };
-const TABS = [
-    { id: 'profile', label: 'Profile' },
-    { id: 'combat', label: 'Combat' },
-    { id: 'wengine', label: 'W-Engine' }
-];
+function tabs() {
+    const t = (k) => (window.i18n ? window.i18n.t(k) : k);
+    return [
+        { id: 'profile', label: t('tabProfile') },
+        { id: 'combat', label: t('tabCombat') },
+        { id: 'wengine', label: t('tabWEngine') }
+    ];
+}
 
 let dossierFetch = null;
 function loadDossierData() {
@@ -63,6 +66,7 @@ export default class AgentDossier extends Component {
             if (e.key === 'Escape') this._onClose();
         };
         this._onCharacterChanged = () => this.update();
+        this._onLanguageChanged = () => this.update();
 
         if (window.store) {
             this.useStore(window.store, (s) => ({ currentAgent: s.currentAgent }));
@@ -70,13 +74,16 @@ export default class AgentDossier extends Component {
     }
 
     render() {
+        const t = (k) => (window.i18n ? window.i18n.t(k) : k);
         const data = window.getCharacterData ? window.getCharacterData(this.state.currentAgent) : null;
         const raw = data && window.characters ? findRawEntry(data.name) : null;
-        const dossier = this.dossierData ? this.dossierData[data ? data.name : ''] : null;
+        const enDossier = this.dossierData ? this.dossierData[data ? data.name : ''] : null;
+        const i18nDossier = (window.i18n && data) ? window.i18n.dossier(data.name) : null;
+        const dossier = mergeDossier(enDossier, i18nDossier);
 
         const avatarFile = `assets/avatars/Avatar_${data ? data.idName : 'Burnice_White'}.webp`;
-        const faction = data ? data.faction : '';
-        const nickname = data ? data.nickname : '';
+        const faction = data ? (window.i18n ? window.i18n.faction(data.faction) : data.faction) : '';
+        const nickname = data ? (window.i18n ? window.i18n.charNickname(data.name, data.nickname) : data.nickname) : '';
         const quote = (dossier && dossier.quote) || (raw && raw.quote) || '';
         const tags = raw ? [raw.attribute, raw.specialty, raw.damageType].filter(Boolean) : [];
         const rankLetter = raw ? RARITY_LETTER[raw.rarity] : null;
@@ -89,7 +96,7 @@ export default class AgentDossier extends Component {
                 <div class="dossier-wave"></div>
                 ${rankLetter ? `<div class="dossier-rank">${rankLetter}</div>` : ''}
                 <div class="dossier-head">
-                    <span class="dossier-eyebrow">Agent File</span>
+                    <span class="dossier-eyebrow">${escapeHtml(t('agentFile'))}</span>
                     <div class="dossier-name-wrap"><h1 class="dossier-faction">${escapeHtml(faction)}</h1></div>
                 </div>
                 <div class="dossier-circle-wrap">
@@ -99,10 +106,10 @@ export default class AgentDossier extends Component {
                     <div class="dossier-nametag">${escapeHtml(nickname.toUpperCase())}</div>
                 </div>
                 <div class="dossier-plates">
-                    ${tags.map((t, i) => `<div class="plate${i % 2 ? ' alt' : ''}">${escapeHtml(t.toUpperCase())}</div>`).join('')}
+                    ${tags.map((tag, i) => `<div class="plate${i % 2 ? ' alt' : ''}">${escapeHtml(tag.toUpperCase())}</div>`).join('')}
                 </div>
                 <button class="dossier-expand-toggle" id="dossier-expand-toggle">
-                    <span>${this.state.expanded ? 'Hide Full Dossier' : 'View Full Dossier'}</span>
+                    <span>${escapeHtml(this.state.expanded ? t('hideFullDossier') : t('viewFullDossier'))}</span>
                     <span class="dossier-chev ${this.state.expanded ? 'up' : ''}"></span>
                 </button>
             </div>
@@ -112,15 +119,16 @@ export default class AgentDossier extends Component {
     }
 
     renderExpanded(dossier, accent, quote) {
+        const t = (k) => (window.i18n ? window.i18n.t(k) : k);
         return `
         <div class="dossier-expanded" style="--accent-live:${accent};">
             <div class="dossier-tabs">
-                ${TABS.map(t => `<button class="dossier-tab ${this.state.activeTab === t.id ? 'active' : ''}" data-tab="${t.id}">${t.label}</button>`).join('')}
+                ${tabs().map(tab => `<button class="dossier-tab ${this.state.activeTab === tab.id ? 'active' : ''}" data-tab="${tab.id}">${escapeHtml(tab.label)}</button>`).join('')}
             </div>
             <div class="dossier-scroll-wrap">
                 <div class="dossier-scroll" id="dossier-scroll">
                     ${quote ? `<p class="dossier-quote">&ldquo;${escapeHtml(quote)}&rdquo;</p>` : ''}
-                    ${!dossier ? `<p class="dossier-empty">Loading dossier...</p>` : ''}
+                    ${!dossier ? `<p class="dossier-empty">${escapeHtml(t('loadingDossier'))}</p>` : ''}
                     ${dossier && this.state.activeTab === 'profile' ? this.renderProfile(dossier.bio) : ''}
                     ${dossier && this.state.activeTab === 'combat' ? this.renderCombat(dossier.skills) : ''}
                     ${dossier && this.state.activeTab === 'wengine' ? this.renderWEngine(dossier.wEngine) : ''}
@@ -134,14 +142,15 @@ export default class AgentDossier extends Component {
     }
 
     renderProfile(bio) {
-        if (!bio) return `<p class="dossier-empty">No profile data available.</p>`;
+        const t = (k) => (window.i18n ? window.i18n.t(k) : k);
+        if (!bio) return `<p class="dossier-empty">${escapeHtml(t('noProfileData'))}</p>`;
         const rows = [
-            ['Real Name', bio.realName],
-            ['Gender', bio.gender],
-            ['Height', bio.height],
-            ['Birthday', bio.birthday],
-            ['Species', bio.species],
-            ['Relatives', bio.relatives]
+            [t('realName'), bio.realName],
+            [t('gender'), bio.gender],
+            [t('height'), bio.height],
+            [t('birthday'), bio.birthday],
+            [t('species'), bio.species],
+            [t('relatives'), bio.relatives]
         ].filter(([, v]) => v);
 
         return `
@@ -152,7 +161,8 @@ export default class AgentDossier extends Component {
     }
 
     renderCombat(skills) {
-        if (!skills || !skills.length) return `<p class="dossier-empty">No combat data available yet for this agent.</p>`;
+        const t = (k) => (window.i18n ? window.i18n.t(k) : k);
+        if (!skills || !skills.length) return `<p class="dossier-empty">${escapeHtml(t('noCombatData'))}</p>`;
         return `
         <div class="dossier-skills">
             ${skills.map(s => `
@@ -167,7 +177,8 @@ export default class AgentDossier extends Component {
     }
 
     renderWEngine(we) {
-        if (!we) return `<p class="dossier-empty">No W-Engine data available.</p>`;
+        const t = (k) => (window.i18n ? window.i18n.t(k) : k);
+        if (!we) return `<p class="dossier-empty">${escapeHtml(t('noWEngineData'))}</p>`;
         const tags = [we.specialty, we.attribute].filter(Boolean);
         return `
         <div class="dossier-wengine-head">
@@ -178,11 +189,11 @@ export default class AgentDossier extends Component {
             </div>
         </div>
         <div class="dossier-plates">
-            ${tags.map((t, i) => `<div class="plate${i % 2 ? ' alt' : ''}">${escapeHtml(t.toUpperCase())}</div>`).join('')}
+            ${tags.map((tag, i) => `<div class="plate${i % 2 ? ' alt' : ''}">${escapeHtml(tag.toUpperCase())}</div>`).join('')}
         </div>
         <dl class="dossier-facts">
-            ${we.baseStat ? `<dt>Base Stat</dt><dd>${escapeHtml(we.baseStat)}</dd>` : ''}
-            ${we.advancedStat ? `<dt>Advanced Stat</dt><dd>${escapeHtml(we.advancedStat)}</dd>` : ''}
+            ${we.baseStat ? `<dt>${escapeHtml(t('baseStat'))}</dt><dd>${escapeHtml(we.baseStat)}</dd>` : ''}
+            ${we.advancedStat ? `<dt>${escapeHtml(t('advancedStat'))}</dt><dd>${escapeHtml(we.advancedStat)}</dd>` : ''}
         </dl>
         ${we.passiveName ? `
         <div class="dossier-skill">
@@ -197,6 +208,7 @@ export default class AgentDossier extends Component {
         window.addEventListener('click', this._onWindowClick);
         window.addEventListener('keydown', this._onKeyDown);
         window.addEventListener('character-changed', this._onCharacterChanged);
+        window.addEventListener('language-changed', this._onLanguageChanged);
     }
 
     onUpdated() {
@@ -266,8 +278,22 @@ export default class AgentDossier extends Component {
         window.removeEventListener('click', this._onWindowClick);
         window.removeEventListener('keydown', this._onKeyDown);
         window.removeEventListener('character-changed', this._onCharacterChanged);
+        window.removeEventListener('language-changed', this._onLanguageChanged);
         if (this._scrollCleanup) this._scrollCleanup();
     }
+}
+
+function mergeDossier(en, translated) {
+    if (!en) return null;
+    if (!translated) return en;
+    return {
+        quote: translated.quote || en.quote,
+        bio: en.bio ? { ...en.bio, ...(translated.bio || {}) } : en.bio,
+        skills: Array.isArray(en.skills)
+            ? en.skills.map((s, i) => ({ ...s, ...((translated.skills && translated.skills[i]) || {}) }))
+            : en.skills,
+        wEngine: en.wEngine ? { ...en.wEngine, ...(translated.wEngine || {}) } : en.wEngine
+    };
 }
 
 function findRawEntry(name) {

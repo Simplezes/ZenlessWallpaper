@@ -81,7 +81,9 @@ export default class Background extends Component {
         const monthNum = s.monthNum || String(new Date().getMonth() + 1).padStart(2, '0');
         const rawMonth = s.month || 'JAN';
         const monthIdx = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'].indexOf(rawMonth);
-        const monthName = monthIdx >= 0 ? monthShortNames[monthIdx] : rawMonth;
+        const monthName = window.i18n
+            ? window.i18n.monthNameFromKey(rawMonth)
+            : (monthIdx >= 0 ? monthShortNames[monthIdx] : rawMonth);
         return { num: monthNum, name: monthName };
     }
 
@@ -378,6 +380,9 @@ export default class Background extends Component {
 
         window.addEventListener('resize', this._onResize);
 
+        this._onLanguageChanged = () => this._patchMonthDisplay();
+        window.addEventListener('language-changed', this._onLanguageChanged);
+
         let prevMonthKey = null;
         this._unsubscribeMonth = store.subscribe((s) => {
             const key = `${s.monthNum}-${s.year}`;
@@ -396,6 +401,7 @@ export default class Background extends Component {
     onUnmounted() {
         window.removeEventListener('character-changed', this._onCharacterChanged);
         window.removeEventListener('resize', this._onResize);
+        window.removeEventListener('language-changed', this._onLanguageChanged);
         if (this._unsubscribeMonth) {
             this._unsubscribeMonth();
             this._unsubscribeMonth = null;

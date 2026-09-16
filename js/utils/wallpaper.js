@@ -198,14 +198,17 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
         const factionOpacity = 0.4;
         const nicknameOpacity = 0.9;
 
+        const localizedName = window.i18n ? window.i18n.charName(charData.name) : charData.name;
+        const localizedFaction = window.i18n ? window.i18n.faction(charData.faction) : charData.faction;
+
         const factionText = document.getElementById('faction-text');
         const nicknameText = document.getElementById('nickname-text');
-        updateText(factionText, charData.faction, -30, factionOpacity);
-        updateText(nicknameText, charData.name, 30, nicknameOpacity);
+        updateText(factionText, localizedFaction, -30, factionOpacity);
+        updateText(nicknameText, localizedName, 30, nicknameOpacity);
 
         const calName = document.querySelector('.calendar-agent-name');
         if (calName) {
-            updateText(calName, charData.name, 0, 1);
+            updateText(calName, localizedName, 0, 1);
         }
 
         safeSet('selectedCharacter', charData.name);
@@ -278,14 +281,17 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                     const factionOpacity = 0.4;
                     const nicknameOpacity = 0.9;
 
+                    const localizedName = window.i18n ? window.i18n.charName(charData.name) : charData.name;
+                    const localizedFaction = window.i18n ? window.i18n.faction(charData.faction) : charData.faction;
+
                     const factionText = document.getElementById('faction-text');
                     const nicknameText = document.getElementById('nickname-text');
-                    updateText(factionText, charData.faction, -30, factionOpacity);
-                    updateText(nicknameText, charData.name, 30, nicknameOpacity);
+                    updateText(factionText, localizedFaction, -30, factionOpacity);
+                    updateText(nicknameText, localizedName, 30, nicknameOpacity);
 
                     const calName = document.querySelector('.calendar-agent-name');
                     if (calName) {
-                        updateText(calName, charData.name, 0, 1);
+                        updateText(calName, localizedName, 0, 1);
                     }
 
                     const currentAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent-color').trim() || oldAccent || 'rgb(252, 91, 144)';
@@ -620,6 +626,14 @@ function kickLayout() {
 window.addEventListener('focus', kickLayout);
 window.addEventListener('resize', kickLayout);
 
+window.addEventListener('language-changed', () => {
+    const char = safeGet('selectedCharacter');
+    const variant = safeGet('selectedVariant', 'Default');
+    if (char && window.setWallpaper) {
+        window.setWallpaper(char, variant, true);
+    }
+});
+
 
 function shouldApplyWeProperty() {
     return true;
@@ -709,6 +723,11 @@ window.wallpaperPropertyListener = {
             safeSet('wallpaperLayout', layout);
             if (window.store) window.store.setState({ layout: layout });
             window.dispatchEvent(new CustomEvent('layout-changed', { detail: { layout: layout } }));
+        }
+        if (properties.language && shouldApplyWeProperty('language')) {
+            const lang = properties.language.value;
+            safeSet('language', lang);
+            if (window.i18n) window.i18n.setLanguage(lang);
         }
         if (properties.randomAuto && shouldApplyWeProperty('randomAuto')) {
             safeSet('randomAuto', properties.randomAuto.value);

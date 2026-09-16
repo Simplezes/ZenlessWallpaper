@@ -45,12 +45,21 @@ export default class Header extends Component {
             `}
             ${isCalendar ? '' : `
             <div class="header-right">
-                <div class="pill-month" id="header-month-name">${this.state.month}</div>
+                <div class="pill-month" id="header-month-name">${window.i18n ? window.i18n.monthNameFromKey(this.state.month) : this.state.month}</div>
                 <div class="year-display">[ <span id="header-year">${this.state.year}</span> ]</div>
                 <div class="zzz-dashed-svg"></div>
             </div>
             `}
         </div>
         `;
+    }
+
+    onMounted() {
+        this._onLanguageChanged = () => this.update();
+        window.addEventListener('language-changed', this._onLanguageChanged);
+    }
+
+    onUnmounted() {
+        window.removeEventListener('language-changed', this._onLanguageChanged);
     }
 }

@@ -45,7 +45,9 @@ export default class Calendar extends Component {
     render() {
         const { year, month, viewOffset } = this.state;
         const daysInMonth = new Date(year, month + 1, 0).getDate();
-        const dayNames = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+        const dayNames = window.i18n
+            ? [0, 1, 2, 3, 4, 5, 6].map(i => window.i18n.dayName(i))
+            : ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 
         const isPortrait = window.innerHeight > window.innerWidth;
         const isNarrowLandscape = !isPortrait && window.innerWidth < 1150;
@@ -151,6 +153,8 @@ export default class Calendar extends Component {
         window.addEventListener('pointerup', this._onPointerUp);
 
         window.addEventListener('resize', this._onResize);
+        this._onLanguageChanged = () => this.update();
+        window.addEventListener('language-changed', this._onLanguageChanged);
 
         this.scheduleMidnightUpdate();
     }
@@ -162,6 +166,7 @@ export default class Calendar extends Component {
         window.removeEventListener('pointermove', this._onPointerMove);
         window.removeEventListener('pointerup', this._onPointerUp);
         window.removeEventListener('resize', this._onResize);
+        window.removeEventListener('language-changed', this._onLanguageChanged);
     }
 
     _onResize() {
