@@ -106,13 +106,15 @@ export default class MediaPlayer extends Component {
                     if (statusEl) statusEl.textContent = timeStr;
                 }
             });
-
-            const mediaContainer = this.container.querySelector('#media-container');
-            if (mediaContainer) {
-                mediaContainer.style.cursor = 'pointer';
-                mediaContainer.addEventListener('click', () => store.toggleTimeFormat());
-            }
         }
+
+        const mediaContainer = this.container.querySelector('#media-container');
+        if (mediaContainer && !mediaContainer._clickBound) {
+            mediaContainer._clickBound = true;
+            mediaContainer.style.cursor = 'pointer';
+            mediaContainer.addEventListener('click', () => store.toggleTimeFormat());
+        }
+
         this.updateScrolling();
     }
 

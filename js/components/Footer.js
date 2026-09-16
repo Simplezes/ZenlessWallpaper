@@ -112,12 +112,7 @@ export default class Footer extends Component {
             });
         }
 
-        const timeContainer = this.container.querySelector('.mobile-top-time');
-        if (timeContainer && !timeContainer._clickBound) {
-            timeContainer._clickBound = true;
-            timeContainer.style.cursor = 'pointer';
-            timeContainer.addEventListener('click', () => store.toggleTimeFormat());
-        }
+        this._bindTimeToggle();
 
         this._onLanguageChanged = () => this.update();
         window.addEventListener('language-changed', this._onLanguageChanged);
@@ -133,8 +128,18 @@ export default class Footer extends Component {
 
     onUpdated() {
         this.reMountChildren();
+        this._bindTimeToggle();
         if (window.CMYKManager) {
             window.CMYKManager.apply(this.container.closest('.footer') || '.footer');
+        }
+    }
+
+    _bindTimeToggle() {
+        const timeContainer = this.container.querySelector('.mobile-top-time');
+        if (timeContainer && !timeContainer._clickBound) {
+            timeContainer._clickBound = true;
+            timeContainer.style.cursor = 'pointer';
+            timeContainer.addEventListener('click', () => store.toggleTimeFormat());
         }
     }
 
