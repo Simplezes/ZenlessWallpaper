@@ -84,6 +84,30 @@
 
     const MONTH_KEYS = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
 
+    const ATTRIBUTES = {
+        en: { Electric: 'Electric', Ether: 'Ether', Fire: 'Fire', Ice: 'Ice', Lumiflux: 'Lumiflux', Physical: 'Physical', Wind: 'Wind' },
+        es: { Electric: 'Eléctrico', Ether: 'Éter', Fire: 'Fuego', Ice: 'Hielo', Lumiflux: 'Lumiflux', Physical: 'Físico', Wind: 'Viento' },
+        zh: { Electric: '电', Ether: '以太', Fire: '火', Ice: '冰', Lumiflux: '光流', Physical: '物理', Wind: '风' },
+        ja: { Electric: '電気', Ether: 'エーテル', Fire: '炎', Ice: '氷', Lumiflux: 'ルミフラックス', Physical: '物理', Wind: '風' },
+        ko: { Electric: '전기', Ether: '에테르', Fire: '화염', Ice: '얼음', Lumiflux: '루미플럭스', Physical: '물리', Wind: '바람' }
+    };
+
+    const SPECIALTIES = {
+        en: { Anomaly: 'Anomaly', Attack: 'Attack', Defense: 'Defense', Rupture: 'Rupture', Stun: 'Stun', Support: 'Support' },
+        es: { Anomaly: 'Anomalía', Attack: 'Ataque', Defense: 'Defensa', Rupture: 'Ruptura', Stun: 'Aturdimiento', Support: 'Apoyo' },
+        zh: { Anomaly: '异常', Attack: '强攻', Defense: '防护', Rupture: '命破', Stun: '击破', Support: '支援' },
+        ja: { Anomaly: '異常', Attack: '強攻', Defense: '防護', Rupture: '命破', Stun: '撃破', Support: '支援' },
+        ko: { Anomaly: '이상', Attack: '강공', Defense: '방어', Rupture: '명파', Stun: '격파', Support: '지원' }
+    };
+
+    const DAMAGE_TYPES = {
+        en: { Pierce: 'Pierce', Slash: 'Slash', Strike: 'Strike' },
+        es: { Pierce: 'Perforación', Slash: 'Corte', Strike: 'Golpe' },
+        zh: { Pierce: '穿透', Slash: '斩击', Strike: '打击' },
+        ja: { Pierce: '刺突', Slash: '斬撃', Strike: '打撃' },
+        ko: { Pierce: '꿰뚫기', Slash: '베기', Strike: '타격' }
+    };
+
     let currentLang = 'en';
     let data = null;
 
@@ -132,6 +156,15 @@
         monthNameFromKey(key) {
             const idx = MONTH_KEYS.indexOf(key);
             return idx >= 0 ? this.monthName(idx) : key;
+        },
+        attribute(key) {
+            return (ATTRIBUTES[currentLang] || ATTRIBUTES.en)[key] || key;
+        },
+        specialty(key) {
+            return (SPECIALTIES[currentLang] || SPECIALTIES.en)[key] || key;
+        },
+        damageType(key) {
+            return (DAMAGE_TYPES[currentLang] || DAMAGE_TYPES.en)[key] || key;
         }
     };
 

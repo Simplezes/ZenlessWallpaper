@@ -85,7 +85,13 @@ export default class AgentDossier extends Component {
         const faction = data ? (window.i18n ? window.i18n.faction(data.faction) : data.faction) : '';
         const nickname = data ? (window.i18n ? window.i18n.charNickname(data.name, data.nickname) : data.nickname) : '';
         const quote = (dossier && dossier.quote) || (raw && raw.quote) || '';
-        const tags = raw ? [raw.attribute, raw.specialty, raw.damageType].filter(Boolean) : [];
+        const tags = raw
+            ? [
+                raw.attribute && (window.i18n ? window.i18n.attribute(raw.attribute) : raw.attribute),
+                raw.specialty && (window.i18n ? window.i18n.specialty(raw.specialty) : raw.specialty),
+                raw.damageType && (window.i18n ? window.i18n.damageType(raw.damageType) : raw.damageType)
+            ].filter(Boolean)
+            : [];
         const rankLetter = raw ? RARITY_LETTER[raw.rarity] : null;
         const accent = data ? data.baseColor : 'rgb(252, 91, 144)';
 
@@ -179,7 +185,10 @@ export default class AgentDossier extends Component {
     renderWEngine(we) {
         const t = (k) => (window.i18n ? window.i18n.t(k) : k);
         if (!we) return `<p class="dossier-empty">${escapeHtml(t('noWEngineData'))}</p>`;
-        const tags = [we.specialty, we.attribute].filter(Boolean);
+        const tags = [
+            we.specialty && (window.i18n ? window.i18n.specialty(we.specialty) : we.specialty),
+            we.attribute && (window.i18n ? window.i18n.attribute(we.attribute) : we.attribute)
+        ].filter(Boolean);
         return `
         <div class="dossier-wengine-head">
             ${we.icon ? `<img class="dossier-wengine-icon" src="assets/wengines/${we.icon}" alt="">` : ''}
