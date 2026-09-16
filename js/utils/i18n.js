@@ -157,6 +157,11 @@
             const idx = MONTH_KEYS.indexOf(key);
             return idx >= 0 ? this.monthName(idx) : key;
         },
+        monthCaptionFromKey(key) {
+            if (currentLang === 'zh' || currentLang === 'ja') return '月';
+            if (currentLang === 'ko') return '월';
+            return this.monthNameFromKey(key);
+        },
         attribute(key) {
             return (ATTRIBUTES[currentLang] || ATTRIBUTES.en)[key] || key;
         },

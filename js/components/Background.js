@@ -36,10 +36,9 @@ export default class Background extends Component {
 
     getCharacterImagePath(charName) {
         if (!charName || !window.getCharacterData) return '';
-        const storage = window.safeStorage;
-        const variant = storage ? storage.get('selectedVariant', "Default") : (localStorage.getItem('selectedVariant') || "Default");
         const charData = window.getCharacterData(charName);
         if (!charData) return '';
+        const variant = window.getCharacterVariant ? window.getCharacterVariant(charName) : 'Default';
         return `assets/wallpaper/Mindscape_${charData.idName}_${variant}.webp`;
     }
 
@@ -84,11 +83,12 @@ export default class Background extends Component {
         const monthName = window.i18n
             ? window.i18n.monthNameFromKey(rawMonth)
             : (monthIdx >= 0 ? monthShortNames[monthIdx] : rawMonth);
-        return { num: monthNum, name: monthName };
+        const monthCaption = window.i18n ? window.i18n.monthCaptionFromKey(rawMonth) : monthName;
+        return { num: monthNum, name: monthName, caption: monthCaption };
     }
 
     _patchMonthDisplay() {
-        const { num, name } = this._getMonthDataFromStore();
+        const { num, name, caption } = this._getMonthDataFromStore();
         const year = store.state.year || new Date().getFullYear();
 
         document.querySelectorAll('.calendar-zenless-label').forEach(el => {
@@ -103,7 +103,7 @@ export default class Background extends Component {
             }
         });
         document.querySelectorAll('.center-month-name').forEach(el => {
-            el.textContent = name;
+            el.textContent = caption;
         });
         document.querySelectorAll('.date-month-pill').forEach(el => {
             el.textContent = name.toUpperCase();
@@ -319,7 +319,7 @@ export default class Background extends Component {
                 <svg class="center-month-num" viewBox="0 0 320 250">
                     <text x="50%" y="50%" dominant-baseline="central" text-anchor="middle">${monthData.num}</text>
                 </svg>
-                <div class="center-month-name">${monthData.name}</div>
+                <div class="center-month-name">${monthData.caption}</div>
                 <img src="assets/imgs/patch.webp" class="patch-sticker">
             </div>
         `;
@@ -340,13 +340,14 @@ export default class Background extends Component {
         const charName = this._lastAgent || this.state.character;
         const imgPath = this.getCharacterImagePath(charName);
         const hasImg = !!imgPath;
+        const isTransitioning = window.CharacterTransition && window.CharacterTransition.isActive();
         return `
             <canvas id="bg-pattern-canvas"></canvas>
             <div id="backdrop" class="bg-layer active" style="opacity: 0;"></div>
             <div id="transition-backdrop" class="bg-layer" style="opacity: 0;"></div>
             <div id="faction-text" class="ambient-text faction">${this.state.faction || ''}</div>
             <div id="image-container">
-                <img id="main-image" class="char-image active" ${hasImg ? `src="${imgPath}" style="opacity: 1;"` : ''} />
+                <img id="main-image" class="char-image active" ${hasImg ? `src="${imgPath}" style="opacity: ${isTransitioning ? '0' : '1'};"` : ''} />
                 <img id="transition-image" class="char-image" />
             </div>
             <div id="nickname-text" class="ambient-text nickname">${this.state.nickname || ''}</div>
@@ -481,10 +482,10 @@ export default class Background extends Component {
 
         const storage = window.safeStorage;
         const char = storage ? storage.get('selectedCharacter') : localStorage.getItem('selectedCharacter');
-        const variant = storage ? storage.get('selectedVariant', "Default") : (localStorage.getItem('selectedVariant') || "Default");
         if (char && window.getCharacterData) {
             const charData = window.getCharacterData(char);
             if (charData) {
+                const variant = window.getCharacterVariant ? window.getCharacterVariant(char) : 'Default';
                 const imgPath = `assets/wallpaper/Mindscape_${charData.idName}_${variant}.webp`;
                 const mainImg = document.getElementById('main-image');
                 if (mainImg && !mainImg.getAttribute('src')) {

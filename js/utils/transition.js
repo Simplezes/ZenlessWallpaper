@@ -740,11 +740,9 @@
                             const rect = this.glitchRects[i];
                             const localP = variant === 'inner' ? Math.pow(rP, 1.2) : rP;
                             if (localP >= rect.start) {
-                                let bP = (localP - rect.start) / (rect.end - rect.start);
-                                if (bP < 1.0) {
-                                    const scale = Math.sin(bP * Math.PI) * rect.h;
-                                    ctx.rect(rect.x * W, rect.y * H, rect.w * W, scale * H);
-                                }
+                                const bP = Math.min(1, (localP - rect.start) / (rect.end - rect.start));
+                                const scale = Math.sin(bP * Math.PI * 0.5) * rect.h;
+                                ctx.rect(rect.x * W, rect.y * H, rect.w * W, scale * H);
                             }
                         }
                     }

@@ -211,8 +211,9 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             updateText(calName, localizedName, 0, 1);
         }
 
+        const hasCustomVariants = charData.variants && charData.variants.length > 0;
         safeSet('selectedCharacter', charData.name);
-        safeSet('selectedVariant', variant);
+        safeSet(hasCustomVariants ? 'selectedVariantCustom' : 'selectedVariant', variant);
         safeSet('selectedFaction', charData.faction);
         safeSet('selectedNickname', charData.nickname);
 
@@ -312,12 +313,10 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                             }
                         }
                     });
-                },
-                onDone: () => {
-                    if (isStaleRequest()) return;
 
+                    const hasCustomVariants = charData.variants && charData.variants.length > 0;
                     safeSet('selectedCharacter', charData.name);
-                    safeSet('selectedVariant', variant);
+                    safeSet(hasCustomVariants ? 'selectedVariantCustom' : 'selectedVariant', variant);
                     safeSet('selectedFaction', charData.faction);
                     safeSet('selectedNickname', charData.nickname);
 
@@ -328,6 +327,9 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
                             nickname: charData.nickname
                         }
                     }));
+                },
+                onDone: () => {
+                    if (isStaleRequest()) return;
 
                     const mainImg = document.getElementById('main-image');
                     mainImg.src = imgPath;
@@ -403,6 +405,20 @@ window.setWallpaper = function (characterName, variant = 'Default', textOnly = f
             retryImg.src = imgPath;
         }, 1500);
     };
+};
+
+window.getCharacterVariant = function (charName) {
+    const charData = window.getCharacterData(charName);
+    if (!charData) return 'Default';
+
+    const hasCustomVariants = charData.variants && charData.variants.length > 0;
+    if (hasCustomVariants) {
+        let variant = safeGet('selectedVariantCustom', charData.variants[0]);
+        if (!charData.variants.includes(variant)) variant = charData.variants[0];
+        return variant;
+    }
+
+    return safeGet('selectedVariant', 'Default');
 };
 
 window.triggerRandomCharacter = function () {
@@ -599,7 +615,7 @@ window.addEventListener('layout-changed', () => {
     window.isCharacterChanging = false;
 
     const _char = safeGet('selectedCharacter');
-    const _variant = safeGet('selectedVariant', 'Full');
+    const _variant = _char && window.getCharacterVariant ? window.getCharacterVariant(_char) : safeGet('selectedVariant', 'Full');
     const _charData = _char && window.getCharacterData ? window.getCharacterData(_char) : null;
     if (_charData) {
         const _img = new Image();
@@ -617,7 +633,7 @@ function kickLayout() {
     }, 10);
 
     const char = safeGet('selectedCharacter');
-    const variant = safeGet('selectedVariant', "Default");
+    const variant = char && window.getCharacterVariant ? window.getCharacterVariant(char) : safeGet('selectedVariant', 'Default');
     if (char && window.setWallpaper) {
         window.setWallpaper(char, variant, true);
     }
@@ -628,7 +644,7 @@ window.addEventListener('resize', kickLayout);
 
 window.addEventListener('language-changed', () => {
     const char = safeGet('selectedCharacter');
-    const variant = safeGet('selectedVariant', 'Default');
+    const variant = char && window.getCharacterVariant ? window.getCharacterVariant(char) : safeGet('selectedVariant', 'Default');
     if (char && window.setWallpaper) {
         window.setWallpaper(char, variant, true);
     }
@@ -644,19 +660,7 @@ window.wallpaperPropertyListener = {
         if (properties.character && shouldApplyWeProperty('selectedCharacter')) {
             const char = properties.character.value;
             safeSet('selectedCharacter', char);
-
-            const charData = window.getCharacterData && window.getCharacterData(char);
-            const hasCustomVariants = charData && charData.variants && charData.variants.length > 0;
-
-            let variant;
-            if (hasCustomVariants) {
-                variant = safeGet('selectedVariantCustom', charData.variants[0]);
-                if (!charData.variants.includes(variant)) variant = charData.variants[0];
-            } else {
-                variant = safeGet('selectedVariant', 'Default');
-            }
-
-            window.setWallpaper(char, variant);
+            window.setWallpaper(char, window.getCharacterVariant(char));
         }
         if (properties.variant && shouldApplyWeProperty('selectedVariant')) {
             const variant = properties.variant.value;
