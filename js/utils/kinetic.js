@@ -141,6 +141,12 @@ class KineticSway {
             item.el.style.translate = '';
             item.el.style.rotate = '';
             item.el.style.scale = '';
+
+            if (this.enabled) {
+                this._applyLiveSway(item, isPortrait, manualRot, manualFlip);
+                continue;
+            }
+
             item.el.style.transform = 'translate(0px, 0px) rotate(0deg) scale(1, 1)';
 
             let baseR = 0;
@@ -179,6 +185,50 @@ class KineticSway {
         }
     }
 
+    _applyLiveSway(item, isPortrait, manualRot, manualFlip) {
+        const t = this.time * this.globalSpeed * item.speedOffset;
+
+        const x = Math.sin(t + item.phaseX) * Math.cos(t * item.speedRatio2) * item.swayX;
+        const y = Math.sin(t + item.phaseY) * Math.sin(t * item.speedRatio3) * item.swayY;
+        const r = Math.sin(t + item.phaseR) * Math.cos(t * item.speedRatio2 + 1) * item.rot;
+
+        let scaleOffset = 0;
+        if (item.scaleVariance > 0) {
+            scaleOffset = Math.sin(t * 0.8 + item.phaseX) * item.scaleVariance;
+        }
+
+        const finalScale = item.baseScale + scaleOffset;
+        let finalRotate = r;
+        let finalScaleX = finalScale;
+
+        if (item.el.id === 'image-container') {
+            if (isPortrait) {
+                finalRotate = 0;
+                finalScaleX = finalScale;
+
+                if (!item._imgs) item._imgs = item.el.querySelectorAll('.char-image');
+                item._imgs.forEach(img => {
+                    img.style.transform = `rotate(${90 + manualRot}deg) scaleX(${manualFlip})`;
+                });
+            } else {
+                finalRotate += manualRot;
+                finalScaleX = finalScale * manualFlip;
+
+                if (!item._imgs) item._imgs = item.el.querySelectorAll('.char-image');
+                item._imgs.forEach(img => { img.style.transform = ''; });
+            }
+        }
+
+        item.el.style.transform = `translate(${x}px, ${y}px) rotate(${finalRotate}deg) scale(${finalScaleX}, ${finalScale})`;
+
+        item.currentSway = {
+            x, y,
+            rotate: finalRotate,
+            scaleX: finalScaleX,
+            scaleY: finalScale
+        };
+    }
+
     animate(timestamp) {
         if (!this.lastTime) this.lastTime = timestamp;
         const dt = timestamp - this.lastTime;
@@ -211,47 +261,7 @@ class KineticSway {
                 item._imgs = null;
             }
 
-            const t = this.time * this.globalSpeed * item.speedOffset;
-
-            const x = Math.sin(t + item.phaseX) * Math.cos(t * item.speedRatio2) * item.swayX;
-            const y = Math.sin(t + item.phaseY) * Math.sin(t * item.speedRatio3) * item.swayY;
-            const r = Math.sin(t + item.phaseR) * Math.cos(t * item.speedRatio2 + 1) * item.rot;
-
-            let scaleOffset = 0;
-            if (item.scaleVariance > 0) {
-                scaleOffset = Math.sin(t * 0.8 + item.phaseX) * item.scaleVariance;
-            }
-
-            const finalScale = item.baseScale + scaleOffset;
-            let finalRotate = r;
-            let finalScaleX = finalScale;
-
-            if (item.el.id === 'image-container') {
-                if (isPortrait) {
-                    finalRotate = 0;
-                    finalScaleX = finalScale;
-
-                    if (!item._imgs) item._imgs = item.el.querySelectorAll('.char-image');
-                    item._imgs.forEach(img => {
-                        img.style.transform = `rotate(${90 + manualRot}deg) scaleX(${manualFlip})`;
-                    });
-                } else {
-                    finalRotate += manualRot;
-                    finalScaleX = finalScale * manualFlip;
-
-                    if (!item._imgs) item._imgs = item.el.querySelectorAll('.char-image');
-                    item._imgs.forEach(img => { img.style.transform = ''; });
-                }
-            }
-
-            item.el.style.transform = `translate(${x}px, ${y}px) rotate(${finalRotate}deg) scale(${finalScaleX}, ${finalScale})`;
-
-            item.currentSway = {
-                x, y,
-                rotate: finalRotate,
-                scaleX: finalScaleX,
-                scaleY: finalScale
-            };
+            this._applyLiveSway(item, isPortrait, manualRot, manualFlip);
         }
 
         this._animId = requestAnimationFrame(this.animate);

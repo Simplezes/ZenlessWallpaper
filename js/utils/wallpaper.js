@@ -452,7 +452,6 @@ function restartRandomAgentTimer() {
 
 function updateText(el, text, offset, targetOpacity) {
     if (!el) return;
-    const motionEnabled = localStorage.getItem('kineticSway') !== 'false';
 
     const isPortrait = window.innerHeight > window.innerWidth;
     const isNickname = el.id === 'nickname-text' || el.classList.contains('nickname');
@@ -463,15 +462,16 @@ function updateText(el, text, offset, targetOpacity) {
         targetContent = formatPortraitNickname(text);
     }
 
-    const currentContent = el.innerHTML;
+    let inner = el.querySelector(':scope > .text-motion');
+    const currentContent = inner ? inner.innerHTML : '';
     anime.remove(el);
+    if (inner) anime.remove(inner);
 
     if (currentContent === targetContent) {
         fitPortraitNickname(el);
         anime({
             targets: el,
             opacity: targetOpacity,
-            ...(motionEnabled ? {} : { translateY: 0, scale: 1 }),
             filter: 'blur(0rem)',
             duration: 450,
             easing: 'easeOutExpo'
@@ -480,46 +480,29 @@ function updateText(el, text, offset, targetOpacity) {
     }
 
     const applyContent = () => {
-        el.innerHTML = targetContent;
+        el.innerHTML = `<span class="text-motion" style="display:inline-block;">${targetContent}</span>`;
         el.setAttribute('data-text', text);
         fitPortraitNickname(el);
+        const freshInner = el.querySelector(':scope > .text-motion');
 
         const enterOffset = offset * 0.65;
-        if (!motionEnabled) {
-            el.style.transform = `translateY(${enterOffset}px) scale(0.985)`;
-        }
+        freshInner.style.transform = `translateY(${enterOffset}px) scale(0.985)`;
         el.style.filter = 'blur(0.35rem)';
         el.style.opacity = '0';
 
-        anime.timeline({
-            targets: el,
-            easing: 'easeOutCubic'
-        }).add({
-            opacity: targetOpacity,
-            ...(motionEnabled ? {} : { translateY: 0, scale: 1 }),
-            filter: 'blur(0rem)',
-            duration: 760
-        }).add({
-            ...(motionEnabled ? {} : { translateY: 0 }),
-            duration: 120,
-            easing: 'easeOutQuad'
-        });
+        const tl = anime.timeline({ easing: 'easeOutCubic' });
+        tl.add({ targets: el, opacity: targetOpacity, filter: 'blur(0rem)', duration: 760 }, 0);
+        tl.add({ targets: freshInner, translateY: 0, scale: 1, duration: 760 }, 0);
+        tl.add({ targets: freshInner, duration: 120, easing: 'easeOutQuad' });
     };
 
-    if (el.innerHTML === '') {
+    if (!inner) {
         applyContent();
     } else {
         const exitOffset = offset * -0.35;
-        anime.timeline({
-            targets: el,
-            easing: 'easeInCubic',
-            complete: applyContent
-        }).add({
-            opacity: 0,
-            ...(motionEnabled ? {} : { translateY: exitOffset, scale: 1.02 }),
-            filter: 'blur(0.3rem)',
-            duration: 280
-        });
+        const tl = anime.timeline({ easing: 'easeInCubic', complete: applyContent });
+        tl.add({ targets: el, opacity: 0, filter: 'blur(0.3rem)', duration: 280 }, 0);
+        tl.add({ targets: inner, translateY: exitOffset, scale: 1.02, duration: 280 }, 0);
     }
 }
 
@@ -613,6 +596,17 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('layout-changed', () => {
     if (window.CharacterTransition) window.CharacterTransition.cancel();
     window.isCharacterChanging = false;
+
+    const mainImg = document.getElementById('main-image');
+    const transImg = document.getElementById('transition-image');
+    if (mainImg) {
+        mainImg.style.visibility = '';
+        mainImg.style.opacity = '1';
+    }
+    if (transImg) {
+        transImg.style.visibility = 'hidden';
+        transImg.style.opacity = '0';
+    }
 
     const _char = safeGet('selectedCharacter');
     const _variant = _char && window.getCharacterVariant ? window.getCharacterVariant(_char) : safeGet('selectedVariant', 'Full');
