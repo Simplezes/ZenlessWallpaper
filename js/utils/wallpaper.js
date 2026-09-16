@@ -644,7 +644,19 @@ window.wallpaperPropertyListener = {
         if (properties.character && shouldApplyWeProperty('selectedCharacter')) {
             const char = properties.character.value;
             safeSet('selectedCharacter', char);
-            window.setWallpaper(char, safeGet('selectedVariant', 'Default'));
+
+            const charData = window.getCharacterData && window.getCharacterData(char);
+            const hasCustomVariants = charData && charData.variants && charData.variants.length > 0;
+
+            let variant;
+            if (hasCustomVariants) {
+                variant = safeGet('selectedVariantCustom', charData.variants[0]);
+                if (!charData.variants.includes(variant)) variant = charData.variants[0];
+            } else {
+                variant = safeGet('selectedVariant', 'Default');
+            }
+
+            window.setWallpaper(char, variant);
         }
         if (properties.variant && shouldApplyWeProperty('selectedVariant')) {
             const variant = properties.variant.value;
