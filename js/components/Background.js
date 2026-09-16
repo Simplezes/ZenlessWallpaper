@@ -266,7 +266,8 @@ export default class Background extends Component {
     }
 
     renderAgentName() {
-        const { character: name, isPortrait } = this.state;
+        const { character: rawName, isPortrait } = this.state;
+        const name = window.i18n ? window.i18n.charName(rawName) : rawName;
 
         const landscapeFontSize = `${Math.max(40, Math.min(100, Math.round(700 / name.length)))}px`;
         const portraitFontSize = `${Math.max(30, Math.min(55, Math.round(550 / name.length)))}px`;
@@ -341,16 +342,19 @@ export default class Background extends Component {
         const imgPath = this.getCharacterImagePath(charName);
         const hasImg = !!imgPath;
         const isTransitioning = window.CharacterTransition && window.CharacterTransition.isActive();
+        const faction = window.i18n ? window.i18n.faction(this.state.faction) : this.state.faction;
+        const nickname = window.i18n ? window.i18n.charNickname(charName, this.state.nickname) : this.state.nickname;
+
         return `
             <canvas id="bg-pattern-canvas"></canvas>
             <div id="backdrop" class="bg-layer active" style="opacity: 0;"></div>
             <div id="transition-backdrop" class="bg-layer" style="opacity: 0;"></div>
-            <div id="faction-text" class="ambient-text faction">${this.state.faction || ''}</div>
+            <div id="faction-text" class="ambient-text faction">${faction || ''}</div>
             <div id="image-container">
                 <img id="main-image" class="char-image active" ${hasImg ? `src="${imgPath}" style="opacity: ${isTransitioning ? '0' : '1'};"` : ''} />
                 <img id="transition-image" class="char-image" />
             </div>
-            <div id="nickname-text" class="ambient-text nickname">${this.state.nickname || ''}</div>
+            <div id="nickname-text" class="ambient-text nickname">${nickname || ''}</div>
         `;
     }
 
