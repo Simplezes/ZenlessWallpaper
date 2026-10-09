@@ -93,11 +93,11 @@
     };
 
     const SPECIALTIES = {
-        en: { Anomaly: 'Anomaly', Attack: 'Attack', Defense: 'Defense', Rupture: 'Rupture', Stun: 'Stun', Support: 'Support' },
-        es: { Anomaly: 'Anomalía', Attack: 'Ataque', Defense: 'Defensa', Rupture: 'Ruptura', Stun: 'Aturdimiento', Support: 'Apoyo' },
-        zh: { Anomaly: '异常', Attack: '强攻', Defense: '防护', Rupture: '命破', Stun: '击破', Support: '支援' },
-        ja: { Anomaly: '異常', Attack: '強攻', Defense: '防護', Rupture: '命破', Stun: '撃破', Support: '支援' },
-        ko: { Anomaly: '이상', Attack: '강공', Defense: '방어', Rupture: '명파', Stun: '격파', Support: '지원' }
+        en: { Anomaly: 'Anomaly', Armorer: 'Armorer', Attack: 'Attack', Defense: 'Defense', Rupture: 'Rupture', Stun: 'Stun', Support: 'Support' },
+        es: { Anomaly: 'Anomalía', Armorer: 'Forjador', Attack: 'Ataque', Defense: 'Defensa', Rupture: 'Ruptura', Stun: 'Aturdimiento', Support: 'Apoyo' },
+        zh: { Anomaly: '异常', Armorer: '锋御', Attack: '强攻', Defense: '防护', Rupture: '命破', Stun: '击破', Support: '支援' },
+        ja: { Anomaly: '異常', Armorer: '鋭御', Attack: '強攻', Defense: '防護', Rupture: '命破', Stun: '撃破', Support: '支援' },
+        ko: { Anomaly: '이상', Armorer: '단조', Attack: '강공', Defense: '방어', Rupture: '명파', Stun: '격파', Support: '지원' }
     };
 
     const DAMAGE_TYPES = {

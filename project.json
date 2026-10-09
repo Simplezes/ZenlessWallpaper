@@ -21,6 +21,7 @@
 				"ui_char_burnice_white" : "Burnice White",
 				"ui_char_caesar_king" : "Caesar King",
 				"ui_char_cissia" : "Cissia",
+				"ui_char_claret_flint" : "Claret Flint",
 				"ui_char_corin_wickes" : "Corin Wickes",
 				"ui_char_dialyn" : "Dialyn",
 				"ui_char_ellen_joe" : "Ellen Joe",
@@ -47,6 +48,7 @@
 				"ui_char_pyrois" : "Pyrois",
 				"ui_char_qingyi" : "Qingyi",
 				"ui_char_remielle_dan" : "Remielle Dan",
+				"ui_char_roxy_ifrita_pryce" : "Roxy Ifrita Pryce",
 				"ui_char_seed" : "Seed",
 				"ui_char_seth_lowell" : "Seth Lowell",
 				"ui_char_sigrid_de_lazur" : "Sigrid de L'Azur",
@@ -113,6 +115,7 @@
 				"ui_char_burnice_white" : "Burnice White",
 				"ui_char_caesar_king" : "Caesar King",
 				"ui_char_cissia" : "Cissia",
+				"ui_char_claret_flint" : "Claret Flint",
 				"ui_char_corin_wickes" : "Corin Wickes",
 				"ui_char_dialyn" : "Dialyn",
 				"ui_char_ellen_joe" : "Ellen Joe",
@@ -139,6 +142,7 @@
 				"ui_char_pyrois" : "Pyrois",
 				"ui_char_qingyi" : "Qingyi",
 				"ui_char_remielle_dan" : "Remielle Dan",
+				"ui_char_roxy_ifrita_pryce" : "Roxy Ifrita Pryce",
 				"ui_char_seed" : "Seed",
 				"ui_char_seth_lowell" : "Seth Lowell",
 				"ui_char_sigrid_de_lazur" : "Sigrid de L'Azur",
@@ -205,6 +209,7 @@
 				"ui_char_burnice_white" : "バーニス・ホワイト",
 				"ui_char_caesar_king" : "シーザー・キング",
 				"ui_char_cissia" : "シーシィア",
+				"ui_char_claret_flint" : "クラレッタ・フリンツ",
 				"ui_char_corin_wickes" : "カリン・ウィクス",
 				"ui_char_dialyn" : "ダイアリン",
 				"ui_char_ellen_joe" : "エレン・ジョー",
@@ -231,6 +236,7 @@
 				"ui_char_pyrois" : "パイロイス",
 				"ui_char_qingyi" : "青衣",
 				"ui_char_remielle_dan" : "レミエール・ダン",
+				"ui_char_roxy_ifrita_pryce" : "ロクシー・イフリータ・プライス",
 				"ui_char_seed" : "シード",
 				"ui_char_seth_lowell" : "セス・ローウェル",
 				"ui_char_sigrid_de_lazur" : "シグリッド・ドゥ・ラズール",
@@ -297,6 +303,7 @@
 				"ui_char_burnice_white" : "버니스 화이트",
 				"ui_char_caesar_king" : "카이사르 킹",
 				"ui_char_cissia" : "시시아",
+				"ui_char_claret_flint" : "클라렛 플린트",
 				"ui_char_corin_wickes" : "코린 윅스",
 				"ui_char_dialyn" : "디아린",
 				"ui_char_ellen_joe" : "엘렌 조",
@@ -323,6 +330,7 @@
 				"ui_char_pyrois" : "파이로이스",
 				"ui_char_qingyi" : "청의",
 				"ui_char_remielle_dan" : "레미엘 댄",
+				"ui_char_roxy_ifrita_pryce" : "록시 이프리타 프라이스",
 				"ui_char_seed" : "시드",
 				"ui_char_seth_lowell" : "세스 로웰",
 				"ui_char_sigrid_de_lazur" : "시그리드 드 라주르",
@@ -389,6 +397,7 @@
 				"ui_char_burnice_white" : "柏妮思·怀特",
 				"ui_char_caesar_king" : "凯撒·金",
 				"ui_char_cissia" : "西西娅",
+				"ui_char_claret_flint" : "克拉蕾·弗林特",
 				"ui_char_corin_wickes" : "科琳·威克斯",
 				"ui_char_dialyn" : "黛琳",
 				"ui_char_ellen_joe" : "艾莲·乔",
@@ -415,6 +424,7 @@
 				"ui_char_pyrois" : "派洛伊斯",
 				"ui_char_qingyi" : "青衣",
 				"ui_char_remielle_dan" : "蕾米尔·丹",
+				"ui_char_roxy_ifrita_pryce" : "洛克茜·伊芙莉塔·普莱斯",
 				"ui_char_seed" : "希德",
 				"ui_char_seth_lowell" : "赛斯·罗威尔",
 				"ui_char_sigrid_de_lazur" : "西格丽德·德拉祖尔",
@@ -535,6 +545,10 @@
 						"value" : "Cissia"
 					},
 					{
+						"label" : "ui_char_claret_flint",
+						"value" : "Claret Flint"
+					},
+					{
 						"label" : "ui_char_corin_wickes",
 						"value" : "Corin Wickes"
 					},
@@ -637,6 +651,10 @@
 					{
 						"label" : "ui_char_remielle_dan",
 						"value" : "Remielle Dan"
+					},
+					{
+						"label" : "ui_char_roxy_ifrita_pryce",
+						"value" : "Roxy Ifrita Pryce"
 					},
 					{
 						"label" : "ui_char_seed",
@@ -943,8 +961,8 @@
 	"ratingviolence" : "none",
 	"tags" : [ "Anime" ],
 	"title" : "Zenless Zone Zero: Character Dashboard",
-	"type" : "web",
-	"version" : 36,
+	"type" : "Web",
+	"version" : 37,
 	"visibility" : "public",
 	"workshopid" : "3686577945",
 	"workshopurl" : "steam://url/CommunityFilePage/3686577945"

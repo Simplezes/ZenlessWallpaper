@@ -57,7 +57,9 @@
     "Velina Airgid": { "name": "Velina Airgid", "nickname": "Velina" },
     "Norma Hollowell": { "name": "Norma Hollowell", "nickname": "Norma" },
     "Remielle Dan": { "name": "Remielle Dan", "nickname": "Remielle" },
-    "Sigrid de L'Azur": { "name": "Sigrid de L'Azur", "nickname": "Sigrid" }
+    "Sigrid de L'Azur": { "name": "Sigrid de L'Azur", "nickname": "Sigrid" },
+    "Claret Flint": { "name": "Claret Flint", "nickname": "Claret" },
+    "Roxy Ifrita Pryce": { "name": "Roxy Ifrita Pryce", "nickname": "Roxy" }
   },
   "factions": {
     "Phaethon": "Phaethon",
@@ -78,7 +80,8 @@
     "Metropolitan Order Division": "División de Orden Metropolitana",
     "External Strategy Department": "Departamento de Estrategia Externa",
     "Covenant of Dayat": "Pacto de Dayat",
-    "Airspace Patrol Department": "Departamento de Patrulla Aérea"
+    "Airspace Patrol Department": "Departamento de Patrulla Aérea",
+    "Flint Workshop": "Taller Flint"
   },
   "dossier": {
     "Pyrois": {
@@ -827,6 +830,32 @@
       "bio": { "gender": "Femenino", "species": "Thiren (Caballo)", "relatives": "Casa de L'Azur (linaje); madre sin nombre; abuela sin nombre; bisabuela sin nombre" },
       "skills": [],
       "wEngine": { "name": "Exaltación del Caballero", "passiveName": "Rito del Caballero", "passiveEffect": "Cuando el golpe pesado del Ataque Básico o Especial EX de quien lo equipa acierta a un enemigo, gana 1 carga de Filo de Batalla, aumentando el Daño CRIT un 32% durante 25s. Puede acumularse hasta 2 veces (cada tipo de habilidad aporta hasta 1 carga; las repeticiones reinician la duración de todas). Con 2 cargas, gana Escalofrío: su daño ignora un 20% de la RES de Hielo del objetivo.", "baseStat": "ATQ Base 48-713", "advancedStat": "Daño CRIT 19.2%-48%" }
+    },
+    "Claret Flint": {
+      "quote": "Déjame que te enseñe algo: el «Flint» delante de Porcelloy no está ahí de adorno.",
+      "bio": { "gender": "Femenino", "species": "Humano", "relatives": "Familia Flint (linaje), Omond Flint (ancestro)" },
+      "skills": [
+        { "type": "Ataque Básico", "name": "Ataque Básico: Cuatro Formas de Forja de Sangre", "description": "Pulsa para activar: realiza hasta cuatro golpes al frente, infligiendo daño Eléctrico." },
+        { "type": "Esquiva", "name": "Esquiva: Visión Nocturna", "description": "Pulsa para activar: una esquiva veloz con carrera. El personaje es invulnerable mientras usa esta habilidad." },
+        { "type": "Asistencia", "name": "Asistencia Rápida: Retorno de la Luna Siniestra", "description": "Cuando el personaje activo es lanzado, pulsa para activar: inflige daño Eléctrico. El personaje es invulnerable mientras usa esta habilidad." },
+        { "type": "Ataque Especial", "name": "Ataque Especial: Primer Llamado de Porcelume", "description": "Pulsa para activar: lanza dos golpes contundentes al frente, infligiendo daño Eléctrico. El nivel Anti-Interrupción aumenta mientras se usa esta habilidad." },
+        { "type": "Ataque en Cadena", "name": "Ataque en Cadena: Juramento de Sangre Florida - Pacto de Sangre Resonante", "description": "Cuando se activa un Ataque en Cadena, selecciona el personaje para activar: desata una serie de cortes contra los enemigos al frente, infligiendo un daño Eléctrico masivo. La duración de la Inscripción Carmesí no disminuye y el estado no termina durante esta habilidad. El personaje es invulnerable mientras usa esta habilidad." },
+        { "type": "Habilidad Núcleo", "name": "Pasiva Núcleo: Banquete de Sangre Pálida", "description": "Todo el daño de las habilidades de Claret se considera daño Afilado y sus multiplicadores se basan en DEF. Cierto daño Afilado acumula Tajo; al llenarse la acumulación, el enemigo sufre Tajo (hasta 3 cargas). Cuando Ataque Especial: Juramento de Sangre Florida - Hendedura de Oro y Hierro o Ataque Especial: Juramento de Sangre Florida - Asalto de Entierro Sangriento impacta a un enemigo con Tajo, consume 1 carga para activar Mutilación e infligir daño en área. Al producirse un golpe crítico, el daño Afilado no recibe el Bonus de Daño CRIT, sino el Bonus de Daño de Laceración. Si la Prob. CRIT supera el 100% y ya se produjo un crítico, se realiza una comprobación de Laceración adicional según el exceso, y si se activa, el Bonus de Daño de Laceración se aplica una vez más. Por cada 1% de Daño CRIT inicial de Claret, su Prob. CRIT inicial aumenta un 0,35%. Al entrar en combate gana 60 de Filo (una vez cada 180s en Zona de Investigación). En estado de Inscripción Carmesí aumenta su nivel Anti-Interrupción, y al usar un Ataque en Cadena la duración de la Inscripción Carmesí se extiende 2s. En Inscripción Carmesí, o al usar un Ataque en Cadena, una Definitiva, una Asistencia Contraataque o un Seguimiento de Asistencia, la Prob. CRIT aumenta un 30% y la tasa de acumulación de Tajo un 50%. Activar una Esquiva Perfecta durante Ataque Básico: Juramento de Sangre Florida - Forja Estelar o Ataque Básico: Juramento de Sangre Florida - Hacha Sometedora aumenta un 15% el daño infligido durante el resto de la habilidad." }
+      ],
+      "wEngine": { "name": "Sed Carmesí", "passiveName": "Sed de Sangre", "passiveEffect": "La Prob. CRIT de quien lo equipa aumenta un 25% y su daño Eléctrico un 15%. Al usar un Especial EX o activar Mutilación, el daño Afilado Eléctrico infligido aumenta un 10% durante 40s. Las repeticiones reinician la duración.", "baseStat": "DEF Base 29-431", "advancedStat": "DEF 19.2%-48%" }
+    },
+    "Roxy Ifrita Pryce": {
+      "quote": "Milady, dijisteis que todo marchaba según lo planeado... Supongo que «perderse» también forma parte del plan.",
+      "bio": { "gender": "Femenino", "species": "Desconocida", "relatives": "" },
+      "skills": [
+        { "type": "Ataque Básico", "name": "Ataque Básico: Quédese un Rato", "description": "Pulsa para activar: realiza hasta 4 golpes al frente, infligiendo daño de Viento." },
+        { "type": "Esquiva", "name": "Esquiva: Con Permiso", "description": "Pulsa para activar: una esquiva veloz hacia un lado." },
+        { "type": "Asistencia", "name": "Asistencia Rápida: A Su Servicio", "description": "Cuando el personaje en combate es lanzado, pulsa para activar: golpea a los enemigos al frente, infligiendo daño de Viento. El personaje es invulnerable mientras usa esta habilidad." },
+        { "type": "Ataque Especial", "name": "Ataque Especial: Muy Agradecida", "description": "Pulsa para activar: realiza un golpe al frente, infligiendo daño de Viento." },
+        { "type": "Ataque en Cadena", "name": "Ataque en Cadena: Gran Martillo del Entierro del Viento", "description": "Cuando se activa un Ataque en Cadena, selecciona el personaje para activar: desata un golpe poderoso contra los enemigos al frente, infligiendo un daño de Viento masivo. El personaje es invulnerable mientras usa esta habilidad." },
+        { "type": "Habilidad Núcleo", "name": "Pasiva Núcleo: Abrazo de la Noche Cálida", "description": "Gana 1 de Energía de Viento por cada 25 de Energía consumida (máx. 3). Con Regen. de Energía inicial superior a 1,2, cada 0,01 adicional aumenta el ATQ en 5 (máx. 960) y el Impacto en 0,4 (máx. 76,8). Cuando Ataque Especial: Perdonad que No os Acompañe a la Puerta impacta a un enemigo bajo Barrido de Viento, activa Purificación y restaura el estado de Contaminación a su forma original. Cuando cualquier miembro del escuadrón activa Contaminación o Purificación, Roxy otorga a todo el escuadrón un beneficio según el atributo de ese efecto: por cada 1% de Prob. CRIT de Roxy, los personajes que no son Forjadores aumentan su Daño CRIT un 0,4% (máx. 40%) al infligir daño de ese atributo o de Viento, y los Forjadores aumentan su Daño de Laceración un 0,2% (máx. 20%). Cada beneficio dura 50s y las repeticiones reinician la duración. Al aplicar Barrido de Viento de nuevo a un enemigo que ya lo sufre, todo el escuadrón también obtiene este beneficio según el atributo de Contaminación del estado sobrescrito y el atributo Viento." }
+      ],
+      "wEngine": { "name": "Féretro de la Luna Carmesí", "passiveName": "Noche Eterna sin Sueño", "passiveEffect": "La Prob. CRIT de quien lo equipa aumenta un 24% y su daño ignora un 15% de la RES de Viento del objetivo. Cuando usa un Especial EX para infligir daño de Viento, el Aturdimiento infligido aumenta un 16% y el daño del resto del escuadrón un 20% durante 50s. Las repeticiones reinician la duración. Solo una instancia del aumento de daño puede existir en el mismo escuadrón.", "baseStat": "ATQ Base 48-713", "advancedStat": "Regen. de Energía 24%-60%" }
     }
   }
 }

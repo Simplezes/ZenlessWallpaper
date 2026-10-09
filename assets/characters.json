@@ -564,6 +564,26 @@
                 "rarity": 4,
                 "quote": "The legendary knight... doesn't quite match the legend?"
             }
+        },
+        "Flint Workshop": {
+            "Claret Flint": {
+                "dark": "rgb(230, 117, 25)",
+                "light": "rgb(169, 86, 18)",
+                "attribute": "Electric",
+                "specialty": "Armorer",
+                "damageType": "Slash",
+                "rarity": 4,
+                "quote": "Let me educate you on something — the 'Flint' in front of Porcelloy isn't just there for show."
+            },
+            "Roxy Ifrita Pryce": {
+                "dark": "rgb(25, 230, 228)",
+                "light": "rgb(18, 169, 168)",
+                "attribute": "Wind",
+                "specialty": "Stun",
+                "damageType": "Strike",
+                "rarity": 4,
+                "quote": "Milady, you said everything was going according to plan... I assume 'getting lost' is also a part of that plan, too."
+            }
         }
     }
 }
