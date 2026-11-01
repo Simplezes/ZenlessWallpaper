@@ -42,6 +42,7 @@
 				"ui_char_norma_hollowell" : "Norma Hollowell",
 				"ui_char_orphie_and_magus" : "Orphie & Magus",
 				"ui_char_pan_yinhu" : "Pan Yinhu",
+				"ui_char_phoenix_reffaella" : "Phoenix Reffaella",
 				"ui_char_piper_wheel" : "Piper Wheel",
 				"ui_char_promeia" : "Promeia",
 				"ui_char_pulchra_fellini" : "Pulchra Fellini",
@@ -51,6 +52,7 @@
 				"ui_char_roxy_ifrita_pryce" : "Roxy Ifrita Pryce",
 				"ui_char_seed" : "Seed",
 				"ui_char_seth_lowell" : "Seth Lowell",
+				"ui_char_severian_lowell" : "Severian Lowell",
 				"ui_char_sigrid_de_lazur" : "Sigrid de L'Azur",
 				"ui_char_soldier_0_anby" : "Soldier 0 - Anby",
 				"ui_char_soldier_11" : "Soldier 11",
@@ -136,6 +138,7 @@
 				"ui_char_norma_hollowell" : "Norma Hollowell",
 				"ui_char_orphie_and_magus" : "Orphie & Magus",
 				"ui_char_pan_yinhu" : "Pan Yinhu",
+				"ui_char_phoenix_reffaella" : "Phoenix Reffaella",
 				"ui_char_piper_wheel" : "Piper Wheel",
 				"ui_char_promeia" : "Promeia",
 				"ui_char_pulchra_fellini" : "Pulchra Fellini",
@@ -145,6 +148,7 @@
 				"ui_char_roxy_ifrita_pryce" : "Roxy Ifrita Pryce",
 				"ui_char_seed" : "Seed",
 				"ui_char_seth_lowell" : "Seth Lowell",
+				"ui_char_severian_lowell" : "Severian Lowell",
 				"ui_char_sigrid_de_lazur" : "Sigrid de L'Azur",
 				"ui_char_soldier_0_anby" : "Soldado 0 - Anby",
 				"ui_char_soldier_11" : "Soldado 11",
@@ -230,6 +234,7 @@
 				"ui_char_norma_hollowell" : "ノルムー・ホローウェル",
 				"ui_char_orphie_and_magus" : "オルペウス・マグヌッソン＆「鬼火」",
 				"ui_char_pan_yinhu" : "潘引壺",
+				"ui_char_phoenix_reffaella" : "フィオニー・レファエラ",
 				"ui_char_piper_wheel" : "パイパー・ウィール",
 				"ui_char_promeia" : "プロメイア",
 				"ui_char_pulchra_fellini" : "プルクラ・フェリーニ",
@@ -239,6 +244,7 @@
 				"ui_char_roxy_ifrita_pryce" : "ロクシー・イフリータ・プライス",
 				"ui_char_seed" : "シード",
 				"ui_char_seth_lowell" : "セス・ローウェル",
+				"ui_char_severian_lowell" : "セヴェリアン・ローウェル",
 				"ui_char_sigrid_de_lazur" : "シグリッド・ドゥ・ラズール",
 				"ui_char_soldier_0_anby" : "0号・アンビー",
 				"ui_char_soldier_11" : "11号",
@@ -324,6 +330,7 @@
 				"ui_char_norma_hollowell" : "노마 홀로웰",
 				"ui_char_orphie_and_magus" : "오르페우스 & 도깨비불",
 				"ui_char_pan_yinhu" : "반인호",
+				"ui_char_phoenix_reffaella" : "피닉스 레파엘라",
 				"ui_char_piper_wheel" : "파이퍼 윌",
 				"ui_char_promeia" : "프로메이아",
 				"ui_char_pulchra_fellini" : "펄크라 펠리니",
@@ -333,6 +340,7 @@
 				"ui_char_roxy_ifrita_pryce" : "록시 이프리타 프라이스",
 				"ui_char_seed" : "시드",
 				"ui_char_seth_lowell" : "세스 로웰",
+				"ui_char_severian_lowell" : "세베리안 로웰",
 				"ui_char_sigrid_de_lazur" : "시그리드 드 라주르",
 				"ui_char_soldier_0_anby" : "0호 · 엔비",
 				"ui_char_soldier_11" : "11호",
@@ -418,6 +426,7 @@
 				"ui_char_norma_hollowell" : "诺玛·霍洛威尔",
 				"ui_char_orphie_and_magus" : "奥菲与马格斯",
 				"ui_char_pan_yinhu" : "潘引虎",
+				"ui_char_phoenix_reffaella" : "菲欧妮·蕾法爱菈",
 				"ui_char_piper_wheel" : "派派·维尔",
 				"ui_char_promeia" : "普罗米娅",
 				"ui_char_pulchra_fellini" : "波可拉·费里尼",
@@ -427,6 +436,7 @@
 				"ui_char_roxy_ifrita_pryce" : "洛克茜·伊芙莉塔·普莱斯",
 				"ui_char_seed" : "希德",
 				"ui_char_seth_lowell" : "赛斯·罗威尔",
+				"ui_char_severian_lowell" : "赛维里安·洛威尔",
 				"ui_char_sigrid_de_lazur" : "西格丽德·德拉祖尔",
 				"ui_char_soldier_0_anby" : "零号·安比",
 				"ui_char_soldier_11" : "十一号",
@@ -629,6 +639,10 @@
 						"value" : "Pan Yinhu"
 					},
 					{
+						"label" : "ui_char_phoenix_reffaella",
+						"value" : "Phoenix Reffaella"
+					},
+					{
 						"label" : "ui_char_piper_wheel",
 						"value" : "Piper Wheel"
 					},
@@ -663,6 +677,10 @@
 					{
 						"label" : "ui_char_seth_lowell",
 						"value" : "Seth Lowell"
+					},
+					{
+						"label" : "ui_char_severian_lowell",
+						"value" : "Severian Lowell"
 					},
 					{
 						"label" : "ui_char_sigrid_de_lazur",
@@ -962,7 +980,7 @@
 	"tags" : [ "Anime" ],
 	"title" : "Zenless Zone Zero: Character Dashboard",
 	"type" : "Web",
-	"version" : 37,
+	"version" : 38,
 	"visibility" : "public",
 	"workshopid" : "3686577945",
 	"workshopurl" : "steam://url/CommunityFilePage/3686577945"

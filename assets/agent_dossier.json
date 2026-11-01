@@ -3620,5 +3620,119 @@
       "passiveEffect": "The equipper's CRIT Rate increases by 24%. DMG dealt ignores 15% of the target's Wind RES. When the equipper uses an EX Special Attack to deal Wind DMG, Daze dealt increases by 16%, and DMG dealt by all other squad members increases by 20%, for 50s. Repeated triggers reset the duration. Only one instance of the DMG increase effect can exist in the same squad.",
       "icon": "WEngine_Crimson_Moon_Casket.webp"
     }
+  },
+  "Phoenix Reffaella": {
+    "quote": "I'm Phoenix, one of Krampus's... judge, of sorts. Standing around's a little tiring — mind if I sit?",
+    "bio": {
+      "gender": "Female",
+      "height": "156cm (5'1\")",
+      "birthday": "October 31st",
+      "namecard": "Phoenix's Namecard Derailment",
+      "releaseDate": "October 21, 2026",
+      "voice": {
+        "en": "Michaela Jill Murphy",
+        "ja": "Fujita Akane ( 藤田 茜 )",
+        "zh": "Song Yuanyuan ( 宋媛媛 )",
+        "ko": "Song Ha-rim ( 송하림 )"
+      }
+    },
+    "skills": [
+      {
+        "type": "Basic Attack",
+        "name": "Basic Attack: Sever Life",
+        "description": "Press to activate: Performs up to 4 attacks forward, dealing Fire DMG. The 3rd and 4th Basic Attacks are considered Combustion Attacks. While performing a Combustion Attack, Anti-Interrupt Level is increased, and dealing DMG restores Pyre. Phoenix can have up to 120 points of Pyre."
+      },
+      {
+        "type": "Dodge",
+        "name": "Dodge: \"Mini Waltz\"",
+        "description": "Press to activate: A quick dash dodge. Character is invulnerable while using this skill."
+      },
+      {
+        "type": "Assist",
+        "name": "Quick Assist: Emergency Aid",
+        "description": "When the active character is launched, press to activate: Dashes forward and unleashes a quick slash, dealing Fire DMG. Character is invulnerable while using this skill."
+      },
+      {
+        "type": "Special Attack",
+        "name": "Special Attack: Fire Sweep",
+        "description": "Press to activate: After retreating back, quickly launches an upward slash forward, dealing Fire DMG. During the retreat, DMG taken is reduced by 40%. Anti-Interrupt level is increased while using this skill."
+      },
+      {
+        "type": "Chain Attack",
+        "name": "Chain Attack: Last-Minute Salvation",
+        "description": "When a Chain Attack is triggered, select the character to activate: Unleashes multiple attacks forward, dealing Fire DMG. This skill is considered a Combustion Attack. Character is invulnerable while using this skill."
+      },
+      {
+        "type": "Core Skill",
+        "name": "Core Passive: Nirvana",
+        "description": "Phoenix's Anomaly Proficiency increases by 85. When any squad member deals Anomaly DMG to an enemy, the enemy enters the Sear state for 20s. Repeated triggers reset the duration. When an enemy in the Sear state takes Anomaly DMG, the DMG has a chance to trigger a critical hit, with a base CRIT Rate of 30% and CRIT DMG of 25%. If Phoenix's initial Anomaly Mastery exceeds 155, each point above this threshold increases this effect's CRIT Rate by an additional 0.7%, reaching its maximum value when Phoenix's initial Anomaly Mastery reaches 255. Enemies in the Sear state take Fire DMG equal to 50% of Phoenix's ATK every 8s. This DMG is considered EX Special Attack DMG. During Combustion Attacks, Anti-Interrupt Level increases, and dealing DMG grants Pyre. Phoenix can have up to 120 Pyre. After Combustion Attacks, press to skip the backward retreat of Special Attack: Fire Sweep and EX Special Attack: Blazing Slash, and immediately follow up with the rising attack. When Phoenix takes fatal DMG, she will not be defeated and leave the field. Instead, Rebirth is triggered. The next time Phoenix enters the field through a normal switch-in, Quick Assist, or Defensive Assist, she recovers HP equal to 50% of her Max HP. In Investigation Zone Mode, this effect can trigger once every 1,200s. When Phoenix triggers a Perfect Block, she gains 5 Pyre. This effect can trigger once every 10s. When Phoenix uses an EX Special Attack, she enters the Wither and Bloom state for 20s. Hitting an enemy with a Combustion Attack or reapplying this state refreshes its duration. While in the Wither and Bloom state, after using EX Special Attack: Dazzling Flare, the next EX Special Attack: Dazzling Flare is replaced with EX Special Attack: Falling Sun."
+      }
+    ],
+    "wEngine": {
+      "name": "Plume of Rebirth",
+      "rarity": "S",
+      "specialty": "Anomaly",
+      "attribute": "Fire",
+      "baseStat": "Base ATK 48-713",
+      "advancedStat": "Anomaly Mastery 12%-30%",
+      "passiveName": "Hatching Day",
+      "passiveEffect": "The equipper's Anomaly Proficiency increases by 90. When Anomaly DMG dealt by any squad member to an enemy triggers a critical hit, the equipper's Fire DMG increases by 40% for 20s. Repeated triggers reset the duration.",
+      "icon": "WEngine_Plume_of_Rebirth.webp"
+    }
+  },
+  "Severian Lowell": {
+    "quote": "Public Security Commissioner, Severian Lowell. No need for pleasantries — what's the situation?",
+    "bio": {
+      "gender": "Male",
+      "height": "196cm (6'5\")",
+      "birthday": "December 31st",
+      "species": "Thiren (Lynx)",
+      "relatives": "Seth Lowell (younger brother) Unnamed (mother) Unnamed (father)",
+      "releaseDate": "November 11, 2026",
+      "voice": {
+        "en": "Blythe Melin",
+        "ja": "Morikawa Toshiyuki ( 森川智之 )",
+        "zh": "Yang Chaoran ( 杨超然 )",
+        "ko": "Kim Min-ju ( 김민주 )"
+      }
+    },
+    "skills": [
+      {
+        "type": "Basic Attack",
+        "name": "Basic Attack: Swift Edge",
+        "description": "Press to activate: Launches up to 4 attacks forward, dealing Wind DMG. When the 4th attack hits an enemy, it accumulates 20 Flow. The 4th attack can dodge enemy attacks upon the moment of activation. Upon successfully dodging an enemy attack, this Basic Attack's DMG Multiplier and Daze Multiplier are increased to those of Basic Attack: Raging Whirlwind, and an additional 15 Flow is accumulated. Character is invulnerable during the 4th attack."
+      },
+      {
+        "type": "Dodge",
+        "name": "Dodge: Windshift",
+        "description": "Press to activate: A quick dash dodge. When Dodge: Windshift triggers a Perfect Dodge, it accumulates 15 Flow. This effect can trigger once every 0.5s. Character is invulnerable while using this skill."
+      },
+      {
+        "type": "Assist",
+        "name": "Quick Assist: Field Orders",
+        "description": "When the active character is launched, press to activate: Dashes forward quickly, unleashing claw strikes and slashes at enemies ahead to deal Wind DMG. Character is invulnerable while using this skill."
+      },
+      {
+        "type": "Special Attack",
+        "name": "Special Attack: Gale Rend",
+        "description": "Press to activate: Unleashes slashes and stabs forward, dealing Wind DMG."
+      },
+      {
+        "type": "Chain Attack",
+        "name": "Chain Attack: Coldblade Reap",
+        "description": "When a Chain Attack is triggered, select the character to activate: Performs a series of attacks forward, dealing massive Wind DMG. After using this skill, accumulates 35 Flow. Character is invulnerable while using this skill."
+      },
+      {
+        "type": "Core Skill",
+        "name": "Core Passive: Endless Breeze",
+        "description": "Severian's CRIT DMG increases by 60%, and his DMG increases by 25%. If there is another Wind character in the squad, his DMG increases by an additional 30%. When Severian uses Basic Attack: Swift Edge just before being hit by an enemy attack, he can dodge the attack. If he dodges it with any of the first three hits of his Basic Attack, he automatically launches Basic Attack: Raging Whirlwind. If he dodges it with the 4th hit, that Basic Attack's DMG Multiplier and Daze Multiplier are increased to match Basic Attack: Raging Whirlwind. When Severian enters the battlefield, he gains 2 stacks of Shadowflash. In Investigation Zone Mode, this effect can trigger once every 180s. When Severian has Shadowflash and is not invulnerable, if he is hit by a non-Control Skill enemy attack that he fails to actively dodge or parry, he consumes 1 stack of Shadowflash to automatically dodge the attack and launch Basic Attack: Raging Whirlwind. Shadowflash can stack up to 2 times. If Severian gains Shadowflash while already possessing maximum stacks, he gains 1 stack of Windborne instead, and the next Basic Attack: Swift Edge is enhanced to Basic Attack: Raging Whirlwind. Successfully dodging an enemy attack with Basic Attack: Swift Edge, automatically dodging an enemy attack with Shadowflash, or directly dodging an enemy attack all count as a Perfect Dodge. Each time Severian performs a Perfect Dodge, he gains 1 stack of Windborne. While Severian has Windborne and is in combat, press to switch him from off-field to on-field and launch an Entry Skill. Severian gains Flow by hitting enemies with certain skills or triggering a Perfect Dodge. Flow is capped at 150 points. When Flow reaches 100 points, hold to consume 100 Flow and launch Basic Attack: Azure Wind's Shadowhunt."
+      }
+    ],
+    "wEngine": {
+      "name": "Incarcerating Grip",
+      "rarity": "S",
+      "specialty": "Attack",
+      "attribute": "Wind"
+    }
   }
 }

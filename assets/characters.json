@@ -481,6 +481,15 @@
                 "damageType": "Slash",
                 "rarity": 4,
                 "quote": "A Judge who works hard deserves a reward."
+            },
+            "Phoenix Reffaella": {
+                "dark": "rgb(230, 153, 25)",
+                "light": "rgb(169, 112, 19)",
+                "attribute": "Fire",
+                "specialty": "Anomaly",
+                "damageType": "Slash",
+                "rarity": 4,
+                "quote": "I'm Phoenix, one of Krampus's... judge, of sorts. Standing around's a little tiring — mind if I sit?"
             }
         },
         "Angels of Delusion": {
@@ -521,6 +530,15 @@
                 "damageType": "Slash",
                 "rarity": 4,
                 "quote": "No security alarms went off. Another day of her being good."
+            },
+            "Severian Lowell": {
+                "dark": "rgb(25, 230, 228)",
+                "light": "rgb(18, 169, 168)",
+                "attribute": "Wind",
+                "specialty": "Attack",
+                "damageType": "Slash",
+                "rarity": 4,
+                "quote": "Public Security Commissioner, Severian Lowell. No need for pleasantries — what's the situation?"
             }
         },
         "External Strategy Department": {
